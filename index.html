@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MicMedia</title>
-
   <style>
     * {
       box-sizing: border-box;
@@ -21,10 +20,7 @@
     header {
       background: #111;
       color: white;
-      padding: 18px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      padding: 20px;
     }
 
     .logo {
@@ -33,7 +29,7 @@
     }
 
     .tagline {
-      margin-top: 4px;
+      margin-top: 5px;
       color: #bbb;
       font-size: 13px;
     }
@@ -42,17 +38,14 @@
       display: flex;
       justify-content: space-around;
       background: white;
-      padding: 14px 5px;
+      padding: 15px 5px;
       border-bottom: 1px solid #ddd;
-      position: sticky;
-      top: 72px;
-      z-index: 9;
     }
 
     nav button {
       border: none;
       background: none;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
     }
 
@@ -62,46 +55,53 @@
       padding: 15px;
     }
 
-    .welcome {
-      background: white;
-      padding: 20px;
-      border-radius: 15px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 8px #ddd;
-    }
-
-    .welcome h1 {
-      font-size: 24px;
-      margin-bottom: 8px;
-    }
-
+    .welcome,
     .post {
       background: white;
       border-radius: 15px;
       margin-bottom: 15px;
-      overflow: hidden;
       box-shadow: 0 2px 8px #ddd;
     }
 
+    .welcome {
+      padding: 20px;
+    }
+
+    .welcome h1 {
+      margin-bottom: 8px;
+    }
+
+    .welcome p,
+    .post p {
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .create {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 12px;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
     .post-content {
-      padding: 18px;
+      padding: 20px;
     }
 
     .category {
       font-size: 12px;
       font-weight: bold;
-      color: #555;
+      color: #666;
       margin-bottom: 8px;
     }
 
     .post h2 {
-      font-size: 20px;
       margin-bottom: 8px;
-    }
-
-    .post p {
-      color: #555;
-      line-height: 1.5;
     }
 
     .actions {
@@ -114,19 +114,7 @@
     .actions button {
       border: none;
       background: none;
-      font-size: 15px;
-    }
-
-    .create {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 12px;
-      background: #111;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 15px;
+      font-size: 14px;
     }
 
     footer {
@@ -156,7 +144,10 @@
 
     <section class="welcome">
       <h1>Welcome to MicMedia</h1>
-      <p>Discover news, entertainment and interesting stories all in one place.</p>
+      <p>
+        Discover news, entertainment and interesting stories
+        all in one place.
+      </p>
     </section>
 
     <button class="create" onclick="alert('Create Post coming soon!')">
@@ -168,8 +159,8 @@
         <div class="category">🔥 TRENDING NEWS</div>
         <h2>Welcome to MicMedia</h2>
         <p>
-          MicMedia is a new media platform designed to bring
-          news, entertainment, advertising and community content together.
+          MicMedia is a new media platform bringing news,
+          entertainment, advertising and community content together.
         </p>
       </div>
 
