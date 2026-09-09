@@ -1,530 +1,814 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MicMedia</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-    body {
-      background: #f2f3f5;
-      color: #111;
-    }
-    .app {
-      max-width: 500px;
-      margin: auto;
-      min-height: 100vh;
-      background: white;
-    }
-    header {
-      background: #111;
-      color: white;
-      padding: 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .logo {
-      font-size: 25px;
-      font-weight: bold;
-    }
-    .live-button {
-      background: #e53935;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      padding: 9px 14px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .stories {
-      display: flex;
-      gap: 12px;
-      padding: 15px;
-      overflow-x: auto;
-      border-bottom: 1px solid #ddd;
-    }
-    .story {
-      min-width: 70px;
-      text-align: center;
-      font-size: 12px;
-    }
-    .story-circle {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #ff004c, #ffb300);
-      padding: 3px;
-      margin: auto auto 5px;
-    }
-    .story-inner {
-      background: #222;
-      color: white;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-    .feed {
-      padding-bottom: 70px;
-    }
-    .post {
-      border-bottom: 8px solid #f2f3f5;
-      padding: 15px;
-    }
-    .post-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .avatar {
-      width: 42px;
-      height: 42px;
-      background: #222;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-    .post-image {
-      height: 240px;
-      background: linear-gradient(135deg, #222, #555);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 30px;
-      margin: 12px 0;
-    }
-    .actions {
-      display: flex;
-      gap: 20px;
-      margin-top: 12px;
-    }
-    .actions button {
-      border: none;
-      background: none;
-      font-size: 15px;
-      cursor: pointer;
-    }
-    nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 500px;
-      width: 100%;
-      background: white;
-      border-top: 1px solid #ddd;
-      display: flex;
-      justify-content: space-around;
-      padding: 12px 5px;
-      z-index: 20;
-    }
-    nav button {
-      border: none;
-      background: none;
-      font-size: 12px;
-      cursor: pointer;
-    }
-    /* LIVE SCREEN */
-    #liveScreen {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: #000;
-      color: white;
-      z-index: 100;
-      max-width: 500px;
-      margin: auto;
-    }
-    .camera-area {
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, #111, #333);
-    }
-    #cameraVideo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: none;
-    }
-    .camera-placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 30px;
-      color: #ccc;
-    }
-    .live-top {
-      position: absolute;
-      top: 20px;
-      left: 15px;
-      right: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 5;
-    }
-    .live-label {
-      background: #e53935;
-      padding: 8px 13px;
-      border-radius: 7px;
-      font-weight: bold;
-    }
-    .viewers {
-      background: rgba(0,0,0,.6);
-      padding: 8px 13px;
-      border-radius: 20px;
-    }
-    .close-live {
-      background: rgba(0,0,0,.7);
-      color: white;
-      border: none;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    .comments {
-      position: absolute;
-      left: 15px;
-      right: 15px;
-      bottom: 120px;
-      max-height: 230px;
-      overflow-y: auto;
-      z-index: 5;
-    }
-    .comment {
-      margin-top: 8px;
-      background: rgba(0,0,0,.55);
-      display: table;
-      padding: 7px 10px;
-      border-radius: 15px;
-      font-size: 14px;
-    }
-    .live-bottom {
-      position: absolute;
-      bottom: 20px;
-      left: 15px;
-      right: 15px;
-      display: flex;
-      gap: 8px;
-      z-index: 5;
-    }
-    .comment-input {
-      flex: 1;
-      border: none;
-      border-radius: 25px;
-      padding: 12px;
-      outline: none;
-    }
-    .control {
-      width: 45px;
-      height: 45px;
-      border: none;
-      border-radius: 50%;
-      background: rgba(255,255,255,.9);
-      cursor: pointer;
-      font-size: 18px;
-    }
-    .end-live {
-      background: #e53935;
-      color: white;
-      border: none;
-      border-radius: 25px;
-      padding: 0 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .reaction {
-      position: absolute;
-      right: 25px;
-      bottom: 140px;
-      font-size: 30px;
-      animation: floatUp 2s ease-out forwards;
-      z-index: 10;
-    }
-    @keyframes floatUp {
-      from {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-180px);
-        opacity: 0;
-      }
-    }
-    .live-info {
-      text-align: center;
-      padding: 20px;
-    }
-    .live-info h2 {
-      margin-bottom: 10px;
-    }
-    .go-live-big {
-      background: #e53935;
-      color: white;
-      border: none;
-      border-radius: 25px;
-      padding: 14px 25px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 15px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MicMedia</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  background:linear-gradient(135deg,#050816,#071b35,#101052);
+  color:white;
+}
+
+.app{
+  max-width:500px;
+  margin:auto;
+  min-height:100vh;
+  background:linear-gradient(180deg,#071225,#050816);
+  padding-bottom:75px;
+}
+
+header{
+  height:70px;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(5,8,22,.92);
+  backdrop-filter:blur(15px);
+}
+
+.logo{
+  font-size:25px;
+  font-weight:bold;
+  background:linear-gradient(90deg,#00c6ff,#7c4dff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.header-icons{
+  display:flex;
+  gap:10px;
+}
+
+.icon-btn{
+  border:0;
+  background:#17243a;
+  color:white;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  font-size:18px;
+}
+
+.live-top-btn{
+  background:#ff304f;
+  border:0;
+  color:white;
+  padding:9px 13px;
+  border-radius:20px;
+  font-weight:bold;
+}
+
+.stories{
+  display:flex;
+  gap:12px;
+  padding:15px;
+  overflow-x:auto;
+}
+
+.story{
+  min-width:70px;
+  text-align:center;
+  font-size:11px;
+}
+
+.story-ring{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  padding:3px;
+  margin:auto auto 6px;
+  background:linear-gradient(135deg,#00c6ff,#8e2de2,#ff304f);
+}
+
+.story-inner{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background:#18243a;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:bold;
+}
+
+.create{
+  margin:5px 15px 15px;
+  padding:13px;
+  background:#101d31;
+  border:1px solid #203552;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.create-input{
+  flex:1;
+  color:#8d9bad;
+}
+
+.create button{
+  border:0;
+  background:#168cff;
+  color:white;
+  border-radius:15px;
+  padding:8px 12px;
+}
+
+.section{
+  padding:0 15px 15px;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+
+.cards{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+}
+
+.card{
+  min-width:135px;
+  height:90px;
+  border-radius:15px;
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  justify-content:end;
+  font-weight:bold;
+}
+
+.news{
+  background:linear-gradient(135deg,#075985,#2563eb);
+}
+
+.ent{
+  background:linear-gradient(135deg,#7e22ce,#db2777);
+}
+
+.sports{
+  background:linear-gradient(135deg,#166534,#16a34a);
+}
+
+.post{
+  padding:15px;
+  border-top:7px solid #071225;
+  background:#091427;
+}
+
+.post-head{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.avatar{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#00c6ff,#7c4dff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.post-time{
+  color:#8290a5;
+  font-size:11px;
+}
+
+.post-text{
+  margin:12px 0;
+  line-height:1.4;
+}
+
+.post-photo{
+  height:230px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#0ea5e9,#172554);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:42px;
+}
+
+.actions{
+  display:flex;
+  justify-content:space-between;
+  margin-top:13px;
+}
+
+.actions button{
+  background:none;
+  border:0;
+  color:#cbd5e1;
+  font-size:14px;
+}
+
+nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  max-width:500px;
+  width:100%;
+  height:70px;
+  background:rgba(5,8,22,.96);
+  backdrop-filter:blur(15px);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  border-top:1px solid #20304a;
+  z-index:50;
+}
+
+nav button{
+  background:none;
+  border:0;
+  color:#8997aa;
+  font-size:11px;
+}
+
+nav button.active{
+  color:#19a1ff;
+}
+
+.nav-icon{
+  font-size:20px;
+  display:block;
+  margin-bottom:3px;
+}
+
+/* LIVE */
+
+#liveScreen{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:100;
+  max-width:500px;
+  margin:auto;
+}
+
+.camera{
+  width:100%;
+  height:100%;
+  position:relative;
+  overflow:hidden;
+  background:#111;
+}
+
+#video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:none;
+}
+
+.live-overlay{
+  position:absolute;
+  inset:0;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.live-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.live-badge{
+  background:#ff304f;
+  padding:9px 14px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+.viewer{
+  background:rgba(0,0,0,.55);
+  padding:9px 14px;
+  border-radius:20px;
+}
+
+.close{
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:rgba(0,0,0,.6);
+  color:white;
+  font-size:20px;
+}
+
+.comments{
+  max-height:230px;
+  overflow:auto;
+}
+
+.comment{
+  background:rgba(0,0,0,.55);
+  padding:8px 11px;
+  border-radius:15px;
+  display:table;
+  margin-top:7px;
+}
+
+.live-controls{
+  display:flex;
+  gap:7px;
+}
+
+.live-input{
+  flex:1;
+  border:0;
+  border-radius:25px;
+  padding:13px;
+}
+
+.control{
+  width:46px;
+  height:46px;
+  border:0;
+  border-radius:50%;
+  font-size:18px;
+}
+
+.end{
+  background:#ff304f;
+  color:white;
+  padding:0 15px;
+  border:0;
+  border-radius:25px;
+  font-weight:bold;
+}
+
+#placeholder{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:#aaa;
+}
+
+.reaction{
+  position:absolute;
+  right:25px;
+  bottom:130px;
+  font-size:35px;
+  animation:up 2s forwards;
+}
+
+@keyframes up{
+  from{transform:translateY(0);opacity:1}
+  to{transform:translateY(-180px);opacity:0}
+}
+
+.profile{
+  padding:25px 15px;
+  text-align:center;
+}
+
+.profile-avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  margin:auto;
+  background:linear-gradient(135deg,#00c6ff,#7c4dff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:bold;
+}
+
+.stats{
+  display:flex;
+  justify-content:space-around;
+  margin:25px 0;
+}
+
+.stat strong{
+  display:block;
+  font-size:18px;
+}
+
+.stat span{
+  color:#8491a5;
+  font-size:12px;
+}
+
+.hidden{
+  display:none;
+}
+</style>
 </head>
+
 <body>
+
 <div class="app">
-  <header>
-    <div class="logo">MicMedia</div>
-    <button class="live-button" onclick="startLive()">🔴 Go Live</button>
-  </header>
-  <div class="stories">
-    <div class="story">
-      <div class="story-circle">
-        <div class="story-inner">You</div>
-      </div>
-      Your Story
-    </div>
-    <div class="story">
-      <div class="story-circle">
-        <div class="story-inner">F</div>
-      </div>
-      Friend
-    </div>
-    <div class="story">
-      <div class="story-circle">
-        <div class="story-inner">F2</div>
-      </div>
-      Friend 2
-    </div>
-    <div class="story">
-      <div class="story-circle">
-        <div class="story-inner">G</div>
-      </div>
-      Groups
-    </div>
+
+<header>
+  <div class="logo">MicMedia</div>
+
+  <div class="header-icons">
+    <button class="icon-btn">🔍</button>
+    <button class="icon-btn">🔔</button>
+    <button class="live-top-btn" onclick="startLive()">🔴 Live</button>
   </div>
-  <main class="feed">
-    <div class="post">
-      <div class="post-header">
-        <div class="avatar">M</div>
-        <div>
-          <strong>MicMedia</strong>
-          <p style="font-size:12px;color:#777;">Today</p>
-        </div>
-      </div>
-      <p>Welcome to MicMedia! 🖤</p>
-      <div class="post-image">
-        🎬 MicMedia
-      </div>
-      <div class="actions">
-        <button onclick="likePost(this)">❤️ Like <span>0</span></button>
-        <button onclick="alert('Comments coming soon!')">💬 Comment</button>
-        <button onclick="sharePost()">↗️ Share</button>
-      </div>
-    </div>
-    <div class="post">
-      <div class="post-header">
-        <div class="avatar">F</div>
-        <div>
-          <strong>Friend</strong>
-          <p style="font-size:12px;color:#777;">1h ago</p>
-        </div>
-      </div>
-      <p>Enjoying MicMedia today! 🔥</p>
-      <div class="actions">
-        <button onclick="likePost(this)">❤️ Like <span>0</span></button>
-        <button onclick="alert('Comments coming soon!')">💬 Comment</button>
-        <button onclick="sharePost()">↗️ Share</button>
-      </div>
-    </div>
-  </main>
-  <nav>
-    <button onclick="showHome()">🏠<br>Home</button>
-    <button onclick="alert('Search coming soon!')">🔍<br>Search</button>
-    <button onclick="startLive()">🔴<br>Live</button>
-    <button onclick="alert('Messages coming soon!')">💬<br>Messages</button>
-    <button onclick="alert('Profile coming soon!')">👤<br>Profile</button>
-  </nav>
+</header>
+
+<div class="stories">
+
+<div class="story">
+<div class="story-ring"><div class="story-inner">+</div></div>
+Add Story
 </div>
-<!-- LIVE STREAM SCREEN -->
+
+<div class="story">
+<div class="story-ring"><div class="story-inner">Y</div></div>
+Your Story
+</div>
+
+<div class="story">
+<div class="story-ring"><div class="story-inner">S</div></div>
+Sarah
+</div>
+
+<div class="story">
+<div class="story-ring"><div class="story-inner">K</div></div>
+King
+</div>
+
+<div class="story">
+<div class="story-ring"><div class="story-inner">J</div></div>
+Jasmine
+</div>
+
+</div>
+
+<div class="create">
+<div class="avatar">M</div>
+<div class="create-input">What's on your mind?</div>
+<button onclick="createPost()">Post</button>
+</div>
+
+<div class="section">
+
+<div class="section-title">
+<strong>Explore MicMedia</strong>
+<span style="color:#1597ff">See all</span>
+</div>
+
+<div class="cards">
+
+<div class="card news">📰<br>News</div>
+<div class="card ent">🎬<br>Entertainment</div>
+<div class="card sports">⚽<br>Sports</div>
+
+</div>
+</div>
+
+<div class="post">
+
+<div class="post-head">
+<div class="avatar">G</div>
+<div>
+<strong>Good Vibes</strong>
+<div class="post-time">2h ago • Public</div>
+</div>
+</div>
+
+<div class="post-text">
+Life is better when you smile 😊
+</div>
+
+<div class="post-photo">🌴🌊</div>
+
+<div class="actions">
+<button onclick="like(this)">❤️ Like 0</button>
+<button>💬 Comment</button>
+<button>↗️ Share</button>
+</div>
+
+</div>
+
+<div class="post">
+
+<div class="post-head">
+<div class="avatar">M</div>
+<div>
+<strong>MicMedia News</strong>
+<div class="post-time">5h ago • News</div>
+</div>
+</div>
+
+<div class="post-text">
+Welcome to the new MicMedia experience! 🚀
+</div>
+
+<div class="actions">
+<button onclick="like(this)">❤️ Like 0</button>
+<button>💬 Comment</button>
+<button>↗️ Share</button>
+</div>
+
+</div>
+
+<div class="profile hidden" id="profilePage">
+
+<div class="profile-avatar">M</div>
+<h2 style="margin-top:12px">MicMedia Creator</h2>
+<p style="color:#8290a5">@micmedia</p>
+
+<div class="stats">
+<div class="stat"><strong>245</strong><span>Posts</span></div>
+<div class="stat"><strong>12.5K</strong><span>Followers</span></div>
+<div class="stat"><strong>1.8K</strong><span>Following</span></div>
+</div>
+
+<button class="live-top-btn">Edit Profile</button>
+
+</div>
+
+<nav>
+
+<button class="active" onclick="home()">
+<span class="nav-icon">🏠</span>
+Home
+</button>
+
+<button onclick="friends()">
+<span class="nav-icon">👥</span>
+Friends
+</button>
+
+<button onclick="startLive()">
+<span class="nav-icon">🔴</span>
+Live
+</button>
+
+<button onclick="messages()">
+<span class="nav-icon">💬</span>
+Messages
+</button>
+
+<button onclick="profile()">
+<span class="nav-icon">👤</span>
+Profile
+</button>
+
+</nav>
+
+</div>
+
+
+<!-- LIVESTREAM -->
+
 <div id="liveScreen">
-  <div class="camera-area">
-    <video id="cameraVideo" autoplay playsinline></video>
-    <div id="cameraPlaceholder" class="camera-placeholder">
-      <div>
-        <h2>🎥 MicMedia Live</h2>
-        <p>Starting your livestream...</p>
-      </div>
-    </div>
-    <div class="live-top">
-      <div class="live-label">🔴 LIVE</div>
-      <div class="viewers">
-        👥 <span id="viewerCount">1</span>
-      </div>
-      <button class="close-live" onclick="endLive()">✕</button>
-    </div>
-    <div id="comments" class="comments">
-      <div class="comment"><strong>Friend:</strong> 🔥🔥🔥</div>
-      <div class="comment"><strong>Friend 2:</strong> Nice live!</div>
-    </div>
-    <div class="live-bottom">
-      <input
-        id="commentInput"
-        class="comment-input"
-        type="text"
-        placeholder="Comment..."
-        onkeydown="sendComment(event)"
-      >
-      <button class="control" onclick="toggleMic()" id="micButton">
-        🎤
-      </button>
-      <button class="control" onclick="switchCamera()">
-        🔄
-      </button>
-      <button class="control" onclick="sendReaction()">
-        ❤️
-      </button>
-      <button class="end-live" onclick="endLive()">
-        End
-      </button>
-    </div>
-  </div>
+
+<div class="camera">
+
+<video id="video" autoplay playsinline></video>
+
+<div id="placeholder">
+<div>
+<h2>🎥 MicMedia Live</h2>
+<p>Starting camera...</p>
 </div>
+</div>
+
+<div class="live-overlay">
+
+<div class="live-header">
+
+<div class="live-badge">🔴 LIVE</div>
+
+<div class="viewer">
+👥 <span id="viewers">1</span>
+</div>
+
+<button class="close" onclick="endLive()">✕</button>
+
+</div>
+
+<div class="comments" id="comments">
+
+<div class="comment">Friend: 🔥🔥🔥</div>
+<div class="comment">Friend 2: Nice live!</div>
+
+</div>
+
+<div class="live-controls">
+
+<input
+class="live-input"
+id="comment"
+placeholder="Comment..."
+onkeydown="comment(event)"
+>
+
+<button class="control" onclick="toggleMic()" id="mic">
+🎤
+</button>
+
+<button class="control" onclick="switchCamera()">
+🔄
+</button>
+
+<button class="control" onclick="reaction()">
+❤️
+</button>
+
+<button class="end" onclick="endLive()">
+End
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
 <script>
-  let liveStream = null;
-  let micEnabled = true;
-  let currentCamera = "user";
-  let viewerCount = 1;
-  function startLive() {
-    const liveScreen = document.getElementById("liveScreen");
-    liveScreen.style.display = "block";
-    viewerCount = Math.floor(Math.random() * 20) + 1;
-    document.getElementById("viewerCount").textContent = viewerCount;
-    startCamera();
-  }
-  async function startCamera() {
-    const video = document.getElementById("cameraVideo");
-    const placeholder = document.getElementById("cameraPlaceholder");
-    try {
-      if (liveStream) {
-        liveStream.getTracks().forEach(track => track.stop());
-      }
-      liveStream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: currentCamera
-        },
-        audio: true
-      });
-      video.srcObject = liveStream;
-      video.style.display = "block";
-      placeholder.style.display = "none";
-    } catch (error) {
-      video.style.display = "none";
-      placeholder.style.display = "flex";
-      placeholder.innerHTML = `
-        <div>
-          <h2>🎥 Camera permission needed</h2>
-          <p>Please allow MicMedia to access your camera and microphone.</p>
-        </div>
-      `;
-    }
-  }
-  function toggleMic() {
-    if (!liveStream) return;
-    const audioTracks = liveStream.getAudioTracks();
-    audioTracks.forEach(track => {
-      track.enabled = !track.enabled;
-      micEnabled = track.enabled;
-    });
-    document.getElementById("micButton").textContent =
-      micEnabled ? "🎤" : "🔇";
-  }
-  async function switchCamera() {
-    currentCamera =
-      currentCamera === "user" ? "environment" : "user";
-    await startCamera();
-  }
-  function sendReaction() {
-    const reaction = document.createElement("div");
-    reaction.className = "reaction";
-    reaction.textContent = "❤️";
-    document.getElementById("liveScreen").appendChild(reaction);
-    setTimeout(() => {
-      reaction.remove();
-    }, 2000);
-  }
-  function sendComment(event) {
-    if (event.key !== "Enter") return;
-    const input = document.getElementById("commentInput");
-    const text = input.value.trim();
-    if (!text) return;
-    const comment = document.createElement("div");
-    comment.className = "comment";
-    comment.innerHTML = "<strong>You:</strong> " + escapeHTML(text);
-    document.getElementById("comments").appendChild(comment);
-    input.value = "";
-    const comments = document.getElementById("comments");
-    comments.scrollTop = comments.scrollHeight;
-  }
-  function escapeHTML(text) {
-    const div = document.createElement("div");
-    div.textContent = text;
-    return div.innerHTML;
-  }
-  function endLive() {
-    if (liveStream) {
-      liveStream.getTracks().forEach(track => track.stop());
-      liveStream = null;
-    }
-    document.getElementById("cameraVideo").srcObject = null;
-    document.getElementById("liveScreen").style.display = "none";
-  }
-  function likePost(button) {
-    const number = button.querySelector("span");
-    let count = parseInt(number.textContent);
-    count++;
-    number.textContent = count;
-  }
-  function sharePost() {
-    if (navigator.share) {
-      navigator.share({
-        title: "MicMedia",
-        text: "Check out MicMedia!"
-      });
-    } else {
-      alert("MicMedia link can be shared here.");
-    }
-  }
-  function showHome() {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
+
+let stream=null;
+let facing="user";
+let micOn=true;
+
+function startLive(){
+
+document.getElementById("liveScreen").style.display="block";
+
+document.getElementById("viewers").textContent=
+Math.floor(Math.random()*20)+1;
+
+startCamera();
+
+}
+
+async function startCamera(){
+
+let video=document.getElementById("video");
+let placeholder=document.getElementById("placeholder");
+
+try{
+
+if(stream){
+stream.getTracks().forEach(t=>t.stop());
+}
+
+stream=await navigator.mediaDevices.getUserMedia({
+video:{facingMode:facing},
+audio:true
+});
+
+video.srcObject=stream;
+video.style.display="block";
+placeholder.style.display="none";
+
+}catch(e){
+
+placeholder.innerHTML=
+"<div><h2>🎥 Camera Access</h2><p>Please allow camera and microphone access for MicMedia.</p></div>";
+
+}
+
+}
+
+function toggleMic(){
+
+if(!stream)return;
+
+stream.getAudioTracks().forEach(track=>{
+track.enabled=!track.enabled;
+micOn=track.enabled;
+});
+
+document.getElementById("mic").textContent=
+micOn?"🎤":"🔇";
+
+}
+
+function switchCamera(){
+
+facing=facing==="user"?"environment":"user";
+startCamera();
+
+}
+
+function reaction(){
+
+let r=document.createElement("div");
+
+r.className="reaction";
+r.textContent="❤️";
+
+document.getElementById("liveScreen").appendChild(r);
+
+setTimeout(()=>r.remove(),2000);
+
+}
+
+function comment(e){
+
+if(e.key!=="Enter")return;
+
+let input=document.getElementById("comment");
+let text=input.value.trim();
+
+if(!text)return;
+
+let c=document.createElement("div");
+
+c.className="comment";
+c.textContent="You: "+text;
+
+document.getElementById("comments").appendChild(c);
+
+input.value="";
+
+}
+
+function endLive(){
+
+if(stream){
+stream.getTracks().forEach(t=>t.stop());
+stream=null;
+}
+
+document.getElementById("video").srcObject=null;
+document.getElementById("liveScreen").style.display="none";
+
+}
+
+function like(button){
+
+let text=button.textContent;
+let number=parseInt(text.match(/\d+/));
+
+button.textContent="❤️ Like "+(number+1);
+
+}
+
+function createPost(){
+
+alert("MicMedia post creator coming next! 📸");
+
+}
+
+function friends(){
+
+alert("Friends section coming next! 👥");
+
+}
+
+function messages(){
+
+alert("Messages section coming next! 💬");
+
+}
+
+function profile(){
+
+document.querySelector(".feed")?.classList.add("hidden");
+document.getElementById("profilePage").classList.remove("hidden");
+
+}
+
+function home(){
+
+document.getElementById("profilePage").classList.add("hidden");
+
+}
+
 </script>
+
 </body>
 </html>
