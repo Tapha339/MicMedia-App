@@ -2,813 +2,478 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MicMedia</title>
-
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
-
-body{
-  background:linear-gradient(135deg,#050816,#071b35,#101052);
-  color:white;
+body {
+  background: #f4f6fb;
+  color: #171717;
+  padding-bottom: 85px;
 }
-
-.app{
-  max-width:500px;
-  margin:auto;
-  min-height:100vh;
-  background:linear-gradient(180deg,#071225,#050816);
-  padding-bottom:75px;
+/* HEADER */
+.header {
+  background: linear-gradient(135deg, #6c2cff, #ff2d75);
+  color: white;
+  padding: 22px 18px 18px;
+  border-radius: 0 0 25px 25px;
 }
-
-header{
-  height:70px;
-  padding:15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:sticky;
-  top:0;
-  z-index:20;
-  background:rgba(5,8,22,.92);
-  backdrop-filter:blur(15px);
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
-.logo{
-  font-size:25px;
-  font-weight:bold;
-  background:linear-gradient(90deg,#00c6ff,#7c4dff);
-  -webkit-background-clip:text;
-  color:transparent;
+.logo {
+  font-size: 25px;
+  font-weight: 800;
 }
-
-.header-icons{
-  display:flex;
-  gap:10px;
+.notification {
+  background: rgba(255,255,255,.2);
+  padding: 10px;
+  border-radius: 50%;
 }
-
-.icon-btn{
-  border:0;
-  background:#17243a;
-  color:white;
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  font-size:18px;
+/* SEARCH */
+.search {
+  margin-top: 18px;
+  background: white;
+  color: #888;
+  border-radius: 15px;
+  padding: 13px 16px;
 }
-
-.live-top-btn{
-  background:#ff304f;
-  border:0;
-  color:white;
-  padding:9px 13px;
-  border-radius:20px;
-  font-weight:bold;
+/* CATEGORIES */
+.categories {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 18px;
 }
-
-.stories{
-  display:flex;
-  gap:12px;
-  padding:15px;
-  overflow-x:auto;
+.category {
+  background: white;
+  padding: 10px 17px;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 3px 12px rgba(0,0,0,.06);
 }
-
-.story{
-  min-width:70px;
-  text-align:center;
-  font-size:11px;
+.category.active {
+  background: #6c2cff;
+  color: white;
 }
-
-.story-ring{
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  padding:3px;
-  margin:auto auto 6px;
-  background:linear-gradient(135deg,#00c6ff,#8e2de2,#ff304f);
+/* LIVE BANNER */
+.live-banner {
+  margin: 0 18px 18px;
+  padding: 20px;
+  border-radius: 20px;
+  background: linear-gradient(135deg,#ff1744,#ff7a00);
+  color: white;
+  box-shadow: 0 8px 20px rgba(255,70,70,.25);
 }
-
-.story-inner{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  background:#18243a;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-weight:bold;
+.live-title {
+  font-size: 20px;
+  font-weight: bold;
 }
-
-.create{
-  margin:5px 15px 15px;
-  padding:13px;
-  background:#101d31;
-  border:1px solid #203552;
-  border-radius:18px;
-  display:flex;
-  align-items:center;
-  gap:10px;
+.live-button {
+  display: inline-block;
+  margin-top: 12px;
+  background: white;
+  color: #ff1744;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-weight: bold;
 }
-
-.create-input{
-  flex:1;
-  color:#8d9bad;
+/* POSTS */
+.post {
+  background: white;
+  margin: 15px 18px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,.07);
 }
-
-.create button{
-  border:0;
-  background:#168cff;
-  color:white;
-  border-radius:15px;
-  padding:8px 12px;
+.post-header {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-
-.section{
-  padding:0 15px 15px;
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#6c2cff,#ff2d75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
 }
-
-.section-title{
-  display:flex;
-  justify-content:space-between;
-  margin-bottom:10px;
+.post-image {
+  height: 210px;
+  background: linear-gradient(135deg,#222,#6c2cff,#ff2d75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 35px;
 }
-
-.cards{
-  display:flex;
-  gap:10px;
-  overflow-x:auto;
+.post-text {
+  padding: 15px;
+  font-size: 15px;
 }
-
-.card{
-  min-width:135px;
-  height:90px;
-  border-radius:15px;
-  padding:12px;
-  display:flex;
-  flex-direction:column;
-  justify-content:end;
-  font-weight:bold;
+.actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 13px;
+  border-top: 1px solid #eee;
 }
-
-.news{
-  background:linear-gradient(135deg,#075985,#2563eb);
+.action {
+  border: none;
+  background: none;
+  font-size: 22px;
+  cursor: pointer;
 }
-
-.ent{
-  background:linear-gradient(135deg,#7e22ce,#db2777);
+.action.active {
+  transform: scale(1.15);
 }
-
-.sports{
-  background:linear-gradient(135deg,#166534,#16a34a);
+/* LIVESTREAM */
+#liveScreen {
+  display: none;
+  min-height: calc(100vh - 85px);
+  background: #090909;
+  color: white;
 }
-
-.post{
-  padding:15px;
-  border-top:7px solid #071225;
-  background:#091427;
+.live-screen-header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
 }
-
-.post-head{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.live-video {
+  height: 390px;
+  margin: 0 15px;
+  border-radius: 25px;
+  background: linear-gradient(160deg,#181818,#5422a8,#e62b68);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
-
-.avatar{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#00c6ff,#7c4dff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
+.live-camera {
+  font-size: 65px;
 }
-
-.post-time{
-  color:#8290a5;
-  font-size:11px;
+.live-label {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #ff1744;
+  padding: 7px 12px;
+  border-radius: 10px;
+  font-weight: bold;
 }
-
-.post-text{
-  margin:12px 0;
-  line-height:1.4;
+.viewer-count {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0,0,0,.55);
+  padding: 7px 12px;
+  border-radius: 10px;
 }
-
-.post-photo{
-  height:230px;
-  border-radius:16px;
-  background:linear-gradient(135deg,#0ea5e9,#172554);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:42px;
+.live-info {
+  padding: 18px;
 }
-
-.actions{
-  display:flex;
-  justify-content:space-between;
-  margin-top:13px;
+.live-info h2 {
+  margin-bottom: 7px;
 }
-
-.actions button{
-  background:none;
-  border:0;
-  color:#cbd5e1;
-  font-size:14px;
+.live-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
 }
-
-nav{
-  position:fixed;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  max-width:500px;
-  width:100%;
-  height:70px;
-  background:rgba(5,8,22,.96);
-  backdrop-filter:blur(15px);
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  border-top:1px solid #20304a;
-  z-index:50;
+.live-actions button {
+  border: none;
+  padding: 12px 17px;
+  border-radius: 20px;
+  font-weight: bold;
 }
-
-nav button{
-  background:none;
-  border:0;
-  color:#8997aa;
-  font-size:11px;
+/* MESSAGES */
+#messageScreen,
+#favoriteScreen,
+#profileScreen {
+  display: none;
+  padding: 20px;
 }
-
-nav button.active{
-  color:#19a1ff;
+.screen-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 20px;
 }
-
-.nav-icon{
-  font-size:20px;
-  display:block;
-  margin-bottom:3px;
+.message {
+  background: white;
+  padding: 15px;
+  border-radius: 17px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
-
-/* LIVE */
-
-#liveScreen{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:100;
-  max-width:500px;
-  margin:auto;
+/* BOTTOM NAVIGATION */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75px;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(15px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  z-index: 1000;
 }
-
-.camera{
-  width:100%;
-  height:100%;
-  position:relative;
-  overflow:hidden;
-  background:#111;
+.nav-item {
+  border: none;
+  background: none;
+  color: #777;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
 }
-
-#video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:none;
+.nav-icon {
+  font-size: 25px;
 }
-
-.live-overlay{
-  position:absolute;
-  inset:0;
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+.nav-item.active {
+  color: #6c2cff;
+  font-weight: bold;
 }
-
-.live-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.nav-item.live-active {
+  color: #ff1744;
 }
-
-.live-badge{
-  background:#ff304f;
-  padding:9px 14px;
-  border-radius:8px;
-  font-weight:bold;
+.nav-item.favorite-active {
+  color: #ff2d75;
 }
-
-.viewer{
-  background:rgba(0,0,0,.55);
-  padding:9px 14px;
-  border-radius:20px;
+/* PROFILE */
+.profile-card {
+  background: linear-gradient(135deg,#6c2cff,#ff2d75);
+  color: white;
+  padding: 25px;
+  border-radius: 25px;
+  text-align: center;
 }
-
-.close{
-  width:40px;
-  height:40px;
-  border:0;
-  border-radius:50%;
-  background:rgba(0,0,0,.6);
-  color:white;
-  font-size:20px;
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  border-radius: 50%;
+  background: white;
+  color: #6c2cff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+  font-weight: bold;
 }
-
-.comments{
-  max-height:230px;
-  overflow:auto;
+.profile-buttons {
+  margin-top: 20px;
+  display: grid;
+  gap: 12px;
 }
-
-.comment{
-  background:rgba(0,0,0,.55);
-  padding:8px 11px;
-  border-radius:15px;
-  display:table;
-  margin-top:7px;
-}
-
-.live-controls{
-  display:flex;
-  gap:7px;
-}
-
-.live-input{
-  flex:1;
-  border:0;
-  border-radius:25px;
-  padding:13px;
-}
-
-.control{
-  width:46px;
-  height:46px;
-  border:0;
-  border-radius:50%;
-  font-size:18px;
-}
-
-.end{
-  background:#ff304f;
-  color:white;
-  padding:0 15px;
-  border:0;
-  border-radius:25px;
-  font-weight:bold;
-}
-
-#placeholder{
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  color:#aaa;
-}
-
-.reaction{
-  position:absolute;
-  right:25px;
-  bottom:130px;
-  font-size:35px;
-  animation:up 2s forwards;
-}
-
-@keyframes up{
-  from{transform:translateY(0);opacity:1}
-  to{transform:translateY(-180px);opacity:0}
-}
-
-.profile{
-  padding:25px 15px;
-  text-align:center;
-}
-
-.profile-avatar{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  margin:auto;
-  background:linear-gradient(135deg,#00c6ff,#7c4dff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  font-weight:bold;
-}
-
-.stats{
-  display:flex;
-  justify-content:space-around;
-  margin:25px 0;
-}
-
-.stat strong{
-  display:block;
-  font-size:18px;
-}
-
-.stat span{
-  color:#8491a5;
-  font-size:12px;
-}
-
-.hidden{
-  display:none;
+.profile-buttons button {
+  padding: 15px;
+  border: none;
+  border-radius: 15px;
+  background: white;
+  text-align: left;
 }
 </style>
 </head>
-
 <body>
-
-<div class="app">
-
-<header>
-  <div class="logo">MicMedia</div>
-
-  <div class="header-icons">
-    <button class="icon-btn">🔍</button>
-    <button class="icon-btn">🔔</button>
-    <button class="live-top-btn" onclick="startLive()">🔴 Live</button>
+<!-- HOME -->
+<div id="homeScreen">
+  <div class="header">
+    <div class="header-top">
+      <div class="logo">MicMedia</div>
+      <div class="notification">🔔</div>
+    </div>
+    <div class="search">
+      🔍  Search news, videos, people...
+    </div>
   </div>
-</header>
-
-<div class="stories">
-
-<div class="story">
-<div class="story-ring"><div class="story-inner">+</div></div>
-Add Story
+  <div class="categories">
+    <div class="category active">For You</div>
+    <div class="category">News</div>
+    <div class="category">Sports</div>
+    <div class="category">Music</div>
+    <div class="category">Entertainment</div>
+  </div>
+  <div class="live-banner">
+    <div class="live-title">🔴 Live on MicMedia</div>
+    <p>Join live conversations, events and entertainment.</p>
+    <div class="live-button" onclick="showScreen('live')">
+      Watch Live
+    </div>
+  </div>
+  <div class="post">
+    <div class="post-header">
+      <div class="avatar">M</div>
+      <div>
+        <b>MicMedia News</b>
+        <small> • 5 min ago</small>
+      </div>
+    </div>
+    <div class="post-image">🎥</div>
+    <div class="post-text">
+      <b>Welcome to MicMedia!</b>
+      <p>News, entertainment, live video and more — all in one place.</p>
+    </div>
+    <div class="actions">
+      <button class="action" onclick="likePost(this)">❤️</button>
+      <button class="action">💬</button>
+      <button class="action" onclick="savePost(this)">🔖</button>
+      <button class="action">📤</button>
+    </div>
+  </div>
 </div>
-
-<div class="story">
-<div class="story-ring"><div class="story-inner">Y</div></div>
-Your Story
-</div>
-
-<div class="story">
-<div class="story-ring"><div class="story-inner">S</div></div>
-Sarah
-</div>
-
-<div class="story">
-<div class="story-ring"><div class="story-inner">K</div></div>
-King
-</div>
-
-<div class="story">
-<div class="story-ring"><div class="story-inner">J</div></div>
-Jasmine
-</div>
-
-</div>
-
-<div class="create">
-<div class="avatar">M</div>
-<div class="create-input">What's on your mind?</div>
-<button onclick="createPost()">Post</button>
-</div>
-
-<div class="section">
-
-<div class="section-title">
-<strong>Explore MicMedia</strong>
-<span style="color:#1597ff">See all</span>
-</div>
-
-<div class="cards">
-
-<div class="card news">📰<br>News</div>
-<div class="card ent">🎬<br>Entertainment</div>
-<div class="card sports">⚽<br>Sports</div>
-
-</div>
-</div>
-
-<div class="post">
-
-<div class="post-head">
-<div class="avatar">G</div>
-<div>
-<strong>Good Vibes</strong>
-<div class="post-time">2h ago • Public</div>
-</div>
-</div>
-
-<div class="post-text">
-Life is better when you smile 😊
-</div>
-
-<div class="post-photo">🌴🌊</div>
-
-<div class="actions">
-<button onclick="like(this)">❤️ Like 0</button>
-<button>💬 Comment</button>
-<button>↗️ Share</button>
-</div>
-
-</div>
-
-<div class="post">
-
-<div class="post-head">
-<div class="avatar">M</div>
-<div>
-<strong>MicMedia News</strong>
-<div class="post-time">5h ago • News</div>
-</div>
-</div>
-
-<div class="post-text">
-Welcome to the new MicMedia experience! 🚀
-</div>
-
-<div class="actions">
-<button onclick="like(this)">❤️ Like 0</button>
-<button>💬 Comment</button>
-<button>↗️ Share</button>
-</div>
-
-</div>
-
-<div class="profile hidden" id="profilePage">
-
-<div class="profile-avatar">M</div>
-<h2 style="margin-top:12px">MicMedia Creator</h2>
-<p style="color:#8290a5">@micmedia</p>
-
-<div class="stats">
-<div class="stat"><strong>245</strong><span>Posts</span></div>
-<div class="stat"><strong>12.5K</strong><span>Followers</span></div>
-<div class="stat"><strong>1.8K</strong><span>Following</span></div>
-</div>
-
-<button class="live-top-btn">Edit Profile</button>
-
-</div>
-
-<nav>
-
-<button class="active" onclick="home()">
-<span class="nav-icon">🏠</span>
-Home
-</button>
-
-<button onclick="friends()">
-<span class="nav-icon">👥</span>
-Friends
-</button>
-
-<button onclick="startLive()">
-<span class="nav-icon">🔴</span>
-Live
-</button>
-
-<button onclick="messages()">
-<span class="nav-icon">💬</span>
-Messages
-</button>
-
-<button onclick="profile()">
-<span class="nav-icon">👤</span>
-Profile
-</button>
-
-</nav>
-
-</div>
-
-
-<!-- LIVESTREAM -->
-
+<!-- LIVE SCREEN -->
 <div id="liveScreen">
-
-<div class="camera">
-
-<video id="video" autoplay playsinline></video>
-
-<div id="placeholder">
-<div>
-<h2>🎥 MicMedia Live</h2>
-<p>Starting camera...</p>
+  <div class="live-screen-header">
+    <b>🔴 LIVE</b>
+    <span onclick="showScreen('home')">✕</span>
+  </div>
+  <div class="live-video">
+    <div class="live-label">LIVE</div>
+    <div class="viewer-count">👁 1.2K</div>
+    <div class="live-camera">📹</div>
+  </div>
+  <div class="live-info">
+    <h2>MicMedia Live</h2>
+    <p>Welcome to the MicMedia livestream.</p>
+    <div class="live-actions">
+      <button>❤️ Like</button>
+      <button>💬 Chat</button>
+      <button>📤 Share</button>
+    </div>
+  </div>
 </div>
+<!-- MESSAGES -->
+<div id="messageScreen">
+  <div class="screen-title">Messages 💬</div>
+  <div class="message">
+    <div class="avatar">F</div>
+    <div>
+      <b>Friend</b>
+      <p>Hey! Welcome to MicMedia 👋</p>
+    </div>
+  </div>
+  <div class="message">
+    <div class="avatar">M</div>
+    <div>
+      <b>MicMedia Team</b>
+      <p>Thanks for joining us!</p>
+    </div>
+  </div>
 </div>
-
-<div class="live-overlay">
-
-<div class="live-header">
-
-<div class="live-badge">🔴 LIVE</div>
-
-<div class="viewer">
-👥 <span id="viewers">1</span>
+<!-- FAVORITES -->
+<div id="favoriteScreen">
+  <div class="screen-title">Favorites ❤️</div>
+  <div class="post">
+    <div class="post-text">
+      🔖 Your saved posts and videos will appear here.
+    </div>
+  </div>
 </div>
-
-<button class="close" onclick="endLive()">✕</button>
-
+<!-- PROFILE -->
+<div id="profileScreen">
+  <div class="screen-title">Profile</div>
+  <div class="profile-card">
+    <div class="profile-avatar">M</div>
+    <h2 style="margin-top:12px;">MicMedia User</h2>
+    <p>@micmedia</p>
+  </div>
+  <div class="profile-buttons">
+    <button>⚙️ Settings</button>
+    <button>🔔 Notifications</button>
+    <button>🌙 Dark Mode</button>
+    <button>🚪 Log Out</button>
+  </div>
 </div>
-
-<div class="comments" id="comments">
-
-<div class="comment">Friend: 🔥🔥🔥</div>
-<div class="comment">Friend 2: Nice live!</div>
-
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav">
+  <button class="nav-item active" onclick="showScreen('home')" id="homeBtn">
+    <span class="nav-icon">🏠</span>
+    Home
+  </button>
+  <button class="nav-item live-active" onclick="showScreen('live')" id="liveBtn">
+    <span class="nav-icon">🔴</span>
+    Live
+  </button>
+  <button class="nav-item" onclick="showScreen('message')" id="messageBtn">
+    <span class="nav-icon">💬</span>
+    Messages
+  </button>
+  <button class="nav-item favorite-active" onclick="showScreen('favorite')" id="favoriteBtn">
+    <span class="nav-icon">❤️</span>
+    Favorites
+  </button>
+  <button class="nav-item" onclick="showScreen('profile')" id="profileBtn">
+    <span class="nav-icon">👤</span>
+    Profile
+  </button>
 </div>
-
-<div class="live-controls">
-
-<input
-class="live-input"
-id="comment"
-placeholder="Comment..."
-onkeydown="comment(event)"
->
-
-<button class="control" onclick="toggleMic()" id="mic">
-🎤
-</button>
-
-<button class="control" onclick="switchCamera()">
-🔄
-</button>
-
-<button class="control" onclick="reaction()">
-❤️
-</button>
-
-<button class="end" onclick="endLive()">
-End
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
 <script>
-
-let stream=null;
-let facing="user";
-let micOn=true;
-
-function startLive(){
-
-document.getElementById("liveScreen").style.display="block";
-
-document.getElementById("viewers").textContent=
-Math.floor(Math.random()*20)+1;
-
-startCamera();
-
+function showScreen(screen) {
+  document.getElementById("homeScreen").style.display = "none";
+  document.getElementById("liveScreen").style.display = "none";
+  document.getElementById("messageScreen").style.display = "none";
+  document.getElementById("favoriteScreen").style.display = "none";
+  document.getElementById("profileScreen").style.display = "none";
+  document.querySelectorAll(".nav-item").forEach(function(btn) {
+    btn.classList.remove("active");
+  });
+  if (screen === "home") {
+    document.getElementById("homeScreen").style.display = "block";
+    document.getElementById("homeBtn").classList.add("active");
+  }
+  if (screen === "live") {
+    document.getElementById("liveScreen").style.display = "block";
+    document.getElementById("liveBtn").classList.add("active");
+  }
+  if (screen === "message") {
+    document.getElementById("messageScreen").style.display = "block";
+    document.getElementById("messageBtn").classList.add("active");
+  }
+  if (screen === "favorite") {
+    document.getElementById("favoriteScreen").style.display = "block";
+    document.getElementById("favoriteBtn").classList.add("active");
+  }
+  if (screen === "profile") {
+    document.getElementById("profileScreen").style.display = "block";
+    document.getElementById("profileBtn").classList.add("active");
+  }
+  window.scrollTo(0,0);
 }
-
-async function startCamera(){
-
-let video=document.getElementById("video");
-let placeholder=document.getElementById("placeholder");
-
-try{
-
-if(stream){
-stream.getTracks().forEach(t=>t.stop());
+function likePost(button) {
+  button.classList.toggle("active");
+  if (button.classList.contains("active")) {
+    button.innerHTML = "💖";
+  } else {
+    button.innerHTML = "❤️";
+  }
 }
-
-stream=await navigator.mediaDevices.getUserMedia({
-video:{facingMode:facing},
-audio:true
-});
-
-video.srcObject=stream;
-video.style.display="block";
-placeholder.style.display="none";
-
-}catch(e){
-
-placeholder.innerHTML=
-"<div><h2>🎥 Camera Access</h2><p>Please allow camera and microphone access for MicMedia.</p></div>";
-
+function savePost(button) {
+  button.classList.toggle("active");
+  if (button.classList.contains("active")) {
+    button.innerHTML = "🔖";
+    alert("Added to Favorites ❤️");
+  } else {
+    button.innerHTML = "🔖";
+  }
 }
-
-}
-
-function toggleMic(){
-
-if(!stream)return;
-
-stream.getAudioTracks().forEach(track=>{
-track.enabled=!track.enabled;
-micOn=track.enabled;
-});
-
-document.getElementById("mic").textContent=
-micOn?"🎤":"🔇";
-
-}
-
-function switchCamera(){
-
-facing=facing==="user"?"environment":"user";
-startCamera();
-
-}
-
-function reaction(){
-
-let r=document.createElement("div");
-
-r.className="reaction";
-r.textContent="❤️";
-
-document.getElementById("liveScreen").appendChild(r);
-
-setTimeout(()=>r.remove(),2000);
-
-}
-
-function comment(e){
-
-if(e.key!=="Enter")return;
-
-let input=document.getElementById("comment");
-let text=input.value.trim();
-
-if(!text)return;
-
-let c=document.createElement("div");
-
-c.className="comment";
-c.textContent="You: "+text;
-
-document.getElementById("comments").appendChild(c);
-
-input.value="";
-
-}
-
-function endLive(){
-
-if(stream){
-stream.getTracks().forEach(t=>t.stop());
-stream=null;
-}
-
-document.getElementById("video").srcObject=null;
-document.getElementById("liveScreen").style.display="none";
-
-}
-
-function like(button){
-
-let text=button.textContent;
-let number=parseInt(text.match(/\d+/));
-
-button.textContent="❤️ Like "+(number+1);
-
-}
-
-function createPost(){
-
-alert("MicMedia post creator coming next! 📸");
-
-}
-
-function friends(){
-
-alert("Friends section coming next! 👥");
-
-}
-
-function messages(){
-
-alert("Messages section coming next! 💬");
-
-}
-
-function profile(){
-
-document.querySelector(".feed")?.classList.add("hidden");
-document.getElementById("profilePage").classList.remove("hidden");
-
-}
-
-function home(){
-
-document.getElementById("profilePage").classList.add("hidden");
-
-}
-
 </script>
-
 </body>
 </html>
