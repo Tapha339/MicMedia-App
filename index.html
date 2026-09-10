@@ -4,476 +4,1661 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MicMedia</title>
+
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
-body {
-  background: #f4f6fb;
-  color: #171717;
-  padding-bottom: 85px;
+
+:root{
+  --bg:#050d1d;
+  --card:#0b172a;
+  --card2:#101e34;
+  --text:#fff;
+  --muted:#8e9bb0;
+  --blue:#1597ff;
+  --cyan:#19d5ff;
+  --purple:#8b5cff;
+  --pink:#e950ff;
+  --red:#ff3155;
+  --line:rgba(255,255,255,.08);
 }
-/* HEADER */
-.header {
-  background: linear-gradient(135deg, #6c2cff, #ff2d75);
-  color: white;
-  padding: 22px 18px 18px;
-  border-radius: 0 0 25px 25px;
+
+body{
+  background:
+    radial-gradient(circle at 50% -10%,#183e70 0,#071429 35%,#030914 75%);
+  color:var(--text);
+  min-height:100vh;
+  padding-bottom:78px;
 }
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+button{
+  font-family:inherit;
+  cursor:pointer;
 }
-.logo {
-  font-size: 25px;
-  font-weight: 800;
+
+.screen{
+  display:none;
+  min-height:calc(100vh - 78px);
 }
-.notification {
-  background: rgba(255,255,255,.2);
-  padding: 10px;
-  border-radius: 50%;
+
+.screen.active{
+  display:block;
 }
-/* SEARCH */
-.search {
-  margin-top: 18px;
-  background: white;
-  color: #888;
-  border-radius: 15px;
-  padding: 13px 16px;
+
+/* ================= HEADER ================= */
+
+.topbar{
+  height:65px;
+  padding:12px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
-/* CATEGORIES */
-.categories {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 18px;
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:21px;
+  font-weight:800;
 }
-.category {
-  background: white;
-  padding: 10px 17px;
-  border-radius: 20px;
-  white-space: nowrap;
-  box-shadow: 0 3px 12px rgba(0,0,0,.06);
+
+.logo{
+  width:31px;
+  height:31px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  font-weight:900;
+  color:white;
+  background:linear-gradient(135deg,#a42cff,#08cfff);
+  box-shadow:0 0 18px rgba(20,170,255,.35);
 }
-.category.active {
-  background: #6c2cff;
-  color: white;
+
+.brand span{
+  background:linear-gradient(90deg,#fff,#21baff);
+  -webkit-background-clip:text;
+  color:transparent;
 }
-/* LIVE BANNER */
-.live-banner {
-  margin: 0 18px 18px;
-  padding: 20px;
-  border-radius: 20px;
-  background: linear-gradient(135deg,#ff1744,#ff7a00);
-  color: white;
-  box-shadow: 0 8px 20px rgba(255,70,70,.25);
+
+.top-icons{
+  display:flex;
+  gap:16px;
 }
-.live-title {
-  font-size: 20px;
-  font-weight: bold;
+
+.icon-btn{
+  width:32px;
+  height:32px;
+  border:0;
+  background:none;
+  color:white;
+  font-size:20px;
 }
-.live-button {
-  display: inline-block;
-  margin-top: 12px;
-  background: white;
-  color: #ff1744;
-  padding: 10px 18px;
-  border-radius: 20px;
-  font-weight: bold;
+
+/* ================= HOME ================= */
+
+.stories{
+  display:flex;
+  gap:13px;
+  overflow-x:auto;
+  padding:5px 17px 16px;
 }
-/* POSTS */
-.post {
-  background: white;
-  margin: 15px 18px;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,.07);
+
+.stories::-webkit-scrollbar{
+  display:none;
 }
-.post-header {
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+
+.story{
+  min-width:58px;
+  text-align:center;
+  font-size:10px;
+  color:#d7deea;
 }
-.avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: linear-gradient(135deg,#6c2cff,#ff2d75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
+
+.story-pic{
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  margin:auto;
+  padding:2px;
+  background:linear-gradient(135deg,#9c42ff,#00d9ff,#ff477e);
 }
-.post-image {
-  height: 210px;
-  background: linear-gradient(135deg,#222,#6c2cff,#ff2d75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 35px;
+
+.story-inner{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background:linear-gradient(135deg,#354c71,#d56b9d);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  border:2px solid #071224;
 }
-.post-text {
-  padding: 15px;
-  font-size: 15px;
+
+.add-story{
+  background:#172943;
+  border:2px solid #258eff;
+  position:relative;
 }
-.actions {
-  display: flex;
-  justify-content: space-around;
-  padding: 13px;
-  border-top: 1px solid #eee;
+
+.add-story::after{
+  content:"+";
+  position:absolute;
+  bottom:-2px;
+  right:-2px;
+  width:19px;
+  height:19px;
+  border-radius:50%;
+  background:#168fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-weight:bold;
 }
-.action {
-  border: none;
-  background: none;
-  font-size: 22px;
-  cursor: pointer;
+
+.mind{
+  margin:2px 16px 15px;
+  background:#0d1b30;
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:9px;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
-.action.active {
-  transform: scale(1.15);
+
+.mini-avatar{
+  width:37px;
+  height:37px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ff9c73,#6948ff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
 }
-/* LIVESTREAM */
-#liveScreen {
-  display: none;
-  min-height: calc(100vh - 85px);
-  background: #090909;
-  color: white;
+
+.mind-text{
+  flex:1;
+  color:#8794a8;
+  font-size:13px;
 }
-.live-screen-header {
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
+
+.camera{
+  border:0;
+  background:#172943;
+  width:37px;
+  height:37px;
+  border-radius:50%;
+  color:#52aaff;
+  font-size:17px;
 }
-.live-video {
-  height: 390px;
-  margin: 0 15px;
-  border-radius: 25px;
-  background: linear-gradient(160deg,#181818,#5422a8,#e62b68);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+
+/* POST */
+
+.post{
+  background:#09172a;
+  margin:0 12px 15px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  overflow:hidden;
 }
-.live-camera {
-  font-size: 65px;
+
+.post-head{
+  padding:12px;
+  display:flex;
+  align-items:center;
+  gap:9px;
 }
-.live-label {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  background: #ff1744;
-  padding: 7px 12px;
-  border-radius: 10px;
-  font-weight: bold;
+
+.post-user{
+  flex:1;
 }
-.viewer-count {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: rgba(0,0,0,.55);
-  padding: 7px 12px;
-  border-radius: 10px;
+
+.post-user strong{
+  font-size:13px;
 }
-.live-info {
-  padding: 18px;
+
+.post-user small{
+  display:block;
+  color:#75849b;
+  font-size:10px;
+  margin-top:2px;
 }
-.live-info h2 {
-  margin-bottom: 7px;
+
+.more{
+  background:none;
+  color:#aab5c7;
+  border:0;
+  font-size:20px;
 }
-.live-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
+
+.post-text{
+  padding:0 13px 10px;
+  font-size:13px;
+  line-height:1.4;
 }
-.live-actions button {
-  border: none;
-  padding: 12px 17px;
-  border-radius: 20px;
-  font-weight: bold;
+
+.post-photo{
+  height:215px;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,.4)),
+    linear-gradient(135deg,#11a8d5,#32d0ec 40%,#0875aa);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:60px;
 }
-/* MESSAGES */
-#messageScreen,
-#favoriteScreen,
-#profileScreen {
-  display: none;
-  padding: 20px;
+
+.beach{
+  background:
+    linear-gradient(180deg,#45cfff 0%,#8fe9ff 48%,#17a7c9 49%,#087ca1 100%);
 }
-.screen-title {
-  font-size: 28px;
-  font-weight: 800;
-  margin-bottom: 20px;
+
+.post-stats{
+  padding:8px 12px;
+  color:#8998ad;
+  font-size:11px;
+  display:flex;
+  justify-content:space-between;
 }
-.message {
-  background: white;
-  padding: 15px;
-  border-radius: 17px;
-  margin-bottom: 12px;
-  display: flex;
-  gap: 12px;
-  align-items: center;
+
+.actions{
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-around;
+  padding:8px;
 }
-/* BOTTOM NAVIGATION */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 75px;
-  background: rgba(255,255,255,.96);
-  backdrop-filter: blur(15px);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 1px solid #ddd;
-  z-index: 1000;
+
+.action{
+  background:none;
+  border:0;
+  color:#aeb9ca;
+  font-size:13px;
 }
-.nav-item {
-  border: none;
-  background: none;
-  color: #777;
-  font-size: 11px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
+
+.action.liked{
+  color:#ff3f6c;
 }
-.nav-icon {
-  font-size: 25px;
+
+/* ================= SECTION TITLE ================= */
+
+.section-title{
+  padding:8px 17px 15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-.nav-item.active {
-  color: #6c2cff;
-  font-weight: bold;
+
+.section-title h1{
+  font-size:24px;
 }
-.nav-item.live-active {
-  color: #ff1744;
+
+.section-title button{
+  background:none;
+  border:0;
+  color:white;
+  font-size:20px;
 }
-.nav-item.favorite-active {
-  color: #ff2d75;
+
+/* ================= LIVE ================= */
+
+.live-screen{
+  background:#020509;
+  min-height:calc(100vh - 78px);
 }
-/* PROFILE */
-.profile-card {
-  background: linear-gradient(135deg,#6c2cff,#ff2d75);
-  color: white;
-  padding: 25px;
-  border-radius: 25px;
-  text-align: center;
+
+.live-top{
+  padding:12px 15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
-.profile-avatar {
-  width: 80px;
-  height: 80px;
-  margin: auto;
-  border-radius: 50%;
-  background: white;
-  color: #6c2cff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 35px;
-  font-weight: bold;
+
+.live-badge{
+  background:#ff304c;
+  padding:6px 10px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:bold;
 }
-.profile-buttons {
-  margin-top: 20px;
-  display: grid;
-  gap: 12px;
+
+.viewers{
+  background:rgba(0,0,0,.6);
+  padding:6px 10px;
+  border-radius:8px;
+  font-size:12px;
 }
-.profile-buttons button {
-  padding: 15px;
-  border: none;
-  border-radius: 15px;
-  background: white;
-  text-align: left;
+
+.live-video{
+  height:490px;
+  margin:0 8px;
+  border-radius:17px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 35%,#c57d62 0,#684c59 18%,transparent 19%),
+    linear-gradient(160deg,#4a8ba7,#ec9a7d 45%,#111d38 85%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.live-person{
+  font-size:110px;
+  margin-top:30px;
+}
+
+.live-comments{
+  position:absolute;
+  left:12px;
+  bottom:80px;
+  right:12px;
+}
+
+.comment{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:8px;
+  font-size:11px;
+}
+
+.comment b{
+  color:white;
+}
+
+.comment span{
+  background:rgba(0,0,0,.55);
+  padding:6px 9px;
+  border-radius:12px;
+}
+
+.live-bottom{
+  position:absolute;
+  bottom:12px;
+  left:10px;
+  right:10px;
+  display:flex;
+  gap:7px;
+}
+
+.live-input{
+  flex:1;
+  background:rgba(0,0,0,.55);
+  border:1px solid rgba(255,255,255,.2);
+  color:white;
+  padding:12px 15px;
+  border-radius:25px;
+}
+
+.live-heart{
+  width:45px;
+  height:45px;
+  border:0;
+  border-radius:50%;
+  background:#ff365d;
+  color:white;
+  font-size:20px;
+}
+
+/* ================= MESSAGES ================= */
+
+.messages{
+  padding:0 14px;
+}
+
+.search-box{
+  background:#0d1a2d;
+  border:1px solid var(--line);
+  padding:11px 14px;
+  border-radius:15px;
+  color:#8795a9;
+  margin-bottom:13px;
+}
+
+.chat{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:12px 4px;
+  border-bottom:1px solid var(--line);
+}
+
+.chat-avatar{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ed9d7b,#764cff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
+.chat-info{
+  flex:1;
+}
+
+.chat-info strong{
+  font-size:14px;
+}
+
+.chat-info p{
+  color:#8795a9;
+  font-size:11px;
+  margin-top:4px;
+}
+
+.chat-time{
+  color:#75849a;
+  font-size:9px;
+}
+
+.unread{
+  background:#167dff;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  font-size:9px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ================= FRIENDS ================= */
+
+.friend-tabs{
+  display:flex;
+  gap:7px;
+  padding:0 15px 14px;
+}
+
+.tab{
+  border:0;
+  background:#101e33;
+  color:#9aa7ba;
+  padding:8px 15px;
+  border-radius:18px;
+  font-size:11px;
+}
+
+.tab.active{
+  background:#168cff;
+  color:white;
+}
+
+.friend{
+  margin:0 15px;
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.friend-info{
+  flex:1;
+}
+
+.friend-info strong{
+  font-size:13px;
+}
+
+.online{
+  color:#27dc7d;
+  font-size:10px;
+}
+
+.message-btn{
+  border:0;
+  background:#172b46;
+  color:#55aaff;
+  border-radius:15px;
+  padding:7px 12px;
+  font-size:10px;
+}
+
+/* ================= EXPLORE ================= */
+
+.filters{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:0 15px 15px;
+}
+
+.filter{
+  white-space:nowrap;
+  background:#102038;
+  color:#aab6c7;
+  border:0;
+  border-radius:18px;
+  padding:8px 14px;
+  font-size:11px;
+}
+
+.filter.active{
+  background:#198eff;
+  color:white;
+}
+
+.explore-card{
+  margin:0 13px 14px;
+  height:175px;
+  border-radius:17px;
+  overflow:hidden;
+  position:relative;
+  background:linear-gradient(135deg,#b54c46,#17274c);
+}
+
+.explore-card.tech{
+  background:linear-gradient(135deg,#225a8b,#071a36);
+}
+
+.explore-card.movie{
+  background:linear-gradient(135deg,#222,#b54b26);
+}
+
+.explore-content{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:35px 13px 12px;
+  background:linear-gradient(transparent,rgba(0,0,0,.9));
+}
+
+.explore-content small{
+  background:#187fc2;
+  padding:4px 7px;
+  border-radius:7px;
+  font-size:8px;
+}
+
+.explore-content h3{
+  font-size:14px;
+  margin-top:7px;
+}
+
+/* ================= CREATE ================= */
+
+.create{
+  padding:0 15px;
+}
+
+.create-tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:15px;
+}
+
+.create-tab{
+  flex:1;
+  padding:11px 4px;
+  border:0;
+  background:#101f35;
+  color:white;
+  border-radius:12px;
+}
+
+.create-tab.active{
+  background:#148fff;
+}
+
+textarea{
+  width:100%;
+  height:110px;
+  resize:none;
+  background:#0c1b30;
+  border:1px solid var(--line);
+  border-radius:15px;
+  color:white;
+  padding:15px;
+  outline:none;
+}
+
+.photos{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:5px;
+  margin:12px 0;
+}
+
+.photo{
+  height:65px;
+  border-radius:7px;
+  background:linear-gradient(135deg,#2b85b6,#b0d7df);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
+.options{
+  margin-top:15px;
+  border-top:1px solid var(--line);
+}
+
+.option{
+  padding:15px 5px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  color:#b4c0d0;
+  font-size:13px;
+}
+
+.post-button{
+  width:100%;
+  margin-top:17px;
+  border:0;
+  border-radius:25px;
+  padding:14px;
+  background:#168fff;
+  color:white;
+  font-weight:bold;
+}
+
+/* ================= PROFILE ================= */
+
+.profile-cover{
+  height:160px;
+  background:
+    linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.65)),
+    linear-gradient(135deg,#188eb5,#e28772,#10234c);
+  position:relative;
+}
+
+.profile-avatar-large{
+  position:absolute;
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  bottom:-35px;
+  left:20px;
+  background:linear-gradient(135deg,#efac86,#6149ff);
+  border:4px solid #061125;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:bold;
+}
+
+.profile-body{
+  padding:48px 18px 15px;
+}
+
+.profile-body h2{
+  font-size:21px;
+}
+
+.verified{
+  color:#19a4ff;
+}
+
+.username{
+  color:#8493a8;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.bio{
+  margin-top:12px;
+  font-size:12px;
+  color:#c0c8d5;
+}
+
+.profile-stats{
+  display:flex;
+  justify-content:space-around;
+  margin:18px 0;
+  text-align:center;
+}
+
+.profile-stats strong{
+  display:block;
+  font-size:16px;
+}
+
+.profile-stats span{
+  color:#7f8da1;
+  font-size:10px;
+}
+
+.edit-profile{
+  width:100%;
+  padding:10px;
+  border:1px solid #2d435f;
+  border-radius:15px;
+  background:#102038;
+  color:white;
+}
+
+/* ================= NOTIFICATIONS ================= */
+
+.notification-item{
+  margin:0 15px;
+  padding:14px 0;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12px;
+}
+
+.notification-item span{
+  flex:1;
+}
+
+.notification-item small{
+  color:#718097;
+}
+
+/* ================= SETTINGS ================= */
+
+.settings{
+  padding:0 15px;
+}
+
+.account-card{
+  background:#0d1b30;
+  padding:14px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.setting{
+  padding:15px 5px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:#d6deea;
+  font-size:13px;
+}
+
+.setting span{
+  flex:1;
+}
+
+.setting small{
+  color:#8492a6;
+}
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:78px;
+  background:rgba(5,14,29,.96);
+  backdrop-filter:blur(18px);
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:9999;
+}
+
+.nav{
+  background:none;
+  border:0;
+  color:#68778d;
+  min-width:52px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  font-size:9px;
+}
+
+.nav-icon{
+  font-size:21px;
+}
+
+.nav.active{
+  color:#fff;
+}
+
+.nav.active .nav-icon{
+  color:#19a4ff;
+}
+
+.nav.live .nav-icon{
+  color:#ff3154;
+}
+
+/* ================= WELCOME ================= */
+
+.welcome{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+  background:
+    radial-gradient(circle at 50% 30%,#164f82,transparent 40%),
+    linear-gradient(180deg,#06152c,#020711);
+}
+
+.big-logo{
+  width:110px;
+  height:110px;
+  border-radius:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:80px;
+  font-weight:900;
+  background:linear-gradient(135deg,#a82fff,#00cfff);
+  box-shadow:0 0 50px rgba(26,170,255,.35);
+}
+
+.welcome h1{
+  font-size:34px;
+  margin-top:25px;
+}
+
+.welcome h1 span{
+  color:#18a9ff;
+}
+
+.welcome p{
+  color:#8d9bae;
+  margin-top:10px;
+  line-height:1.5;
+}
+
+.get-started{
+  margin-top:35px;
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:28px;
+  background:#138fff;
+  color:white;
+  font-weight:bold;
+  font-size:14px;
+}
+
+/* MOBILE */
+
+@media(min-width:700px){
+  body{
+    max-width:500px;
+    margin:auto;
+    border-left:1px solid #18243a;
+    border-right:1px solid #18243a;
+  }
+
+  .bottom-nav{
+    max-width:500px;
+    margin:auto;
+  }
 }
 </style>
 </head>
+
 <body>
-<!-- HOME -->
-<div id="homeScreen">
-  <div class="header">
-    <div class="header-top">
-      <div class="logo">MicMedia</div>
-      <div class="notification">🔔</div>
+
+<!-- ================= HOME ================= -->
+
+<div id="home" class="screen active">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">M</div>
+      <span>MicMedia</span>
     </div>
-    <div class="search">
-      🔍  Search news, videos, people...
-    </div>
-  </div>
-  <div class="categories">
-    <div class="category active">For You</div>
-    <div class="category">News</div>
-    <div class="category">Sports</div>
-    <div class="category">Music</div>
-    <div class="category">Entertainment</div>
-  </div>
-  <div class="live-banner">
-    <div class="live-title">🔴 Live on MicMedia</div>
-    <p>Join live conversations, events and entertainment.</p>
-    <div class="live-button" onclick="showScreen('live')">
-      Watch Live
+
+    <div class="top-icons">
+      <button class="icon-btn" onclick="showScreen('explore')">⌕</button>
+      <button class="icon-btn" onclick="showScreen('notifications')">♧</button>
     </div>
   </div>
+
+  <div class="stories">
+
+    <div class="story">
+      <div class="story-pic add-story">
+        <div class="story-inner">+</div>
+      </div>
+      Add Story
+    </div>
+
+    <div class="story">
+      <div class="story-pic">
+        <div class="story-inner">M</div>
+      </div>
+      Your Story
+    </div>
+
+    <div class="story">
+      <div class="story-pic">
+        <div class="story-inner">S</div>
+      </div>
+      Sarah
+    </div>
+
+    <div class="story">
+      <div class="story-pic">
+        <div class="story-inner">K</div>
+      </div>
+      King
+    </div>
+
+    <div class="story">
+      <div class="story-pic">
+        <div class="story-inner">J</div>
+      </div>
+      Jasmine
+    </div>
+
+  </div>
+
+  <div class="mind">
+    <div class="mini-avatar">M</div>
+    <div class="mind-text">What's on your mind?</div>
+    <button class="camera" onclick="showScreen('create')">📷</button>
+  </div>
+
   <div class="post">
-    <div class="post-header">
-      <div class="avatar">M</div>
+
+    <div class="post-head">
+      <div class="mini-avatar">🌴</div>
+
+      <div class="post-user">
+        <strong>Good Vibes</strong>
+        <small>2h ago • Public</small>
+      </div>
+
+      <button class="more">•••</button>
+    </div>
+
+    <div class="post-text">
+      Life is better when you smile 😊
+    </div>
+
+    <div class="post-photo beach">
+      🌴 🌊 ☀️
+    </div>
+
+    <div class="post-stats">
+      <span>❤️ 👍 😍 1.2K</span>
+      <span>245 comments</span>
+    </div>
+
+    <div class="actions">
+      <button class="action" onclick="toggleLike(this)">♡ Like</button>
+      <button class="action">💬 Comment</button>
+      <button class="action" onclick="savePost(this)">🔖 Save</button>
+      <button class="action">↗ Share</button>
+    </div>
+
+  </div>
+
+  <div class="post">
+
+    <div class="post-head">
+      <div class="mini-avatar">🎵</div>
+
+      <div class="post-user">
+        <strong>Music World</strong>
+        <small>8h ago • Public</small>
+      </div>
+
+      <button class="more">•••</button>
+    </div>
+
+    <div class="post-text">
+      New song out now! 🔥
+    </div>
+
+    <div class="post-photo">
+      🎧 🎵
+    </div>
+
+    <div class="actions">
+      <button class="action" onclick="toggleLike(this)">♡ Like</button>
+      <button class="action">💬 Comment</button>
+      <button class="action" onclick="savePost(this)">🔖 Save</button>
+      <button class="action">↗ Share</button>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= LIVE ================= -->
+
+<div id="live" class="screen live-screen">
+
+  <div class="live-top">
+    <div class="live-badge">● LIVE</div>
+    <div class="viewers">♟ 1.4K</div>
+    <button class="icon-btn" onclick="showScreen('home')">×</button>
+  </div>
+
+  <div class="live-video">
+
+    <div class="live-person">👨🏿</div>
+
+    <div class="live-comments">
+
+      <div class="comment">
+        <b>QueenB</b>
+        <span>This is amazing! 😍</span>
+      </div>
+
+      <div class="comment">
+        <b>David</b>
+        <span>Where are you now?</span>
+      </div>
+
+      <div class="comment">
+        <b>Sarah</b>
+        <span>You're the best! 💙</span>
+      </div>
+
+      <div class="comment">
+        <b>King</b>
+        <span>Nice view! 👏</span>
+      </div>
+
+    </div>
+
+    <div class="live-bottom">
+      <input class="live-input" placeholder="Add a comment...">
+      <button class="live-heart">♥</button>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= FRIENDS ================= -->
+
+<div id="friends" class="screen">
+
+  <div class="section-title">
+    <h1>Friends</h1>
+    <button>⌕</button>
+  </div>
+
+  <div class="friend-tabs">
+    <button class="tab active">All</button>
+    <button class="tab">Online</button>
+    <button class="tab">Requests 🔴</button>
+  </div>
+
+  <div class="friend">
+    <div class="chat-avatar">S</div>
+    <div class="friend-info">
+      <strong>Sarah</strong>
+      <div class="online">● Online</div>
+    </div>
+    <button class="message-btn">Message</button>
+  </div>
+
+  <div class="friend">
+    <div class="chat-avatar">D</div>
+    <div class="friend-info">
+      <strong>David</strong>
+      <div class="online">● Online</div>
+    </div>
+    <button class="message-btn">Message</button>
+  </div>
+
+  <div class="friend">
+    <div class="chat-avatar">J</div>
+    <div class="friend-info">
+      <strong>Jasmine</strong>
+      <div class="online">● Online</div>
+    </div>
+    <button class="message-btn">Message</button>
+  </div>
+
+  <div class="friend">
+    <div class="chat-avatar">K</div>
+    <div class="friend-info">
+      <strong>King</strong>
+      <div class="online">● Online</div>
+    </div>
+    <button class="message-btn">Message</button>
+  </div>
+
+  <div class="friend">
+    <div class="chat-avatar">L</div>
+    <div class="friend-info">
+      <strong>Lina</strong>
+      <div class="online">● Online</div>
+    </div>
+    <button class="message-btn">Message</button>
+  </div>
+
+  <div class="friend">
+    <div class="chat-avatar">B</div>
+    <div class="friend-info">
+      <strong>Besties</strong>
+      <div class="online">● Online</div>
+    </div>
+    <button class="message-btn">Message</button>
+  </div>
+
+</div>
+
+
+<!-- ================= EXPLORE ================= -->
+
+<div id="explore" class="screen">
+
+  <div class="section-title">
+    <h1>Explore</h1>
+    <button>⌕</button>
+  </div>
+
+  <div class="filters">
+    <button class="filter active">For You</button>
+    <button class="filter">News</button>
+    <button class="filter">Entertainment</button>
+    <button class="filter">Sports</button>
+  </div>
+
+  <div class="explore-card">
+
+    <div class="explore-content">
+      <small>SPORTS</small>
+      <h3>Ronaldo inspires Portugal to another victory ⚽</h3>
+      <p>👁 2.4K</p>
+    </div>
+
+  </div>
+
+  <div class="explore-card tech">
+
+    <div class="explore-content">
+      <small>TECH</small>
+      <h3>Latest Tech News and gadgets revealed 📱</h3>
+      <p>👁 1.8K</p>
+    </div>
+
+  </div>
+
+  <div class="explore-card movie">
+
+    <div class="explore-content">
+      <small>ENTERTAINMENT</small>
+      <h3>Top 10 Best Movies of 2026 🎬</h3>
+      <p>👁 3.2K</p>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= MESSAGES ================= -->
+
+<div id="messages" class="screen">
+
+  <div class="section-title">
+    <h1>Messages</h1>
+    <button>✎</button>
+  </div>
+
+  <div class="messages">
+
+    <div class="search-box">⌕ Search messages</div>
+
+    <div class="chat">
+      <div class="chat-avatar">S</div>
+      <div class="chat-info">
+        <strong>Sarah ❤️❤️</strong>
+        <p>Hey! How are you today? 😊</p>
+      </div>
+      <div class="chat-time">2m</div>
+    </div>
+
+    <div class="chat">
+      <div class="chat-avatar">D</div>
+      <div class="chat-info">
+        <strong>David</strong>
+        <p>Send me that video bro</p>
+      </div>
+      <div class="unread">2</div>
+    </div>
+
+    <div class="chat">
+      <div class="chat-avatar">👩🏿‍🤝‍👩🏾</div>
+      <div class="chat-info">
+        <strong>Besties Group</strong>
+        <p>Jasmine: Lol 😂</p>
+      </div>
+      <div class="unread">5</div>
+    </div>
+
+    <div class="chat">
+      <div class="chat-avatar">M</div>
+      <div class="chat-info">
+        <strong>Mom ❤️</strong>
+        <p>Call me when you can</p>
+      </div>
+      <div class="chat-time">1h</div>
+    </div>
+
+    <div class="chat">
+      <div class="chat-avatar">K</div>
+      <div class="chat-info">
+        <strong>King</strong>
+        <p>You're: Let's meet tomorrow</p>
+      </div>
+      <div class="chat-time">2h</div>
+    </div>
+
+    <div class="chat">
+      <div class="chat-avatar">L</div>
+      <div class="chat-info">
+        <strong>Lina</strong>
+        <p>That's so cool! 😍</p>
+      </div>
+      <div class="chat-time">3h</div>
+    </div>
+
+    <div class="chat">
+      <div class="chat-avatar">📰</div>
+      <div class="chat-info">
+        <strong>Tech News</strong>
+        <p>New phone release is 🔥</p>
+      </div>
+      <div class="chat-time">5h</div>
+    </div>
+
+    <div class="chat">
+      <div class="chat-avatar">⚽</div>
+      <div class="chat-info">
+        <strong>Football Fans</strong>
+        <p>Messi is the GOAT! 🐐</p>
+      </div>
+      <div class="chat-time">6h</div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= FAVORITES ================= -->
+
+<div id="favorites" class="screen">
+
+  <div class="section-title">
+    <h1>Favorites</h1>
+    <button>⋮</button>
+  </div>
+
+  <div class="post">
+
+    <div class="post-text" style="padding:20px">
+      ❤️ Your favorite posts, videos and creators will appear here.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= CREATE POST ================= -->
+
+<div id="create" class="screen">
+
+  <div class="section-title">
+    <h1>Create Post</h1>
+    <button onclick="showScreen('home')">×</button>
+  </div>
+
+  <div class="create">
+
+    <div class="create-tabs">
+      <button class="create-tab active">📷 Photo</button>
+      <button class="create-tab">🎥 Video</button>
+      <button class="create-tab">🔴 Live</button>
+    </div>
+
+    <textarea placeholder="What's on your mind?"></textarea>
+
+    <div class="photos">
+      <div class="photo">🌴</div>
+      <div class="photo">🌅</div>
+      <div class="photo">🏖️</div>
+      <div class="photo">🌊</div>
+      <div class="photo">🏙️</div>
+      <div class="photo">🎵</div>
+      <div class="photo">📱</div>
+      <div class="photo">➕</div>
+    </div>
+
+    <div class="options">
+
+      <div class="option">
+        📍 Add Location
+        <span>›</span>
+      </div>
+
+      <div class="option">
+        👥 Tag Friends
+        <span>›</span>
+      </div>
+
+      <div class="option">
+        🌎 Public
+        <span>›</span>
+      </div>
+
+    </div>
+
+    <button class="post-button" onclick="publishPost()">
+      Post
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- ================= PROFILE ================= -->
+
+<div id="profile" class="screen">
+
+  <div class="profile-cover">
+    <div class="profile-avatar-large">M</div>
+  </div>
+
+  <div class="profile-body">
+
+    <h2>Mustapha Jammeh <span class="verified">●</span></h2>
+
+    <div class="username">@MustaphaJammeh</div>
+
+    <div class="bio">
+      Dream big 💎 | Good vibes only ✨<br>
+      MicMedia Creator 🎬
+    </div>
+
+    <div class="profile-stats">
       <div>
-        <b>MicMedia News</b>
-        <small> • 5 min ago</small>
+        <strong>245</strong>
+        <span>Posts</span>
+      </div>
+
+      <div>
+        <strong>12.5K</strong>
+        <span>Followers</span>
+      </div>
+
+      <div>
+        <strong>1.8K</strong>
+        <span>Following</span>
       </div>
     </div>
-    <div class="post-image">🎥</div>
-    <div class="post-text">
-      <b>Welcome to MicMedia!</b>
-      <p>News, entertainment, live video and more — all in one place.</p>
-    </div>
-    <div class="actions">
-      <button class="action" onclick="likePost(this)">❤️</button>
-      <button class="action">💬</button>
-      <button class="action" onclick="savePost(this)">🔖</button>
-      <button class="action">📤</button>
-    </div>
+
+    <button class="edit-profile">
+      Edit Profile
+    </button>
+
   </div>
+
 </div>
-<!-- LIVE SCREEN -->
-<div id="liveScreen">
-  <div class="live-screen-header">
-    <b>🔴 LIVE</b>
-    <span onclick="showScreen('home')">✕</span>
+
+
+<!-- ================= NOTIFICATIONS ================= -->
+
+<div id="notifications" class="screen">
+
+  <div class="section-title">
+    <h1>Notifications</h1>
+    <button>⚙</button>
   </div>
-  <div class="live-video">
-    <div class="live-label">LIVE</div>
-    <div class="viewer-count">👁 1.2K</div>
-    <div class="live-camera">📹</div>
+
+  <div class="notification-item">
+    <div class="chat-avatar">S</div>
+    <span><b>Sarah</b> liked your post ❤️</span>
+    <small>2m</small>
   </div>
-  <div class="live-info">
-    <h2>MicMedia Live</h2>
-    <p>Welcome to the MicMedia livestream.</p>
-    <div class="live-actions">
-      <button>❤️ Like</button>
-      <button>💬 Chat</button>
-      <button>📤 Share</button>
-    </div>
+
+  <div class="notification-item">
+    <div class="chat-avatar">D</div>
+    <span><b>David</b> commented: "Nice pic! 🔥"</span>
+    <small>5m</small>
   </div>
+
+  <div class="notification-item">
+    <div class="chat-avatar">J</div>
+    <span><b>Jasmine</b> started following you</span>
+    <button class="message-btn">Follow back</button>
+  </div>
+
+  <div class="notification-item">
+    <div class="chat-avatar">K</div>
+    <span><b>King</b> liked your live video</span>
+    <small>15m</small>
+  </div>
+
+  <div class="notification-item">
+    <div class="chat-avatar">L</div>
+    <span><b>Lina</b> commented: "So cool! 😍"</span>
+    <small>20m</small>
+  </div>
+
+  <div class="notification-item">
+    <div class="chat-avatar">👥</div>
+    <span><b>Besties Group</b> mentioned you</span>
+    <small>30m</small>
+  </div>
+
 </div>
-<!-- MESSAGES -->
-<div id="messageScreen">
-  <div class="screen-title">Messages 💬</div>
-  <div class="message">
-    <div class="avatar">F</div>
-    <div>
-      <b>Friend</b>
-      <p>Hey! Welcome to MicMedia 👋</p>
+
+
+<!-- ================= SETTINGS ================= -->
+
+<div id="settings" class="screen">
+
+  <div class="section-title">
+    <h1>Settings</h1>
+  </div>
+
+  <div class="settings">
+
+    <div class="account-card">
+      <div class="chat-avatar">M</div>
+      <div>
+        <strong>Mustapha Jammeh</strong>
+        <small style="display:block;color:#8090a5">
+          @MustaphaJammeh
+        </small>
+      </div>
     </div>
-  </div>
-  <div class="message">
-    <div class="avatar">M</div>
-    <div>
-      <b>MicMedia Team</b>
-      <p>Thanks for joining us!</p>
+
+    <div class="setting">
+      👤
+      <span>Account</span>
+      ›
     </div>
-  </div>
-</div>
-<!-- FAVORITES -->
-<div id="favoriteScreen">
-  <div class="screen-title">Favorites ❤️</div>
-  <div class="post">
-    <div class="post-text">
-      🔖 Your saved posts and videos will appear here.
+
+    <div class="setting">
+      🔒
+      <span>Privacy & Security</span>
+      ›
     </div>
+
+    <div class="setting">
+      🔔
+      <span>Notifications</span>
+      ›
+    </div>
+
+    <div class="setting">
+      🎨
+      <span>Appearance</span>
+      <small>Dark Mode</small>
+    </div>
+
+    <div class="setting">
+      🌐
+      <span>Language</span>
+      <small>English</small>
+    </div>
+
+    <div class="setting">
+      ❓
+      <span>Help & Support</span>
+      ›
+    </div>
+
+    <div class="setting">
+      ℹ️
+      <span>About MicMedia</span>
+      ›
+    </div>
+
   </div>
+
 </div>
-<!-- PROFILE -->
-<div id="profileScreen">
-  <div class="screen-title">Profile</div>
-  <div class="profile-card">
-    <div class="profile-avatar">M</div>
-    <h2 style="margin-top:12px;">MicMedia User</h2>
-    <p>@micmedia</p>
-  </div>
-  <div class="profile-buttons">
-    <button>⚙️ Settings</button>
-    <button>🔔 Notifications</button>
-    <button>🌙 Dark Mode</button>
-    <button>🚪 Log Out</button>
-  </div>
-</div>
-<!-- BOTTOM NAVIGATION -->
+
+
+<!-- ================= BOTTOM NAV ================= -->
+
 <div class="bottom-nav">
-  <button class="nav-item active" onclick="showScreen('home')" id="homeBtn">
-    <span class="nav-icon">🏠</span>
+
+  <button class="nav active" onclick="showScreen('home')" id="navHome">
+    <span class="nav-icon">⌂</span>
     Home
   </button>
-  <button class="nav-item live-active" onclick="showScreen('live')" id="liveBtn">
-    <span class="nav-icon">🔴</span>
+
+  <button class="nav" onclick="showScreen('friends')" id="navFriends">
+    <span class="nav-icon">♟</span>
+    Friends
+  </button>
+
+  <button class="nav live" onclick="showScreen('live')" id="navLive">
+    <span class="nav-icon">▣</span>
     Live
   </button>
-  <button class="nav-item" onclick="showScreen('message')" id="messageBtn">
-    <span class="nav-icon">💬</span>
+
+  <button class="nav" onclick="showScreen('messages')" id="navMessages">
+    <span class="nav-icon">▰</span>
     Messages
   </button>
-  <button class="nav-item favorite-active" onclick="showScreen('favorite')" id="favoriteBtn">
-    <span class="nav-icon">❤️</span>
-    Favorites
-  </button>
-  <button class="nav-item" onclick="showScreen('profile')" id="profileBtn">
-    <span class="nav-icon">👤</span>
+
+  <button class="nav" onclick="showScreen('profile')" id="navProfile">
+    <span class="nav-icon">♙</span>
     Profile
   </button>
+
 </div>
+
+
 <script>
-function showScreen(screen) {
-  document.getElementById("homeScreen").style.display = "none";
-  document.getElementById("liveScreen").style.display = "none";
-  document.getElementById("messageScreen").style.display = "none";
-  document.getElementById("favoriteScreen").style.display = "none";
-  document.getElementById("profileScreen").style.display = "none";
-  document.querySelectorAll(".nav-item").forEach(function(btn) {
-    btn.classList.remove("active");
+
+/* ================= SCREEN SYSTEM ================= */
+
+function showScreen(screen){
+
+  document.querySelectorAll(".screen").forEach(function(s){
+    s.classList.remove("active");
   });
-  if (screen === "home") {
-    document.getElementById("homeScreen").style.display = "block";
-    document.getElementById("homeBtn").classList.add("active");
+
+  document.getElementById(screen).classList.add("active");
+
+  document.querySelectorAll(".nav").forEach(function(n){
+    n.classList.remove("active");
+  });
+
+  if(screen==="home"){
+    document.getElementById("navHome").classList.add("active");
   }
-  if (screen === "live") {
-    document.getElementById("liveScreen").style.display = "block";
-    document.getElementById("liveBtn").classList.add("active");
+
+  if(screen==="friends"){
+    document.getElementById("navFriends").classList.add("active");
   }
-  if (screen === "message") {
-    document.getElementById("messageScreen").style.display = "block";
-    document.getElementById("messageBtn").classList.add("active");
+
+  if(screen==="live"){
+    document.getElementById("navLive").classList.add("active");
   }
-  if (screen === "favorite") {
-    document.getElementById("favoriteScreen").style.display = "block";
-    document.getElementById("favoriteBtn").classList.add("active");
+
+  if(screen==="messages"){
+    document.getElementById("navMessages").classList.add("active");
   }
-  if (screen === "profile") {
-    document.getElementById("profileScreen").style.display = "block";
-    document.getElementById("profileBtn").classList.add("active");
+
+  if(screen==="profile"){
+    document.getElementById("navProfile").classList.add("active");
   }
+
   window.scrollTo(0,0);
 }
-function likePost(button) {
-  button.classList.toggle("active");
-  if (button.classList.contains("active")) {
-    button.innerHTML = "💖";
-  } else {
-    button.innerHTML = "❤️";
+
+
+/* ================= LIKE ================= */
+
+function toggleLike(button){
+
+  button.classList.toggle("liked");
+
+  if(button.classList.contains("liked")){
+    button.innerHTML="♥ Liked";
+  }else{
+    button.innerHTML="♡ Like";
   }
+
 }
-function savePost(button) {
-  button.classList.toggle("active");
-  if (button.classList.contains("active")) {
-    button.innerHTML = "🔖";
-    alert("Added to Favorites ❤️");
-  } else {
-    button.innerHTML = "🔖";
+
+
+/* ================= SAVE ================= */
+
+function savePost(button){
+
+  if(button.innerHTML.includes("Saved")){
+    button.innerHTML="🔖 Save";
+  }else{
+    button.innerHTML="🔖 Saved";
   }
+
 }
+
+
+/* ================= PUBLISH ================= */
+
+function publishPost(){
+
+  alert("Your post has been published on MicMedia! 🎉");
+
+  showScreen("home");
+
+}
+
+
+/* ================= START APP ================= */
+
+showScreen("home");
+
 </script>
+
 </body>
-</html> 
+</html>
