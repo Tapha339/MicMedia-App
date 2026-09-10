@@ -2,58 +2,163 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MicMedia</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#05080d;color:white}
-.app{width:100%;max-width:480px;min-height:100vh;margin:auto;background:#080d16;padding-bottom:90px}
-.screen{display:none;min-height:100vh}.screen.active{display:block}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial, sans-serif;
+}
 
-.header{padding:18px 16px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:25px;font-weight:bold;color:#1597ff}
-.top-icons{display:flex;gap:10px}
-.icon-btn{width:40px;height:40px;border:0;border-radius:50%;background:#111a28;color:white;font-size:19px}
+body{
+  background:#05080d;
+  color:white;
+}
 
-.stories{display:flex;gap:12px;overflow-x:auto;padding:8px 15px 18px}
-.story{min-width:65px;text-align:center;font-size:11px}
-.story-circle{width:58px;height:58px;border-radius:50%;border:3px solid #1597ff;display:flex;align-items:center;justify-content:center;background:#172235;margin:auto auto 5px;font-size:23px}
+.app{
+  width:100%;
+  max-width:480px;
+  min-height:100vh;
+  margin:auto;
+  background:#080d16;
+  padding-bottom:90px;
+}
 
-.card{background:#0d1522;margin:10px 12px;border-radius:18px;overflow:hidden;border:1px solid #172233}
-.card-head{padding:14px;display:flex;align-items:center;gap:10px}
-.avatar{width:42px;height:42px;border-radius:50%;background:#1597ff;display:flex;align-items:center;justify-content:center;font-weight:bold}
-.username{font-weight:bold}
-.post-image{height:270px;background:linear-gradient(135deg,#102b48,#09101b);display:flex;align-items:center;justify-content:center;font-size:55px}
-.actions{padding:12px;display:flex;gap:20px}
-.action{border:0;background:none;color:white;font-size:22px}
-.card-text{padding:0 14px 15px;color:#d9e0ea}
+.screen{
+  display:none;
+  min-height:100vh;
+}
 
-.title{padding:18px 16px;font-size:24px;font-weight:bold}
+.screen.active{
+  display:block;
+}
 
-/* LIVE STREAM */
-.live-preview{
-  margin:12px;
-  height:330px;
-  border-radius:20px;
-  background:linear-gradient(145deg,#101d30,#050910);
-  position:relative;
-  overflow:hidden;
+.header{
+  padding:18px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:bold;
+  color:#1597ff;
+}
+
+.top-icons{
+  display:flex;
+  gap:10px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:#111a28;
+  color:white;
+  font-size:19px;
+}
+
+.stories{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding:8px 15px 18px;
+}
+
+.story{
+  min-width:65px;
+  text-align:center;
+  font-size:11px;
+}
+
+.story-circle{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  border:3px solid #1597ff;
   display:flex;
   align-items:center;
   justify-content:center;
+  background:#172235;
+  margin:auto auto 5px;
+  font-size:23px;
 }
 
-.camera-screen{
-  text-align:center;
+.card{
+  background:#0d1522;
+  margin:10px 12px;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid #172233;
 }
 
-.camera-icon{
-  font-size:65px;
-  margin-bottom:10px;
+.card-head{
+  padding:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-.live-badge{
+.avatar{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#1597ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.username{
+  font-weight:bold;
+}
+
+.post-image{
+  height:270px;
+  background:linear-gradient(135deg,#102b48,#09101b);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:55px;
+}
+
+.actions{
+  padding:12px;
+  display:flex;
+  gap:20px;
+}
+
+.action{
+  border:0;
+  background:none;
+  color:white;
+  font-size:22px;
+}
+
+.card-text{
+  padding:0 14px 15px;
+  color:#d9e0ea;
+}
+
+.live-box{
+  margin:15px;
+  height:300px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#111d31,#07101c);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.live-label{
   position:absolute;
   top:14px;
   left:14px;
@@ -61,77 +166,14 @@ body{background:#05080d;color:white}
   padding:7px 12px;
   border-radius:10px;
   font-size:12px;
-  font-weight:bold;
 }
 
-.viewer-badge{
-  position:absolute;
-  top:14px;
-  right:14px;
-  background:rgba(0,0,0,.65);
-  padding:7px 12px;
-  border-radius:10px;
-  font-size:12px;
+.live-content{
+  text-align:center;
 }
 
-.live-controls{
-  position:absolute;
-  bottom:15px;
-  left:0;
-  right:0;
-  display:flex;
-  justify-content:center;
-  gap:12px;
-}
-
-.live-control{
-  width:48px;
-  height:48px;
-  border:0;
-  border-radius:50%;
-  background:rgba(255,255,255,.12);
-  color:white;
-  font-size:20px;
-}
-
-.start-live{
-  margin:12px;
-  width:calc(100% - 24px);
-  padding:15px;
-  border:0;
-  border-radius:15px;
-  background:#1597ff;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-}
-
-.end-live{
-  margin:12px;
-  width:calc(100% - 24px);
-  padding:15px;
-  border:0;
-  border-radius:15px;
-  background:#ff3155;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
-  display:none;
-}
-
-.live-actions{
-  display:flex;
-  justify-content:space-around;
-  padding:12px;
-}
-
-.live-action{
-  background:#111a28;
-  border:0;
-  border-radius:15px;
-  padding:12px 18px;
-  color:white;
-  font-size:20px;
+.live-content h2{
+  margin-bottom:8px;
 }
 
 .gifts{
@@ -156,417 +198,510 @@ body{background:#05080d;color:white}
   padding:15px;
 }
 
-.chat-message{
-  padding:7px 0;
-  color:#d9e0ea;
+.create-box{
+  margin:20px 15px;
+  background:#0d1522;
+  border-radius:20px;
+  padding:20px;
 }
 
-.chat-input{
+textarea{
+  width:100%;
+  height:140px;
+  background:#080e18;
+  border:1px solid #1d2a3d;
+  color:white;
+  border-radius:15px;
+  padding:15px;
+  resize:none;
+}
+
+.primary{
+  margin-top:15px;
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:14px;
+  background:#1597ff;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.reels-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:5px;
+  padding:10px;
+}
+
+.reel{
+  height:230px;
+  border-radius:12px;
+  background:linear-gradient(145deg,#142c47,#080d16);
   display:flex;
-  gap:8px;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+}
+
+.list{
+  margin:15px;
+}
+
+.list-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  background:#0d1522;
+  margin-bottom:8px;
+  border-radius:15px;
+}
+
+.profile{
+  text-align:center;
+  padding:30px 15px;
+}
+
+.profile-avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:#1597ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:auto;
+  font-size:35px;
+  font-weight:bold;
+}
+
+.profile h2{
   margin-top:12px;
 }
 
-.chat-input input{
-  flex:1;
-  background:#080e18;
-  border:1px solid #1d2a3d;
-  border-radius:12px;
-  padding:12px;
-  color:white;
+.profile-stats{
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  margin:25px 0;
 }
 
-.chat-input button{
-  border:0;
-  background:#1597ff;
-  color:white;
-  border-radius:12px;
-  padding:0 15px;
+.stat strong{
+  display:block;
+  font-size:20px;
 }
 
-/* CREATE */
-.create-box{margin:20px 15px;background:#0d1522;border-radius:20px;padding:20px}
-textarea{width:100%;height:140px;background:#080e18;border:1px solid #1d2a3d;color:white;border-radius:15px;padding:15px;resize:none}
-.primary{margin-top:15px;width:100%;padding:14px;border:0;border-radius:14px;background:#1597ff;color:white;font-size:16px;font-weight:bold}
+/* MODERN INSTAGRAM-STYLE NAVIGATION */
 
-/* REELS */
-.reels-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;padding:10px}
-.reel{height:230px;border-radius:12px;background:linear-gradient(145deg,#142c47,#080d16);display:flex;align-items:center;justify-content:center;font-size:40px}
-
-/* LISTS */
-.list{margin:15px}
-.list-item{display:flex;align-items:center;gap:12px;padding:14px;background:#0d1522;margin-bottom:8px;border-radius:15px}
-
-/* PROFILE */
-.profile{text-align:center;padding:30px 15px}
-.profile-avatar{width:90px;height:90px;border-radius:50%;background:#1597ff;display:flex;align-items:center;justify-content:center;margin:auto;font-size:35px;font-weight:bold}
-.profile h2{margin-top:12px}
-.profile-stats{display:flex;justify-content:center;gap:40px;margin:25px 0}
-.stat strong{display:block;font-size:20px}
-
-/* MODERN NAVIGATION — KEPT UNCHANGED */
 .nav{
-position:fixed;
-bottom:12px;
-left:50%;
-transform:translateX(-50%);
-width:calc(100% - 24px);
-max-width:460px;
-height:64px;
-background:rgba(10,15,25,.96);
-border:1px solid rgba(255,255,255,.08);
-border-radius:22px;
-display:flex;
-align-items:center;
-justify-content:space-around;
-padding:0 8px;
-z-index:1000;
-box-shadow:0 10px 35px rgba(0,0,0,.5);
-backdrop-filter:blur(18px)
+  position:fixed;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 24px);
+  max-width:460px;
+  height:64px;
+  background:rgba(10,15,25,.96);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  padding:0 8px;
+  z-index:1000;
+  box-shadow:0 10px 35px rgba(0,0,0,.5);
+  backdrop-filter:blur(18px);
 }
 
 .navitem{
-width:52px;
-height:52px;
-border:0;
-background:transparent;
-color:#8792a3;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:16px;
-cursor:pointer
+  width:52px;
+  height:52px;
+  border:0;
+  background:transparent;
+  color:#8792a3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:16px;
+  cursor:pointer;
 }
 
 .navitem svg{
-width:24px;
-height:24px;
-fill:none;
-stroke:currentColor;
-stroke-width:2;
-stroke-linecap:round;
-stroke-linejoin:round
+  width:24px;
+  height:24px;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
 }
 
 .navitem.active{
-color:#1597ff;
-background:rgba(21,151,255,.13)
+  color:#1597ff;
+  background:rgba(21,151,255,.13);
 }
 
 .centerplus{
-width:48px;
-height:48px;
-border:0;
-border-radius:16px;
-background:#1597ff;
-color:white;
-font-size:31px;
-font-weight:300;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-box-shadow:0 6px 20px rgba(21,151,255,.35)
+  width:48px;
+  height:48px;
+  border:0;
+  border-radius:16px;
+  background:#1597ff;
+  color:white;
+  font-size:31px;
+  font-weight:300;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  box-shadow:0 6px 20px rgba(21,151,255,.35);
 }
 
-.navitem:active,.centerplus:active{transform:scale(.92)}
+.navitem:active,
+.centerplus:active{
+  transform:scale(.92);
+}
+
+.title{
+  padding:18px 16px;
+  font-size:24px;
+  font-weight:bold;
+}
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <!-- HOME -->
 <section id="home" class="screen active">
-<div class="header">
-<div class="logo">MicMedia</div>
-<div class="top-icons">
-<button class="icon-btn">🔍</button>
-<button class="icon-btn" onclick="show('friends')">👥</button>
-<button class="icon-btn" onclick="show('notifications')">🔔</button>
-</div>
-</div>
 
-<div class="stories">
-<div class="story"><div class="story-circle">+</div>Your story</div>
-<div class="story"><div class="story-circle">👤</div>Friend</div>
-<div class="story"><div class="story-circle">👩</div>Sarah</div>
-<div class="story"><div class="story-circle">👨</div>Alex</div>
-<div class="story"><div class="story-circle">🧑</div>Mike</div>
-</div>
+  <div class="header">
+    <div class="logo">MicMedia</div>
 
-<div class="card">
-<div class="card-head">
-<div class="avatar">M</div>
-<div><div class="username">MicMedia</div><small>Just now</small></div>
-</div>
-<div class="post-image">🎬</div>
-<div class="actions">
-<button class="action">♡</button>
-<button class="action">💬</button>
-<button class="action">↗</button>
-<button class="action">🔖</button>
-</div>
-<div class="card-text"><b>MicMedia</b> Welcome to MicMedia! Share your moments and connect with friends.</div>
-</div>
+    <div class="top-icons">
+      <button class="icon-btn">🔍</button>
+      <button class="icon-btn" onclick="show('friends')">👥</button>
+      <button class="icon-btn" onclick="show('notifications')">🔔</button>
+    </div>
+  </div>
+
+  <div class="stories">
+    <div class="story">
+      <div class="story-circle">+</div>
+      Your story
+    </div>
+    <div class="story">
+      <div class="story-circle">👤</div>
+      Friend
+    </div>
+    <div class="story">
+      <div class="story-circle">👩</div>
+      Sarah
+    </div>
+    <div class="story">
+      <div class="story-circle">👨</div>
+      Alex
+    </div>
+    <div class="story">
+      <div class="story-circle">🧑</div>
+      Mike
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="avatar">M</div>
+      <div>
+        <div class="username">MicMedia</div>
+        <small>Just now</small>
+      </div>
+    </div>
+
+    <div class="post-image">🎬</div>
+
+    <div class="actions">
+      <button class="action">♡</button>
+      <button class="action">💬</button>
+      <button class="action">↗</button>
+      <button class="action">🔖</button>
+    </div>
+
+    <div class="card-text">
+      <b>MicMedia</b> Welcome to MicMedia! Share your moments and connect with friends.
+    </div>
+  </div>
+
 </section>
 
-<!-- LIVE STREAM -->
+
+<!-- LIVE -->
 <section id="live" class="screen">
 
-<div class="title">Live Stream</div>
+  <div class="title">Live</div>
 
-<div class="live-preview">
-<div class="live-badge" id="liveBadge">● READY</div>
-<div class="viewer-badge">👥 <span id="viewers">0</span></div>
+  <div class="live-box">
+    <div class="live-label">● LIVE</div>
 
-<div class="camera-screen">
-<div class="camera-icon">📹</div>
-<h2 id="liveTitle">Ready to Go Live?</h2>
-<p id="liveText">Start your live stream on MicMedia</p>
-</div>
+    <div class="live-content">
+      <div style="font-size:60px">📺</div>
+      <h2>MicMedia Live</h2>
+      <p>Watch and interact with live streams</p>
+    </div>
+  </div>
 
-<div class="live-controls">
-<button class="live-control" onclick="toggleMic()">🎤</button>
-<button class="live-control" onclick="toggleCamera()">📷</button>
-<button class="live-control">⚙️</button>
-</div>
-</div>
+  <div class="card">
+    <div class="card-head">
+      <div class="avatar">A</div>
+      <div>
+        <div class="username">Live Creator</div>
+        <small>1.2K viewers</small>
+      </div>
+    </div>
 
-<button class="start-live" id="startLive" onclick="startLive()">
-🔴 Start Live Stream
-</button>
+    <div class="gifts">
+      <button class="gift" onclick="gift('❤️')">❤️</button>
+      <button class="gift" onclick="gift('🌹')">🌹</button>
+      <button class="gift" onclick="gift('🎁')">🎁</button>
+      <button class="gift" onclick="gift('🔥')">🔥</button>
+      <button class="gift" onclick="gift('💎')">💎</button>
+    </div>
 
-<button class="end-live" id="endLive" onclick="endLive()">
-⏹ End Live Stream
-</button>
-
-<div class="live-actions">
-<button class="live-action">❤️ <span id="likes">0</span></button>
-<button class="live-action">💬</button>
-<button class="live-action">↗️</button>
-</div>
-
-<div class="card">
-<h3 style="padding:15px 15px 5px">🎁 Send a Gift</h3>
-
-<div class="gifts">
-<button class="gift" onclick="gift('❤️')">❤️</button>
-<button class="gift" onclick="gift('🌹')">🌹</button>
-<button class="gift" onclick="gift('🎁')">🎁</button>
-<button class="gift" onclick="gift('🔥')">🔥</button>
-<button class="gift" onclick="gift('💎')">💎</button>
-</div>
-
-<div class="chat">
-<h3>Live Chat</h3>
-
-<div id="chatMessages">
-<div class="chat-message"><b>Sarah:</b> Amazing live! 🔥</div>
-<div class="chat-message"><b>Mike:</b> Hello everyone 👋</div>
-</div>
-
-<div class="chat-input">
-<input id="chatInput" placeholder="Say something...">
-<button onclick="sendChat()">Send</button>
-</div>
-</div>
-</div>
+    <div class="chat">
+      <p><b>Sarah:</b> Amazing live! 🔥</p>
+      <br>
+      <p><b>Mike:</b> Hello everyone 👋</p>
+    </div>
+  </div>
 
 </section>
+
 
 <!-- CREATE -->
 <section id="create" class="screen">
-<div class="title">Create Post</div>
-<div class="create-box">
-<textarea id="postText" placeholder="What's on your mind?"></textarea>
-<button class="primary" onclick="posted()">Post</button>
-</div>
+
+  <div class="title">Create Post</div>
+
+  <div class="create-box">
+    <textarea id="postText" placeholder="What's on your mind?"></textarea>
+
+    <button class="primary" onclick="posted()">
+      Post
+    </button>
+  </div>
+
 </section>
+
 
 <!-- REELS -->
 <section id="reels" class="screen">
-<div class="title">Reels</div>
-<div class="reels-grid">
-<div class="reel">▶</div>
-<div class="reel">▶</div>
-<div class="reel">▶</div>
-<div class="reel">▶</div>
-<div class="reel">▶</div>
-<div class="reel">▶</div>
-</div>
+
+  <div class="title">Reels</div>
+
+  <div class="reels-grid">
+    <div class="reel">▶</div>
+    <div class="reel">▶</div>
+    <div class="reel">▶</div>
+    <div class="reel">▶</div>
+    <div class="reel">▶</div>
+    <div class="reel">▶</div>
+  </div>
+
 </section>
+
 
 <!-- FRIENDS -->
 <section id="friends" class="screen">
-<div class="title">Friends</div>
-<div class="list">
-<div class="list-item"><div class="avatar">S</div><div><b>Sarah</b><br><small>Online</small></div></div>
-<div class="list-item"><div class="avatar">A</div><div><b>Alex</b><br><small>Online</small></div></div>
-<div class="list-item"><div class="avatar">M</div><div><b>Mike</b><br><small>Offline</small></div></div>
-</div>
+
+  <div class="title">Friends</div>
+
+  <div class="list">
+
+    <div class="list-item">
+      <div class="avatar">S</div>
+      <div>
+        <b>Sarah</b>
+        <small>Online</small>
+      </div>
+    </div>
+
+    <div class="list-item">
+      <div class="avatar">A</div>
+      <div>
+        <b>Alex</b>
+        <small>Online</small>
+      </div>
+    </div>
+
+    <div class="list-item">
+      <div class="avatar">M</div>
+      <div>
+        <b>Mike</b>
+        <small>Offline</small>
+      </div>
+    </div>
+
+  </div>
+
 </section>
+
 
 <!-- NOTIFICATIONS -->
 <section id="notifications" class="screen">
-<div class="title">Notifications</div>
-<div class="list">
-<div class="list-item">❤️ <span>Sarah liked your post</span></div>
-<div class="list-item">👥 <span>Alex sent you a friend request</span></div>
-<div class="list-item">🔴 <span>Mike is live now</span></div>
-</div>
+
+  <div class="title">Notifications</div>
+
+  <div class="list">
+
+    <div class="list-item">
+      ❤️ <span>Sarah liked your post</span>
+    </div>
+
+    <div class="list-item">
+      👥 <span>Alex sent you a friend request</span>
+    </div>
+
+    <div class="list-item">
+      🔴 <span>Mike is live now</span>
+    </div>
+
+  </div>
+
 </section>
+
 
 <!-- PROFILE -->
 <section id="profile" class="screen">
-<div class="profile">
-<div class="profile-avatar">M</div>
-<h2>MicMedia User</h2>
-<p>@micmedia</p>
 
-<div class="profile-stats">
-<div class="stat"><strong>0</strong>Posts</div>
-<div class="stat"><strong>0</strong>Followers</div>
-<div class="stat"><strong>0</strong>Following</div>
-</div>
+  <div class="profile">
 
-<button class="primary">Edit Profile</button>
-</div>
+    <div class="profile-avatar">M</div>
+
+    <h2>MicMedia User</h2>
+    <p>@micmedia</p>
+
+    <div class="profile-stats">
+      <div class="stat">
+        <strong>0</strong>
+        Posts
+      </div>
+
+      <div class="stat">
+        <strong>0</strong>
+        Followers
+      </div>
+
+      <div class="stat">
+        <strong>0</strong>
+        Following
+      </div>
+    </div>
+
+    <button class="primary">Edit Profile</button>
+
+  </div>
+
 </section>
 
-<!-- MODERN NAVIGATION -->
+
+<!-- BOTTOM NAVIGATION -->
 <nav class="nav">
 
-<button class="navitem active" onclick="show('home',this)">
-<svg viewBox="0 0 24 24">
-<path d="M3 10.8 12 3l9 7.8v9.2a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>
-</svg>
-</button>
+  <button class="navitem active" onclick="show('home',this)">
+    <svg viewBox="0 0 24 24">
+      <path d="M3 10.8 12 3l9 7.8v9.2a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>
+    </svg>
+  </button>
 
-<button class="navitem" onclick="show('friends',this)">
-<svg viewBox="0 0 24 24">
-<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-<circle cx="9" cy="7" r="4"/>
-<path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-<path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-</svg>
-</button>
+  <button class="navitem" onclick="show('friends',this)">
+    <svg viewBox="0 0 24 24">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+  </button>
 
-<button class="centerplus" onclick="show('create')">+</button>
+  <button class="centerplus" onclick="show('create')">
+    +
+  </button>
 
-<button class="navitem" onclick="show('reels',this)">
-<svg viewBox="0 0 24 24">
-<rect x="3" y="3" width="18" height="18" rx="5"/>
-<path d="m9 3 3 5"/>
-<path d="m15 3 3 5"/>
-<path d="M3 9h18"/>
-<path d="m10 12 5 3-5 3z"/>
-</svg>
-</button>
+  <button class="navitem" onclick="show('reels',this)">
+    <svg viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="5"/>
+      <path d="m9 3 3 5"/>
+      <path d="m15 3 3 5"/>
+      <path d="M3 9h18"/>
+      <path d="m10 12 5 3-5 3z"/>
+    </svg>
+  </button>
 
-<button class="navitem" onclick="show('profile',this)">
-<svg viewBox="0 0 24 24">
-<circle cx="12" cy="8" r="4"/>
-<path d="M4 21a8 8 0 0 1 16 0"/>
-</svg>
-</button>
+  <button class="navitem" onclick="show('profile',this)">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="4"/>
+      <path d="M4 21a8 8 0 0 1 16 0"/>
+    </svg>
+  </button>
 
 </nav>
 
 </div>
 
+
 <script>
+
 function show(id,btn){
-document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
-document.getElementById(id).classList.add("active");
 
-document.querySelectorAll(".navitem").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".screen").forEach(function(screen){
+    screen.classList.remove("active");
+  });
 
-if(btn) btn.classList.add("active");
+  var selected=document.getElementById(id);
 
-window.scrollTo(0,0);
+  if(selected){
+    selected.classList.add("active");
+  }
+
+  document.querySelectorAll(".navitem").forEach(function(item){
+    item.classList.remove("active");
+  });
+
+  if(btn){
+    btn.classList.add("active");
+  }
+
+  window.scrollTo(0,0);
 }
+
 
 function posted(){
-let text=document.getElementById("postText").value;
 
-if(text.trim()===""){
-alert("Write something before posting.");
-return;
+  var text=document.getElementById("postText").value;
+
+  if(text.trim()===""){
+    alert("Write something before posting.");
+    return;
+  }
+
+  alert("Your post has been created on MicMedia!");
+
+  document.getElementById("postText").value="";
+
+  show("home");
+
 }
 
-alert("Your post has been created on MicMedia!");
-document.getElementById("postText").value="";
-show("home");
-}
-
-let live=false;
-let mic=true;
-let camera=true;
-let viewerCount=0;
-let likeCount=0;
-
-function startLive(){
-live=true;
-
-document.getElementById("startLive").style.display="none";
-document.getElementById("endLive").style.display="block";
-
-document.getElementById("liveBadge").innerText="● LIVE NOW";
-document.getElementById("liveTitle").innerText="You are Live!";
-document.getElementById("liveText").innerText="People can now join your stream.";
-
-viewerCount=Math.floor(Math.random()*30)+1;
-document.getElementById("viewers").innerText=viewerCount;
-}
-
-function endLive(){
-live=false;
-
-document.getElementById("startLive").style.display="block";
-document.getElementById("endLive").style.display="none";
-
-document.getElementById("liveBadge").innerText="● READY";
-document.getElementById("liveTitle").innerText="Ready to Go Live?";
-document.getElementById("liveText").innerText="Start your live stream on MicMedia";
-
-viewerCount=0;
-document.getElementById("viewers").innerText="0";
-}
-
-function toggleMic(){
-mic=!mic;
-alert(mic ? "Microphone ON" : "Microphone OFF");
-}
-
-function toggleCamera(){
-camera=!camera;
-alert(camera ? "Camera ON" : "Camera OFF");
-}
 
 function gift(symbol){
-if(!live){
-alert("Start a live stream first.");
-return;
+
+  alert("Gift sent! "+symbol);
+
 }
 
-alert("Gift sent! "+symbol);
-}
-
-function sendChat(){
-let input=document.getElementById("chatInput");
-let text=input.value.trim();
-
-if(text==="") return;
-
-let message=document.createElement("div");
-message.className="chat-message";
-message.innerHTML="<b>You:</b> "+text;
-
-document.getElementById("chatMessages").appendChild(message);
-input.value="";
-}
 </script>
 
 </body>
-</html>
+</html> 
