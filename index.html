@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0,user-scalable=no">
+
 <title>MicMedia</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
@@ -12,1055 +17,520 @@
   padding:0;
 }
 
-html{
-  scroll-behavior:smooth;
+html,body{
+  width:100%;
+  min-height:100%;
+  background:#050507;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:#050507;
-  color:#fff;
-  padding-bottom:90px;
+  overflow-x:hidden;
 }
 
-button,input{
-  font:inherit;
-}
+/* =========================
+   AUTH SCREEN
+========================= */
 
-button{
-  border:0;
-  cursor:pointer;
-}
-
-.app{
-  width:100%;
-  max-width:600px;
-  margin:auto;
+#authScreen{
   min-height:100vh;
-  background:#050507;
-}
-
-/* TOP BAR */
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:50;
-  height:64px;
   display:flex;
+  justify-content:center;
   align-items:center;
-  justify-content:space-between;
-  padding:0 16px;
-  background:rgba(5,5,7,.92);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid #1b1b20;
+  padding:25px;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(236,47,126,.20),transparent 35%),
+    radial-gradient(circle at 90% 90%,rgba(65,105,255,.20),transparent 35%),
+    #050507;
 }
 
-.logo{
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:-1px;
+.authBox{
+  width:100%;
+  max-width:420px;
+  padding:30px 24px;
+  border:1px solid #292733;
+  border-radius:28px;
+  background:rgba(18,17,24,.94);
+  box-shadow:0 25px 80px rgba(0,0,0,.5);
 }
 
-.logo span{
-  background:linear-gradient(135deg,#ff2d55,#9b5cff,#18a0fb);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.top-actions{
-  display:flex;
-  gap:8px;
-}
-
-.icon-btn{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:#111116;
-  color:white;
+.authLogo{
+  width:82px;
+  height:82px;
+  border-radius:25px;
+  margin:0 auto 18px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:20px;
+  font-size:52px;
+  font-weight:900;
+  background:linear-gradient(135deg,#ff1687,#9b45ff,#287cff);
+  box-shadow:0 15px 45px rgba(174,54,255,.3);
 }
 
-/* SCREENS */
+.authTitle{
+  text-align:center;
+  font-size:32px;
+  font-weight:900;
+  margin-bottom:7px;
+}
+
+.authSubtitle{
+  text-align:center;
+  color:#8f8d98;
+  margin-bottom:25px;
+}
+
+.authTabs{
+  display:flex;
+  gap:8px;
+  background:#0d0c11;
+  padding:5px;
+  border-radius:15px;
+  margin-bottom:22px;
+}
+
+.authTab{
+  flex:1;
+  border:0;
+  border-radius:11px;
+  padding:12px;
+  background:transparent;
+  color:#85838d;
+  font-weight:800;
+  font-size:15px;
+}
+
+.authTab.active{
+  background:#272531;
+  color:white;
+}
+
+.authInput{
+  width:100%;
+  padding:16px;
+  margin-bottom:12px;
+  border:1px solid #302e39;
+  outline:none;
+  border-radius:14px;
+  background:#0d0c11;
+  color:white;
+  font-size:16px;
+}
+
+.authInput:focus{
+  border-color:#a742ff;
+}
+
+.authButton{
+  width:100%;
+  border:0;
+  padding:16px;
+  margin-top:7px;
+  border-radius:15px;
+  color:white;
+  font-size:17px;
+  font-weight:900;
+  background:linear-gradient(90deg,#ef248b,#8c43ff,#397dff);
+}
+
+.authButton:active{
+  transform:scale(.98);
+}
+
+.authMessage{
+  min-height:22px;
+  margin-top:15px;
+  text-align:center;
+  color:#aaa7b3;
+  font-size:14px;
+  line-height:1.4;
+}
+
+/* =========================
+   MAIN APP
+========================= */
+
+#app{
+  display:none;
+  min-height:100vh;
+  padding-bottom:100px;
+}
+
+.topbar{
+  height:88px;
+  padding:0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #202027;
+  background:#050507;
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.logoText{
+  font-size:30px;
+  font-weight:900;
+  background:linear-gradient(90deg,#ff2389,#a23eff,#397dff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.topActions{
+  display:flex;
+  gap:12px;
+}
+
+.circleButton{
+  width:48px;
+  height:48px;
+  border:0;
+  border-radius:50%;
+  background:#121118;
+  color:white;
+  font-size:23px;
+}
+
+/* sections */
+
 .screen{
   display:none;
+  padding:25px 20px;
+  max-width:850px;
+  margin:auto;
 }
 
 .screen.active{
   display:block;
 }
 
-/* STORIES */
-.stories{
-  display:flex;
-  gap:14px;
-  overflow-x:auto;
-  padding:16px 14px;
-  border-bottom:1px solid #18181d;
-}
-
-.stories::-webkit-scrollbar{
-  display:none;
-}
-
-.story{
-  min-width:68px;
-  text-align:center;
-  font-size:12px;
-  color:#bbb;
-  cursor:pointer;
-}
-
-.story-img{
-  width:62px;
-  height:62px;
-  border-radius:50%;
-  padding:3px;
-  margin:auto auto 7px;
-  background:linear-gradient(135deg,#ff2d55,#ffb000,#8b5cff);
-}
-
-.story-img-inner,
-.story-avatar-content{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  background:#16161c;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:28px;
-  border:2px solid #050507;
-}
-
-.story-add{
+.screenTitle{
   font-size:30px;
-  color:#fff;
+  font-weight:900;
+  margin-bottom:22px;
 }
 
-/* POST */
+/* home cards */
+
 .post{
-  border-bottom:1px solid #1a1a20;
+  background:#111016;
+  border:1px solid #25232d;
+  border-radius:22px;
+  padding:18px;
+  margin-bottom:18px;
 }
 
-.post-header{
+.postHeader{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  padding:14px;
+  gap:12px;
+  margin-bottom:15px;
 }
 
-.creator{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.creator-avatar{
-  width:42px;
-  height:42px;
+.avatar{
+  width:48px;
+  height:48px;
   border-radius:50%;
-  background:linear-gradient(135deg,#ff2d55,#754cff);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-weight:800;
+  font-size:23px;
+  font-weight:900;
+  background:linear-gradient(135deg,#ff268d,#8344ff,#3184ff);
 }
 
-.creator-name{
-  font-weight:800;
-  font-size:14px;
+.username{
+  font-weight:900;
 }
 
-.creator-time{
-  font-size:11px;
-  color:#777;
-  margin-top:2px;
+.handle{
+  color:#777580;
+  font-size:13px;
+  margin-top:3px;
 }
 
-.follow-btn{
-  color:#fff;
-  background:#1677ff;
-  border-radius:8px;
-  padding:7px 13px;
-  font-size:12px;
-  font-weight:700;
-}
-
-.post-photo{
-  height:390px;
-  position:relative;
-  overflow:hidden;
+.postImage{
+  width:100%;
+  height:300px;
+  border-radius:18px;
   display:flex;
   align-items:center;
   justify-content:center;
   background:
-    radial-gradient(circle at 25% 20%,#7137ff 0,#25145e 25%,transparent 45%),
-    radial-gradient(circle at 80% 75%,#ff2355 0,#451323 28%,transparent 50%),
-    linear-gradient(145deg,#11131f,#07080c);
-  font-size:90px;
-  user-select:none;
-  cursor:pointer;
+    linear-gradient(135deg,#21122b,#14172f,#171019);
+  font-size:80px;
+  font-weight:900;
 }
 
-.photo-label{
-  position:absolute;
-  bottom:18px;
-  left:18px;
-  padding:8px 12px;
-  background:rgba(0,0,0,.55);
-  border-radius:10px;
-  font-size:12px;
-  backdrop-filter:blur(8px);
-}
-
-.heart-animation{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%) scale(.3);
-  opacity:0;
-  font-size:110px;
-  color:#ff3158;
-  pointer-events:none;
-  text-shadow:0 8px 30px rgba(255,49,88,.45);
-  z-index:5;
-}
-
-.heart-animation.show{
-  animation:heartPop .75s ease forwards;
-}
-
-@keyframes heartPop{
-  0%{
-    transform:translate(-50%,-50%) scale(.3);
-    opacity:0;
-  }
-  25%{
-    transform:translate(-50%,-50%) scale(1.2);
-    opacity:1;
-  }
-  60%{
-    transform:translate(-50%,-50%) scale(1);
-    opacity:1;
-  }
-  100%{
-    transform:translate(-50%,-50%) scale(1.15);
-    opacity:0;
-  }
-}
-
-.post-actions{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  padding:10px 12px 4px;
-}
-
-.action{
-  width:42px;
-  height:42px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:transparent;
-  color:#fff;
-  font-size:26px;
-}
-
-.action.liked{
-  color:#ff3158;
-}
-
-.action.saved{
-  color:#ffd23f;
-}
-
-.push-right{
-  margin-left:auto;
-}
-
-.like-count{
-  padding:0 14px;
-  font-size:13px;
-  font-weight:800;
-}
-
-.caption{
-  padding:7px 14px 15px;
-  font-size:14px;
+.postText{
+  padding:15px 2px 10px;
+  color:#d5d2dc;
   line-height:1.5;
 }
 
-.caption b{
-  margin-right:5px;
+.postActions{
+  display:flex;
+  gap:25px;
+  color:#aaa7b2;
+  font-size:16px;
 }
 
-/* SUGGESTED */
-.section-title{
-  padding:18px 14px 10px;
+/* live */
+
+.liveHero{
+  border-radius:25px;
+  min-height:300px;
+  padding:25px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  background:
+    linear-gradient(135deg,#35102d,#17132c,#101c38);
+  border:1px solid #302b43;
+}
+
+.liveBadge{
+  display:inline-block;
+  width:max-content;
+  padding:7px 12px;
+  border-radius:20px;
+  background:#e9275e;
+  font-weight:900;
+  margin-bottom:15px;
+}
+
+.liveHero h2{
+  font-size:30px;
+  margin-bottom:8px;
+}
+
+.liveHero p{
+  color:#aaa7b2;
+}
+
+.liveButton{
+  border:0;
+  margin-top:20px;
+  width:100%;
+  padding:16px;
+  border-radius:15px;
+  background:linear-gradient(90deg,#ed247f,#9145ff);
+  color:#fff;
   font-size:17px;
   font-weight:900;
 }
 
-.suggested{
-  margin:0 14px 20px;
-  padding:15px;
-  background:#101014;
-  border:1px solid #1d1d24;
-  border-radius:18px;
+/* profile */
+
+.profileHeader{
   display:flex;
+  gap:22px;
   align-items:center;
-  gap:12px;
+  margin-bottom:25px;
 }
 
-.suggested-avatar{
-  width:48px;
-  height:48px;
+.profileAvatar{
+  width:155px;
+  height:155px;
   border-radius:50%;
-  background:linear-gradient(135deg,#18a0fb,#8b5cff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-}
-
-/* LIVE */
-.live-card{
-  margin:16px 14px;
-  border-radius:22px;
-  overflow:hidden;
-  background:linear-gradient(145deg,#15121f,#0b0b0f);
-  border:1px solid #292333;
-}
-
-.live-preview{
-  height:250px;
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:75px;
-  background:
-    radial-gradient(circle,#48227a,#11101a 65%);
-}
-
-.live-info{
-  padding:15px;
-}
-
-.live-title{
   font-weight:900;
-  font-size:18px;
+  background:linear-gradient(135deg,#ff2489,#8b42ff,#3381ff);
 }
 
-.live-meta{
-  color:#999;
-  font-size:12px;
+.profileName{
+  font-size:30px;
+  font-weight:900;
+}
+
+.profileHandle{
+  color:#777580;
+  font-size:17px;
   margin-top:5px;
 }
 
-.live-buttons{
+.profileButtons{
   display:flex;
-  gap:8px;
-  margin-top:15px;
-}
-
-.primary{
-  flex:1;
-  background:linear-gradient(135deg,#ff3158,#9c50ff);
-  color:white;
-  border-radius:12px;
-  padding:12px;
-  font-weight:800;
-}
-
-.secondary{
-  flex:1;
-  background:#1b1b22;
-  color:white;
-  border-radius:12px;
-  padding:12px;
-  font-weight:800;
-}
-
-/* REELS */
-.reel{
-  margin:15px 14px;
-  border-radius:20px;
-  overflow:hidden;
-  background:#111116;
-}
-
-.reel-video{
-  height:500px;
-  background:
-    radial-gradient(circle at 30% 30%,#ff2d55,#22111a 25%,transparent 40%),
-    radial-gradient(circle at 75% 70%,#674cff,#11111a 35%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:90px;
-  position:relative;
-}
-
-.reel-side{
-  position:absolute;
-  right:12px;
-  bottom:18px;
-  display:flex;
-  flex-direction:column;
-  gap:13px;
-}
-
-.reel-side button{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  background:rgba(0,0,0,.55);
-  color:#fff;
-  font-size:21px;
-}
-
-.reel-info{
-  padding:13px;
-}
-
-/* MESSAGES */
-.message{
-  display:flex;
-  align-items:center;
   gap:12px;
-  padding:14px;
-  border-bottom:1px solid #16161b;
+  margin-bottom:30px;
 }
 
-.message-avatar{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  background:#1c1c24;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:25px;
-}
-
-.message-main{
+.profileButton{
   flex:1;
-}
-
-.message-name{
-  font-weight:800;
-}
-
-.message-preview{
-  color:#777;
-  font-size:13px;
-  margin-top:3px;
-}
-
-.message-actions{
-  display:flex;
-  gap:5px;
-}
-
-.message-actions button{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  background:#15151b;
-  color:#fff;
-}
-
-/* PROFILE */
-.profile-head{
-  padding:22px 15px;
-}
-
-.profile-top{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
-
-.profile-avatar{
-  width:82px;
-  height:82px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#ff3158,#7a4cff,#18a0fb);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:36px;
+  padding:15px 10px;
+  border:0;
+  border-radius:15px;
+  background:#19181f;
+  color:white;
+  font-size:16px;
   font-weight:900;
-}
-
-.profile-name{
-  font-size:21px;
-  font-weight:900;
-}
-
-.profile-username{
-  color:#777;
-  font-size:13px;
-  margin-top:3px;
-}
-
-.profile-buttons{
-  display:flex;
-  gap:7px;
-  margin-top:17px;
-}
-
-.profile-buttons button{
-  flex:1;
-  background:#17171d;
-  color:#fff;
-  padding:10px;
-  border-radius:10px;
-  font-weight:700;
 }
 
 .stats{
-  display:flex;
-  justify-content:space-around;
-  margin:20px 0;
-}
-
-.stat{
-  text-align:center;
-}
-
-.stat b{
-  display:block;
-  font-size:19px;
-}
-
-.stat span{
-  color:#777;
-  font-size:12px;
-}
-
-.balance-card{
-  margin:0 14px 15px;
-  padding:20px;
-  border-radius:20px;
-  background:linear-gradient(135deg,#161a2c,#21162b);
-  border:1px solid #302b43;
-}
-
-.balance-label{
-  color:#999;
-  font-size:13px;
-}
-
-.balance-amount{
-  font-size:32px;
-  font-weight:900;
-  margin:5px 0 15px;
-}
-
-.balance-buttons{
-  display:flex;
-  gap:8px;
-}
-
-.balance-buttons button{
-  flex:1;
-  padding:11px;
-  border-radius:10px;
-  color:#fff;
-  background:#292936;
-  font-weight:700;
-}
-
-.profile-card{
-  margin:14px;
-  padding:16px;
-  background:#101014;
-  border:1px solid #1c1c22;
-  border-radius:17px;
-}
-
-.profile-card h3{
-  margin-bottom:12px;
-}
-
-.row-button{
-  width:100%;
-  background:#17171d;
-  color:white;
-  padding:13px;
-  margin-top:8px;
-  border-radius:11px;
-  text-align:left;
-}
-
-/* SEARCH */
-.search-box{
-  padding:15px;
-}
-
-.search-input{
-  width:100%;
-  padding:14px 16px;
-  border-radius:14px;
-  border:1px solid #25252c;
-  background:#121217;
-  color:white;
-  outline:none;
-}
-
-/* CREATE */
-.create-wrap{
-  padding:20px 15px;
-}
-
-.create-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.create-option{
-  min-height:140px;
-  border-radius:18px;
-  background:#121217;
-  border:1px solid #202027;
-  color:white;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  font-size:15px;
-  font-weight:800;
-}
-
-.create-option span{
-  font-size:36px;
-}
-
-/* BOTTOM NAV */
-.bottom-nav{
-  position:fixed;
-  z-index:100;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:600px;
-  height:76px;
-  background:rgba(8,8,11,.96);
-  backdrop-filter:blur(20px);
-  border-top:1px solid #202027;
-  display:flex;
-  align-items:center;
-  justify-content:space-around;
-  padding:7px 3px 9px;
-}
-
-.nav-btn{
-  min-width:48px;
-  background:transparent;
-  color:#777;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:3px;
-  font-size:10px;
-  font-weight:700;
-}
-
-.nav-btn span{
-  font-size:22px;
-  line-height:24px;
-}
-
-.nav-btn.active{
-  color:#fff;
-}
-
-.nav-create{
-  width:48px;
-  height:48px;
-  border-radius:16px;
-  background:linear-gradient(135deg,#ff3158,#8b5cff);
-  color:white;
-  font-size:29px;
-  box-shadow:0 8px 25px rgba(139,92,255,.3);
-}
-
-/* MODALS */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  z-index:200;
-  display:none;
-  align-items:flex-end;
-  justify-content:center;
-}
-
-.modal.show{
-  display:flex;
-}
-
-.modal-box{
-  width:100%;
-  max-width:600px;
-  max-height:85vh;
-  overflow:auto;
-  background:#111116;
-  border-radius:25px 25px 0 0;
-  padding:20px;
-  animation:slideUp .25s ease;
-}
-
-@keyframes slideUp{
-  from{transform:translateY(100%)}
-  to{transform:translateY(0)}
-}
-
-.modal-box h2{
-  margin-bottom:15px;
-}
-
-.close{
-  width:100%;
-  background:#202027;
-  color:#fff;
-  padding:13px;
-  border-radius:12px;
-  margin-top:14px;
-  font-weight:700;
-}
-
-.comment-row{
-  display:flex;
-  gap:8px;
-}
-
-.comment-input{
-  flex:1;
-  background:#19191f;
-  color:white;
-  border:1px solid #292931;
-  border-radius:12px;
-  padding:12px;
-  outline:none;
-}
-
-.send{
-  background:#1877f2;
-  color:#fff;
-  border-radius:12px;
-  padding:0 16px;
-  font-weight:800;
-}
-
-.comment-list{
-  display:flex;
-  flex-direction:column;
-  gap:13px;
-  margin:15px 0;
-}
-
-.comment{
-  display:flex;
-  gap:10px;
-}
-
-.comment-avatar{
-  width:38px;
-  height:38px;
-  flex:none;
-  border-radius:50%;
-  background:#24242c;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.comment-body{
-  background:#19191f;
-  border-radius:14px;
-  padding:9px 12px;
-  flex:1;
-}
-
-.comment-body b{
-  font-size:13px;
-}
-
-.comment-body p{
-  margin-top:3px;
-  color:#ddd;
-  font-size:13px;
-  line-height:1.4;
-}
-
-.comment-empty{
-  color:#777;
+  grid-template-columns:repeat(3,1fr);
   text-align:center;
-  padding:20px;
+  margin-bottom:28px;
 }
 
-/* STORY VIEWER */
-.story-viewer{
-  position:fixed;
-  inset:0;
-  z-index:300;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:#000;
-}
-
-.story-viewer.show{
-  display:flex;
-}
-
-.story-bg{
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 25% 20%,#5122a8,#100b20 38%,transparent 60%),
-    radial-gradient(circle at 80% 80%,#9b1f48,#08080c 50%);
-}
-
-.story-content{
-  position:relative;
-  width:100%;
-  max-width:600px;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  z-index:2;
-}
-
-.story-top{
-  padding:16px 14px;
-}
-
-.story-progress{
-  height:3px;
-  background:rgba(255,255,255,.3);
-  border-radius:10px;
-  overflow:hidden;
-  margin-bottom:15px;
-}
-
-.story-progress-bar{
-  width:100%;
-  height:100%;
-  background:#fff;
-}
-
-.story-user-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.story-user-avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:#252530;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-}
-
-.story-user-info{
-  flex:1;
-}
-
-.story-user-name{
-  font-weight:800;
-}
-
-.story-time{
-  color:#aaa;
-  font-size:11px;
-}
-
-.story-close{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:rgba(0,0,0,.4);
-  color:#fff;
-  font-size:23px;
-}
-
-.story-middle{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:30px;
-}
-
-.story-emoji{
-  font-size:120px;
-}
-
-.story-caption{
-  position:absolute;
-  left:20px;
-  right:20px;
-  bottom:100px;
-  text-align:center;
-  font-size:19px;
-  font-weight:700;
-}
-
-.story-reply{
-  display:flex;
-  gap:8px;
-  padding:14px;
-  background:linear-gradient(transparent,rgba(0,0,0,.8));
-}
-
-.story-reply input{
-  flex:1;
-  height:45px;
-  border-radius:24px;
-  border:1px solid #555;
-  background:rgba(0,0,0,.4);
-  color:white;
-  padding:0 16px;
-  outline:none;
-}
-
-.story-reply button{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  background:#fff;
-  color:#000;
-}
-
-/* CALL */
-.call-screen{
-  position:fixed;
-  inset:0;
-  z-index:400;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  background:#08080d;
-}
-
-.call-screen.show{
-  display:flex;
-}
-
-.call-avatar{
-  width:110px;
-  height:110px;
-  border-radius:50%;
-  background:#22222c;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:55px;
-}
-
-.call-name{
-  font-size:25px;
+.statNumber{
+  font-size:30px;
   font-weight:900;
-  margin-top:20px;
 }
 
-.call-status{
-  color:#888;
+.statLabel{
+  color:#777580;
   margin-top:5px;
 }
 
-.call-controls{
-  display:flex;
-  gap:20px;
-  margin-top:70px;
+/* balance */
+
+.balance{
+  padding:28px;
+  border-radius:28px;
+  border:1px solid #38314e;
+  background:linear-gradient(135deg,#1b192c,#171525);
+  margin-bottom:22px;
 }
 
-.call-control{
-  width:60px;
-  height:60px;
-  border-radius:50%;
-  background:#22222a;
-  color:#fff;
-  font-size:24px;
-}
-
-.call-end{
-  background:#ff3158;
-}
-
-/* QR */
-.qr-wrap{
-  text-align:center;
-}
-
-.qr-wrap img{
-  width:220px;
-  height:220px;
-  max-width:100%;
-  background:white;
-  padding:10px;
-  border-radius:15px;
-}
-
-/* TOAST */
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:92px;
-  transform:translateX(-50%) translateY(20px);
-  z-index:500;
-  background:#fff;
-  color:#000;
-  padding:11px 16px;
-  border-radius:13px;
-  font-size:13px;
+.balanceTitle{
+  color:#aaa7b4;
+  font-size:17px;
   font-weight:700;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  max-width:90%;
-  text-align:center;
 }
 
-.toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+.balanceAmount{
+  font-size:50px;
+  font-weight:900;
+  margin:12px 0 25px;
 }
 
-/* RESPONSIVE */
-@media(max-width:430px){
-  .post-photo{
-    height:360px;
+.balanceButtons{
+  display:flex;
+  gap:12px;
+}
+
+.balanceButton{
+  flex:1;
+  padding:17px;
+  border:0;
+  border-radius:15px;
+  background:#292835;
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+}
+
+.earningsCard{
+  background:#111016;
+  border:1px solid #27252d;
+  border-radius:23px;
+  padding:22px;
+}
+
+.logoutButton{
+  width:100%;
+  margin-top:20px;
+  padding:16px;
+  border:1px solid #3b3943;
+  border-radius:15px;
+  background:#15141a;
+  color:#ff5c91;
+  font-size:16px;
+  font-weight:900;
+}
+
+/* bottom navigation */
+
+.bottomNav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:88px;
+  background:rgba(9,8,12,.97);
+  border-top:1px solid #24222b;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  z-index:100;
+  padding:5px 3px;
+}
+
+.navItem{
+  border:0;
+  background:transparent;
+  color:#777580;
+  min-width:54px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.navIcon{
+  font-size:23px;
+}
+
+.navItem.active{
+  color:white;
+}
+
+.plusNav{
+  width:58px;
+  height:58px;
+  border-radius:18px;
+  border:0;
+  color:white;
+  font-size:35px;
+  font-weight:300;
+  background:linear-gradient(135deg,#ef278b,#9145ff,#3582ff);
+  box-shadow:0 8px 25px rgba(144,57,255,.3);
+}
+
+@media(max-width:600px){
+
+  .topbar{
+    padding:0 20px;
   }
 
-  .reel-video{
-    height:470px;
+  .logoText{
+    font-size:27px;
   }
 
-  .nav-btn{
-    min-width:42px;
+  .profileHeader{
+    align-items:flex-start;
   }
 
-  .nav-btn span{
-    font-size:20px;
+  .profileAvatar{
+    width:105px;
+    height:105px;
+    font-size:50px;
+  }
+
+  .profileName{
+    font-size:24px;
+  }
+
+  .screen{
+    padding:22px 15px;
+  }
+
+  .postImage{
+    height:250px;
+  }
+
+  .bottomNav{
+    height:83px;
   }
 }
 </style>
@@ -1068,879 +538,324 @@ button{
 
 <body>
 
-<div class="app">
+<!-- =========================
+     LOGIN / SIGN UP
+========================= -->
 
-<!-- TOP -->
-<header class="topbar">
-  <div class="logo"><span>MicMedia</span></div>
+<div id="authScreen">
 
-  <div class="top-actions">
-    <button class="icon-btn" onclick="go('search')">⌕</button>
-    <button class="icon-btn" onclick="go('favorites')">♡</button>
+  <div class="authBox">
+
+    <div class="authLogo">M</div>
+
+    <div class="authTitle">MicMedia</div>
+
+    <div class="authSubtitle">
+      Connect. Create. Share.
+    </div>
+
+    <div class="authTabs">
+      <button
+        id="loginTab"
+        class="authTab active"
+        onclick="showLogin()">
+        Sign In
+      </button>
+
+      <button
+        id="signupTab"
+        class="authTab"
+        onclick="showSignup()">
+        Create Account
+      </button>
+    </div>
+
+    <div id="signupFields" style="display:none">
+
+      <input
+        id="nameInput"
+        class="authInput"
+        type="text"
+        placeholder="Full name">
+
+      <input
+        id="usernameInput"
+        class="authInput"
+        type="text"
+        placeholder="Username">
+
+    </div>
+
+    <input
+      id="emailInput"
+      class="authInput"
+      type="email"
+      placeholder="Email address"
+      autocomplete="email">
+
+    <input
+      id="passwordInput"
+      class="authInput"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password">
+
+    <button
+      id="authButton"
+      class="authButton"
+      onclick="handleAuth()">
+      Sign In
+    </button>
+
+    <div id="authMessage" class="authMessage"></div>
+
   </div>
-</header>
+
+</div>
 
 
-<!-- HOME -->
-<section id="home" class="screen active">
+<!-- =========================
+     MICMEDIA APP
+========================= -->
 
-  <div class="stories">
+<div id="app">
 
-    <div class="story" onclick="createStory()">
-      <div class="story-img">
-        <div class="story-img-inner story-add">+</div>
-      </div>
-      You
+  <header class="topbar">
+
+    <div class="logoText">MicMedia</div>
+
+    <div class="topActions">
+      <button class="circleButton">⌕</button>
+      <button class="circleButton">♡</button>
     </div>
 
-    <div class="story" onclick="openStory('Fatou')">
-      <div class="story-img">
-        <div class="story-img-inner">👩🏾</div>
-      </div>
-      Fatou
-    </div>
-
-    <div class="story" onclick="openStory('Musa')">
-      <div class="story-img">
-        <div class="story-img-inner">👨🏾</div>
-      </div>
-      Musa
-    </div>
-
-    <div class="story" onclick="openStory('Ebrima')">
-      <div class="story-img">
-        <div class="story-img-inner">👨🏾</div>
-      </div>
-      Ebrima
-    </div>
-
-    <div class="story" onclick="openStory('Awa')">
-      <div class="story-img">
-        <div class="story-img-inner">👩🏾</div>
-      </div>
-      Awa
-    </div>
-
-  </div>
+  </header>
 
 
-  <!-- POST -->
-  <article class="post">
+  <!-- HOME -->
 
-    <div class="post-header">
+  <section id="home" class="screen active">
 
-      <div class="creator">
-        <div class="creator-avatar">M</div>
+    <div class="screenTitle">Home</div>
+
+    <div class="post">
+
+      <div class="postHeader">
+
+        <div class="avatar">M</div>
 
         <div>
-          <div class="creator-name">MicMedia Creator ✓</div>
-          <div class="creator-time">2h ago</div>
+          <div class="username">MicMedia</div>
+          <div class="handle">@micmedia</div>
         </div>
+
       </div>
 
-      <button class="follow-btn" onclick="followCreator(this)">
-        Follow
+      <div class="postImage">M</div>
+
+      <div class="postText">
+        Welcome to MicMedia 🎬
+        Share your moments, watch reels,
+        join live streams and connect with people.
+      </div>
+
+      <div class="postActions">
+        <span>♡ Like</span>
+        <span>💬 Comment</span>
+        <span>↗ Share</span>
+      </div>
+
+    </div>
+
+
+    <div class="post">
+
+      <div class="postHeader">
+
+        <div class="avatar">S</div>
+
+        <div>
+          <div class="username">Sports & Sport Reels</div>
+          <div class="handle">@sports</div>
+        </div>
+
+      </div>
+
+      <div class="postImage">⚽</div>
+
+      <div class="postText">
+        Sports highlights and amazing moments.
+      </div>
+
+      <div class="postActions">
+        <span>♡ Like</span>
+        <span>💬 Comment</span>
+        <span>↗ Share</span>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- LIVE -->
+
+  <section id="live" class="screen">
+
+    <div class="screenTitle">Live</div>
+
+    <div class="liveHero">
+
+      <div class="liveBadge">● LIVE</div>
+
+      <h2>Go Live on MicMedia</h2>
+
+      <p>
+        Connect with your audience in real time.
+      </p>
+
+      <button class="liveButton" onclick="startLive()">
+        Start Live Stream
       </button>
 
     </div>
 
+  </section>
 
-    <div
-      class="post-photo"
-      ondblclick="doubleTapLike(event)"
-    >
 
-      🎬
+  <!-- REELS -->
 
-      <div class="photo-label">
-        MicMedia Creator
+  <section id="reels" class="screen">
+
+    <div class="screenTitle">Reels</div>
+
+    <div class="post">
+
+      <div class="postImage">▶</div>
+
+      <div class="postText">
+        Your short videos and reels will appear here.
       </div>
 
-      <div id="heartAnimation" class="heart-animation">
-        ♥
-      </div>
-
-    </div>
-
-
-    <div class="post-actions">
-
-      <button
-        id="likeButton"
-        class="action"
-        onclick="likePost()"
-      >♡</button>
-
-      <button
-        class="action"
-        onclick="openComments()"
-      >💬</button>
-
-      <button
-        class="action"
-        onclick="sharePost()"
-      >↗</button>
-
-      <button
-        id="saveButton"
-        class="action push-right"
-        onclick="savePost()"
-      >🔖</button>
-
-    </div>
-
-
-    <div id="likeCount" class="like-count">
-      0 likes
-    </div>
-
-
-    <div class="caption">
-      <b>MicMedia Creator</b>
-      Welcome to MicMedia 🎬❤️
-      Create, share, go live and connect with everyone.
-    </div>
-
-  </article>
-
-
-  <div class="section-title">
-    Suggested for you
-  </div>
-
-  <div class="suggested">
-
-    <div class="suggested-avatar">
-      🧑🏾
-    </div>
-
-    <div style="flex:1">
-      <b>MicMedia Sports</b>
-      <div style="color:#777;font-size:12px">
-        Sports • Creator
-      </div>
-    </div>
-
-    <button
-      class="follow-btn"
-      onclick="followCreator(this)"
-    >
-      Follow
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- LIVE -->
-<section id="live" class="screen">
-
-  <div class="section-title">
-    🔴 Live Now
-  </div>
-
-  <div class="live-card">
-
-    <div class="live-preview">
-      🔴
-    </div>
-
-    <div class="live-info">
-
-      <div class="live-title">
-        MicMedia Live
-      </div>
-
-      <div class="live-meta">
-        1.2K viewers • Creator live
-      </div>
-
-      <div class="live-buttons">
-
-        <button
-          class="primary"
-          onclick="openLiveSetup()"
-        >
-          Go Live
-        </button>
-
-        <button
-          class="secondary"
-          onclick="showToast('Joining live...')"
-        >
-          Join
-        </button>
-
+      <div class="postActions">
+        <span>♡ Like</span>
+        <span>💬 Comment</span>
+        <span>↗ Share</span>
       </div>
 
     </div>
 
-  </div>
+  </section>
 
 
-  <div class="section-title">
-    Popular Lives
-  </div>
+  <!-- MESSAGES -->
 
-  <div class="live-card">
+  <section id="messages" class="screen">
 
-    <div class="live-preview">
-      ⚽
+    <div class="screenTitle">Messages</div>
+
+    <div class="post">
+      <h2>💬 Messages</h2>
+      <p style="color:#888;margin-top:10px">
+        Your conversations will appear here.
+      </p>
     </div>
 
-    <div class="live-info">
-      <div class="live-title">
-        Sports Talk Live
-      </div>
+  </section>
 
-      <div class="live-meta">
-        4.8K viewers
-      </div>
 
-      <div class="live-buttons">
-        <button
-          class="primary"
-          onclick="showToast('Opening live stream...')"
-        >
-          Watch Live
-        </button>
-      </div>
+  <!-- FAVORITES -->
+
+  <section id="favorites" class="screen">
+
+    <div class="screenTitle">Favorites</div>
+
+    <div class="post">
+      <h2>♡ Your Favorites</h2>
+      <p style="color:#888;margin-top:10px">
+        Posts and reels you save will appear here.
+      </p>
     </div>
 
-  </div>
-
-</section>
+  </section>
 
 
-<!-- REELS -->
-<section id="reels" class="screen">
+  <!-- PROFILE -->
 
-  <div class="section-title">
-    Reels
-  </div>
+  <section id="profile" class="screen">
 
-  <div class="reel">
+    <div class="profileHeader">
 
-    <div class="reel-video">
-
-      🎬
-
-      <div class="reel-side">
-
-        <button onclick="likeReel(this)">
-          ♡
-        </button>
-
-        <button onclick="openComments()">
-          💬
-        </button>
-
-        <button onclick="sharePost()">
-          ↗
-        </button>
-
-        <button onclick="savePost()">
-          🔖
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="reel-info">
-      <b>MicMedia Sports</b>
-      <div style="color:#999;margin-top:5px">
-        Welcome to another MicMedia Reel 🔥
-      </div>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- MESSAGES -->
-<section id="messages" class="screen">
-
-  <div class="section-title">
-    Messages
-  </div>
-
-  <div class="message">
-
-    <div class="message-avatar">
-      👩🏾
-    </div>
-
-    <div class="message-main">
-
-      <div class="message-name">
-        Fatou
-      </div>
-
-      <div class="message-preview">
-        Hey, how are you?
-      </div>
-
-    </div>
-
-    <div class="message-actions">
-
-      <button onclick="startCall('Fatou','👩🏾')">
-        📞
-      </button>
-
-      <button onclick="startVideoCall('Fatou','👩🏾')">
-        📹
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="message">
-
-    <div class="message-avatar">
-      👨🏾
-    </div>
-
-    <div class="message-main">
-
-      <div class="message-name">
-        Musa
-      </div>
-
-      <div class="message-preview">
-        Check this out 🔥
-      </div>
-
-    </div>
-
-    <div class="message-actions">
-
-      <button onclick="startCall('Musa','👨🏾')">
-        📞
-      </button>
-
-      <button onclick="startVideoCall('Musa','👨🏾')">
-        📹
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- FAVORITES -->
-<section id="favorites" class="screen">
-
-  <div class="section-title">
-    Favorites
-  </div>
-
-  <div class="profile-card">
-
-    <h3>Saved content</h3>
-
-    <p style="color:#888;font-size:13px">
-      Your saved MicMedia posts and videos will appear here.
-    </p>
-
-    <button
-      class="row-button"
-      onclick="go('home')"
-    >
-      View saved post
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- PROFILE -->
-<section id="profile" class="screen">
-
-  <div class="profile-head">
-
-    <div class="profile-top">
-
-      <div class="profile-avatar">
+      <div id="profileAvatar" class="profileAvatar">
         M
       </div>
 
       <div>
-        <div class="profile-name">
+
+        <div id="profileName" class="profileName">
           MicMedia
         </div>
 
-        <div class="profile-username">
+        <div id="profileHandle" class="profileHandle">
           @micmedia
         </div>
+
       </div>
 
     </div>
 
 
-    <div class="profile-buttons">
+    <div class="profileButtons">
 
-      <button onclick="showToast('Edit profile coming soon')">
+      <button class="profileButton">
         Edit profile
       </button>
 
-      <button onclick="shareProfile()">
+      <button class="profileButton">
         Share profile
       </button>
 
     </div>
 
-  </div>
 
+    <div class="stats">
 
-  <div class="stats">
-
-    <div class="stat">
-      <b>120</b>
-      <span>Posts</span>
-    </div>
-
-    <div class="stat">
-      <b>2.4K</b>
-      <span>Followers</span>
-    </div>
-
-    <div class="stat">
-      <b>350</b>
-      <span>Following</span>
-    </div>
-
-  </div>
-
-
-  <!-- BALANCE -->
-  <div class="balance-card">
-
-    <div class="balance-label">
-      MicMedia Balance
-    </div>
-
-    <div
-      id="balanceAmount"
-      class="balance-amount"
-    >
-      $0.00
-    </div>
-
-    <div class="balance-buttons">
-
-      <button onclick="addMoney(10)">
-        + $10
-      </button>
-
-      <button onclick="withdrawMoney()">
-        Withdraw
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="profile-card">
-
-    <h3>💰 Balance & Earnings</h3>
-
-    <button
-      class="row-button"
-      onclick="showRecords()"
-    >
-      📊 Balance records
-    </button>
-
-    <button
-      class="row-button"
-      onclick="showGifts()"
-    >
-      🎁 Gifts received
-    </button>
-
-    <button
-      class="row-button"
-      onclick="createQR()"
-    >
-      🔳 My QR code
-    </button>
-
-    <button
-      class="row-button"
-      onclick="shareQR()"
-    >
-      📤 Share QR code
-    </button>
-
-  </div>
-
-
-  <div class="profile-card">
-
-    <h3>👥 Invite Friends</h3>
-
-    <p style="color:#888;font-size:13px;line-height:1.5">
-      Invite friends to MicMedia and grow your creator community.
-    </p>
-
-    <button
-      class="row-button"
-      onclick="inviteFriends()"
-    >
-      Invite friends
-    </button>
-
-    <div
-      id="referralInfo"
-      style="margin-top:12px;color:#888;font-size:13px"
-    ></div>
-
-  </div>
-
-
-  <div class="profile-card">
-
-    <h3>📈 Creator Analytics</h3>
-
-    <button
-      class="row-button"
-      onclick="showToast('Analytics opened')"
-    >
-      Views
-    </button>
-
-    <button
-      class="row-button"
-      onclick="showToast('Followers analytics opened')"
-    >
-      Followers
-    </button>
-
-    <button
-      class="row-button"
-      onclick="showToast('Creator settings opened')"
-    >
-      ⚙️ Creator settings
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- SEARCH -->
-<section id="search" class="screen">
-
-  <div class="search-box">
-
-    <input
-      id="searchInput"
-      class="search-input"
-      placeholder="Search MicMedia..."
-      oninput="performSearch()"
-    >
-
-  </div>
-
-  <div
-    id="searchResults"
-    class="profile-card"
-  >
-
-    <h3>Search MicMedia</h3>
-
-    <p style="color:#777;font-size:13px">
-      Search creators, sports, reels and live streams.
-    </p>
-
-  </div>
-
-</section>
-
-
-<!-- CREATE -->
-<section id="create" class="screen">
-
-  <div class="create-wrap">
-
-    <div class="section-title" style="padding:0 0 15px">
-      Create
-    </div>
-
-    <div class="create-grid">
-
-      <button
-        class="create-option"
-        onclick="createStory()"
-      >
-        <span>⭕</span>
-        Story
-      </button>
-
-      <button
-        class="create-option"
-        onclick="showToast('Post creator opened')"
-      >
-        <span>＋</span>
-        Post
-      </button>
-
-      <button
-        class="create-option"
-        onclick="openLiveSetup()"
-      >
-        <span>🔴</span>
-        Live
-      </button>
-
-      <button
-        class="create-option"
-        onclick="showToast('Reel creator opened')"
-      >
-        <span>🎬</span>
-        Reel
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-
-  <button
-    id="nav-home"
-    class="nav-btn active"
-    onclick="go('home')"
-  >
-    <span>⌂</span>
-    Home
-  </button>
-
-  <button
-    id="nav-live"
-    class="nav-btn"
-    onclick="go('live')"
-  >
-    <span>🔴</span>
-    Live
-  </button>
-
-  <button
-    id="nav-create"
-    class="nav-create"
-    onclick="go('create')"
-  >
-    +
-  </button>
-
-  <button
-    id="nav-reels"
-    class="nav-btn"
-    onclick="go('reels')"
-  >
-    <span>▶</span>
-    Reels
-  </button>
-
-  <button
-    id="nav-messages"
-    class="nav-btn"
-    onclick="go('messages')"
-  >
-    <span>♧</span>
-    Messages
-  </button>
-
-  <button
-    id="nav-favorites"
-    class="nav-btn"
-    onclick="go('favorites')"
-  >
-    <span>♡</span>
-    Favorite
-  </button>
-
-  <button
-    id="nav-profile"
-    class="nav-btn"
-    onclick="go('profile')"
-  >
-    <span>●</span>
-    Profile
-  </button>
-
-</nav>
-
-</div>
-
-
-<!-- COMMENTS MODAL -->
-<div
-  id="commentModal"
-  class="modal"
-  onclick="modalOutsideClose(event,'commentModal')"
->
-
-  <div class="modal-box">
-
-    <h2>Comments 💬</h2>
-
-    <div
-      id="commentList"
-      class="comment-list"
-    ></div>
-
-    <div class="comment-row">
-
-      <input
-        id="commentInput"
-        class="comment-input"
-        placeholder="Add a comment..."
-        onkeydown="commentKey(event)"
-      >
-
-      <button
-        class="send"
-        onclick="sendComment()"
-      >
-        Send
-      </button>
-
-    </div>
-
-    <button
-      class="close"
-      onclick="closeComments()"
-    >
-      Close
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- RECORDS MODAL -->
-<div
-  id="recordsModal"
-  class="modal"
-  onclick="modalOutsideClose(event,'recordsModal')"
->
-
-  <div class="modal-box">
-
-    <h2>Balance Records 📊</h2>
-
-    <div id="recordsList"></div>
-
-    <button
-      class="close"
-      onclick="closeRecords()"
-    >
-      Close
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- LIVE SETUP -->
-<div
-  id="liveModal"
-  class="modal"
-  onclick="modalOutsideClose(event,'liveModal')"
->
-
-  <div class="modal-box">
-
-    <h2>Start Live 🔴</h2>
-
-    <input
-      id="liveTitle"
-      class="comment-input"
-      style="width:100%;margin-bottom:10px"
-      placeholder="Live title..."
-    >
-
-    <button
-      class="primary"
-      onclick="startLive()"
-    >
-      Start Live
-    </button>
-
-    <button
-      class="close"
-      onclick="closeLiveSetup()"
-    >
-      Cancel
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- STORY VIEWER -->
-<div
-  id="storyViewer"
-  class="story-viewer"
->
-
-  <div class="story-bg"></div>
-
-  <div class="story-content">
-
-    <div class="story-top">
-
-      <div class="story-progress">
-        <div class="story-progress-bar"></div>
+      <div>
+        <div class="statNumber">120</div>
+        <div class="statLabel">Posts</div>
       </div>
 
-      <div class="story-user-row">
+      <div>
+        <div class="statNumber">2.4K</div>
+        <div class="statLabel">Followers</div>
+      </div>
 
-        <div
-          id="storyAvatar"
-          class="story-user-avatar"
-        >
-          👩🏾
-        </div>
+      <div>
+        <div class="statNumber">350</div>
+        <div class="statLabel">Following</div>
+      </div>
 
-        <div class="story-user-info">
+    </div>
 
-          <div
-            id="storyName"
-            class="story-user-name"
-          >
-            Fatou
-          </div>
 
-          <div class="story-time">
-            2h
-          </div>
+    <div class="balance">
 
-        </div>
+      <div class="balanceTitle">
+        MicMedia Balance
+      </div>
 
-        <button
-          class="story-close"
-          onclick="closeStory()"
-        >
-          ×
+      <div class="balanceAmount">
+        $0.00
+      </div>
+
+      <div class="balanceButtons">
+
+        <button class="balanceButton">
+          + $10
+        </button>
+
+        <button class="balanceButton">
+          Withdraw
         </button>
 
       </div>
@@ -1948,1361 +863,598 @@ button{
     </div>
 
 
-    <div class="story-middle">
+    <div class="earningsCard">
 
-      <div
-        id="storyEmoji"
-        class="story-emoji"
-      >
-        ❤️
-      </div>
+      <h2>💰 Balance & Earnings</h2>
 
-    </div>
-
-
-    <div
-      id="storyCaption"
-      class="story-caption"
-    >
-      Enjoying my day on MicMedia ❤️
-    </div>
-
-
-    <div class="story-reply">
-
-      <input
-        id="storyReplyInput"
-        placeholder="Reply to story..."
-        onkeydown="storyReplyKey(event)"
-      >
-
-      <button onclick="replyToStory()">
-        ➤
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- QR MODAL -->
-<div
-  id="qrModal"
-  class="modal"
->
-
-  <div class="modal-box">
-
-    <h2>My MicMedia QR 🔳</h2>
-
-    <div class="qr-wrap">
-
-      <img
-        id="qrImage"
-        alt="MicMedia QR code"
-        onerror="qrError()"
-      >
-
-      <p
-        id="qrFallback"
-        style="display:none;color:#999;margin-top:10px"
-      >
-        QR code could not load. You can still share your profile link.
+      <p style="color:#85828e;margin-top:10px">
+        Your MicMedia earnings will appear here.
       </p>
 
     </div>
 
-    <button
-      class="primary"
-      style="margin-top:15px"
-      onclick="shareQR()"
-    >
-      Share QR
-    </button>
 
     <button
-      class="close"
-      onclick="closeQR()"
-    >
-      Close
+      class="logoutButton"
+      onclick="logout()">
+      Log Out
     </button>
 
-  </div>
+  </section>
+
+
+  <!-- BOTTOM NAVIGATION -->
+
+  <nav class="bottomNav">
+
+    <button
+      class="navItem active"
+      onclick="showScreen('home',this)">
+
+      <span class="navIcon">⌂</span>
+      <span>Home</span>
+
+    </button>
+
+
+    <button
+      class="navItem"
+      onclick="showScreen('live',this)">
+
+      <span class="navIcon">🔴</span>
+      <span>Live</span>
+
+    </button>
+
+
+    <button
+      class="plusNav"
+      onclick="showScreen('reels',this)">
+      +
+    </button>
+
+
+    <button
+      class="navItem"
+      onclick="showScreen('reels',this)">
+
+      <span class="navIcon">▶</span>
+      <span>Reels</span>
+
+    </button>
+
+
+    <button
+      class="navItem"
+      onclick="showScreen('messages',this)">
+
+      <span class="navIcon">♣</span>
+      <span>Messages</span>
+
+    </button>
+
+
+    <button
+      class="navItem"
+      onclick="showScreen('favorites',this)">
+
+      <span class="navIcon">♡</span>
+      <span>Favorite</span>
+
+    </button>
+
+
+    <button
+      class="navItem"
+      onclick="showScreen('profile',this)">
+
+      <span class="navIcon">●</span>
+      <span>Profile</span>
+
+    </button>
+
+  </nav>
 
 </div>
-
-
-<!-- CALL -->
-<div
-  id="callScreen"
-  class="call-screen"
->
-
-  <div
-    id="callAvatar"
-    class="call-avatar"
-  >
-    👩🏾
-  </div>
-
-  <div
-    id="callName"
-    class="call-name"
-  >
-    Fatou
-  </div>
-
-  <div
-    id="callStatus"
-    class="call-status"
-  >
-    Calling...
-  </div>
-
-  <div class="call-controls">
-
-    <button
-      class="call-control"
-      onclick="showToast('Microphone muted')"
-    >
-      🎙️
-    </button>
-
-    <button
-      class="call-control call-end"
-      onclick="endCall()"
-    >
-      ☎
-    </button>
-
-    <button
-      class="call-control"
-      onclick="showToast('Speaker enabled')"
-    >
-      🔊
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- TOAST -->
-<div
-  id="toast"
-  class="toast"
-></div>
 
 
 <script>
 
-/* =========================
-   NAVIGATION
-========================= */
+/* =====================================================
+   SUPABASE CONNECTION
+===================================================== */
 
-function go(screen){
+/*
+  REPLACE THESE TWO VALUES.
 
-  document.querySelectorAll(".screen").forEach(function(el){
-    el.classList.remove("active");
-  });
+  Supabase Dashboard:
+  Project Settings
+  → API
 
-  var target=document.getElementById(screen);
+  Use:
+  Project URL
+  Publishable key / anon key
 
-  if(target){
-    target.classList.add("active");
-  }
+  DO NOT use the service_role key here.
+*/
 
-  document.querySelectorAll(".nav-btn").forEach(function(btn){
-    btn.classList.remove("active");
-  });
+const SUPABASE_URL =
+  "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
 
-  var nav=document.getElementById("nav-"+screen);
-
-  if(nav){
-    nav.classList.add("active");
-  }
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
+const SUPABASE_KEY =
+  "PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY_HERE";
 
 
-/* =========================
-   TOAST
-========================= */
+const { createClient } =
+  supabase;
 
-var toastTimer;
-
-function showToast(message){
-
-  var toast=document.getElementById("toast");
-
-  toast.textContent=message;
-  toast.classList.add("show");
-
-  clearTimeout(toastTimer);
-
-  toastTimer=setTimeout(function(){
-    toast.classList.remove("show");
-  },2200);
-}
-
-
-/* =========================
-   SAFE HTML
-========================= */
-
-function escapeHTML(text){
-
-  return String(text)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
-
-
-/* =========================
-   LIKES
-========================= */
-
-var liked=localStorage.getItem("micmediaPostLiked")==="true";
-
-var likes=Number(
-  localStorage.getItem("micmediaLikes") || "0"
-);
-
-
-function renderLike(){
-
-  var button=document.getElementById("likeButton");
-  var count=document.getElementById("likeCount");
-
-  if(!button || !count){
-    return;
-  }
-
-  if(liked){
-
-    button.textContent="♥";
-    button.classList.add("liked");
-
-  }else{
-
-    button.textContent="♡";
-    button.classList.remove("liked");
-
-  }
-
-  count.textContent=likes+" "+(likes===1?"like":"likes");
-
-  localStorage.setItem(
-    "micmediaLikes",
-    String(likes)
+const supabaseClient =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
   );
 
-  localStorage.setItem(
-    "micmediaPostLiked",
-    String(liked)
-  );
-}
 
+/* =====================================================
+   AUTH UI
+===================================================== */
 
-function likePost(){
+let authMode = "login";
 
-  liked=!liked;
 
-  if(liked){
+function showLogin(){
 
-    likes++;
-
-    animateHeart();
-
-  }else{
-
-    likes=Math.max(0,likes-1);
-
-  }
-
-  renderLike();
-}
-
-
-function doubleTapLike(event){
-
-  if(!liked){
-
-    liked=true;
-    likes++;
-
-    renderLike();
-
-  }
-
-  animateHeart(event);
-}
-
-
-function animateHeart(){
-
-  var heart=document.getElementById("heartAnimation");
-
-  if(!heart){
-    return;
-  }
-
-  heart.classList.remove("show");
-
-  void heart.offsetWidth;
-
-  heart.classList.add("show");
-
-}
-
-
-/* =========================
-   SAVE
-========================= */
-
-var saved=
-  localStorage.getItem("micmediaSaved")==="true";
-
-
-function renderFavorite(){
-
-  var button=document.getElementById("saveButton");
-
-  if(!button){
-    return;
-  }
-
-  if(saved){
-
-    button.textContent="🔖";
-    button.classList.add("saved");
-
-  }else{
-
-    button.textContent="🔖";
-    button.classList.remove("saved");
-
-  }
-}
-
-
-function savePost(){
-
-  saved=!saved;
-
-  localStorage.setItem(
-    "micmediaSaved",
-    String(saved)
-  );
-
-  renderFavorite();
-
-  showToast(
-    saved
-      ? "Saved to Favorites"
-      : "Removed from Favorites"
-  );
-}
-
-
-/* =========================
-   COMMENTS
-========================= */
-
-function getComments(){
-
-  try{
-
-    return JSON.parse(
-      localStorage.getItem("micmediaComments") || "[]"
-    );
-
-  }catch(error){
-
-    return [];
-
-  }
-}
-
-
-function saveComments(comments){
-
-  localStorage.setItem(
-    "micmediaComments",
-    JSON.stringify(comments)
-  );
-
-}
-
-
-function renderComments(){
-
-  var list=document.getElementById("commentList");
-
-  if(!list){
-    return;
-  }
-
-  var comments=getComments();
-
-  if(comments.length===0){
-
-    list.innerHTML=
-      '<div class="comment-empty">No comments yet. Be the first! 💬</div>';
-
-    return;
-  }
-
-  list.innerHTML="";
-
-  comments.forEach(function(comment){
-
-    var row=document.createElement("div");
-
-    row.className="comment";
-
-    row.innerHTML=
-      '<div class="comment-avatar">🙂</div>'+
-      '<div class="comment-body">'+
-      '<b>'+escapeHTML(comment.name)+'</b>'+
-      '<p>'+escapeHTML(comment.text)+'</p>'+
-      '</div>';
-
-    list.appendChild(row);
-
-  });
-}
-
-
-function openComments(){
-
-  renderComments();
+  authMode = "login";
 
   document
-    .getElementById("commentModal")
-    .classList.add("show");
-
-  setTimeout(function(){
-
-    var input=document.getElementById("commentInput");
-
-    if(input){
-      input.focus();
-    }
-
-  },100);
-}
-
-
-function closeComments(){
+    .getElementById("signupFields")
+    .style.display = "none";
 
   document
-    .getElementById("commentModal")
-    .classList.remove("show");
-
-}
-
-
-function sendComment(){
-
-  var input=document.getElementById("commentInput");
-
-  var text=input.value.trim();
-
-  if(!text){
-
-    showToast("Write a comment first");
-
-    return;
-  }
-
-  var comments=getComments();
-
-  comments.push({
-
-    name:"You",
-
-    text:text,
-
-    time:Date.now()
-
-  });
-
-  saveComments(comments);
-
-  input.value="";
-
-  renderComments();
-
-  showToast("Comment added 💬");
-
-}
-
-
-function commentKey(event){
-
-  if(event.key==="Enter"){
-
-    event.preventDefault();
-
-    sendComment();
-
-  }
-
-}
-
-
-/* =========================
-   SHARE
-========================= */
-
-async function sharePost(){
-
-  var shareData={
-
-    title:"MicMedia",
-
-    text:"Check out this post on MicMedia 🎬",
-
-    url:window.location.href
-
-  };
-
-  try{
-
-    if(navigator.share){
-
-      await navigator.share(shareData);
-
-    }else{
-
-      await navigator.clipboard.writeText(
-        window.location.href
-      );
-
-      showToast("Post link copied");
-
-    }
-
-  }catch(error){
-
-    if(error && error.name!=="AbortError"){
-
-      showToast("Unable to share");
-
-    }
-
-  }
-
-}
-
-
-async function shareProfile(){
-
-  var url=
-    window.location.href.split("#")[0]+
-    "?profile=micmedia";
-
-  try{
-
-    if(navigator.share){
-
-      await navigator.share({
-
-        title:"MicMedia Profile",
-
-        text:"Follow me on MicMedia 🎬",
-
-        url:url
-
-      });
-
-    }else{
-
-      await navigator.clipboard.writeText(url);
-
-      showToast("Profile link copied");
-
-    }
-
-  }catch(error){
-
-    if(error.name!=="AbortError"){
-      showToast("Unable to share");
-    }
-
-  }
-
-}
-
-
-/* =========================
-   STORIES
-========================= */
-
-var stories={
-
-  Fatou:{
-    avatar:"👩🏾",
-    emoji:"❤️",
-    caption:"Enjoying my day on MicMedia ❤️"
-  },
-
-  Musa:{
-    avatar:"👨🏾",
-    emoji:"🔥",
-    caption:"MicMedia vibes are getting better!"
-  },
-
-  Ebrima:{
-    avatar:"👨🏾",
-    emoji:"⚽",
-    caption:"Football time! ⚽🔥"
-  },
-
-  Awa:{
-    avatar:"👩🏾",
-    emoji:"✨",
-    caption:"Good energy only ✨"
-  }
-
-};
-
-
-var currentStory="";
-
-
-function openStory(name){
-
-  var story=stories[name];
-
-  if(!story){
-    return;
-  }
-
-  currentStory=name;
-
-  document.getElementById("storyName").textContent=name;
-
-  document.getElementById("storyAvatar").textContent=
-    story.avatar;
-
-  document.getElementById("storyEmoji").textContent=
-    story.emoji;
-
-  document.getElementById("storyCaption").textContent=
-    story.caption;
+    .getElementById("loginTab")
+    .classList.add("active");
 
   document
-    .getElementById("storyViewer")
-    .classList.add("show");
-
-}
-
-
-function closeStory(){
+    .getElementById("signupTab")
+    .classList.remove("active");
 
   document
-    .getElementById("storyViewer")
-    .classList.remove("show");
-
-  currentStory="";
-
-}
-
-
-function replyToStory(){
-
-  var input=document.getElementById("storyReplyInput");
-
-  var text=input.value.trim();
-
-  if(!text){
-
-    showToast("Write a reply first");
-
-    return;
-  }
-
-  input.value="";
-
-  showToast("Reply sent to "+currentStory+" 💬");
-
-}
-
-
-function storyReplyKey(event){
-
-  if(event.key==="Enter"){
-
-    event.preventDefault();
-
-    replyToStory();
-
-  }
-
-}
-
-
-function createStory(){
-
-  showToast(
-    "Story creator is ready for your next MicMedia story 📸"
-  );
-
-}
-
-
-/* =========================
-   FOLLOW
-========================= */
-
-function followCreator(button){
-
-  if(button.textContent.trim()==="Follow"){
-
-    button.textContent="Following";
-
-    button.style.background="#25252d";
-
-    showToast("Following creator");
-
-  }else{
-
-    button.textContent="Follow";
-
-    button.style.background="#1677ff";
-
-    showToast("Unfollowed");
-
-  }
-
-}
-
-
-/* =========================
-   REELS
-========================= */
-
-function likeReel(button){
-
-  if(button.textContent==="♡"){
-
-    button.textContent="♥";
-
-    button.style.color="#ff3158";
-
-  }else{
-
-    button.textContent="♡";
-
-    button.style.color="#fff";
-
-  }
-
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-function performSearch(){
-
-  var input=document.getElementById("searchInput");
-
-  var results=document.getElementById("searchResults");
-
-  var query=input.value.trim();
-
-  if(!query){
-
-    results.innerHTML=
-      "<h3>Search MicMedia</h3>"+
-      "<p style='color:#777;font-size:13px'>"+
-      "Search creators, sports, reels and live streams."+
-      "</p>";
-
-    return;
-  }
-
-  results.innerHTML=
-    "<h3>Results for \""+
-    escapeHTML(query)+
-    "\"</h3>"+
-    "<button class='row-button' onclick=\"showToast('Opening MicMedia Creator')\">"+
-    "🎬 MicMedia Creator"+
-    "</button>"+
-    "<button class='row-button' onclick=\"showToast('Opening Sports creator')\">"+
-    "⚽ MicMedia Sports"+
-    "</button>"+
-    "<button class='row-button' onclick=\"showToast('Opening live streams')\">"+
-    "🔴 Live streams"+
-    "</button>";
-
-}
-
-
-/* =========================
-   BALANCE
-========================= */
-
-function money(value){
-
-  return "$"+Number(value).toFixed(2);
-
-}
-
-
-function getBalance(){
-
-  return Number(
-    localStorage.getItem("micmediaBalance") || "0"
-  );
-
-}
-
-
-function getEarned(){
-
-  return Number(
-    localStorage.getItem("micmediaEarned") || "0"
-  );
-
-}
-
-
-function getGifts(){
-
-  return Number(
-    localStorage.getItem("micmediaGifts") || "0"
-  );
-
-}
-
-
-function getRecords(){
-
-  try{
-
-    return JSON.parse(
-      localStorage.getItem("micmediaRecords") || "[]"
-    );
-
-  }catch(error){
-
-    return [];
-
-  }
-
-}
-
-
-function saveRecords(records){
-
-  localStorage.setItem(
-    "micmediaRecords",
-    JSON.stringify(records)
-  );
-
-}
-
-
-function addRecord(type,amount){
-
-  var records=getRecords();
-
-  records.unshift({
-
-    type:type,
-
-    amount:Number(amount),
-
-    date:new Date().toLocaleString()
-
-  });
-
-  saveRecords(records);
-
-}
-
-
-function updateBalance(){
-
-  var amount=document.getElementById("balanceAmount");
-
-  if(amount){
-
-    amount.textContent=money(getBalance());
-
-  }
-
-}
-
-
-function addMoney(amount){
-
-  var balance=getBalance()+Number(amount);
-
-  localStorage.setItem(
-    "micmediaBalance",
-    balance
-  );
-
-  localStorage.setItem(
-    "micmediaEarned",
-    getEarned()+Number(amount)
-  );
-
-  addRecord("Balance added",amount);
-
-  updateBalance();
-
-  showToast(
-    money(amount)+" added to balance"
-  );
-
-}
-
-
-function withdrawMoney(){
-
-  var balance=getBalance();
-
-  if(balance<=0){
-
-    showToast("Your balance is empty");
-
-    return;
-
-  }
-
-  addRecord("Withdrawal request",balance);
-
-  localStorage.setItem(
-    "micmediaBalance",
-    "0"
-  );
-
-  updateBalance();
-
-  showToast("Withdrawal request created");
-
-}
-
-
-function renderRecords(){
-
-  var list=document.getElementById("recordsList");
-
-  var records=getRecords();
-
-  if(records.length===0){
-
-    list.innerHTML=
-      "<p style='color:#777'>No balance records yet.</p>";
-
-    return;
-
-  }
-
-  list.innerHTML="";
-
-  records.forEach(function(record){
-
-    var div=document.createElement("div");
-
-    div.style.padding="12px 0";
-    div.style.borderBottom="1px solid #222";
-
-    var sign=
-      Number(record.amount)>=0
-        ? "+"
-        : "";
-
-    div.innerHTML=
-      "<b>"+escapeHTML(record.type)+"</b>"+
-      "<div style='color:#aaa;font-size:12px;margin-top:3px'>"+
-      escapeHTML(record.date)+
-      "</div>"+
-      "<div style='margin-top:5px'>"+
-      sign+
-      money(record.amount)+
-      "</div>";
-
-    list.appendChild(div);
-
-  });
-
-}
-
-
-function showRecords(){
-
-  renderRecords();
+    .getElementById("authButton")
+    .textContent = "Sign In";
 
   document
-    .getElementById("recordsModal")
-    .classList.add("show");
+    .getElementById("passwordInput")
+    .autocomplete = "current-password";
+
+  setMessage("");
 
 }
 
 
-function closeRecords(){
+function showSignup(){
+
+  authMode = "signup";
 
   document
-    .getElementById("recordsModal")
-    .classList.remove("show");
-
-}
-
-
-function showGifts(){
-
-  showToast(
-    "Gifts received: "+
-    money(getGifts())
-  );
-
-}
-
-
-/* =========================
-   QR CODE
-========================= */
-
-function createQR(){
-
-  var url=
-    window.location.href.split("#")[0]+
-    "?profile=micmedia_user";
-
-  var qr=document.getElementById("qrImage");
-
-  document.getElementById("qrFallback").style.display="none";
-
-  qr.style.display="inline-block";
-
-  qr.src=
-    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="+
-    encodeURIComponent(url);
+    .getElementById("signupFields")
+    .style.display = "block";
 
   document
-    .getElementById("qrModal")
-    .classList.add("show");
-
-}
-
-
-function qrError(){
-
-  var qr=document.getElementById("qrImage");
-
-  qr.style.display="none";
-
-  document.getElementById("qrFallback").style.display="block";
-
-}
-
-
-function closeQR(){
+    .getElementById("signupTab")
+    .classList.add("active");
 
   document
-    .getElementById("qrModal")
-    .classList.remove("show");
-
-}
-
-
-async function shareQR(){
-
-  var url=
-    window.location.href.split("#")[0]+
-    "?profile=micmedia_user";
-
-  try{
-
-    if(navigator.share){
-
-      await navigator.share({
-
-        title:"My MicMedia Profile",
-
-        text:"Scan or open my MicMedia profile 🎬",
-
-        url:url
-
-      });
-
-    }else{
-
-      await navigator.clipboard.writeText(url);
-
-      showToast("MicMedia QR profile link copied");
-
-    }
-
-  }catch(error){
-
-    if(error.name!=="AbortError"){
-
-      showToast("Unable to share QR");
-
-    }
-
-  }
-
-}
-
-
-/* =========================
-   REFERRALS
-========================= */
-
-function getReferralCode(){
-
-  var code=
-    localStorage.getItem("micmediaReferralCode");
-
-  if(!code){
-
-    code=
-      "MIC"+
-      Math.random()
-        .toString(36)
-        .substring(2,8)
-        .toUpperCase();
-
-    localStorage.setItem(
-      "micmediaReferralCode",
-      code
-    );
-
-  }
-
-  return code;
-
-}
-
-
-function getReferralCount(){
-
-  return Number(
-    localStorage.getItem(
-      "micmediaReferralCount"
-    ) || "0"
-  );
-
-}
-
-
-function renderReferral(){
-
-  var info=document.getElementById("referralInfo");
-
-  if(!info){
-    return;
-  }
-
-  info.textContent=
-    "Code: "+
-    getReferralCode()+
-    " • Invited: "+
-    getReferralCount();
-
-}
-
-
-async function inviteFriends(){
-
-  var code=getReferralCode();
-
-  var url=
-    window.location.href.split("#")[0]+
-    "?ref="+code;
-
-  try{
-
-    if(navigator.share){
-
-      await navigator.share({
-
-        title:"Join me on MicMedia",
-
-        text:"Join me on MicMedia 🎬🔥",
-
-        url:url
-
-      });
-
-    }else{
-
-      await navigator.clipboard.writeText(url);
-
-      showToast("Invite link copied");
-
-    }
-
-  }catch(error){
-
-    if(error.name!=="AbortError"){
-
-      showToast("Unable to share invite");
-
-    }
-
-  }
-
-}
-
-
-/* =========================
-   LIVE
-========================= */
-
-function openLiveSetup(){
+    .getElementById("loginTab")
+    .classList.remove("active");
 
   document
-    .getElementById("liveModal")
-    .classList.add("show");
-
-}
-
-
-function closeLiveSetup(){
+    .getElementById("authButton")
+    .textContent = "Create Account";
 
   document
-    .getElementById("liveModal")
-    .classList.remove("show");
+    .getElementById("passwordInput")
+    .autocomplete = "new-password";
+
+  setMessage("");
 
 }
 
 
-function startLive(){
+function setMessage(message){
 
-  var title=
+  document
+    .getElementById("authMessage")
+    .textContent = message;
+
+}
+
+
+/* =====================================================
+   SIGN IN / SIGN UP
+===================================================== */
+
+async function handleAuth(){
+
+  const email =
     document
-      .getElementById("liveTitle")
+      .getElementById("emailInput")
       .value
       .trim();
 
-  if(!title){
-
-    title="My MicMedia Live";
-
-  }
-
-  closeLiveSetup();
-
-  showToast(
-    "🔴 "+title+" is starting..."
-  );
-
-}
-
-
-function startLiveGift(){
-
-  var gifts=getGifts()+1;
-
-  localStorage.setItem(
-    "micmediaGifts",
-    gifts
-  );
-
-}
-
-
-/* =========================
-   CALLS
-========================= */
-
-function startCall(name,avatar){
-
-  document.getElementById("callName").textContent=name;
-
-  document.getElementById("callAvatar").textContent=avatar;
-
-  document.getElementById("callStatus").textContent=
-    "Calling...";
-
-  document
-    .getElementById("callScreen")
-    .classList.add("show");
-
-}
-
-
-function startVideoCall(name,avatar){
-
-  document.getElementById("callName").textContent=name;
-
-  document.getElementById("callAvatar").textContent=avatar;
-
-  document.getElementById("callStatus").textContent=
-    "Starting video call...";
-
-  document
-    .getElementById("callScreen")
-    .classList.add("show");
-
-}
-
-
-function endCall(){
-
-  document
-    .getElementById("callScreen")
-    .classList.remove("show");
-
-  showToast("Call ended");
-
-}
-
-
-/* =========================
-   MODAL OUTSIDE CLOSE
-========================= */
-
-function modalOutsideClose(event,id){
-
-  if(event.target.id===id){
-
+  const password =
     document
-      .getElementById(id)
-      .classList.remove("show");
+      .getElementById("passwordInput")
+      .value;
+
+  if(!email || !password){
+
+    setMessage(
+      "Please enter your email and password."
+    );
+
+    return;
+  }
+
+
+  if(authMode === "signup"){
+
+    const name =
+      document
+        .getElementById("nameInput")
+        .value
+        .trim();
+
+    const username =
+      document
+        .getElementById("usernameInput")
+        .value
+        .trim();
+
+    if(!name || !username){
+
+      setMessage(
+        "Please enter your name and username."
+      );
+
+      return;
+    }
+
+
+    if(password.length < 6){
+
+      setMessage(
+        "Password must be at least 6 characters."
+      );
+
+      return;
+    }
+
+
+    setMessage("Creating your MicMedia account...");
+
+
+    const { data, error } =
+      await supabaseClient.auth.signUp({
+
+        email: email,
+
+        password: password,
+
+        options:{
+          data:{
+            full_name:name,
+            username:username
+          }
+        }
+
+      });
+
+
+    if(error){
+
+      setMessage(error.message);
+
+      return;
+    }
+
+
+    /*
+      Your Supabase setting has Confirm email ON.
+
+      Therefore the user may need to open their
+      email and confirm before signing in.
+    */
+
+    if(data.session){
+
+      loadUser(data.user);
+
+      showApp();
+
+    }else{
+
+      setMessage(
+        "Account created! Check your email and confirm your account, then sign in."
+      );
+
+      showLogin();
+
+    }
+
+    return;
+  }
+
+
+  /* =========================
+     SIGN IN
+  ========================= */
+
+  setMessage("Signing in...");
+
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+
+      email:email,
+
+      password:password
+
+    });
+
+
+  if(error){
+
+    setMessage(error.message);
+
+    return;
+  }
+
+
+  if(data.user){
+
+    loadUser(data.user);
+
+    showApp();
 
   }
 
 }
 
 
-/* =========================
-   INITIALIZE
-========================= */
+/* =====================================================
+   SHOW APP
+===================================================== */
 
-document.addEventListener("DOMContentLoaded",function(){
+function showApp(){
 
-  renderLike();
+  document
+    .getElementById("authScreen")
+    .style.display = "none";
 
-  renderFavorite();
+  document
+    .getElementById("app")
+    .style.display = "block";
 
-  renderComments();
+}
 
-  updateBalance();
 
-  renderReferral();
+/* =====================================================
+   SHOW AUTH
+===================================================== */
 
-});
+function showAuth(){
+
+  document
+    .getElementById("authScreen")
+    .style.display = "flex";
+
+  document
+    .getElementById("app")
+    .style.display = "none";
+
+}
+
+
+/* =====================================================
+   LOAD USER PROFILE
+===================================================== */
+
+function loadUser(user){
+
+  if(!user) return;
+
+
+  const metadata =
+    user.user_metadata || {};
+
+
+  const name =
+    metadata.full_name ||
+    "MicMedia User";
+
+
+  const username =
+    metadata.username ||
+    user.email
+      .split("@")[0];
+
+
+  document
+    .getElementById("profileName")
+    .textContent = name;
+
+
+  document
+    .getElementById("profileHandle")
+    .textContent =
+      "@" + username;
+
+
+  const firstLetter =
+    name
+      .charAt(0)
+      .toUpperCase();
+
+
+  document
+    .getElementById("profileAvatar")
+    .textContent =
+      firstLetter;
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout(){
+
+  const { error } =
+    await supabaseClient.auth.signOut();
+
+
+  if(error){
+
+    alert(error.message);
+
+    return;
+  }
+
+
+  showAuth();
+
+  showLogin();
+
+  document
+    .getElementById("emailInput")
+    .value = "";
+
+  document
+    .getElementById("passwordInput")
+    .value = "";
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+function showScreen(screenId,button){
+
+  document
+    .querySelectorAll(".screen")
+    .forEach(screen => {
+
+      screen.classList.remove("active");
+
+    });
+
+
+  const target =
+    document.getElementById(screenId);
+
+
+  if(target){
+
+    target.classList.add("active");
+
+  }
+
+
+  document
+    .querySelectorAll(".navItem")
+    .forEach(item => {
+
+      item.classList.remove("active");
+
+    });
+
+
+  if(button &&
+     button.classList.contains("navItem")){
+
+    button.classList.add("active");
+
+  }
+
+}
+
+
+/* =====================================================
+   LIVE
+===================================================== */
+
+function startLive(){
+
+  alert(
+    "Live streaming interface is ready to connect to your video streaming system."
+  );
+
+}
+
+
+/* =====================================================
+   CHECK EXISTING SESSION
+===================================================== */
+
+async function checkSession(){
+
+  const { data } =
+    await supabaseClient.auth.getSession();
+
+
+  if(data &&
+     data.session &&
+     data.session.user){
+
+    loadUser(data.session.user);
+
+    showApp();
+
+  }else{
+
+    showAuth();
+
+  }
+
+}
+
+
+/* =====================================================
+   AUTH STATE LISTENER
+===================================================== */
+
+supabaseClient.auth.onAuthStateChange(
+  (event, session) => {
+
+    if(
+      session &&
+      session.user
+    ){
+
+      loadUser(session.user);
+
+      showApp();
+
+    }else if(
+      event === "SIGNED_OUT"
+    ){
+
+      showAuth();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+checkSession();
 
 </script>
 
