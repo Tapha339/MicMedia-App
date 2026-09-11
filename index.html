@@ -2,607 +2,345 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>MicMedia</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
+html{scroll-behavior:smooth}
 body{
-font-family:Arial,sans-serif;
-background:#08090d;
-color:white;
-padding-bottom:75px;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+background:#050507;color:#fff;padding-bottom:82px;
 }
+button,input{font:inherit}
+button{border:0;background:none;color:#fff;cursor:pointer}
+.app{max-width:600px;margin:auto;min-height:100vh}
 
-button{
-border:0;
-background:none;
-color:white;
-cursor:pointer;
-}
-
-.app{
-max-width:600px;
-margin:auto;
-}
-
+/* TOP */
 .top{
-height:60px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 18px;
-position:sticky;
-top:0;
-z-index:10;
-background:#08090d;
-border-bottom:1px solid #20212a;
+height:62px;display:flex;align-items:center;justify-content:space-between;
+padding:0 17px;position:sticky;top:0;z-index:30;
+background:rgba(5,5,7,.94);backdrop-filter:blur(18px);
+border-bottom:1px solid #1d1e25
 }
-
-.logo{
-font-size:24px;
-font-weight:800;
-}
-
+.logo{font-size:25px;font-weight:900;letter-spacing:-1px}
 .logo span{
-background:linear-gradient(90deg,#ff3158,#9b5cff);
--webkit-background-clip:text;
-color:transparent;
+background:linear-gradient(90deg,#ff3158,#a855f7);
+-webkit-background-clip:text;color:transparent
 }
+.top-actions{display:flex;gap:17px;font-size:22px}
+.top-icon{font-size:21px}
 
 /* SCREENS */
-
-.screen{
-display:none;
-}
-
-.screen.active{
-display:block;
-}
+.screen{display:none;animation:fade .2s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:none}}
 
 /* STORIES */
-
 .stories{
-display:flex;
-gap:14px;
-overflow-x:auto;
-padding:15px;
+display:flex;gap:14px;overflow-x:auto;padding:15px;
+scrollbar-width:none
 }
-
-.story{
-min-width:60px;
-text-align:center;
-font-size:11px;
-}
-
+.stories::-webkit-scrollbar{display:none}
+.story{min-width:62px;text-align:center;font-size:11px;color:#aaa}
 .story-img{
-width:58px;
-height:58px;
-border-radius:50%;
-border:3px solid #9b5cff;
-background:#222;
-margin-bottom:5px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:24px;
+width:60px;height:60px;border-radius:50%;margin-bottom:6px;
+display:flex;align-items:center;justify-content:center;font-size:25px;
+background:#171820;border:2px solid #9b5cff;padding:2px;
 }
+.story-img-inner{
+width:100%;height:100%;border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+background:linear-gradient(135deg,#ff3158,#9b5cff)
+}
+.story-add{font-size:27px}
 
 /* POST */
-
-.post{
-border-top:1px solid #20212a;
-padding-bottom:20px;
+.post{border-top:1px solid #1b1c22;padding-bottom:20px}
+.post-user{display:flex;align-items:center;gap:10px;padding:13px}
+.avatar,.message-avatar{
+border-radius:50%;background:linear-gradient(135deg,#9b5cff,#ff3158);
+display:flex;align-items:center;justify-content:center;font-weight:800
 }
-
-.post-user{
-display:flex;
-align-items:center;
-gap:10px;
-padding:13px;
-}
-
-.avatar{
-width:42px;
-height:42px;
-border-radius:50%;
-background:linear-gradient(135deg,#9b5cff,#ff3158);
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-}
-
-.post-name{
-font-weight:bold;
-}
-
-.post-location{
-font-size:11px;
-color:#888;
-margin-top:3px;
-}
-
+.avatar{width:43px;height:43px}
+.post-name{font-weight:750}
+.post-location{font-size:11px;color:#777;margin-top:3px}
+.more{margin-left:auto;font-size:22px}
 .post-photo{
-height:390px;
+height:390px;display:flex;align-items:center;justify-content:center;
+font-size:75px;position:relative;overflow:hidden;
 background:
-radial-gradient(circle at 30% 30%,#8b45ff,transparent 30%),
-radial-gradient(circle at 70% 70%,#ff3158,transparent 35%),
-linear-gradient(135deg,#111827,#30144f);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:50px;
+radial-gradient(circle at 20% 25%,#a855f7,transparent 28%),
+radial-gradient(circle at 80% 75%,#ff3158,transparent 33%),
+linear-gradient(135deg,#111827,#30144f)
 }
-
-.actions{
-display:flex;
-align-items:center;
-gap:20px;
-padding:13px;
+.photo-label{
+position:absolute;bottom:18px;left:18px;
+font-size:12px;color:#ddd;background:#0008;
+padding:7px 10px;border-radius:20px
 }
-
+.actions{display:flex;align-items:center;gap:19px;padding:13px}
 .action{
-width:27px;
-height:27px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:25px;
-transition:.15s;
+width:28px;height:28px;display:flex;align-items:center;
+justify-content:center;font-size:25px;transition:.15s
 }
+.action:active{transform:scale(.78)}
+.action.liked{color:#ff3158}
+.action.saved{color:#a855f7}
+.action:last-child{margin-left:auto}
+.likes{padding:0 13px 6px;font-size:14px;font-weight:750}
+.caption{padding:0 13px;line-height:21px}
+.caption span{color:#aaa}
 
-.action:active{
-transform:scale(.75);
+/* TITLES */
+.title{padding:22px 17px;font-size:28px;letter-spacing:-.5px}
+.section-row{
+display:flex;align-items:center;justify-content:space-between;padding:0 17px 15px
 }
-
-.action.liked{
-color:#ff3158;
-}
-
-.action.saved{
-color:#9b5cff;
-}
-
-.caption{
-padding:0 13px;
-line-height:21px;
-}
-
-.likes{
-padding:6px 13px;
-font-weight:bold;
-font-size:14px;
-}
-
-/* PAGE TITLES */
-
-.title{
-padding:22px 17px;
-font-size:27px;
-}
+.section-row small{color:#888}
 
 /* LIVE */
-
 .live-card{
-margin:0 15px;
-height:330px;
-border-radius:22px;
-background:
-linear-gradient(to bottom,transparent,#000),
-linear-gradient(135deg,#24134a,#6d163d,#111);
-position:relative;
-overflow:hidden;
+margin:0 15px;height:335px;border-radius:23px;overflow:hidden;
+position:relative;background:
+radial-gradient(circle at 65% 35%,#9b3e72,transparent 25%),
+linear-gradient(135deg,#24134a,#6d163d,#08090d)
 }
-
-.live-top{
-display:flex;
-justify-content:space-between;
-padding:15px;
+.live-card:after{
+content:"";position:absolute;inset:0;
+background:linear-gradient(to bottom,transparent 35%,#000);
+pointer-events:none
 }
-
-.live-badge{
-background:#ff3158;
-padding:7px 12px;
-border-radius:20px;
-font-size:12px;
-font-weight:bold;
+.live-top,.live-bottom{position:absolute;z-index:2}
+.live-top{top:0;left:0;right:0;padding:15px;display:flex;justify-content:space-between}
+.live-badge,.viewers{
+padding:7px 12px;border-radius:20px;font-size:12px;font-weight:750
 }
-
-.viewers{
-background:#0008;
-padding:7px 12px;
-border-radius:20px;
-font-size:12px;
-}
-
-.live-bottom{
-position:absolute;
-bottom:18px;
-left:17px;
-}
-
-.live-bottom p{
-color:#bbb;
-margin-top:5px;
-font-size:13px;
-}
-
+.live-badge{background:#ff3158}
+.viewers{background:#0009}
+.live-bottom{bottom:18px;left:17px}
+.live-bottom p{color:#aaa;margin-top:6px;font-size:13px}
 .live-button{
-margin:18px 15px;
-width:calc(100% - 30px);
-padding:15px;
-border-radius:14px;
-background:linear-gradient(90deg,#ff3158,#9b5cff);
-font-weight:bold;
+margin:17px 15px;width:calc(100% - 30px);padding:15px;
+border-radius:15px;background:linear-gradient(90deg,#ff3158,#9b5cff);
+font-weight:800
 }
+.live-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:0 15px}
+.live-tool{
+padding:14px 5px;background:#111218;border:1px solid #24252d;
+border-radius:15px;text-align:center;font-size:12px
+}
+.live-tool div{font-size:22px;margin-bottom:5px}
 
 /* REELS */
-
 .reel{
-height:500px;
-margin:0 12px 20px;
-border-radius:20px;
-background:
-linear-gradient(to bottom,transparent,#000),
-linear-gradient(135deg,#15152b,#8c1749,#101016);
-position:relative;
+height:535px;margin:0 12px 20px;border-radius:21px;position:relative;
+overflow:hidden;background:
+radial-gradient(circle at 65% 30%,#9b2d6d,transparent 28%),
+linear-gradient(145deg,#10121d,#66143f,#07080c)
 }
-
-.reel-info{
-position:absolute;
-bottom:20px;
-left:15px;
+.reel:after{
+content:"";position:absolute;inset:0;
+background:linear-gradient(to bottom,transparent 45%,#000)
 }
-
+.reel-info,.reel-buttons{position:absolute;z-index:2}
+.reel-info{bottom:19px;left:15px;right:70px}
+.reel-info p{margin-top:7px;color:#ddd;font-size:13px}
 .reel-buttons{
-position:absolute;
-right:12px;
-bottom:18px;
-display:flex;
-flex-direction:column;
-gap:14px;
+right:11px;bottom:18px;display:flex;flex-direction:column;gap:13px
 }
-
 .reel-button{
-width:45px;
-height:45px;
-border-radius:50%;
-background:#0009;
-font-size:21px;
+width:45px;height:45px;border-radius:50%;background:#0009;
+font-size:20px;display:flex;align-items:center;justify-content:center
 }
+.reel-button small{font-size:9px;margin-top:1px}
 
 /* MESSAGES */
-
 .message{
-display:flex;
-align-items:center;
-gap:12px;
-padding:14px 17px;
-border-bottom:1px solid #20212a;
+display:flex;align-items:center;gap:12px;padding:14px 17px;
+border-bottom:1px solid #1b1c22
 }
-
-.message-avatar{
-width:52px;
-height:52px;
-border-radius:50%;
-background:linear-gradient(135deg,#ff3158,#9b5cff);
-display:flex;
-align-items:center;
-justify-content:center;
+.message-avatar{width:53px;height:53px;flex-shrink:0}
+.message-text{flex:1}
+.message-text small{display:block;color:#777;margin-top:5px}
+.online{
+width:10px;height:10px;border-radius:50%;background:#32d583;
+margin-left:auto
 }
-
-.message-text{
-flex:1;
-}
-
-.message-text small{
-color:#888;
-display:block;
-margin-top:5px;
-}
-
-/* PROFILE */
-
-.profile{
-padding:25px 17px;
-}
-
-.profile-top{
-display:flex;
-align-items:center;
-gap:18px;
-}
-
-.profile-avatar{
-width:90px;
-height:90px;
-border-radius:50%;
-background:linear-gradient(135deg,#9b5cff,#ff3158);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:32px;
-font-weight:bold;
-}
-
-.profile-name{
-font-size:21px;
-font-weight:bold;
-}
-
-.profile-user{
-color:#888;
-margin-top:5px;
-}
-
-.stats{
-display:flex;
-justify-content:space-around;
-padding:20px 0;
-margin-top:20px;
-border-top:1px solid #22232b;
-border-bottom:1px solid #22232b;
-}
-
-.stat{
-text-align:center;
-}
-
-.stat b{
-display:block;
-font-size:19px;
-}
-
-.stat span{
-color:#888;
-font-size:12px;
-}
-
-/* INVITE */
-
-.invite{
-margin-top:20px;
-padding:20px;
-border-radius:20px;
-background:linear-gradient(145deg,#171326,#101116);
-border:1px solid #332650;
-}
-
-.invite h2{
-font-size:20px;
-}
-
-.invite p{
-color:#999;
-font-size:13px;
-line-height:19px;
-margin:8px 0 16px;
-}
-
-.code{
-display:flex;
-align-items:center;
-justify-content:space-between;
-background:#08090d;
-border:1px dashed #6e4da1;
-padding:12px;
-border-radius:12px;
-}
-
-.code strong{
-color:#c5a8ff;
-}
-
-.copy{
-background:#292038;
-padding:7px 10px;
-border-radius:8px;
-font-size:12px;
-}
-
-.progress-text{
-display:flex;
-justify-content:space-between;
-margin:16px 0 7px;
-font-size:12px;
-color:#aaa;
-}
-
-.progress{
-height:9px;
-background:#272731;
-border-radius:10px;
-overflow:hidden;
-}
-
-.progress-bar{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#ff3158,#9b5cff);
-transition:.4s;
-}
-
-.invite-button{
-width:100%;
-padding:14px;
-margin-top:16px;
-border-radius:13px;
-background:linear-gradient(90deg,#9b5cff,#ff3158);
-font-weight:bold;
-}
-
-.badges{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:7px;
-margin-top:15px;
-}
-
-.badge{
-text-align:center;
-padding:11px 3px;
-background:#111219;
-border:1px solid #252630;
-border-radius:12px;
-opacity:.35;
-}
-
-.badge.unlocked{
-opacity:1;
-border-color:#9b5cff;
-}
-
-.badge-icon{
-font-size:24px;
-}
-
-.badge small{
-font-size:9px;
-color:#aaa;
+.call-buttons{display:flex;gap:7px}
+.small-call{
+width:35px;height:35px;border-radius:50%;background:#181920;
+display:flex;align-items:center;justify-content:center
 }
 
 /* FAVORITES */
+.empty{text-align:center;padding:85px 20px;color:#777;font-size:14px}
+.empty-icon{font-size:50px;margin-bottom:10px}
 
-.empty{
-text-align:center;
-padding:90px 20px;
-color:#777;
-font-size:14px;
+/* PROFILE */
+.profile{padding:25px 17px}
+.profile-top{display:flex;align-items:center;gap:18px}
+.profile-avatar{
+width:92px;height:92px;border-radius:50%;
+background:linear-gradient(135deg,#9b5cff,#ff3158);
+display:flex;align-items:center;justify-content:center;
+font-size:33px;font-weight:900
+}
+.profile-name{font-size:21px;font-weight:800}
+.profile-user{color:#777;margin-top:5px}
+.profile-buttons{display:flex;gap:8px;margin-top:18px}
+.profile-btn{
+flex:1;padding:11px;border-radius:11px;background:#1b1c22;
+font-weight:700;font-size:13px
+}
+.profile-btn.primary{background:linear-gradient(90deg,#9b5cff,#ff3158)}
+.stats{
+display:flex;justify-content:space-around;padding:20px 0;
+margin-top:20px;border-top:1px solid #202128;border-bottom:1px solid #202128
+}
+.stat{text-align:center}.stat b{display:block;font-size:19px}.stat span{color:#777;font-size:12px}
+
+/* INVITE */
+.invite{
+margin-top:20px;padding:20px;border-radius:20px;
+background:linear-gradient(145deg,#171326,#101116);
+border:1px solid #332650
+}
+.invite h2{font-size:20px}.invite p{color:#999;font-size:13px;line-height:19px;margin:8px 0 16px}
+.code{
+display:flex;align-items:center;justify-content:space-between;
+background:#08090d;border:1px dashed #6e4da1;padding:12px;border-radius:12px
+}
+.code strong{color:#c5a8ff}.copy{background:#292038;padding:7px 10px;border-radius:8px;font-size:12px}
+.progress-text{display:flex;justify-content:space-between;margin:16px 0 7px;font-size:12px;color:#aaa}
+.progress{height:9px;background:#272731;border-radius:10px;overflow:hidden}
+.progress-bar{
+height:100%;width:0%;background:linear-gradient(90deg,#ff3158,#9b5cff);transition:.4s
+}
+.invite-button{
+width:100%;padding:14px;margin-top:16px;border-radius:13px;
+background:linear-gradient(90deg,#9b5cff,#ff3158);font-weight:800
+}
+.badges{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:15px}
+.badge{
+text-align:center;padding:11px 3px;background:#111219;border:1px solid #252630;
+border-radius:12px;opacity:.3
+}
+.badge.unlocked{opacity:1;border-color:#9b5cff}
+.badge-icon{font-size:24px}.badge small{font-size:9px;color:#aaa}
+
+/* CREATE */
+.create-grid{padding:0 15px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.create-card{
+min-height:145px;padding:20px;border-radius:20px;background:#12131a;
+border:1px solid #22232b;display:flex;flex-direction:column;
+justify-content:flex-end
+}
+.create-icon{font-size:35px;margin-bottom:auto}
+.create-card b{font-size:16px}.create-card small{color:#777;margin-top:5px}
+.create-live{background:linear-gradient(145deg,#351326,#15101b)}
+.create-video{background:linear-gradient(145deg,#26183e,#111219)}
+
+/* SEARCH */
+.search-box{margin:5px 15px 18px;display:flex;align-items:center;background:#15161c;border-radius:14px;padding:0 14px}
+.search-box input{
+width:100%;background:none;border:0;outline:0;color:white;padding:13px
+}
+.explore{padding:0 15px}
+.explore-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.explore-item{
+height:145px;display:flex;align-items:center;justify-content:center;font-size:38px;
+background:linear-gradient(135deg,#17172a,#50153d)
 }
 
-.empty-icon{
-font-size:50px;
-margin-bottom:10px;
+/* SETTINGS */
+.setting{
+display:flex;align-items:center;gap:14px;padding:17px;border-bottom:1px solid #1d1e24
 }
-
-/* NAVIGATION */
-
-.nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-height:72px;
-background:#0b0c11;
-border-top:1px solid #24252e;
-display:flex;
-justify-content:space-around;
-align-items:center;
-z-index:50;
+.setting-icon{
+width:38px;height:38px;border-radius:12px;background:#191a21;
+display:flex;align-items:center;justify-content:center;font-size:19px
 }
+.setting-info{flex:1}.setting-info small{display:block;color:#777;margin-top:4px}
+.chevron{color:#777;font-size:20px}
 
-.nav-button{
-height:55px;
-min-width:48px;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-gap:3px;
-color:#777;
-font-size:10px;
+/* CALL SCREEN */
+.call-screen{
+position:fixed;inset:0;background:#050507;z-index:150;
+display:none;flex-direction:column;align-items:center;justify-content:center
 }
-
-.nav-button.active{
-color:white;
+.call-screen.show{display:flex}
+.call-avatar{
+width:105px;height:105px;border-radius:50%;
+background:linear-gradient(135deg,#9b5cff,#ff3158);
+display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:900;
+box-shadow:0 0 0 12px #17121f
 }
-
-.nav-icon{
-font-size:22px;
-line-height:22px;
+.call-name{font-size:25px;font-weight:800;margin-top:22px}
+.call-status{color:#777;margin-top:7px}
+.call-actions{display:flex;gap:20px;margin-top:70px}
+.call-action{
+width:58px;height:58px;border-radius:50%;background:#1c1d24;
+font-size:23px
 }
+.call-action.end{background:#ff3158}
 
-.plus{
-width:45px;
-height:45px;
-border-radius:14px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:linear-gradient(135deg,#ff3158,#9b5cff);
-font-size:27px;
-}
-
-/* MODAL */
-
+/* MODALS */
 .modal{
-display:none;
-position:fixed;
-inset:0;
-background:#000b;
-z-index:100;
-align-items:flex-end;
+display:none;position:fixed;inset:0;background:#000b;z-index:100;
+align-items:flex-end
 }
-
-.modal.show{
-display:flex;
-}
-
+.modal.show{display:flex}
 .modal-box{
-width:100%;
-max-width:600px;
-margin:auto;
-background:#17181f;
-padding:22px;
-border-radius:22px 22px 0 0;
+width:100%;max-width:600px;margin:auto;background:#17181f;
+padding:22px;border-radius:23px 23px 0 0;max-height:85vh;overflow:auto
 }
-
-.modal-box h2{
-margin-bottom:15px;
-}
-
-.comment-row{
-display:flex;
-gap:8px;
-}
-
+.modal-box h2{margin-bottom:15px}
+.comment-row{display:flex;gap:8px}
 .comment-input{
-flex:1;
-background:#272831;
-border:0;
-border-radius:12px;
-padding:13px;
-color:white;
-outline:none;
+flex:1;background:#272831;border:0;border-radius:12px;padding:13px;
+color:white;outline:none
+}
+.send{background:#9b5cff;padding:0 15px;border-radius:12px;font-weight:800}
+.close{width:100%;margin-top:10px;padding:13px;background:#272831;border-radius:12px}
+.modal-option{
+display:flex;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid #272831
+}
+.modal-option-icon{font-size:25px;width:35px;text-align:center}
+
+/* STICKERS */
+.sticker-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.sticker{
+font-size:27px;background:#22232b;border-radius:12px;padding:9px;
+text-align:center
 }
 
-.send{
-background:#9b5cff;
-padding:0 15px;
-border-radius:12px;
-font-weight:bold;
+/* NAV */
+.nav{
+position:fixed;bottom:0;left:0;right:0;height:78px;
+background:rgba(10,10,14,.96);backdrop-filter:blur(20px);
+border-top:1px solid #22232b;display:flex;justify-content:space-around;
+align-items:center;z-index:50;padding:3px 3px
 }
-
-.close{
-width:100%;
-margin-top:10px;
-padding:13px;
-background:#272831;
-border-radius:12px;
+.nav-button{
+height:59px;min-width:43px;display:flex;flex-direction:column;
+align-items:center;justify-content:center;gap:3px;color:#666;font-size:9px
+}
+.nav-button.active{color:white}
+.nav-icon{font-size:22px;line-height:22px}
+.plus{
+width:44px;height:44px;border-radius:14px;display:flex;
+align-items:center;justify-content:center;
+background:linear-gradient(135deg,#ff3158,#9b5cff);font-size:27px
 }
 
 /* TOAST */
-
 .toast{
-position:fixed;
-bottom:90px;
-left:50%;
-transform:translateX(-50%);
-background:white;
-color:black;
-padding:11px 16px;
-border-radius:13px;
-font-size:13px;
-font-weight:bold;
-display:none;
-z-index:200;
+position:fixed;bottom:94px;left:50%;transform:translateX(-50%);
+background:#fff;color:#08090d;padding:11px 16px;border-radius:13px;
+font-size:13px;font-weight:800;display:none;z-index:300;white-space:nowrap
 }
-
-.toast.show{
-display:block;
-}
+.toast.show{display:block}
 </style>
 </head>
 
@@ -612,838 +350,628 @@ display:block;
 
 <header class="top">
 <div class="logo">Mic<span>Media</span></div>
-<div>♡　⌕</div>
+<div class="top-actions">
+<button class="top-icon" onclick="openSearch()">⌕</button>
+<button class="top-icon" onclick="toast('Notifications 🔔')">♡</button>
+</div>
 </header>
 
-
 <!-- HOME -->
-
 <section id="home" class="screen active">
 
 <div class="stories">
-
-<div class="story">
-<div class="story-img">+</div>
-You
+<div class="story"><div class="story-img"><div class="story-img-inner story-add">+</div></div>You</div>
+<div class="story"><div class="story-img">👩🏾</div>Fatou</div>
+<div class="story"><div class="story-img">👨🏾</div>Musa</div>
+<div class="story"><div class="story-img">👨🏾</div>Ebrima</div>
+<div class="story"><div class="story-img">👩🏾</div>Awa</div>
 </div>
-
-<div class="story">
-<div class="story-img">👩🏾</div>
-Fatou
-</div>
-
-<div class="story">
-<div class="story-img">👨🏾</div>
-Musa
-</div>
-
-<div class="story">
-<div class="story-img">👨🏾</div>
-Ebrima
-</div>
-
-<div class="story">
-<div class="story-img">👩🏾</div>
-Awa
-</div>
-
-</div>
-
 
 <article class="post">
 
 <div class="post-user">
 <div class="avatar">M</div>
-
 <div>
 <div class="post-name">MicMedia</div>
-<div class="post-location">The Gambia</div>
+<div class="post-location">The Gambia · 2h</div>
 </div>
+<button class="more" onclick="toast('More options •••')">•••</button>
 </div>
 
-<div class="post-photo">🎬</div>
-
+<div class="post-photo">
+🎬
+<div class="photo-label">MicMedia Creator</div>
+</div>
 
 <div class="actions">
-
-<button class="action" id="likeButton" onclick="likePost()">
-♡
-</button>
-
-<button class="action" onclick="openComments()">
-💬
-</button>
-
-<button class="action" onclick="sharePost()">
-➤
-</button>
-
-<button class="action" id="saveButton" onclick="savePost()">
-🔖
-</button>
-
+<button class="action" id="likeButton" onclick="likePost()">♡</button>
+<button class="action" onclick="openComments()">💬</button>
+<button class="action" onclick="sharePost()">↗</button>
+<button class="action" id="saveButton" onclick="savePost()">🔖</button>
 </div>
 
-<div class="likes">
-<span id="likes">0</span> likes
-</div>
-
-<div class="caption">
-<b>MicMedia</b> Welcome to MicMedia! 🎬🔥
-</div>
+<div class="likes"><span id="likes">0</span> likes</div>
+<div class="caption"><b>MicMedia</b> Welcome to MicMedia! 🎬🔥 <span>#MicMedia #Creators</span></div>
 
 </article>
 
+<div class="section-row" style="padding-top:20px">
+<b>Suggested for you</b><small>See all</small>
+</div>
+
+<div class="message">
+<div class="message-avatar">C</div>
+<div class="message-text"><b>Creator Hub</b><small>Discover new creators on MicMedia</small></div>
+<button class="profile-btn primary" style="padding:8px 12px" onclick="toast('Following Creator Hub')">Follow</button>
+</div>
+
 </section>
 
-
 <!-- LIVE -->
-
 <section id="live" class="screen">
 
 <h1 class="title">Live</h1>
 
 <div class="live-card">
-
 <div class="live-top">
 <span class="live-badge">● LIVE</span>
 <span class="viewers">👁 1.2K</span>
 </div>
-
 <div class="live-bottom">
 <h2>MicMedia Live</h2>
 <p>Watch creators live and join the conversation.</p>
 </div>
-
 </div>
 
-<button class="live-button" onclick="toast('Live setup opened 🎥')">
-🔴 Start Live Stream
-</button>
+<button class="live-button" onclick="openLiveSetup()">🔴 Start Live Stream</button>
+
+<div class="live-tools">
+<div class="live-tool" onclick="toast('Live guests opened 👥')"><div>👥</div>Guests</div>
+<div class="live-tool" onclick="toast('Gift shop opened 🎁')"><div>🎁</div>Gifts</div>
+<div class="live-tool" onclick="toast('Live chat opened 💬')"><div>💬</div>Chat</div>
+</div>
+
+<h2 class="title" style="font-size:21px">Popular Lives</h2>
+
+<div class="message">
+<div class="message-avatar">🔥</div>
+<div class="message-text"><b>Sports Live</b><small>Football discussion · 4.8K watching</small></div>
+<button class="live-badge" onclick="toast('Joining live 🔴')">LIVE</button>
+</div>
 
 </section>
 
-
 <!-- REELS -->
-
 <section id="reels" class="screen">
 
 <h1 class="title">Reels</h1>
 
 <div class="reel">
-
 <div class="reel-info">
 <b>@MicMedia</b>
-<p>Welcome to MicMedia 🔥</p>
+<p>Welcome to MicMedia 🔥 #reels #gambia</p>
 </div>
 
 <div class="reel-buttons">
-
 <button class="reel-button" onclick="toast('Liked ❤️')">❤️</button>
-
 <button class="reel-button" onclick="openComments()">💬</button>
-
-<button class="reel-button" onclick="sharePost()">➤</button>
-
+<button class="reel-button" onclick="sharePost()">↗</button>
 <button class="reel-button" onclick="toast('Saved 🔖')">🔖</button>
-
+<button class="reel-button" onclick="openSticker()">😊</button>
 </div>
-
 </div>
 
 </section>
 
-
 <!-- MESSAGES -->
-
 <section id="messages" class="screen">
 
 <h1 class="title">Messages</h1>
 
+<div class="section-row">
+<small>Chats</small>
+<button onclick="startGroupCall()">👥 Group Call</button>
+</div>
+
 <div class="message">
 <div class="message-avatar">F</div>
-<div class="message-text">
-<b>Fatou</b>
-<small>Hey! How are you?</small>
+<div class="message-text"><b>Fatou</b><small>Hey! How are you? 😊</small></div>
+<div class="online"></div>
+<div class="call-buttons">
+<button class="small-call" onclick="startVoiceCall('Fatou','F')">📞</button>
+<button class="small-call" onclick="startVideoCall('Fatou','F')">📹</button>
 </div>
 </div>
 
 <div class="message">
 <div class="message-avatar">M</div>
-<div class="message-text">
-<b>Musa</b>
-<small>Check this video 😂</small>
+<div class="message-text"><b>Musa</b><small>Check this video 😂</small></div>
+<div class="call-buttons">
+<button class="small-call" onclick="startVoiceCall('Musa','M')">📞</button>
+<button class="small-call" onclick="startVideoCall('Musa','M')">📹</button>
 </div>
 </div>
 
 <div class="message">
 <div class="message-avatar">E</div>
-<div class="message-text">
-<b>Ebrima</b>
-<small>Let's go live.</small>
+<div class="message-text"><b>Ebrima</b><small>Let's go live.</small></div>
+<div class="call-buttons">
+<button class="small-call" onclick="startVoiceCall('Ebrima','E')">📞</button>
+<button class="small-call" onclick="startVideoCall('Ebrima','E')">📹</button>
 </div>
 </div>
 
 </section>
-
 
 <!-- FAVORITES -->
-
 <section id="favorites" class="screen">
-
 <h1 class="title">Favorites</h1>
-
 <div id="favoritesContent" class="empty">
-
 <div class="empty-icon">🔖</div>
-
 <h3>No Favorites Yet</h3>
-
 <p>Saved posts will appear here.</p>
-
 </div>
-
 </section>
 
-
 <!-- PROFILE -->
-
 <section id="profile" class="screen">
 
 <div class="profile">
 
 <div class="profile-top">
-
 <div class="profile-avatar">M</div>
-
 <div>
 <div class="profile-name">MicMedia User</div>
 <div class="profile-user">@micmedia_user</div>
 </div>
-
 </div>
 
+<div class="profile-buttons">
+<button class="profile-btn primary" onclick="toast('Edit profile opened ✨')">Edit Profile</button>
+<button class="profile-btn" onclick="toast('Share profile 🔗')">Share Profile</button>
+</div>
 
 <div class="stats">
-
-<div class="stat">
-<b>12</b>
-<span>Posts</span>
+<div class="stat"><b>12</b><span>Posts</span></div>
+<div class="stat"><b>250</b><span>Followers</span></div>
+<div class="stat"><b>180</b><span>Following</span></div>
 </div>
-
-<div class="stat">
-<b>250</b>
-<span>Followers</span>
-</div>
-
-<div class="stat">
-<b>180</b>
-<span>Following</span>
-</div>
-
-</div>
-
-
-<!-- INVITE FRIENDS -->
 
 <div class="invite">
-
 <h2>🎁 Invite Friends</h2>
-
-<p>
-Invite your friends to MicMedia. Invite 5 friends and unlock your special MicMedia badge!
-</p>
+<p>Invite your friends to MicMedia. Invite 5 friends and unlock your special MicMedia badge!</p>
 
 <div class="code">
-
 <strong id="refCode">MIC-000000</strong>
-
-<button class="copy" onclick="copyCode()">
-Copy
-</button>
-
+<button class="copy" onclick="copyCode()">Copy</button>
 </div>
-
 
 <div class="progress-text">
-
 <span>Badge Progress</span>
-
 <span id="progressText">0 / 5</span>
-
 </div>
 
-<div class="progress">
+<div class="progress"><div id="progressBar" class="progress-bar"></div></div>
 
-<div id="progressBar" class="progress-bar"></div>
-
-</div>
-
-
-<button class="invite-button" onclick="inviteFriends()">
-👥 Invite Friends
-</button>
-
+<button class="invite-button" onclick="inviteFriends()">👥 Invite Friends</button>
 
 <div class="badges">
-
-<div id="badge5" class="badge">
-<div class="badge-icon">🏅</div>
-<small>5 Friends</small>
+<div id="badge5" class="badge"><div class="badge-icon">🏅</div><small>5 Friends</small></div>
+<div id="badge10" class="badge"><div class="badge-icon">⭐</div><small>10 Friends</small></div>
+<div id="badge25" class="badge"><div class="badge-icon">🔥</div><small>25 Friends</small></div>
+<div id="badge50" class="badge"><div class="badge-icon">👑</div><small>50 Friends</small></div>
+</div>
 </div>
 
-<div id="badge10" class="badge">
-<div class="badge-icon">⭐</div>
-<small>10 Friends</small>
+<h2 style="font-size:20px;margin:25px 0 8px">Creator Tools</h2>
+
+<div class="setting" onclick="toast('Analytics opened 📊')">
+<div class="setting-icon">📊</div>
+<div class="setting-info"><b>Creator Analytics</b><small>Views, followers and engagement</small></div>
+<div class="chevron">›</div>
 </div>
 
-<div id="badge25" class="badge">
-<div class="badge-icon">🔥</div>
-<small>25 Friends</small>
-</div>
-
-<div id="badge50" class="badge">
-<div class="badge-icon">👑</div>
-<small>50 Friends</small>
-</div>
-
-</div>
-
+<div class="setting" onclick="toast('Settings opened ⚙️')">
+<div class="setting-icon">⚙️</div>
+<div class="setting-info"><b>Settings & Privacy</b><small>Account, privacy and security</small></div>
+<div class="chevron">›</div>
 </div>
 
 </div>
+</section>
 
+<!-- SEARCH -->
+<section id="search" class="screen">
+<h1 class="title">Search</h1>
+<div class="search-box">
+<span>⌕</span>
+<input id="searchInput" placeholder="Search creators, videos, hashtags..." oninput="searchDemo()">
+</div>
+<div class="explore">
+<h3 style="margin-bottom:12px">Explore</h3>
+<div class="explore-grid">
+<div class="explore-item">⚽</div>
+<div class="explore-item">🎵</div>
+<div class="explore-item">😂</div>
+<div class="explore-item">🔥</div>
+<div class="explore-item">🎬</div>
+<div class="explore-item">🌍</div>
+</div>
+</div>
+</section>
+
+<!-- CREATE -->
+<section id="create" class="screen">
+<h1 class="title">Create</h1>
+<div class="create-grid">
+<div class="create-card create-video" onclick="toast('Video creator opened 🎬')">
+<div class="create-icon">🎬</div><b>Create Reel</b><small>Make a short video</small>
+</div>
+<div class="create-card create-live" onclick="openLiveSetup()">
+<div class="create-icon">🔴</div><b>Go Live</b><small>Connect with your audience</small>
+</div>
+<div class="create-card" onclick="toast('Story creator opened 📸')">
+<div class="create-icon">📸</div><b>Add Story</b><small>Share a moment</small>
+</div>
+<div class="create-card" onclick="openSticker()">
+<div class="create-icon">😊</div><b>Add Stickers</b><small>Make it yours</small>
+</div>
+</div>
 </section>
 
 </div>
 
-
-<!-- BOTTOM NAVIGATION -->
-
+<!-- MODERN NAV -->
 <nav class="nav">
 
 <button class="nav-button active" onclick="go('home',this)">
-<span class="nav-icon">⌂</span>
-<span>Home</span>
+<span class="nav-icon">⌂</span><span>Home</span>
 </button>
 
 <button class="nav-button" onclick="go('live',this)">
-<span class="nav-icon">◉</span>
-<span>Live</span>
+<span class="nav-icon">◉</span><span>Live</span>
 </button>
 
-<button class="nav-button" onclick="toast('Create opened +')">
+<button class="nav-button" onclick="go('create',this)">
 <span class="plus">+</span>
 </button>
 
 <button class="nav-button" onclick="go('reels',this)">
-<span class="nav-icon">▣</span>
-<span>Reels</span>
+<span class="nav-icon">▣</span><span>Reels</span>
 </button>
 
 <button class="nav-button" onclick="go('messages',this)">
-<span class="nav-icon">◌</span>
-<span>Messages</span>
+<span class="nav-icon">◌</span><span>Messages</span>
 </button>
 
 <button class="nav-button" onclick="go('favorites',this)">
-<span class="nav-icon">🔖</span>
-<span>Favorites</span>
+<span class="nav-icon">🔖</span><span>Favorites</span>
 </button>
 
 <button class="nav-button" onclick="go('profile',this)">
-<span class="nav-icon">○</span>
-<span>Profile</span>
+<span class="nav-icon">○</span><span>Profile</span>
 </button>
 
 </nav>
 
-
 <!-- COMMENTS -->
-
 <div id="commentModal" class="modal">
-
 <div class="modal-box">
-
-<h2>Comments</h2>
-
+<h2>Comments 💬</h2>
 <div class="comment-row">
-
-<input
-id="commentInput"
-class="comment-input"
-placeholder="Add a comment..."
->
-
-<button class="send" onclick="sendComment()">
-Send
-</button>
-
+<input id="commentInput" class="comment-input" placeholder="Add a comment...">
+<button class="send" onclick="sendComment()">Send</button>
+</div>
+<button class="close" onclick="closeComments()">Close</button>
+</div>
 </div>
 
-<button class="close" onclick="closeComments()">
-Close
-</button>
-
+<!-- STICKERS -->
+<div id="stickerModal" class="modal">
+<div class="modal-box">
+<h2>Stickers 😊</h2>
+<div class="sticker-grid">
+<button class="sticker" onclick="chooseSticker('😂')">😂</button>
+<button class="sticker" onclick="chooseSticker('❤️')">❤️</button>
+<button class="sticker" onclick="chooseSticker('🔥')">🔥</button>
+<button class="sticker" onclick="chooseSticker('😍')">😍</button>
+<button class="sticker" onclick="chooseSticker('🤣')">🤣</button>
+<button class="sticker" onclick="chooseSticker('🥳')">🥳</button>
+<button class="sticker" onclick="chooseSticker('😎')">😎</button>
+<button class="sticker" onclick="chooseSticker('👏')">👏</button>
+<button class="sticker" onclick="chooseSticker('🎉')">🎉</button>
+<button class="sticker" onclick="chooseSticker('💯')">💯</button>
+<button class="sticker" onclick="chooseSticker('⭐')">⭐</button>
+<button class="sticker" onclick="chooseSticker('👑')">👑</button>
+</div>
+<button class="close" onclick="closeSticker()">Close</button>
+</div>
 </div>
 
+<!-- CALL -->
+<div id="callScreen" class="call-screen">
+<div id="callAvatar" class="call-avatar">F</div>
+<div id="callName" class="call-name">Fatou</div>
+<div id="callStatus" class="call-status">Calling...</div>
+<div class="call-actions">
+<button class="call-action" onclick="toggleCallMute()">🎤</button>
+<button class="call-action" onclick="toggleSpeaker()">🔊</button>
+<button class="call-action end" onclick="endCall()">☎</button>
+</div>
 </div>
 
+<!-- LIVE SETUP -->
+<div id="liveModal" class="modal">
+<div class="modal-box">
+<h2>🔴 Start Live</h2>
+<div class="modal-option" onclick="toast('Camera selected 📹')"><span class="modal-option-icon">📹</span><b>Camera</b></div>
+<div class="modal-option" onclick="toast('Add guests 👥')"><span class="modal-option-icon">👥</span><b>Invite Guests</b></div>
+<div class="modal-option" onclick="toast('Live gifts enabled 🎁')"><span class="modal-option-icon">🎁</span><b>Live Gifts</b></div>
+<button class="live-button" style="margin:15px 0 0;width:100%" onclick="closeLiveSetup();toast('Live setup ready 🔴')">Continue</button>
+<button class="close" onclick="closeLiveSetup()">Cancel</button>
+</div>
+</div>
 
 <div id="toastBox" class="toast"></div>
-
 
 <script>
 
 /* NAVIGATION */
-
 function go(id,button){
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
 
-document.querySelectorAll('.screen')
-.forEach(function(screen){
-screen.classList.remove('active');
-});
-
-document.getElementById(id)
-.classList.add('active');
-
-document.querySelectorAll('.nav-button')
-.forEach(function(btn){
-btn.classList.remove('active');
-});
-
+document.querySelectorAll('.nav-button').forEach(b=>b.classList.remove('active'));
 button.classList.add('active');
-
 window.scrollTo(0,0);
-
 }
 
+function openSearch(){
+go('search',document.querySelectorAll('.nav-button')[0]);
+setTimeout(()=>document.getElementById('searchInput').focus(),100);
+}
 
 /* LIKE */
-
 let liked=false;
-
-let likes=
-Number(localStorage.getItem('micmediaLikes')||0);
-
+let likes=Number(localStorage.getItem('micmediaLikes')||0);
 document.getElementById('likes').textContent=likes;
 
 function likePost(){
-
 liked=!liked;
-
-const button=
-document.getElementById('likeButton');
+const b=document.getElementById('likeButton');
 
 if(liked){
-
 likes++;
-
-button.innerHTML='♥';
-
-button.classList.add('liked');
-
+b.innerHTML='♥';
+b.classList.add('liked');
 }else{
-
 likes=Math.max(0,likes-1);
-
-button.innerHTML='♡';
-
-button.classList.remove('liked');
-
+b.innerHTML='♡';
+b.classList.remove('liked');
 }
 
-document.getElementById('likes')
-.textContent=likes;
-
-localStorage.setItem(
-'micmediaLikes',
-likes
-);
-
+document.getElementById('likes').textContent=likes;
+localStorage.setItem('micmediaLikes',likes);
 }
-
 
 /* FAVORITE */
+let saved=localStorage.getItem('micmediaSaved')==='true';
 
-let saved=
-localStorage.getItem('micmediaSaved')==='true';
-
-function savePost(){
-
-saved=!saved;
-
-const button=
-document.getElementById('saveButton');
+function renderFavorite(){
+const content=document.getElementById('favoritesContent');
 
 if(saved){
-
-button.classList.add('saved');
-
-localStorage.setItem(
-'micmediaSaved',
-'true'
-);
-
-document.getElementById(
-'favoritesContent'
-).innerHTML=`
-
+document.getElementById('saveButton').classList.add('saved');
+content.innerHTML=`
 <div style="padding:15px">
-
-<div style="
-background:#15161d;
-border-radius:18px;
-padding:20px;
-text-align:center;
-">
-
+<div style="background:#15161d;border-radius:18px;padding:20px;text-align:center">
 <div style="font-size:50px">🎬</div>
-
 <h3>MicMedia Post</h3>
-
-<p style="color:#888;margin-top:6px">
-Saved to Favorites
-</p>
-
+<p style="color:#888;margin-top:6px">Saved to Favorites</p>
 </div>
-
-</div>
-
-`;
-
-toast('Added to Favorites 🔖');
-
+</div>`;
 }else{
-
-button.classList.remove('saved');
-
-localStorage.removeItem(
-'micmediaSaved'
-);
-
-document.getElementById(
-'favoritesContent'
-).innerHTML=`
-
+document.getElementById('saveButton').classList.remove('saved');
+content.innerHTML=`
 <div class="empty">
-
 <div class="empty-icon">🔖</div>
-
 <h3>No Favorites Yet</h3>
-
 <p>Saved posts will appear here.</p>
+</div>`;
+}
+}
 
-</div>
+function savePost(){
+saved=!saved;
 
-`;
-
+if(saved){
+localStorage.setItem('micmediaSaved','true');
+toast('Added to Favorites 🔖');
+}else{
+localStorage.removeItem('micmediaSaved');
 toast('Removed from Favorites');
-
 }
 
+renderFavorite();
 }
-
 
 /* COMMENTS */
-
 function openComments(){
-
-document
-.getElementById('commentModal')
-.classList.add('show');
-
+document.getElementById('commentModal').classList.add('show');
 }
 
 function closeComments(){
-
-document
-.getElementById('commentModal')
-.classList.remove('show');
-
+document.getElementById('commentModal').classList.remove('show');
 }
 
 function sendComment(){
-
-const input=
-document.getElementById('commentInput');
+const input=document.getElementById('commentInput');
 
 if(!input.value.trim()){
-
 toast('Write a comment first');
-
 return;
-
 }
 
 toast('Comment added 💬');
-
 input.value='';
-
 setTimeout(closeComments,600);
-
 }
 
-
 /* SHARE */
-
 function sharePost(){
-
-const text=
-'Check out this post on MicMedia!';
+const text='Check out this post on MicMedia!';
 
 if(navigator.share){
-
 navigator.share({
-
 title:'MicMedia',
 text:text,
 url:window.location.href
-
-}).catch(function(){});
-
-}else{
-
-if(navigator.clipboard){
-
-navigator.clipboard.writeText(
-window.location.href
-);
-
+}).catch(()=>{});
+}else if(navigator.clipboard){
+navigator.clipboard.writeText(window.location.href);
 toast('Post link copied 🔗');
-
 }else{
-
-toast('Share link: '+window.location.href);
-
+toast('Share link ready 🔗');
+}
 }
 
+/* STICKERS */
+function openSticker(){
+document.getElementById('stickerModal').classList.add('show');
+}
+function closeSticker(){
+document.getElementById('stickerModal').classList.remove('show');
+}
+function chooseSticker(s){
+closeSticker();
+toast('Sticker added '+s);
 }
 
+/* CALLS */
+function startVoiceCall(name,initial){
+openCall(name,initial,'Voice call');
+}
+function startVideoCall(name,initial){
+openCall(name,initial,'Video call');
+}
+function startGroupCall(){
+openCall('MicMedia Group','👥','Group call');
+}
+function openCall(name,initial,type){
+document.getElementById('callName').textContent=name;
+document.getElementById('callAvatar').textContent=initial;
+document.getElementById('callStatus').textContent=type+' connecting...';
+document.getElementById('callScreen').classList.add('show');
+
+setTimeout(()=>{
+if(document.getElementById('callScreen').classList.contains('show')){
+document.getElementById('callStatus').textContent=type+' ready';
+}
+},1200);
+}
+function endCall(){
+document.getElementById('callScreen').classList.remove('show');
+toast('Call ended');
+}
+function toggleCallMute(){toast('Microphone toggled 🎤')}
+function toggleSpeaker(){toast('Speaker toggled 🔊')}
+
+/* LIVE */
+function openLiveSetup(){
+document.getElementById('liveModal').classList.add('show');
+}
+function closeLiveSetup(){
+document.getElementById('liveModal').classList.remove('show');
 }
 
+/* SEARCH */
+function searchDemo(){
+const value=document.getElementById('searchInput').value.trim();
+if(value) toast('Searching for '+value);
+}
 
-/* REFERRAL CODE */
-
+/* REFERRAL */
 function createCode(){
-
-let code=
-localStorage.getItem(
-'micmediaReferralCode'
-);
+let code=localStorage.getItem('micmediaReferralCode');
 
 if(!code){
-
-code=
-'MIC-'+
-Math.random()
-.toString(36)
-.substring(2,8)
-.toUpperCase();
-
-localStorage.setItem(
-'micmediaReferralCode',
-code
-);
-
+code='MIC-'+Math.random().toString(36).substring(2,8).toUpperCase();
+localStorage.setItem('micmediaReferralCode',code);
 }
 
 return code;
-
 }
-
-
-/* REFERRAL COUNT */
 
 function getCount(){
-
-return Number(
-localStorage.getItem(
-'micmediaReferralCount'
-)||0
-);
-
+return Number(localStorage.getItem('micmediaReferralCount')||0);
 }
 
-
-/* UPDATE BADGES */
-
 function updateBadges(){
-
 const count=getCount();
 
-document.getElementById(
-'refCode'
-).textContent=createCode();
+document.getElementById('refCode').textContent=createCode();
 
 let progress=Math.min(count,5);
 
-document.getElementById(
-'progressText'
-).textContent=
-progress+' / 5';
+document.getElementById('progressText').textContent=progress+' / 5';
+document.getElementById('progressBar').style.width=(progress/5*100)+'%';
 
-document.getElementById(
-'progressBar'
-).style.width=
-(progress/5*100)+'%';
-
-document.getElementById(
-'badge5'
-).classList.toggle(
-'unlocked',
-count>=5
-);
-
-document.getElementById(
-'badge10'
-).classList.toggle(
-'unlocked',
-count>=10
-);
-
-document.getElementById(
-'badge25'
-).classList.toggle(
-'unlocked',
-count>=25
-);
-
-document.getElementById(
-'badge50'
-).classList.toggle(
-'unlocked',
-count>=50
-);
-
+document.getElementById('badge5').classList.toggle('unlocked',count>=5);
+document.getElementById('badge10').classList.toggle('unlocked',count>=10);
+document.getElementById('badge25').classList.toggle('unlocked',count>=25);
+document.getElementById('badge50').classList.toggle('unlocked',count>=50);
 }
 
-
-/* INVITE */
-
 function inviteFriends(){
-
 const code=createCode();
-
-const link=
-window.location.href.split('?')[0]+
-'?ref='+code;
+const link=window.location.href.split('?')[0]+'?ref='+code;
 
 const message=
 'Join me on MicMedia! 🎬🔥\n'+
-'My MicMedia invite code is '+code+
-'\n'+link;
+'My MicMedia invite code is '+code+'\n'+link;
 
 if(navigator.share){
-
 navigator.share({
-
 title:'Join MicMedia',
 text:message,
 url:link
-
-}).catch(function(){});
-
+}).catch(()=>{});
 }else if(navigator.clipboard){
-
 navigator.clipboard.writeText(message);
-
 toast('Invite copied 🔗');
-
 }else{
-
 toast('Your code is '+code);
-
 }
-
 }
-
-
-/* COPY */
 
 function copyCode(){
-
 const code=createCode();
 
 if(navigator.clipboard){
-
 navigator.clipboard.writeText(code);
-
 toast('Referral code copied');
-
 }else{
-
 toast(code);
-
 }
-
 }
-
 
 /* TOAST */
-
 let toastTimer;
 
 function toast(message){
-
-const box=
-document.getElementById('toastBox');
-
+const box=document.getElementById('toastBox');
 box.textContent=message;
-
 box.classList.add('show');
 
 clearTimeout(toastTimer);
 
-toastTimer=setTimeout(function(){
-
+toastTimer=setTimeout(()=>{
 box.classList.remove('show');
-
 },2200);
-
 }
-
-
-/* LOAD SAVED FAVORITE */
-
-if(saved){
-
-document.getElementById(
-'saveButton'
-).classList.add('saved');
-
-document.getElementById(
-'favoritesContent'
-).innerHTML=`
-
-<div style="padding:15px">
-
-<div style="
-background:#15161d;
-border-radius:18px;
-padding:20px;
-text-align:center;
-">
-
-<div style="font-size:50px">🎬</div>
-
-<h3>MicMedia Post</h3>
-
-<p style="color:#888;margin-top:6px">
-Saved to Favorites
-</p>
-
-</div>
-
-</div>
-
-`;
-
-}
-
 
 /* INITIALIZE */
-
+renderFavorite();
 updateBadges();
 
 </script>
