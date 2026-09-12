@@ -196,6 +196,87 @@ button{
  color:var(--muted);
 }
 
+
+/* STORIES */
+
+.storiesWrap{
+ margin:0 -16px 18px;
+ padding:4px 16px 12px;
+ overflow-x:auto;
+ display:flex;
+ gap:13px;
+ scrollbar-width:none;
+}
+
+.storiesWrap::-webkit-scrollbar{display:none}
+
+.storyItem{
+ width:68px;
+ min-width:68px;
+ text-align:center;
+ cursor:pointer;
+ position:relative;
+}
+
+.storyRing{
+ width:66px;
+ height:66px;
+ padding:3px;
+ border-radius:50%;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899,#ff304f);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+
+.storyRing.seen{
+ background:#454852;
+}
+
+.storyAvatar{
+ width:60px;
+ height:60px;
+ border-radius:50%;
+ background:linear-gradient(135deg,#191c25,#343746);
+ border:3px solid var(--bg);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:19px;
+ font-weight:900;
+}
+
+.storyName{
+ margin-top:5px;
+ font-size:10px;
+ color:#ddd;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}
+
+.addStory .storyAvatar{
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+}
+
+.storyPlus{
+ position:absolute;
+ right:0;
+ bottom:18px;
+ width:23px;
+ height:23px;
+ border-radius:50%;
+ background:#fff;
+ color:#8b5cf6;
+ border:3px solid var(--bg);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:17px;
+ font-weight:900;
+}
+
+
 /* LIVE */
 
 .liveHero{
@@ -322,6 +403,7 @@ button{
  font-weight:700;
 }
 
+
 /* REELS */
 
 .reelCard{
@@ -388,6 +470,7 @@ button{
  stroke-width:2;
 }
 
+
 /* CHAT */
 
 .chatUser{
@@ -444,6 +527,7 @@ button{
  color:var(--muted);
  font-size:10px;
 }
+
 
 /* PROFILE */
 
@@ -512,6 +596,7 @@ button{
  font-weight:700;
 }
 
+
 /* BALANCE */
 
 .balanceCard{
@@ -544,6 +629,7 @@ button{
  background:rgba(255,255,255,.1);
  font-weight:700;
 }
+
 
 /* NAVIGATION */
 
@@ -603,6 +689,7 @@ button{
 }
 
 .plusNav svg{width:24px}
+
 
 /* LIVE ROOM */
 
@@ -807,6 +894,7 @@ button{
  margin-top:4px;
 }
 
+
 /* INVITATIONS */
 
 .inviteSheet{
@@ -863,6 +951,7 @@ button{
  font-size:11px;
  font-weight:800;
 }
+
 
 /* QR */
 
@@ -949,6 +1038,180 @@ button{
  font-weight:800;
 }
 
+
+/* STORY VIEWER */
+
+.storyViewer{
+ position:fixed;
+ inset:0;
+ z-index:15000;
+ background:#000;
+ display:none;
+ overflow:hidden;
+}
+
+.storyViewer.open{
+ display:block;
+}
+
+.storyMedia{
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ object-fit:contain;
+ background:#000;
+}
+
+.storyFallback{
+ position:absolute;
+ inset:0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ padding:30px;
+ font-size:34px;
+ font-weight:900;
+ background:linear-gradient(135deg,#171329,#35152e);
+}
+
+.storyShade{
+ position:absolute;
+ inset:0;
+ background:
+ linear-gradient(to bottom,rgba(0,0,0,.7),transparent 25%,
+ transparent 65%,rgba(0,0,0,.7));
+ pointer-events:none;
+}
+
+.storyProgress{
+ position:absolute;
+ top:9px;
+ left:10px;
+ right:10px;
+ display:flex;
+ gap:4px;
+ z-index:5;
+}
+
+.storyProgressBar{
+ flex:1;
+ height:3px;
+ background:rgba(255,255,255,.35);
+ border-radius:5px;
+ overflow:hidden;
+}
+
+.storyProgressFill{
+ height:100%;
+ width:0;
+ background:#fff;
+ transition:width .03s linear;
+}
+
+.storyHeader{
+ position:absolute;
+ top:22px;
+ left:14px;
+ right:14px;
+ display:flex;
+ align-items:center;
+ gap:9px;
+ z-index:5;
+}
+
+.storyHeaderAvatar{
+ width:38px;
+ height:38px;
+ border-radius:50%;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:900;
+}
+
+.storyHeaderInfo{
+ flex:1;
+}
+
+.storyHeaderName{
+ font-size:13px;
+ font-weight:800;
+}
+
+.storyHeaderTime{
+ font-size:10px;
+ color:#ccc;
+ margin-top:3px;
+}
+
+.storyClose{
+ width:40px;
+ height:40px;
+ border-radius:50%;
+ background:rgba(0,0,0,.45);
+ font-size:25px;
+}
+
+.storyTapLeft,
+.storyTapRight{
+ position:absolute;
+ top:90px;
+ bottom:90px;
+ width:35%;
+ z-index:4;
+}
+
+.storyTapLeft{left:0}
+.storyTapRight{right:0}
+
+.storyBottom{
+ position:absolute;
+ left:14px;
+ right:14px;
+ bottom:18px;
+ display:flex;
+ align-items:center;
+ gap:8px;
+ z-index:5;
+}
+
+.storyReply{
+ flex:1;
+ height:43px;
+ border-radius:23px;
+ border:1px solid rgba(255,255,255,.3);
+ background:rgba(0,0,0,.4);
+ color:white;
+ padding:0 15px;
+ outline:0;
+}
+
+.storyHeart{
+ width:45px;
+ height:45px;
+ border-radius:50%;
+ background:rgba(0,0,0,.4);
+ font-size:23px;
+}
+
+.storyLikeHeart{
+ position:absolute;
+ z-index:20;
+ font-size:75px;
+ pointer-events:none;
+ animation:storyHeartPop .8s ease forwards;
+}
+
+@keyframes storyHeartPop{
+ 0%{transform:scale(.2);opacity:0}
+ 25%{transform:scale(1.3);opacity:1}
+ 100%{transform:scale(1) translateY(-80px);opacity:0}
+}
+
+
 /* END LIVE */
 
 .endLiveBox{
@@ -997,6 +1260,7 @@ button{
 
 .endButtons .danger{background:#ff304f}
 
+
 /* SEARCH */
 
 .searchBox{
@@ -1025,6 +1289,7 @@ button{
  outline:0;
  color:white;
 }
+
 
 /* SETTINGS */
 
@@ -1069,6 +1334,7 @@ button{
 
 .toggle.on span{transform:translateX(20px)}
 
+
 /* DOUBLE TAP HEART */
 
 .doubleTapHeart{
@@ -1101,7 +1367,6 @@ button{
 }
 </style>
 
-<!-- QR CODE LIBRARY -->
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
 </head>
@@ -1111,14 +1376,18 @@ button{
 <div class="app">
 
 <header class="topbar">
+
 <div class="logo">MicMedia</div>
 
 <button class="topAction" onclick="showPage('search')">
+
 <svg viewBox="0 0 24 24">
 <circle cx="11" cy="11" r="6"></circle>
 <path d="M16 16l5 5"></path>
 </svg>
+
 </button>
+
 </header>
 
 
@@ -1127,6 +1396,80 @@ button{
 <main class="page active" id="home">
 
 <div class="sectionTitle">Home</div>
+
+
+<!-- STORIES -->
+
+<div class="storiesWrap" id="storiesWrap">
+
+<button class="storyItem addStory" onclick="addStory()">
+
+<div class="storyRing">
+
+<div class="storyAvatar">M</div>
+
+</div>
+
+<div class="storyPlus">+</div>
+
+<div class="storyName">Your story</div>
+
+</button>
+
+
+<div class="storyItem" onclick="openStory(0)">
+
+<div class="storyRing">
+
+<div class="storyAvatar">A</div>
+
+</div>
+
+<div class="storyName">Awa</div>
+
+</div>
+
+
+<div class="storyItem" onclick="openStory(1)">
+
+<div class="storyRing">
+
+<div class="storyAvatar">K</div>
+
+</div>
+
+<div class="storyName">Kebba</div>
+
+</div>
+
+
+<div class="storyItem" onclick="openStory(2)">
+
+<div class="storyRing">
+
+<div class="storyAvatar">F</div>
+
+</div>
+
+<div class="storyName">Fatou</div>
+
+</div>
+
+
+<div class="storyItem" onclick="openStory(3)">
+
+<div class="storyRing">
+
+<div class="storyAvatar">S</div>
+
+</div>
+
+<div class="storyName">Sports</div>
+
+</div>
+
+</div>
+
 
 <div class="card">
 
@@ -1137,19 +1480,29 @@ button{
 <div class="avatar">M</div>
 
 <div>
+
 <div class="username">MicMedia Sports</div>
+
 <div class="handle">@sports</div>
-</div>
 
 </div>
 
 </div>
 
-<div class="postImage">SPORTS</div>
+</div>
+
+
+<div class="postImage">
+SPORTS
+</div>
+
 
 <div class="postText">
+
 Welcome to MicMedia. Share your moments, watch reels and connect with people.
+
 </div>
+
 
 <div class="postActions">
 
@@ -1158,7 +1511,9 @@ Welcome to MicMedia. Share your moments, watch reels and connect with people.
 <button class="actionBtn" onclick="likePost(this)">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
+
 </svg>
 
 </button>
@@ -1173,7 +1528,9 @@ Welcome to MicMedia. Share your moments, watch reels and connect with people.
 <button class="actionBtn" onclick="addComment()">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
+
 </svg>
 
 </button>
@@ -1188,8 +1545,11 @@ Welcome to MicMedia. Share your moments, watch reels and connect with people.
 <button class="actionBtn" onclick="sharePost()">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M22 2 11 13"></path>
+
 <path d="m22 2-7 20-4-9-9-4z"></path>
+
 </svg>
 
 </button>
@@ -1202,7 +1562,9 @@ Welcome to MicMedia. Share your moments, watch reels and connect with people.
 <button class="actionBtn" onclick="savePost(this)">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M6 3h12v18l-6-4-6 4z"/>
+
 </svg>
 
 </button>
@@ -1210,6 +1572,7 @@ Welcome to MicMedia. Share your moments, watch reels and connect with people.
 </div>
 
 </div>
+
 </div>
 
 
@@ -1222,21 +1585,31 @@ Welcome to MicMedia. Share your moments, watch reels and connect with people.
 <div class="avatar">A</div>
 
 <div>
+
 <div class="username">Awa</div>
+
 <div class="handle">@awa</div>
-</div>
 
 </div>
 
 </div>
+
+</div>
+
 
 <div class="postImage" style="background:linear-gradient(135deg,#172554,#831843)">
+
 MICMEDIA
+
 </div>
 
+
 <div class="postText">
+
 New day, new memories ❤️
+
 </div>
+
 
 <div class="postActions">
 
@@ -1245,7 +1618,9 @@ New day, new memories ❤️
 <button class="actionBtn" onclick="likePost(this)">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
+
 </svg>
 
 </button>
@@ -1260,7 +1635,9 @@ New day, new memories ❤️
 <button class="actionBtn" onclick="addComment()">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
+
 </svg>
 
 </button>
@@ -1270,6 +1647,7 @@ New day, new memories ❤️
 </div>
 
 </div>
+
 </div>
 
 </main>
@@ -1281,6 +1659,7 @@ New day, new memories ❤️
 
 <div class="sectionTitle">Live</div>
 
+
 <div class="liveHero">
 
 <div class="liveHeroBg"></div>
@@ -1290,8 +1669,11 @@ New day, new memories ❤️
 <div class="liveIcon">
 
 <svg viewBox="0 0 24 24">
+
 <rect x="3" y="6" width="13" height="12" rx="3"></rect>
+
 <path d="m16 10 5-3v10l-5-3"></path>
+
 </svg>
 
 </div>
@@ -1301,16 +1683,22 @@ New day, new memories ❤️
 <p>Connect with your audience in real time.</p>
 
 <button class="startLiveBtn" onclick="startLive()">
+
 Start Live Stream
+
 </button>
 
 </div>
+
 </div>
 
 
 <div class="liveListTitle">
+
 <h3>Live Now</h3>
+
 <span style="color:#20d66b;font-size:12px">● Online</span>
+
 </div>
 
 
@@ -1378,7 +1766,9 @@ Start Live Stream
 <button class="reelAction" onclick="likeReel(this)">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
+
 </svg>
 
 </button>
@@ -1387,7 +1777,9 @@ Start Live Stream
 <button class="reelAction" onclick="addReelComment()">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
+
 </svg>
 
 </button>
@@ -1396,8 +1788,11 @@ Start Live Stream
 <button class="reelAction" onclick="shareReel()">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M22 2 11 13"></path>
+
 <path d="m22 2-7 20-4-9-9-4z"></path>
+
 </svg>
 
 </button>
@@ -1406,7 +1801,9 @@ Start Live Stream
 <button class="reelAction" onclick="saveReel(this)">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M6 3h12v18l-6-4-6 4z"/>
+
 </svg>
 
 </button>
@@ -1428,8 +1825,11 @@ Start Live Stream
 <button class="chatUser" onclick="openChat('Awa','A',true)">
 
 <div class="chatAvatar">
+
 A
+
 <span class="onlineDot"></span>
+
 </div>
 
 <div class="chatInfo">
@@ -1448,8 +1848,11 @@ A
 <button class="chatUser" onclick="openChat('Kebba','K',true)">
 
 <div class="chatAvatar">
+
 K
+
 <span class="onlineDot"></span>
+
 </div>
 
 <div class="chatInfo">
@@ -1500,18 +1903,29 @@ K
 <div class="stats">
 
 <div class="stat">
+
 <strong>0</strong>
+
 <span>Posts</span>
+
 </div>
 
+
 <div class="stat">
+
 <strong>120</strong>
+
 <span>Followers</span>
+
 </div>
 
+
 <div class="stat">
+
 <strong>85</strong>
+
 <span>Following</span>
+
 </div>
 
 </div>
@@ -1537,11 +1951,15 @@ K
 <div class="balanceButtons">
 
 <button class="balanceBtn" onclick="alert('Add Balance coming soon')">
+
 Add Balance
+
 </button>
 
 <button class="balanceBtn" onclick="alert('Withdraw coming soon')">
+
 Withdraw
+
 </button>
 
 </div>
@@ -1557,6 +1975,7 @@ Withdraw
 
 <div class="sectionTitle">Balance</div>
 
+
 <div class="balanceCard">
 
 <div class="balanceLabel">Available Balance</div>
@@ -1566,11 +1985,15 @@ Withdraw
 <div class="balanceButtons">
 
 <button class="balanceBtn" onclick="alert('Add Balance coming soon')">
+
 Add Balance
+
 </button>
 
 <button class="balanceBtn" onclick="alert('Withdraw coming soon')">
+
 Withdraw
+
 </button>
 
 </div>
@@ -1620,19 +2043,26 @@ Withdraw
 
 <div class="sectionTitle">Search</div>
 
+
 <div class="searchBox">
 
 <svg viewBox="0 0 24 24">
+
 <circle cx="11" cy="11" r="6"></circle>
+
 <path d="M16 16l5 5"></path>
+
 </svg>
 
 <input type="text" placeholder="Search MicMedia">
 
 </div>
 
+
 <div class="card">
+
 <strong>Discover people, reels and live streams.</strong>
+
 </div>
 
 </main>
@@ -1643,6 +2073,7 @@ Withdraw
 <main class="page" id="settings">
 
 <div class="sectionTitle">Settings</div>
+
 
 <div class="card">
 
@@ -1657,7 +2088,9 @@ Withdraw
 </div>
 
 <button class="toggle on" onclick="toggleTheme()">
+
 <span></span>
+
 </button>
 
 </div>
@@ -1674,7 +2107,9 @@ Withdraw
 </div>
 
 <button class="toggle on">
+
 <span></span>
+
 </button>
 
 </div>
@@ -1706,8 +2141,11 @@ Withdraw
 <button class="navBtn active" id="navHome" onclick="showPage('home')">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M3 10.5 12 3l9 7.5"></path>
+
 <path d="M5 9.5V21h14V9.5"></path>
+
 </svg>
 
 <span class="navText">Home</span>
@@ -1718,8 +2156,11 @@ Withdraw
 <button class="navBtn" id="navLive" onclick="showPage('live')">
 
 <svg viewBox="0 0 24 24">
+
 <rect x="3" y="6" width="13" height="12" rx="3"></rect>
+
 <path d="m16 10 5-3v10l-5-3"></path>
+
 </svg>
 
 <span class="navText">Live</span>
@@ -1732,7 +2173,9 @@ Withdraw
 <div class="plusNav">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2"/>
+
 </svg>
 
 </div>
@@ -1743,8 +2186,11 @@ Withdraw
 <button class="navBtn" id="navReels" onclick="showPage('reels')">
 
 <svg viewBox="0 0 24 24">
+
 <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+
 <path d="m10 8 6 4-6 4z"></path>
+
 </svg>
 
 <span class="navText">Reels</span>
@@ -1755,7 +2201,9 @@ Withdraw
 <button class="navBtn" id="navChat" onclick="showPage('chat')">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
+
 </svg>
 
 <span class="navText">Chat</span>
@@ -1766,9 +2214,13 @@ Withdraw
 <button class="navBtn" id="navBalance" onclick="showPage('balance')">
 
 <svg viewBox="0 0 24 24">
+
 <rect x="3" y="6" width="18" height="13" rx="2"></rect>
+
 <path d="M16 13h5"></path>
+
 <circle cx="16" cy="13" r="1"></circle>
+
 </svg>
 
 <span class="navText">Balance</span>
@@ -1779,8 +2231,11 @@ Withdraw
 <button class="navBtn" id="navProfile" onclick="showPage('profile')">
 
 <svg viewBox="0 0 24 24">
+
 <circle cx="12" cy="8" r="4"></circle>
+
 <path d="M4 21c.8-4.2 3.5-6 8-6s7.2 1.8 8 6"></path>
+
 </svg>
 
 <span class="navText">Profile</span>
@@ -1806,8 +2261,11 @@ Withdraw
 <div class="liveViewers">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"></path>
+
 <circle cx="12" cy="12" r="2.5"></circle>
+
 </svg>
 
 <span id="liveViewerCount">1</span>
@@ -1833,9 +2291,13 @@ Withdraw
 <button class="liveControl" id="liveMicBtn" onclick="toggleLiveMic()">
 
 <svg viewBox="0 0 24 24">
+
 <rect x="8" y="3" width="8" height="12" rx="4"></rect>
+
 <path d="M5 11a7 7 0 0 0 14 0"></path>
+
 <path d="M12 18v3"></path>
+
 </svg>
 
 </button>
@@ -1844,8 +2306,11 @@ Withdraw
 <button class="liveControl" id="liveCameraBtn" onclick="toggleLiveCamera()">
 
 <svg viewBox="0 0 24 24">
+
 <rect x="3" y="6" width="13" height="12" rx="3"></rect>
+
 <path d="m16 10 5-3v10l-5-3"></path>
+
 </svg>
 
 </button>
@@ -1854,37 +2319,47 @@ Withdraw
 <button class="liveControl" onclick="switchLiveCamera()">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M7 7h10"></path>
+
 <path d="m14 4 3 3-3 3"></path>
+
 <path d="M17 17H7"></path>
+
 <path d="m10 14-3 3 3 3"></path>
+
 </svg>
 
 </button>
 
-
-<!-- INVITATION -->
 
 <button class="liveControl" onclick="openLiveInvites()">
 
 <svg viewBox="0 0 24 24">
+
 <circle cx="9" cy="8" r="3"></circle>
+
 <path d="M3 20c.5-3 2.5-5 6-5s5.5 2 6 5"></path>
+
 <path d="M16 11h5M18.5 8.5v5"></path>
+
 </svg>
 
 </button>
 
 
-<!-- QR -->
-
 <button class="liveControl" onclick="openQR()">
 
 <svg viewBox="0 0 24 24">
+
 <rect x="3" y="3" width="7" height="7"></rect>
+
 <rect x="14" y="3" width="7" height="7"></rect>
+
 <rect x="3" y="14" width="7" height="7"></rect>
+
 <path d="M14 14h3v3h-3zM18 18h3v3h-3zM18 14h3"></path>
+
 </svg>
 
 </button>
@@ -1911,8 +2386,11 @@ placeholder="Comment..."
 <button class="liveBottomBtn" onclick="sendLiveComment()">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M22 2 11 13"></path>
+
 <path d="m22 2-7 20-4-9-9-4z"></path>
+
 </svg>
 
 </button>
@@ -1921,7 +2399,9 @@ placeholder="Comment..."
 <button class="liveBottomBtn" onclick="sendLiveHeart()">
 
 <svg viewBox="0 0 24 24">
+
 <path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
+
 </svg>
 
 </button>
@@ -1940,7 +2420,9 @@ placeholder="Comment..."
 <h3>Invite to Live</h3>
 
 <button onclick="closeLiveInvites()" style="font-size:25px">
+
 ×
+
 </button>
 
 </div>
@@ -1959,7 +2441,9 @@ placeholder="Comment..."
 </div>
 
 <button class="inviteBtn" onclick="inviteFriend('Awa')">
+
 Invite
+
 </button>
 
 </div>
@@ -1978,7 +2462,9 @@ Invite
 </div>
 
 <button class="inviteBtn" onclick="inviteFriend('Kebba')">
+
 Invite
+
 </button>
 
 </div>
@@ -1997,13 +2483,13 @@ Invite
 </div>
 
 <button class="inviteBtn" onclick="inviteFriend('Fatou')">
+
 Invite
+
 </button>
 
 </div>
 
-
-<!-- QR FROM INVITATION -->
 
 <div style="
 display:flex;
@@ -2017,7 +2503,9 @@ class="inviteBtn"
 onclick="closeLiveInvites();openQR()"
 style="width:100%;height:44px"
 >
+
 Share Live QR Code
+
 </button>
 
 </div>
@@ -2044,7 +2532,75 @@ MicMedia Live
 </div>
 
 <button class="copyQRBtn" onclick="copyLiveLink()">
+
 Copy Live Link
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- STORY VIEWER -->
+
+<div class="storyViewer" id="storyViewer">
+
+<div class="storyProgress" id="storyProgress"></div>
+
+<div class="storyFallback" id="storyFallback"></div>
+
+<img
+class="storyMedia"
+id="storyImage"
+style="display:none"
+>
+
+<video
+class="storyMedia"
+id="storyVideo"
+playsinline
+style="display:none"
+></video>
+
+<div class="storyShade"></div>
+
+<div class="storyHeader">
+
+<div class="storyHeaderAvatar" id="storyAvatar">A</div>
+
+<div class="storyHeaderInfo">
+
+<div class="storyHeaderName" id="storyName">
+Awa
+</div>
+
+<div class="storyHeaderTime" id="storyTime">
+Just now
+</div>
+
+</div>
+
+<button class="storyClose" onclick="closeStory()">×</button>
+
+</div>
+
+<div class="storyTapLeft" onclick="previousStory()"></div>
+
+<div class="storyTapRight" onclick="nextStory()"></div>
+
+<div class="storyBottom">
+
+<input
+class="storyReply"
+id="storyReply"
+placeholder="Reply to story..."
+>
+
+<button class="storyHeart" onclick="likeStory()">
+
+❤️
+
 </button>
 
 </div>
@@ -2118,7 +2674,9 @@ font-size:25px;
 
 <div id="inboxStatus"
 style="font-size:11px;color:#20d66b;margin-top:3px">
+
 Online
+
 </div>
 
 </div>
@@ -2164,7 +2722,9 @@ border-radius:18px;
 border-bottom-left-radius:5px;
 font-size:14px
 ">
+
 Hey, how are you?
+
 </div>
 
 
@@ -2176,7 +2736,9 @@ border-radius:18px;
 border-bottom-right-radius:5px;
 font-size:14px
 ">
+
 I'm good! How about you?
+
 </div>
 
 </div>
@@ -2218,608 +2780,11 @@ border-radius:50%;
 background:linear-gradient(135deg,#8b5cf6,#ec4899);
 font-size:20px;
 ">
+
 ➤
+
 </button>
 
 </div>
 
 </div>
-
-
-<script>
-
-/* NAVIGATION */
-
-const pages=[
-"home",
-"live",
-"reels",
-"chat",
-"profile",
-"balance",
-"search",
-"settings"
-];
-
-function showPage(page){
-
-pages.forEach(p=>{
-const el=document.getElementById(p);
-if(el)el.classList.remove("active");
-});
-
-const selected=document.getElementById(page);
-
-if(selected)selected.classList.add("active");
-
-document.querySelectorAll(".navBtn").forEach(btn=>{
-btn.classList.remove("active");
-});
-
-if(page==="home")document.getElementById("navHome").classList.add("active");
-if(page==="live")document.getElementById("navLive").classList.add("active");
-if(page==="reels")document.getElementById("navReels").classList.add("active");
-if(page==="chat")document.getElementById("navChat").classList.add("active");
-if(page==="balance")document.getElementById("navBalance").classList.add("active");
-if(page==="profile")document.getElementById("navProfile").classList.add("active");
-
-window.scrollTo(0,0);
-
-}
-
-
-/* POSTS */
-
-function likePost(btn){
-
-const count=btn.parentElement.querySelector(".actionCount");
-
-let n=parseInt(count.textContent)||0;
-
-if(!btn.dataset.liked){
-
-n++;
-
-btn.dataset.liked="true";
-
-btn.style.color="#ff304f";
-
-}else{
-
-n--;
-
-delete btn.dataset.liked;
-
-btn.style.color="";
-
-}
-
-count.textContent=n;
-
-}
-
-function addComment(){
-alert("Comments are ready for the next update.");
-}
-
-function sharePost(){
-alert("Post sharing coming soon.");
-}
-
-function savePost(btn){
-btn.style.color=btn.style.color?"":"#8b5cf6";
-}
-
-
-/* REELS */
-
-function likeReel(btn){
-btn.style.color=btn.style.color?"":"#ff304f";
-}
-
-function addReelComment(){
-alert("Reel comments coming soon.");
-}
-
-function shareReel(){
-alert("Reel sharing coming soon.");
-}
-
-function saveReel(btn){
-btn.style.color=btn.style.color?"":"#8b5cf6";
-}
-
-
-/* LIVE */
-
-let liveStream=null;
-let liveFacing="user";
-let liveMic=true;
-let liveCamera=true;
-let liveViewerCount=1;
-
-async function startLive(){
-
-try{
-
-if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-
-alert("Your browser does not support camera access.");
-
-return;
-
-}
-
-liveStream=await navigator.mediaDevices.getUserMedia({
-
-video:{
-facingMode:liveFacing
-},
-
-audio:true
-
-});
-
-document.getElementById("liveVideo").srcObject=liveStream;
-
-document.getElementById("liveVideo").style.display="block";
-
-document.getElementById("liveRoom").classList.add("open");
-
-liveViewerCount=Math.floor(Math.random()*10)+1;
-
-document.getElementById("liveViewerCount").textContent=liveViewerCount;
-
-document.getElementById("liveOwnerName").textContent="Mustapha";
-
-document.getElementById("liveComments").innerHTML="";
-
-addLiveComment("MicMedia","You are now live.");
-
-setTimeout(()=>{
-addLiveComment("Awa","Hey! 👋");
-},2500);
-
-setTimeout(()=>{
-addLiveComment("Kebba","Welcome to your live 🔥");
-},5000);
-
-}catch(error){
-
-alert("Please allow camera and microphone permission to go live.");
-
-}
-
-}
-
-
-function askEndLive(){
-document.getElementById("endLiveBox").classList.add("open");
-}
-
-function closeEndLive(){
-document.getElementById("endLiveBox").classList.remove("open");
-}
-
-
-function endLive(){
-
-closeEndLive();
-
-if(liveStream){
-
-liveStream.getTracks().forEach(track=>{
-track.stop();
-});
-
-}
-
-liveStream=null;
-
-document.getElementById("liveVideo").srcObject=null;
-
-document.getElementById("liveRoom").classList.remove("open");
-
-document.getElementById("inviteSheet").classList.remove("open");
-
-document.getElementById("qrOverlay").classList.remove("open");
-
-alert("Your live stream has ended.");
-
-}
-
-
-function toggleLiveMic(){
-
-if(!liveStream)return;
-
-const track=liveStream.getAudioTracks()[0];
-
-if(!track)return;
-
-track.enabled=!track.enabled;
-
-liveMic=track.enabled;
-
-document.getElementById("liveMicBtn").classList.toggle("off",!liveMic);
-
-}
-
-
-function toggleLiveCamera(){
-
-if(!liveStream)return;
-
-const track=liveStream.getVideoTracks()[0];
-
-if(!track)return;
-
-track.enabled=!track.enabled;
-
-liveCamera=track.enabled;
-
-document.getElementById("liveCameraBtn").classList.toggle("off",!liveCamera);
-
-}
-
-
-async function switchLiveCamera(){
-
-if(!liveStream)return;
-
-const next=liveFacing==="user"?"environment":"user";
-
-try{
-
-const newVideo=await navigator.mediaDevices.getUserMedia({
-
-video:{
-facingMode:next
-},
-
-audio:false
-
-});
-
-const newTrack=newVideo.getVideoTracks()[0];
-
-const oldTrack=liveStream.getVideoTracks()[0];
-
-if(oldTrack)oldTrack.stop();
-
-if(oldTrack)liveStream.removeTrack(oldTrack);
-
-liveStream.addTrack(newTrack);
-
-document.getElementById("liveVideo").srcObject=liveStream;
-
-liveFacing=next;
-
-}catch(error){
-
-alert("Camera switch is not available on this device.");
-
-}
-
-}
-
-
-/* LIVE COMMENTS */
-
-function addLiveComment(name,text){
-
-const box=document.getElementById("liveComments");
-
-const row=document.createElement("div");
-
-row.className="liveComment";
-
-const nameSpan=document.createElement("span");
-
-nameSpan.className="liveCommentName";
-
-nameSpan.textContent=name;
-
-const textSpan=document.createElement("span");
-
-textSpan.textContent=text;
-
-row.appendChild(nameSpan);
-
-row.appendChild(textSpan);
-
-box.appendChild(row);
-
-while(box.children.length>8){
-box.removeChild(box.firstChild);
-}
-
-box.scrollTop=box.scrollHeight;
-
-}
-
-
-function sendLiveComment(){
-
-const input=document.getElementById("liveCommentInput");
-
-const text=input.value.trim();
-
-if(!text)return;
-
-addLiveComment("You",text);
-
-input.value="";
-
-}
-
-
-function sendLiveHeart(){
-
-addLiveComment("You","❤️");
-
-}
-
-
-/* DOUBLE TAP TO LIKE */
-
-let lastLiveTap=0;
-
-document.getElementById("liveRoom").addEventListener("dblclick",function(e){
-
-if(
-e.target.closest(".liveControl")||
-e.target.closest(".liveBottom")||
-e.target.closest(".liveTop")||
-e.target.closest(".liveClose")
-){
-return;
-}
-
-sendLiveHeart();
-
-showLiveHeart(e.clientX,e.clientY);
-
-});
-
-
-function showLiveHeart(x,y){
-
-const heart=document.createElement("div");
-
-heart.className="doubleTapHeart";
-
-heart.textContent="❤️";
-
-heart.style.left=(x-29)+"px";
-
-heart.style.top=(y-29)+"px";
-
-document.body.appendChild(heart);
-
-setTimeout(()=>{
-heart.remove();
-},800);
-
-}
-
-
-/* INVITATIONS */
-
-function openLiveInvites(){
-
-document.getElementById("inviteSheet").classList.add("open");
-
-}
-
-function closeLiveInvites(){
-
-document.getElementById("inviteSheet").classList.remove("open");
-
-}
-
-function inviteFriend(name){
-
-alert("Live invitation sent to "+name+".");
-
-}
-
-
-/* QR */
-
-function openQR(){
-
-const overlay=document.getElementById("qrOverlay");
-
-const qrBox=document.getElementById("liveQRCode");
-
-const liveLink=
-window.location.href.split("#")[0]+"?live=mustapha";
-
-document.getElementById("liveQRLink").textContent=liveLink;
-
-qrBox.innerHTML="";
-
-if(typeof QRCode==="undefined"){
-
-alert("QR code library is still loading. Please try again.");
-
-return;
-
-}
-
-new QRCode(qrBox,{
-
-text:liveLink,
-
-width:190,
-
-height:190,
-
-colorDark:"#000000",
-
-colorLight:"#ffffff",
-
-correctLevel:QRCode.CorrectLevel.H
-
-});
-
-overlay.classList.add("open");
-
-}
-
-
-function closeQR(){
-
-document.getElementById("qrOverlay").classList.remove("open");
-
-}
-
-
-function copyLiveLink(){
-
-const link=
-window.location.href.split("#")[0]+"?live=mustapha";
-
-if(navigator.clipboard){
-
-navigator.clipboard.writeText(link)
-.then(()=>{
-alert("Live link copied!");
-})
-.catch(()=>{
-alert(link);
-});
-
-}else{
-
-alert(link);
-
-}
-
-}
-
-
-/* OTHER LIVE STREAMS */
-
-function watchDemoLive(name,letter){
-
-document.getElementById("liveRoom").classList.add("open");
-
-document.getElementById("liveVideo").style.display="none";
-
-document.getElementById("liveOwnerName").textContent=name;
-
-document.getElementById("liveViewerCount").textContent=
-Math.floor(Math.random()*900)+100;
-
-document.getElementById("liveComments").innerHTML="";
-
-addLiveComment(name,"Welcome everyone!");
-
-setTimeout(()=>{
-addLiveComment("Awa","🔥🔥🔥");
-},1500);
-
-setTimeout(()=>{
-addLiveComment("Kebba","Great live!");
-},3000);
-
-}
-
-
-/* CHAT */
-
-function openChat(name,letter,online){
-
-document.getElementById("chatInbox").classList.add("open");
-
-document.getElementById("inboxName").textContent=name;
-
-document.getElementById("inboxLetter").textContent=letter;
-
-document.getElementById("inboxStatus").textContent=
-online?"Online":"Active recently";
-
-document.getElementById("inboxStatus").style.color=
-online?"#20d66b":"#969baa";
-
-document.getElementById("inboxDot").style.display=
-online?"block":"none";
-
-}
-
-
-function closeChat(){
-
-document.getElementById("chatInbox").classList.remove("open");
-
-}
-
-
-function sendChatMessage(){
-
-const input=document.getElementById("chatInput");
-
-const text=input.value.trim();
-
-if(!text)return;
-
-const box=document.getElementById("chatMessages");
-
-const message=document.createElement("div");
-
-message.style.cssText=
-"align-self:flex-end;background:linear-gradient(135deg,#8b5cf6,#ec4899);padding:10px 13px;border-radius:18px;border-bottom-right-radius:5px;font-size:14px;max-width:75%";
-
-message.textContent=text;
-
-box.appendChild(message);
-
-input.value="";
-
-box.scrollTop=box.scrollHeight;
-
-}
-
-
-/* THEME */
-
-function toggleTheme(){
-
-alert("Dark mode is already active.");
-
-}
-
-
-/* ENTER KEY */
-
-document.addEventListener("keydown",function(e){
-
-if(e.key==="Enter"){
-
-const liveInput=document.getElementById("liveCommentInput");
-
-if(document.activeElement===liveInput){
-sendLiveComment();
-}
-
-const chatInput=document.getElementById("chatInput");
-
-if(document.activeElement===chatInput){
-sendChatMessage();
-}
-
-}
-
-});
-
-
-/* DEFAULT */
-
-showPage("home");
-
-</script>
-
-</body>
-</html>
