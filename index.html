@@ -4,1845 +4,2407 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>MicMedia</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--bg:#08090d;--card:#11131a;--card2:#171923;--text:#fff;--muted:#9296a5;--line:#252834;--accent:#8b5cf6}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-button{border:0;color:white;cursor:pointer;font-family:inherit}
-svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+*{box-sizing:border-box;margin:0;padding:0}
 
-/* ENTER */
-#entrySurface{position:fixed;inset:0;z-index:99999;background:radial-gradient(circle at 50% 35%,#24184d 0%,#11101d 35%,#08090d 75%);display:flex;align-items:center;justify-content:center;padding:25px}
-.entryBox{width:100%;max-width:390px;text-align:center}
-.entryLogo{width:105px;height:105px;margin:0 auto 25px;border-radius:29px;background:linear-gradient(135deg,#ff4ecd,#7c3aed,#18c8ff);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(124,58,237,.35)}
-.entryLogo span{font-size:65px;font-weight:900;font-style:italic;color:white}
-.entryTitle{font-size:36px;font-weight:800;letter-spacing:-1.5px;margin-bottom:10px}
-.entryText{color:#a5a8b6;font-size:15px;line-height:1.5;margin-bottom:32px}
-.enterBtn{width:100%;height:58px;border-radius:18px;background:linear-gradient(135deg,#8b5cf6,#ec4899);font-size:17px;font-weight:800}
-.enterBtn:active{transform:scale(.97)}
+:root{
+ --bg:#08090d;
+ --card:#11131a;
+ --card2:#191c25;
+ --text:#fff;
+ --muted:#969baa;
+ --line:#272a35;
+ --accent:#8b5cf6;
+ --pink:#ec4899;
+ --green:#20d66b;
+ --red:#ff304f;
+}
 
-/* APP */
-#app{display:none;min-height:100vh;padding-bottom:90px}
-.topbar{height:66px;position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(8,9,13,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.05)}
-.brand{display:flex;align-items:center;gap:10px}
-.brandLogo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#ff4ecd,#7c3aed,#18c8ff);display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:900;font-style:italic}
-.brandName{font-size:20px;font-weight:800}
-.topActions{display:flex;gap:9px}
-.iconBtn{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
-.iconBtn svg{width:20px;height:20px}
-.backBtn{display:none}
+body{
+ font-family:Arial,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+ min-height:100vh;
+ overflow-x:hidden;
+}
 
-/* CONTENT */
-.page{display:none;padding:16px;animation:pageIn .18s ease}
+button{
+ border:0;
+ outline:0;
+ color:inherit;
+ background:none;
+ cursor:pointer;
+}
+
+.app{
+ max-width:600px;
+ margin:auto;
+ min-height:100vh;
+ padding-bottom:82px;
+}
+
+.topbar{
+ height:62px;
+ padding:0 16px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ border-bottom:1px solid var(--line);
+ position:sticky;
+ top:0;
+ z-index:100;
+ background:rgba(8,9,13,.92);
+ backdrop-filter:blur(20px);
+}
+
+.logo{
+ font-size:22px;
+ font-weight:900;
+ letter-spacing:-1px;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+ -webkit-background-clip:text;
+ color:transparent;
+}
+
+.topAction{
+ width:40px;
+ height:40px;
+ border-radius:50%;
+ background:var(--card2);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+
+.topAction svg{
+ width:20px;
+ fill:none;
+ stroke:currentColor;
+ stroke-width:2;
+}
+
+.page{
+ display:none;
+ padding:16px;
+ animation:fade .2s ease;
+}
+
 .page.active{display:block}
-@keyframes pageIn{from{opacity:.3;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
-.sectionTitle{font-size:25px;font-weight:800;margin:8px 0 18px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-bottom:16px}
 
-/* STORIES */
-.stories{display:flex;gap:14px;overflow-x:auto;padding:8px 2px 18px}
-.stories::-webkit-scrollbar{display:none}
-.story{min-width:72px;text-align:center}
-.storyAvatar{width:66px;height:66px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);margin:auto;position:relative}
-.storyAvatar.live{background:linear-gradient(135deg,#ff304f,#ff0055,#ff7a00)}
-.avatarInner{width:100%;height:100%;border-radius:50%;background:#252735;display:flex;align-items:center;justify-content:center;font-size:25px}
-.storyName{font-size:11px;color:#aaaebb;margin-top:7px;white-space:nowrap}
+@keyframes fade{
+ from{opacity:.4;transform:translateY(4px)}
+ to{opacity:1;transform:translateY(0)}
+}
 
-/* POSTS */
-.postHeader{padding:13px;display:flex;align-items:center;justify-content:space-between}
-.userInfo{display:flex;align-items:center;gap:10px}
-.avatar{width:43px;height:43px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:800;position:relative}
-.liveDot{position:absolute;bottom:-2px;right:-2px;background:#ff304f;border:3px solid var(--card);width:15px;height:15px;border-radius:50%}
-.onlineDot{position:absolute;bottom:-1px;right:-1px;background:#28d66f;border:3px solid var(--card);width:15px;height:15px;border-radius:50%;box-shadow:0 0 0 2px rgba(40,214,111,.15)}
-.username{font-weight:700;font-size:14px}
-.handle{color:var(--muted);font-size:12px;margin-top:3px}
-.followPlus{width:34px;height:34px;border-radius:50%;background:var(--card2);font-size:21px;color:#fff}
-.followPlus.following{background:var(--accent);font-size:14px}
-.postImage{height:310px;background:linear-gradient(135deg,#17122c,#321b56,#111827);display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:900}
-.postBody{padding:14px}
-.postText{font-size:14px;line-height:1.5;color:#ddd}
+.sectionTitle{
+ font-size:24px;
+ font-weight:850;
+ margin-bottom:16px;
+}
 
-/* ACTIONS */
-.postActions{display:flex;align-items:center;gap:12px;padding:0 14px 14px;flex-wrap:wrap}
-.actionBox{display:flex;align-items:center;gap:5px}
-.action{background:none;width:27px;height:27px;display:flex;align-items:center;justify-content:center}
-.action svg{width:22px;height:22px}
-.actionCount{font-size:11px;color:var(--muted);white-space:nowrap}
-.action.active{color:#ff3d68}
-.action.saved{color:#a78bfa}
-.action.shared{color:#5ee7a1}
+.card{
+ background:var(--card);
+ border:1px solid var(--line);
+ border-radius:20px;
+ padding:14px;
+ margin-bottom:14px;
+}
 
-/* LIVE PAGE */
-.liveHero{padding:25px;border-radius:25px;background:linear-gradient(135deg,#21133c,#111827);margin-bottom:18px}
-.liveLabel{display:inline-flex;align-items:center;gap:7px;background:#ff304f;padding:7px 11px;border-radius:10px;font-size:12px;font-weight:800;margin-bottom:16px}
-.liveLabel span{width:7px;height:7px;border-radius:50%;background:white}
-.liveHero h2{font-size:29px;margin-bottom:9px}
-.liveHero p{color:#a4a8b7;line-height:1.5;font-size:14px}
-.liveButton{margin-top:20px;padding:14px 20px;border-radius:14px;background:#ff304f;font-weight:800;display:inline-flex;align-items:center;gap:9px}
-.liveButton svg{width:19px;height:19px}
+.postHeader{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+}
+
+.userInfo{
+ display:flex;
+ align-items:center;
+ gap:10px;
+}
+
+.avatar{
+ width:43px;
+ height:43px;
+ border-radius:50%;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:800;
+}
+
+.username{font-weight:750}
+
+.handle{
+ color:var(--muted);
+ font-size:12px;
+ margin-top:3px;
+}
+
+.postImage{
+ width:100%;
+ height:330px;
+ border-radius:16px;
+ margin-top:13px;
+ background:linear-gradient(135deg,rgba(139,92,246,.75),rgba(236,72,153,.7)),#181a22;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:42px;
+ font-weight:900;
+}
+
+.postText{
+ margin-top:12px;
+ font-size:14px;
+ line-height:1.45;
+}
+
+.postActions{
+ display:flex;
+ align-items:center;
+ gap:8px;
+ margin-top:13px;
+}
+
+.actionBox{
+ display:flex;
+ align-items:center;
+ gap:4px;
+}
+
+.actionBtn{
+ width:40px;
+ height:40px;
+ border-radius:50%;
+ background:var(--card2);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+
+.actionBtn svg{
+ width:20px;
+ fill:none;
+ stroke:currentColor;
+ stroke-width:2;
+}
+
+.actionCount{
+ font-size:11px;
+ color:var(--muted);
+}
+
+/* LIVE */
+
+.liveHero{
+ height:250px;
+ border-radius:24px;
+ overflow:hidden;
+ position:relative;
+ background:linear-gradient(135deg,#171329,#25152a);
+ margin-bottom:18px;
+}
+
+.liveHeroBg{
+ position:absolute;
+ inset:0;
+ background:
+ radial-gradient(circle at 30% 30%,rgba(139,92,246,.55),transparent 35%),
+ radial-gradient(circle at 80% 70%,rgba(236,72,153,.45),transparent 35%);
+}
+
+.liveHeroContent{
+ position:absolute;
+ inset:0;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ padding:20px;
+}
+
+.liveIcon{
+ width:76px;
+ height:76px;
+ border-radius:24px;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ margin-bottom:15px;
+}
+
+.liveIcon svg{
+ width:36px;
+ fill:none;
+ stroke:white;
+ stroke-width:2;
+}
+
+.liveHero h2{
+ font-size:25px;
+ margin-bottom:7px;
+}
+
+.liveHero p{
+ color:#bbb;
+ font-size:13px;
+ margin-bottom:18px;
+}
+
+.startLiveBtn{
+ padding:13px 24px;
+ border-radius:25px;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+ font-weight:800;
+}
+
+.liveListTitle{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:12px;
+}
+
+.liveListTitle h3{font-size:18px}
+
+.liveCard{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:12px;
+ background:var(--card);
+ border:1px solid var(--line);
+ border-radius:18px;
+ margin-bottom:10px;
+}
+
+.liveThumb{
+ width:65px;
+ height:65px;
+ border-radius:15px;
+ background:linear-gradient(135deg,#321c56,#7b204f);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:23px;
+ font-weight:800;
+}
+
+.liveInfo{flex:1}
+
+.liveName{font-weight:750}
+
+.liveMeta{
+ font-size:11px;
+ color:var(--muted);
+ margin-top:5px;
+}
+
+.liveBadgeSmall{
+ display:inline-flex;
+ padding:4px 8px;
+ border-radius:7px;
+ background:#ff304f;
+ font-size:9px;
+ font-weight:900;
+ margin-bottom:5px;
+}
+
+.watchBtn{
+ padding:9px 13px;
+ border-radius:18px;
+ background:var(--card2);
+ font-size:12px;
+ font-weight:700;
+}
+
+/* REELS */
+
+.reelCard{
+ height:540px;
+ border-radius:22px;
+ overflow:hidden;
+ background:linear-gradient(145deg,#17142b,#32152c);
+ position:relative;
+ margin-bottom:15px;
+}
+
+.reelBg{
+ position:absolute;
+ inset:0;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:55px;
+ font-weight:900;
+ background:
+ radial-gradient(circle at 50% 30%,rgba(139,92,246,.5),transparent 35%),
+ linear-gradient(145deg,#121421,#35152e);
+}
+
+.reelInfo{
+ position:absolute;
+ left:15px;
+ right:75px;
+ bottom:18px;
+}
+
+.reelInfo h3{margin-bottom:7px}
+
+.reelInfo p{
+ font-size:13px;
+ line-height:1.4;
+ color:#ddd;
+}
+
+.reelActions{
+ position:absolute;
+ right:12px;
+ bottom:20px;
+ display:flex;
+ flex-direction:column;
+ gap:12px;
+}
+
+.reelAction{
+ width:46px;
+ height:46px;
+ border-radius:50%;
+ background:rgba(0,0,0,.45);
+ backdrop-filter:blur(8px);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+
+.reelAction svg{
+ width:21px;
+ fill:none;
+ stroke:white;
+ stroke-width:2;
+}
+
+/* CHAT */
+
+.chatUser{
+ width:100%;
+ padding:11px 5px;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ border-radius:18px;
+ margin-bottom:3px;
+ text-align:left;
+}
+
+.chatUser:active{background:var(--card2)}
+
+.chatAvatar{
+ width:54px;
+ height:54px;
+ min-width:54px;
+ border-radius:50%;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:800;
+ position:relative;
+}
+
+.onlineDot{
+ position:absolute;
+ width:13px;
+ height:13px;
+ right:0;
+ bottom:1px;
+ border-radius:50%;
+ background:#20d66b;
+ border:3px solid var(--bg);
+}
+
+.chatInfo{flex:1}
+
+.chatName{font-weight:750}
+
+.chatPreview{
+ font-size:12px;
+ color:var(--muted);
+ margin-top:5px;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}
+
+.chatTime{
+ color:var(--muted);
+ font-size:10px;
+}
+
+/* PROFILE */
+
+.profileTop{
+ text-align:center;
+ padding:20px 0;
+}
+
+.profileAvatar{
+ width:90px;
+ height:90px;
+ border-radius:50%;
+ margin:auto;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:30px;
+ font-weight:900;
+}
+
+.profileName{
+ font-size:22px;
+ font-weight:850;
+ margin-top:12px;
+}
+
+.profileHandle{
+ color:var(--muted);
+ font-size:13px;
+ margin-top:5px;
+}
+
+.stats{
+ display:flex;
+ justify-content:space-around;
+ padding:18px 0;
+ border-top:1px solid var(--line);
+ border-bottom:1px solid var(--line);
+ margin-top:18px;
+}
+
+.stat strong{
+ display:block;
+ font-size:18px;
+}
+
+.stat span{
+ color:var(--muted);
+ font-size:11px;
+ margin-top:4px;
+ display:block;
+}
+
+.profileBtns{
+ display:flex;
+ gap:9px;
+ margin-top:15px;
+}
+
+.profileBtn{
+ flex:1;
+ height:42px;
+ border-radius:14px;
+ background:var(--card2);
+ font-weight:700;
+}
+
+/* BALANCE */
+
+.balanceCard{
+ padding:22px;
+ border-radius:24px;
+ background:linear-gradient(135deg,#241a4c,#35162d);
+ margin-bottom:16px;
+}
+
+.balanceLabel{
+ color:#bbb;
+ font-size:13px;
+}
+
+.balanceAmount{
+ font-size:35px;
+ font-weight:900;
+ margin:9px 0 20px;
+}
+
+.balanceButtons{
+ display:flex;
+ gap:8px;
+}
+
+.balanceBtn{
+ flex:1;
+ height:42px;
+ border-radius:14px;
+ background:rgba(255,255,255,.1);
+ font-weight:700;
+}
+
+/* NAVIGATION */
+
+.bottomNav{
+ position:fixed;
+ left:50%;
+ bottom:0;
+ transform:translateX(-50%);
+ width:min(600px,100%);
+ height:76px;
+ background:rgba(10,11,16,.95);
+ backdrop-filter:blur(22px);
+ border-top:1px solid var(--line);
+ z-index:3000;
+ display:grid;
+ grid-template-columns:repeat(7,1fr);
+ align-items:center;
+ padding:7px 8px 8px;
+}
+
+.navBtn{
+ height:58px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:4px;
+ color:#777b88;
+ position:relative;
+}
+
+.navBtn.active{color:white}
+
+.navBtn svg{
+ width:21px;
+ height:21px;
+ fill:none;
+ stroke:currentColor;
+ stroke-width:2;
+}
+
+.navText{
+ font-size:8px;
+ font-weight:700;
+}
+
+.plusNav{
+ width:48px;
+ height:48px;
+ border-radius:17px;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ color:white;
+ box-shadow:0 7px 25px rgba(139,92,246,.35);
+}
+
+.plusNav svg{width:24px}
 
 /* LIVE ROOM */
+
 .liveRoom{
-position:fixed;
-inset:0;
-z-index:8000;
-display:none;
-background:#000;
-overflow:hidden;
+ position:fixed;
+ inset:0;
+ z-index:7000;
+ background:#000;
+ display:none;
+ overflow:hidden;
 }
 
 .liveRoom.open{display:block}
 
-#liveVideo{
-position:absolute;
-inset:0;
-width:100%;
-height:100%;
-object-fit:cover;
-background:#111;
-}
-
-.liveVideoOff{
-position:absolute;
-inset:0;
-display:none;
-align-items:center;
-justify-content:center;
-background:radial-gradient(circle,#29213c,#08090d 70%);
-z-index:2;
-}
-
-.liveVideoOff.show{display:flex}
-
-.liveVideoOffAvatar{
-width:105px;
-height:105px;
-border-radius:50%;
-background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:42px;
-font-weight:900;
+.liveVideo{
+ position:absolute;
+ inset:0;
+ width:100%;
+ height:100%;
+ object-fit:cover;
+ background:#101116;
 }
 
 .liveShade{
-position:absolute;
-inset:0;
-z-index:3;
-pointer-events:none;
-background:linear-gradient(
-to bottom,
-rgba(0,0,0,.65),
-transparent 25%,
-transparent 55%,
-rgba(0,0,0,.82)
-);
+ position:absolute;
+ inset:0;
+ background:
+ linear-gradient(to bottom,rgba(0,0,0,.65),transparent 30%,transparent 60%,rgba(0,0,0,.8));
+ pointer-events:none;
 }
 
 .liveTop{
-position:absolute;
-top:0;
-left:0;
-right:0;
-height:75px;
-z-index:10;
-display:flex;
-align-items:center;
-gap:9px;
-padding:12px 14px;
-padding-top:calc(12px + env(safe-area-inset-top));
+ position:absolute;
+ top:0;
+ left:0;
+ right:0;
+ padding:18px 14px;
+ display:flex;
+ align-items:center;
+ gap:8px;
+ z-index:3;
 }
 
 .liveBadge{
-display:flex;
-align-items:center;
-gap:7px;
-padding:8px 11px;
-border-radius:10px;
-background:#ff304f;
-font-size:11px;
-font-weight:900;
+ background:#ff304f;
+ padding:7px 10px;
+ border-radius:8px;
+ font-size:11px;
+ font-weight:900;
 }
 
-.liveBadge span{
-width:7px;
-height:7px;
-border-radius:50%;
-background:#fff;
+.liveViewers{
+ display:flex;
+ align-items:center;
+ gap:5px;
+ padding:7px 10px;
+ border-radius:8px;
+ background:rgba(0,0,0,.5);
+ font-size:12px;
 }
 
-.liveViewerCount{
-display:flex;
-align-items:center;
-gap:6px;
-padding:8px 11px;
-border-radius:10px;
-background:rgba(0,0,0,.45);
-backdrop-filter:blur(12px);
-font-size:12px;
-font-weight:700;
+.liveViewers svg{
+ width:16px;
+ fill:none;
+ stroke:white;
+ stroke-width:2;
 }
 
-.liveViewerCount svg{
-width:16px;
-height:16px;
+.liveClose{
+ margin-left:auto;
+ width:38px;
+ height:38px;
+ border-radius:50%;
+ background:rgba(0,0,0,.5);
+ font-size:20px;
 }
 
-.liveEndBtn{
-margin-left:auto;
-width:40px;
-height:40px;
-border-radius:50%;
-background:rgba(0,0,0,.5);
-backdrop-filter:blur(12px);
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-.liveEndBtn svg{
-width:20px;
-}
-
-.liveCreator{
-position:absolute;
-top:83px;
-left:14px;
-z-index:10;
-display:flex;
-align-items:center;
-gap:9px;
-}
-
-.liveCreatorAvatar{
-width:40px;
-height:40px;
-border-radius:50%;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:800;
-}
-
-.liveCreatorInfo strong{
-display:block;
-font-size:13px;
-}
-
-.liveCreatorInfo span{
-font-size:10px;
-color:#d0d2da;
-margin-top:3px;
-display:block;
-}
-
-.liveControls{
-position:absolute;
-right:13px;
-top:50%;
-transform:translateY(-50%);
-z-index:10;
-display:flex;
-flex-direction:column;
-gap:11px;
+.liveRightControls{
+ position:absolute;
+ right:12px;
+ bottom:145px;
+ display:flex;
+ flex-direction:column;
+ gap:12px;
+ z-index:4;
 }
 
 .liveControl{
-width:46px;
-height:46px;
-border-radius:50%;
-background:rgba(0,0,0,.45);
-backdrop-filter:blur(12px);
-display:flex;
-align-items:center;
-justify-content:center;
+ width:46px;
+ height:46px;
+ border-radius:50%;
+ background:rgba(0,0,0,.5);
+ backdrop-filter:blur(10px);
+ display:flex;
+ align-items:center;
+ justify-content:center;
 }
 
 .liveControl svg{
-width:21px;
-height:21px;
+ width:21px;
+ fill:none;
+ stroke:white;
+ stroke-width:2;
 }
 
-.liveControl.active{
-background:rgba(139,92,246,.85);
-}
+.liveControl.off{background:#ff304f}
 
 .liveComments{
-position:absolute;
-left:14px;
-right:70px;
-bottom:95px;
-z-index:10;
-height:220px;
-overflow-y:auto;
-display:flex;
-flex-direction:column;
-justify-content:flex-end;
-gap:7px;
-padding-right:5px;
-}
-
-.liveComments::-webkit-scrollbar{
-display:none;
+ position:absolute;
+ left:13px;
+ bottom:105px;
+ width:72%;
+ max-height:190px;
+ overflow:hidden;
+ display:flex;
+ flex-direction:column;
+ justify-content:flex-end;
+ gap:6px;
+ z-index:3;
 }
 
 .liveComment{
-width:max-content;
-max-width:100%;
-padding:7px 10px;
-border-radius:14px;
-background:rgba(0,0,0,.42);
-backdrop-filter:blur(10px);
-font-size:12px;
-line-height:1.35;
-color:#fff;
+ width:max-content;
+ max-width:100%;
+ padding:8px 11px;
+ border-radius:14px;
+ background:rgba(0,0,0,.5);
+ backdrop-filter:blur(8px);
+ font-size:12px;
+ line-height:1.3;
 }
 
 .liveCommentName{
-font-weight:800;
-margin-right:5px;
-}
-
-.liveComment.me{
-background:rgba(139,92,246,.65);
+ font-weight:800;
+ margin-right:5px;
 }
 
 .liveBottom{
-position:absolute;
-left:12px;
-right:12px;
-bottom:0;
-z-index:20;
-padding-bottom:calc(12px + env(safe-area-inset-bottom));
-display:flex;
-align-items:center;
-gap:8px;
+ position:absolute;
+ left:0;
+ right:0;
+ bottom:0;
+ padding:12px;
+ display:flex;
+ align-items:center;
+ gap:7px;
+ z-index:5;
 }
 
-.liveCommentBox{
-height:46px;
-border-radius:23px;
-background:rgba(0,0,0,.52);
-backdrop-filter:blur(14px);
-border:1px solid rgba(255,255,255,.12);
-display:flex;
-align-items:center;
-padding:0 8px 0 15px;
-flex:1;
+.liveCommentBar{
+ flex:1;
+ height:44px;
+ border-radius:23px;
+ background:rgba(0,0,0,.55);
+ border:1px solid rgba(255,255,255,.15);
+ display:flex;
+ align-items:center;
+ padding:0 14px;
 }
 
 .liveCommentInput{
-width:100%;
-border:0;
-outline:0;
-background:transparent;
-color:#fff;
-font-size:13px;
+ width:100%;
+ border:0;
+ outline:0;
+ background:transparent;
+ color:white;
+ font-size:13px;
 }
 
-.liveCommentInput::placeholder{
-color:#b4b6c0;
+.liveCommentInput::placeholder{color:#bbb}
+
+.liveBottomBtn{
+ width:44px;
+ height:44px;
+ border-radius:50%;
+ background:rgba(0,0,0,.55);
+ display:flex;
+ align-items:center;
+ justify-content:center;
 }
 
-.liveSend{
-width:37px;
-height:37px;
-border-radius:50%;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-display:flex;
-align-items:center;
-justify-content:center;
-flex-shrink:0;
+.liveBottomBtn svg{
+ width:20px;
+ fill:none;
+ stroke:white;
+ stroke-width:2;
 }
 
-.liveSend svg{
-width:17px;
+.liveTitleArea{
+ position:absolute;
+ left:14px;
+ top:72px;
+ z-index:3;
 }
 
-.liveBottomButton{
-width:46px;
-height:46px;
-border-radius:50%;
-background:rgba(0,0,0,.52);
-backdrop-filter:blur(12px);
-display:flex;
-align-items:center;
-justify-content:center;
-flex-shrink:0;
+.liveTitleArea strong{font-size:15px}
+
+.liveTitleArea span{
+ display:block;
+ color:#ddd;
+ font-size:11px;
+ margin-top:4px;
 }
 
-.liveBottomButton svg{
-width:20px;
+/* INVITATIONS */
+
+.inviteSheet{
+ position:fixed;
+ left:0;
+ right:0;
+ bottom:0;
+ z-index:8000;
+ background:#11131a;
+ border-radius:25px 25px 0 0;
+ padding:18px;
+ transform:translateY(110%);
+ transition:.25s ease;
+ border-top:1px solid var(--line);
 }
 
-.liveHeart{
-color:#ff4f72;
+.inviteSheet.open{transform:translateY(0)}
+
+.inviteHead{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:15px;
 }
 
-.liveHeart.pop{
-animation:liveHeartPop .35s ease;
+.inviteHead h3{font-size:18px}
+
+.inviteFriend{
+ display:flex;
+ align-items:center;
+ gap:11px;
+ padding:10px 0;
 }
 
-@keyframes liveHeartPop{
-50%{transform:scale(1.4)}
+.inviteFriend .avatar{
+ width:44px;
+ height:44px;
 }
 
-/* INVITATION SHEET */
-.liveInviteSheet{
-position:fixed;
-left:0;
-right:0;
-bottom:-100%;
-z-index:8500;
-background:rgba(17,19,26,.98);
-border-top:1px solid var(--line);
-border-radius:25px 25px 0 0;
-padding:18px 15px calc(18px + env(safe-area-inset-bottom));
-transition:.25s ease;
-max-height:75vh;
-overflow-y:auto;
-}
+.inviteInfo{flex:1}
 
-.liveInviteSheet.open{
-bottom:0;
-}
+.inviteName{font-weight:750}
 
-.liveInviteHeader{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:15px;
-}
-
-.liveInviteHeader h3{
-font-size:18px;
-}
-
-.liveInviteClose{
-width:36px;
-height:36px;
-border-radius:50%;
-background:var(--card2);
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-.liveInviteFriend{
-display:flex;
-align-items:center;
-gap:11px;
-padding:11px 4px;
-border-bottom:1px solid var(--line);
-}
-
-.liveInviteAvatar{
-width:45px;
-height:45px;
-border-radius:50%;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:800;
-}
-
-.liveInviteInfo{
-flex:1;
-}
-
-.liveInviteName{
-font-size:14px;
-font-weight:800;
-}
-
-.liveInviteStatus{
-font-size:11px;
-color:#2bd66f;
-margin-top:3px;
+.inviteStatus{
+ color:var(--muted);
+ font-size:11px;
+ margin-top:3px;
 }
 
 .inviteBtn{
-padding:9px 15px;
-border-radius:12px;
-background:var(--accent);
-font-size:12px;
-font-weight:800;
+ padding:9px 15px;
+ border-radius:18px;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+ font-size:11px;
+ font-weight:800;
 }
 
-.inviteBtn.sent{
-background:#2bd66f;
-color:#fff;
+/* QR */
+
+.qrOverlay{
+ position:fixed;
+ inset:0;
+ z-index:10000;
+ background:rgba(0,0,0,.78);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:20px;
 }
 
-/* REELS */
-.reel{height:530px;border-radius:24px;overflow:hidden;position:relative;background:linear-gradient(145deg,#26104c,#081b2e,#29101e);margin-bottom:16px}
-.reelContent{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.reelContent svg{width:68px;height:68px;stroke-width:1.7}
-.reelBottom{position:absolute;left:16px;right:16px;bottom:20px;z-index:3}
-.reelUser{display:flex;align-items:center;gap:10px}
-.reelSide{position:absolute;right:13px;bottom:65px;display:flex;flex-direction:column;gap:7px}
-.reelActionGroup{display:flex;flex-direction:column;align-items:center}
-.reelAction{width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center}
-.reelAction svg{width:22px;height:22px}
-.reelCount{font-size:10px;font-weight:700;margin-top:2px;color:white}
-.reelFollow{position:absolute;right:13px;top:18px;width:42px;height:42px;border-radius:50%;background:#fff;color:#111;display:flex;align-items:center;justify-content:center}
-.reelFollow svg{width:22px;height:22px}
-.reelFollow.following{background:var(--accent);color:white}
+.qrOverlay.open{display:flex}
 
-/* PROFILE */
-.profileTop{text-align:center;padding:15px 0 25px}
-.profileAvatar{width:92px;height:92px;border-radius:50%;margin:auto;background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);padding:3px;position:relative}
-.profileAvatarInner{width:100%;height:100%;border-radius:50%;background:#222532;display:flex;align-items:center;justify-content:center;font-size:34px}
-.profileName{font-size:21px;font-weight:800;margin-top:12px}
-.profileHandle{color:var(--muted);margin-top:5px}
-.profileStats{display:flex;justify-content:center;gap:45px;margin:22px 0}
-.stat strong{display:block;font-size:19px}.stat span{color:var(--muted);font-size:12px}
-.profileButtons{display:flex;justify-content:center;gap:10px}
-.profileBtn{padding:11px 20px;border-radius:13px;background:var(--card2);font-weight:700}
+.qrCard{
+ width:100%;
+ max-width:340px;
+ background:var(--card);
+ border:1px solid var(--line);
+ border-radius:25px;
+ padding:24px;
+ text-align:center;
+ position:relative;
+}
 
-/* BALANCE */
-.balance{padding:20px;background:radial-gradient(circle at 100% 0%,rgba(139,92,246,.28),transparent 42%),linear-gradient(135deg,#21153d,#171923);border:1px solid rgba(139,92,246,.18);border-radius:22px;margin-bottom:16px}
-.balanceTop{display:flex;align-items:center;justify-content:space-between}
-.balanceTitle{display:flex;align-items:center;gap:11px}
-.walletIcon{width:43px;height:43px;border-radius:14px;background:rgba(139,92,246,.16);display:flex;align-items:center;justify-content:center}
-.walletIcon svg{width:22px;height:22px;color:#b99aff}
-.balance small{color:var(--muted);font-size:12px}
-.balanceLabel{font-size:14px;font-weight:700}
-.balanceAmount{font-size:30px;font-weight:800;margin-top:17px}
-.balanceLine{height:1px;background:rgba(255,255,255,.08);margin:18px 0}
-.balanceActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.balanceAction{height:43px;border-radius:13px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:13px}
-.balanceAction svg{width:18px;height:18px}
+.qrCard h3{
+ font-size:20px;
+ margin-bottom:7px;
+}
 
-/* RECORDS */
-.recordsCard{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-bottom:20px}
-.recordsHeader{padding:17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
-.recordsHeader h3{font-size:16px}.recordsHeader span{color:var(--muted);font-size:12px}
-.record{min-height:67px;padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
-.record:last-child{border-bottom:0}
-.recordIcon{width:40px;height:40px;border-radius:13px;background:var(--card2);display:flex;align-items:center;justify-content:center}
-.recordIcon svg{width:19px;height:19px}
-.recordInfo{flex:1}.recordTitle{font-size:13px;font-weight:700}.recordDate{color:var(--muted);font-size:11px;margin-top:4px}
-.recordAmount{font-size:13px;font-weight:800}.recordAmount.positive{color:#5ee7a1}.recordAmount.neutral{color:#aaaebb}
+.qrCard p{
+ color:var(--muted);
+ font-size:12px;
+ margin-bottom:18px;
+}
+
+.qrClose{
+ position:absolute;
+ right:12px;
+ top:10px;
+ width:35px;
+ height:35px;
+ border-radius:50%;
+ background:var(--card2);
+ font-size:22px;
+}
+
+#liveQRCode{
+ width:210px;
+ height:210px;
+ background:white;
+ padding:10px;
+ margin:0 auto 15px;
+ border-radius:15px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+}
+
+#liveQRCode img{
+ width:190px!important;
+ height:190px!important;
+}
+
+.qrLink{
+ background:var(--card2);
+ padding:11px;
+ border-radius:12px;
+ color:var(--muted);
+ font-size:11px;
+ overflow:hidden;
+ white-space:nowrap;
+ text-overflow:ellipsis;
+ margin-bottom:10px;
+}
+
+.copyQRBtn{
+ width:100%;
+ height:44px;
+ border-radius:14px;
+ background:linear-gradient(135deg,#8b5cf6,#ec4899);
+ font-weight:800;
+}
+
+/* END LIVE */
+
+.endLiveBox{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.72);
+ z-index:9000;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ padding:25px;
+}
+
+.endLiveBox.open{display:flex}
+
+.endLiveCard{
+ width:100%;
+ max-width:340px;
+ padding:22px;
+ border-radius:22px;
+ background:var(--card);
+ text-align:center;
+ border:1px solid var(--line);
+}
+
+.endLiveCard h3{margin-bottom:8px}
+
+.endLiveCard p{
+ color:var(--muted);
+ font-size:13px;
+ margin-bottom:20px;
+}
+
+.endButtons{
+ display:flex;
+ gap:9px;
+}
+
+.endButtons button{
+ flex:1;
+ height:43px;
+ border-radius:13px;
+ background:var(--card2);
+ font-weight:700;
+}
+
+.endButtons .danger{background:#ff304f}
+
+/* SEARCH */
+
+.searchBox{
+ display:flex;
+ align-items:center;
+ gap:9px;
+ background:var(--card);
+ border:1px solid var(--line);
+ border-radius:17px;
+ padding:0 14px;
+ height:48px;
+ margin-bottom:18px;
+}
+
+.searchBox svg{
+ width:20px;
+ fill:none;
+ stroke:var(--muted);
+ stroke-width:2;
+}
+
+.searchBox input{
+ flex:1;
+ background:transparent;
+ border:0;
+ outline:0;
+ color:white;
+}
 
 /* SETTINGS */
-.settingCard{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden}
-.settingRow{min-height:60px;padding:15px 17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
-.settingRow:last-child{border-bottom:0}
-.settingLeft{display:flex;align-items:center;gap:13px}
-.settingIcon{width:38px;height:38px;border-radius:12px;background:var(--card2);display:flex;align-items:center;justify-content:center}
-.settingIcon svg{width:19px;height:19px}
-.toggle{width:50px;height:29px;border-radius:20px;background:#383b48;padding:3px}
-.toggleCircle{width:23px;height:23px;border-radius:50%;background:white;transition:.2s}
-.toggle.on{background:var(--accent)}.toggle.on .toggleCircle{transform:translateX(21px)}
 
-/* CHAT */
-.chatList{display:flex;flex-direction:column;gap:10px}
-.chatFriend{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:13px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.15s}
-.chatFriend:active{transform:scale(.98)}
-.chatAvatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;position:relative;flex-shrink:0}
-.chatOnline{position:absolute;right:-1px;bottom:0;width:15px;height:15px;border-radius:50%;background:#2bd66f;border:3px solid var(--card);box-shadow:0 0 0 2px rgba(43,214,111,.12)}
-.chatInfo{flex:1;min-width:0}
-.chatName{font-size:15px;font-weight:800}
-.chatStatus{font-size:12px;color:#2bd66f;margin-top:4px}
-.chatPreview{font-size:12px;color:var(--muted);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chatTime{font-size:10px;color:var(--muted)}
-.chatArrow{width:35px;height:35px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
-.chatArrow svg{width:17px;height:17px}
+.setting{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:16px 2px;
+ border-bottom:1px solid var(--line);
+}
 
-/* INBOX */
-#inbox{display:none;position:fixed;inset:0;z-index:5000;background:var(--bg)}
-.inbox.active{display:flex;flex-direction:column}
-.inboxHeader{height:68px;display:flex;align-items:center;gap:10px;padding:0 12px;background:rgba(8,9,13,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);flex-shrink:0}
-.inboxBack{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
-.inboxBack svg{width:21px}
-.inboxUser{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
-.inboxAvatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:800;position:relative}
-.inboxOnline{position:absolute;right:-1px;bottom:-1px;width:12px;height:12px;border-radius:50%;background:#2bd66f;border:2px solid var(--bg)}
-.inboxName{font-size:14px;font-weight:800}
-.inboxStatus{font-size:11px;color:#2bd66f;margin-top:2px}
-.inboxHeaderActions{display:flex;gap:7px}
-.inboxHeaderBtn{width:38px;height:38px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
-.inboxHeaderBtn svg{width:19px;height:19px}
+.settingText strong{
+ display:block;
+ font-size:14px;
+}
 
-/* MESSAGES */
-.messagesArea{flex:1;overflow-y:auto;padding:18px 14px 10px;display:flex;flex-direction:column;gap:9px}
-.messageRow{display:flex}
-.messageRow.me{justify-content:flex-end}
-.message{max-width:76%;padding:10px 13px;border-radius:18px;font-size:14px;line-height:1.4}
-.message.friend{background:var(--card2);border-bottom-left-radius:5px}
-.message.me{background:linear-gradient(135deg,#8b5cf6,#ec4899);border-bottom-right-radius:5px}
-.messageTime{font-size:9px;color:var(--muted);margin-top:3px;padding:0 5px}
-.messageRow.me .messageTime{text-align:right}
+.settingText span{
+ display:block;
+ color:var(--muted);
+ font-size:11px;
+ margin-top:4px;
+}
 
-/* VOICE MESSAGE */
-.voiceBubble{display:flex;align-items:center;gap:10px;min-width:165px}
-.voicePlay{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
-.voicePlay svg{width:15px;height:15px;fill:currentColor}
-.voiceWave{height:25px;display:flex;align-items:center;gap:2px}
-.voiceWave span{width:3px;border-radius:4px;background:currentColor;opacity:.85}
-.voiceDuration{font-size:11px;opacity:.85}
+.toggle{
+ width:45px;
+ height:25px;
+ border-radius:20px;
+ background:#383b46;
+ padding:3px;
+}
 
-/* CHAT COMPOSER */
-.chatComposer{padding:9px 10px calc(10px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line);display:flex;align-items:flex-end;gap:7px}
-.composerBtn{width:43px;height:43px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.composerBtn svg{width:21px;height:21px}
-.messageInput{flex:1;min-height:43px;max-height:110px;border:1px solid var(--line);outline:none;border-radius:22px;padding:11px 15px;background:var(--card);color:var(--text);font-family:inherit;font-size:14px;resize:none}
-.sendBtn{width:43px;height:43px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.sendBtn svg{width:20px;height:20px}
+.toggle span{
+ display:block;
+ width:19px;
+ height:19px;
+ border-radius:50%;
+ background:white;
+ transition:.2s;
+}
 
-/* STICKERS */
-.stickerPanel{display:none;padding:12px;background:var(--card);border-top:1px solid var(--line);grid-template-columns:repeat(5,1fr);gap:9px;max-height:190px;overflow-y:auto}
-.stickerPanel.show{display:grid}
-.sticker{height:48px;border-radius:14px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer}
-.sticker:active{transform:scale(.9)}
+.toggle.on{background:var(--accent)}
 
-/* VOICE RECORDING */
-.voiceRecording{display:none;flex:1;height:43px;align-items:center;gap:10px;padding:0 13px;background:var(--card);border:1px solid #ff3d68;border-radius:22px}
-.voiceRecording.show{display:flex}
-.recordPulse{width:9px;height:9px;border-radius:50%;background:#ff3d68;animation:pulse 1s infinite}
-@keyframes pulse{50%{opacity:.3;transform:scale(.75)}}
-.recordText{font-size:12px;color:#ff718b;flex:1}
-.cancelRecord{width:30px;height:30px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
-.cancelRecord svg{width:16px}
+.toggle.on span{transform:translateX(20px)}
 
-/* CALL SCREEN */
-.callScreen{display:none;position:fixed;inset:0;z-index:9000;background:radial-gradient(circle at 50% 25%,#33205d,#10111a 55%,#08090d);align-items:center;justify-content:center;flex-direction:column}
-.callScreen.show{display:flex}
-.callAvatar{width:105px;height:105px;border-radius:50%;background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:900;box-shadow:0 20px 60px rgba(139,92,246,.35)}
-.callName{font-size:25px;font-weight:800;margin-top:20px}
-.callStatus{color:#a9adbb;font-size:13px;margin-top:8px}
-.callControls{display:flex;gap:15px;margin-top:55px}
-.callControl{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px)}
-.callControl svg{width:23px;height:23px}
-.callControl.end{background:#ff3d68}
-.callControl.end svg{transform:rotate(135deg)}
+/* DOUBLE TAP HEART */
 
-/* NAV */
-.bottomNav{position:fixed;bottom:10px;left:10px;right:10px;height:68px;z-index:2000;background:rgba(20,21,29,.94);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:23px;display:flex;align-items:center;justify-content:space-around;box-shadow:0 12px 35px rgba(0,0,0,.4)}
-.navItem{width:42px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;color:#858996}
-.navItem svg{width:21px;height:21px;transition:.18s}.navItem small{font-size:8px}
-.navItem.active{color:white}.navItem.active svg{stroke-width:2.5;transform:scale(1.06)}
-.plusNav{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#8b5cf6,#ec4899);font-size:27px;color:white;box-shadow:0 8px 22px rgba(139,92,246,.35)}
-.plusNav svg{width:24px;height:24px;stroke-width:2.5}
+.doubleTapHeart{
+ position:fixed;
+ z-index:12000;
+ pointer-events:none;
+ font-size:58px;
+ animation:heartPop .8s ease forwards;
+}
 
-/* LIGHT */
-body.light{--bg:#f5f6fa;--card:#fff;--card2:#eef0f5;--text:#11131a;--muted:#737785;--line:#e1e3e9}
-body.light .topbar{background:rgba(245,246,250,.92)}
-body.light .bottomNav{background:rgba(255,255,255,.94)}
-body.light .postText{color:#333}
-body.light .balanceLine{background:rgba(0,0,0,.08)}
-body.light .inboxHeader{background:rgba(245,246,250,.94)}
-
-/* EMPTY */
-.empty{text-align:center;padding:70px 20px;color:var(--muted)}
-.emptyIcon{width:55px;height:55px;margin:0 auto 15px;display:flex;align-items:center;justify-content:center}
-.emptyIcon svg{width:50px;height:50px}
+@keyframes heartPop{
+ 0%{
+  transform:scale(.3);
+  opacity:0;
+ }
+ 25%{
+  transform:scale(1.25);
+  opacity:1;
+ }
+ 100%{
+  transform:translateY(-110px) scale(1);
+  opacity:0;
+ }
+}
 
 @media(max-width:380px){
-.brandName{font-size:18px}
-.profileStats{gap:28px}
-.reel{height:500px}
-.bottomNav{left:7px;right:7px}
-.navItem{width:39px}
-.liveComments{bottom:92px;height:190px}
-.liveControls{right:8px}
+ .navText{font-size:7px}
+ .plusNav{width:43px;height:43px}
+ .bottomNav{padding-left:3px;padding-right:3px}
 }
 </style>
+
+<!-- QR CODE LIBRARY -->
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
 </head>
 
 <body>
 
-<!-- ENTERING SURFACE -->
-<div id="entrySurface">
-<div class="entryBox">
-<div class="entryLogo"><span>M</span></div>
-<div class="entryTitle">Welcome to MicMedia</div>
-<div class="entryText">Connect. Create. Share.<br>Your world, your voice, your media.</div>
-<button class="enterBtn" onclick="enterMicMedia()">Enter MicMedia</button>
-</div>
-</div>
-
-<div id="app">
+<div class="app">
 
 <header class="topbar">
-<button class="iconBtn backBtn" id="backButton" onclick="goBack()">
-<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-</button>
+<div class="logo">MicMedia</div>
 
-<div class="brand">
-<div class="brandLogo">M</div>
-<div class="brandName">MicMedia</div>
-</div>
-
-<div class="topActions">
-<button class="iconBtn" onclick="showPage('search')">
-<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
-</button>
-
-<button class="iconBtn" onclick="showPage('settings')">
+<button class="topAction" onclick="showPage('search')">
 <svg viewBox="0 0 24 24">
-<circle cx="12" cy="12" r="3"/>
-<path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.05.05-1.42 1.42-.05-.05a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-2v-.07a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.05.05-1.42-1.42.05-.05A1.7 1.7 0 0 0 9.4 15a1.7 1.7 0 0 0-1.56-1.03H7v-2h.84A1.7 1.7 0 0 0 9.4 11a1.7 1.7 0 0 0-.34-1.88l-.05-.05 1.42-1.42.05.05a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 13.4 6.5V5h2v1.5a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.05-.05 1.42 1.42-.05.05A1.7 1.7 0 0 0 19.4 11a1.7 1.7 0 0 0 1.56 1.03H21v2h-.04A1.7 1.7 0 0 0 19.4 15z"/>
+<circle cx="11" cy="11" r="6"></circle>
+<path d="M16 16l5 5"></path>
 </svg>
 </button>
-</div>
 </header>
 
+
 <!-- HOME -->
+
 <main class="page active" id="home">
+
 <div class="sectionTitle">Home</div>
 
-<div class="stories">
-<div class="story">
-<div class="storyAvatar"><div class="avatarInner">M</div></div>
-<div class="storyName">Your story</div>
-</div>
-
-<div class="story">
-<div class="storyAvatar live"><div class="avatarInner">S</div></div>
-<div class="storyName">Sports</div>
-</div>
-
-<div class="story">
-<div class="storyAvatar"><div class="avatarInner">A</div></div>
-<div class="storyName">Awa</div>
-</div>
-
-<div class="story">
-<div class="storyAvatar"><div class="avatarInner">K</div></div>
-<div class="storyName">Kebba</div>
-</div>
-</div>
-
-<!-- POST 1 -->
 <div class="card">
+
 <div class="postHeader">
+
 <div class="userInfo">
-<div class="avatar">S<div class="liveDot"></div></div>
+
+<div class="avatar">M</div>
+
 <div>
-<div class="username">Sports & Sport Reels</div>
-<div class="handle">@sportsreels</div>
+<div class="username">MicMedia Sports</div>
+<div class="handle">@sports</div>
 </div>
+
 </div>
-<button class="followPlus" onclick="toggleFollow(this)">+</button>
+
 </div>
 
 <div class="postImage">SPORTS</div>
 
-<div class="postBody">
-<div class="postText">Welcome to Sports & Sport Reels on MicMedia ⚽🔥</div>
+<div class="postText">
+Welcome to MicMedia. Share your moments, watch reels and connect with people.
 </div>
 
 <div class="postActions">
-<div class="actionBox">
-<button class="action like" onclick="likePost(this)">
-<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>
-</button>
-<span class="actionCount">0</span>
-</div>
 
 <div class="actionBox">
-<button class="action" onclick="addComment(this)">
-<svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/></svg>
+
+<button class="actionBtn" onclick="likePost(this)">
+
+<svg viewBox="0 0 24 24">
+<path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
+</svg>
+
 </button>
-<span class="actionCount">0</span>
+
+<span class="actionCount">120</span>
+
 </div>
+
 
 <div class="actionBox">
-<button class="action" onclick="sharePost(this)">
-<svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+
+<button class="actionBtn" onclick="addComment()">
+
+<svg viewBox="0 0 24 24">
+<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
+</svg>
+
 </button>
-<span class="actionCount">0</span>
+
+<span class="actionCount">24</span>
+
 </div>
+
 
 <div class="actionBox">
-<button class="action" onclick="savePost(this)">
-<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>
+
+<button class="actionBtn" onclick="sharePost()">
+
+<svg viewBox="0 0 24 24">
+<path d="M22 2 11 13"></path>
+<path d="m22 2-7 20-4-9-9-4z"></path>
+</svg>
+
 </button>
-<span class="actionCount">0</span>
+
 </div>
+
+
+<div class="actionBox">
+
+<button class="actionBtn" onclick="savePost(this)">
+
+<svg viewBox="0 0 24 24">
+<path d="M6 3h12v18l-6-4-6 4z"/>
+</svg>
+
+</button>
+
+</div>
+
 </div>
 </div>
 
-<!-- POST 2 -->
+
 <div class="card">
+
 <div class="postHeader">
+
 <div class="userInfo">
-<div class="avatar">M</div>
+
+<div class="avatar">A</div>
+
 <div>
-<div class="username">MicMedia</div>
-<div class="handle">@micmedia</div>
-</div>
-</div>
-<button class="followPlus" onclick="toggleFollow(this)">+</button>
+<div class="username">Awa</div>
+<div class="handle">@awa</div>
 </div>
 
-<div class="postImage">MICMEDIA</div>
+</div>
 
-<div class="postBody">
-<div class="postText">Create. Share. Connect. 🚀</div>
+</div>
+
+<div class="postImage" style="background:linear-gradient(135deg,#172554,#831843)">
+MICMEDIA
+</div>
+
+<div class="postText">
+New day, new memories ❤️
 </div>
 
 <div class="postActions">
-<div class="actionBox">
-<button class="action like" onclick="likePost(this)">
-<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>
-</button>
-<span class="actionCount">0</span>
-</div>
 
 <div class="actionBox">
-<button class="action" onclick="addComment(this)">
-<svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/></svg>
+
+<button class="actionBtn" onclick="likePost(this)">
+
+<svg viewBox="0 0 24 24">
+<path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
+</svg>
+
 </button>
-<span class="actionCount">0</span>
+
+<span class="actionCount">84</span>
+
 </div>
 
-<div class="actionBox">
-<button class="action" onclick="sharePost(this)">
-<svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
-</button>
-<span class="actionCount">0</span>
-</div>
 
 <div class="actionBox">
-<button class="action" onclick="savePost(this)">
-<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>
+
+<button class="actionBtn" onclick="addComment()">
+
+<svg viewBox="0 0 24 24">
+<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
+</svg>
+
 </button>
-<span class="actionCount">0</span>
+
+<span class="actionCount">11</span>
+
+</div>
+
 </div>
 </div>
-</div>
+
 </main>
 
+
 <!-- LIVE -->
+
 <main class="page" id="live">
+
 <div class="sectionTitle">Live</div>
 
 <div class="liveHero">
-<div class="liveLabel"><span></span>LIVE NOW</div>
-<h2>Go Live on MicMedia</h2>
-<p>Share your moment with your followers and connect with people in real time.</p>
 
-<button class="liveButton" onclick="startLive()">
+<div class="liveHeroBg"></div>
+
+<div class="liveHeroContent">
+
+<div class="liveIcon">
+
 <svg viewBox="0 0 24 24">
-<rect x="3" y="6" width="18" height="13" rx="3"/>
-<path d="M9 6l1.5-2h3L15 6"/>
-<circle cx="12" cy="12.5" r="3"/>
+<rect x="3" y="6" width="13" height="12" rx="3"></rect>
+<path d="m16 10 5-3v10l-5-3"></path>
 </svg>
+
+</div>
+
+<h2>Go Live</h2>
+
+<p>Connect with your audience in real time.</p>
+
+<button class="startLiveBtn" onclick="startLive()">
 Start Live Stream
 </button>
+
+</div>
+</div>
+
+
+<div class="liveListTitle">
+<h3>Live Now</h3>
+<span style="color:#20d66b;font-size:12px">● Online</span>
+</div>
+
+
+<div class="liveCard" onclick="watchDemoLive('Awa','A')">
+
+<div class="liveThumb">A</div>
+
+<div class="liveInfo">
+
+<div class="liveBadgeSmall">LIVE</div>
+
+<div class="liveName">Awa</div>
+
+<div class="liveMeta">1.2K viewers • Music</div>
+
+</div>
+
+<button class="watchBtn">Watch</button>
+
+</div>
+
+
+<div class="liveCard" onclick="watchDemoLive('Kebba','K')">
+
+<div class="liveThumb">K</div>
+
+<div class="liveInfo">
+
+<div class="liveBadgeSmall">LIVE</div>
+
+<div class="liveName">Kebba</div>
+
+<div class="liveMeta">534 viewers • Sports</div>
+
+</div>
+
+<button class="watchBtn">Watch</button>
+
+</div>
+
+</main>
+
+
+<!-- REELS -->
+
+<main class="page" id="reels">
+
+<div class="sectionTitle">Reels</div>
+
+<div class="reelCard">
+
+<div class="reelBg">SPORTS</div>
+
+<div class="reelInfo">
+
+<h3>@sportsreels</h3>
+
+<p>Best football moments on MicMedia ⚽</p>
+
+</div>
+
+
+<div class="reelActions">
+
+<button class="reelAction" onclick="likeReel(this)">
+
+<svg viewBox="0 0 24 24">
+<path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
+</svg>
+
+</button>
+
+
+<button class="reelAction" onclick="addReelComment()">
+
+<svg viewBox="0 0 24 24">
+<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
+</svg>
+
+</button>
+
+
+<button class="reelAction" onclick="shareReel()">
+
+<svg viewBox="0 0 24 24">
+<path d="M22 2 11 13"></path>
+<path d="m22 2-7 20-4-9-9-4z"></path>
+</svg>
+
+</button>
+
+
+<button class="reelAction" onclick="saveReel(this)">
+
+<svg viewBox="0 0 24 24">
+<path d="M6 3h12v18l-6-4-6 4z"/>
+</svg>
+
+</button>
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- CHAT -->
+
+<main class="page" id="chat">
+
+<div class="sectionTitle">Messages</div>
+
+
+<button class="chatUser" onclick="openChat('Awa','A',true)">
+
+<div class="chatAvatar">
+A
+<span class="onlineDot"></span>
+</div>
+
+<div class="chatInfo">
+
+<div class="chatName">Awa</div>
+
+<div class="chatPreview">Hey, how are you?</div>
+
+</div>
+
+<div class="chatTime">2m</div>
+
+</button>
+
+
+<button class="chatUser" onclick="openChat('Kebba','K',true)">
+
+<div class="chatAvatar">
+K
+<span class="onlineDot"></span>
+</div>
+
+<div class="chatInfo">
+
+<div class="chatName">Kebba</div>
+
+<div class="chatPreview">Nice reel 🔥</div>
+
+</div>
+
+<div class="chatTime">15m</div>
+
+</button>
+
+
+<button class="chatUser" onclick="openChat('Fatou','F',false)">
+
+<div class="chatAvatar">F</div>
+
+<div class="chatInfo">
+
+<div class="chatName">Fatou</div>
+
+<div class="chatPreview">See you later</div>
+
+</div>
+
+<div class="chatTime">1h</div>
+
+</button>
+
+</main>
+
+
+<!-- PROFILE -->
+
+<main class="page" id="profile">
+
+<div class="profileTop">
+
+<div class="profileAvatar">M</div>
+
+<div class="profileName">Mustapha</div>
+
+<div class="profileHandle">@mustapha</div>
+
+
+<div class="stats">
+
+<div class="stat">
+<strong>0</strong>
+<span>Posts</span>
+</div>
+
+<div class="stat">
+<strong>120</strong>
+<span>Followers</span>
+</div>
+
+<div class="stat">
+<strong>85</strong>
+<span>Following</span>
+</div>
+
+</div>
+
+
+<div class="profileBtns">
+
+<button class="profileBtn">Edit Profile</button>
+
+<button class="profileBtn">Share</button>
+
+</div>
+
+</div>
+
+
+<div class="balanceCard">
+
+<div class="balanceLabel">MicMedia Balance</div>
+
+<div class="balanceAmount">$0.00</div>
+
+<div class="balanceButtons">
+
+<button class="balanceBtn" onclick="alert('Add Balance coming soon')">
+Add Balance
+</button>
+
+<button class="balanceBtn" onclick="alert('Withdraw coming soon')">
+Withdraw
+</button>
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- BALANCE -->
+
+<main class="page" id="balance">
+
+<div class="sectionTitle">Balance</div>
+
+<div class="balanceCard">
+
+<div class="balanceLabel">Available Balance</div>
+
+<div class="balanceAmount">$0.00</div>
+
+<div class="balanceButtons">
+
+<button class="balanceBtn" onclick="alert('Add Balance coming soon')">
+Add Balance
+</button>
+
+<button class="balanceBtn" onclick="alert('Withdraw coming soon')">
+Withdraw
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="setting">
+
+<div class="settingText">
+
+<strong>Earnings</strong>
+
+<span>Your MicMedia earnings</span>
+
+</div>
+
+<strong>$0.00</strong>
+
+</div>
+
+
+<div class="setting">
+
+<div class="settingText">
+
+<strong>Live Gifts</strong>
+
+<span>Money received from live streams</span>
+
+</div>
+
+<strong>$0.00</strong>
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- SEARCH -->
+
+<main class="page" id="search">
+
+<div class="sectionTitle">Search</div>
+
+<div class="searchBox">
+
+<svg viewBox="0 0 24 24">
+<circle cx="11" cy="11" r="6"></circle>
+<path d="M16 16l5 5"></path>
+</svg>
+
+<input type="text" placeholder="Search MicMedia">
+
 </div>
 
 <div class="card">
-<div class="postHeader">
-<div class="userInfo">
-<div class="avatar">S<div class="liveDot"></div></div>
-<div>
-<div class="username">Sports & Sport Reels</div>
-<div class="handle">@sportsreels · LIVE</div>
-</div>
-</div>
-<button class="followPlus" onclick="toggleFollow(this)">+</button>
+<strong>Discover people, reels and live streams.</strong>
 </div>
 
-<div class="postImage">LIVE</div>
-</div>
 </main>
 
-<!-- REELS -->
-<main class="page" id="reels">
-<div class="sectionTitle">Reels</div>
-
-<div class="reel">
-<div class="reelContent">
-<svg viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg>
-</div>
-
-<button class="reelFollow" onclick="toggleFollow(this)">
-<svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-</button>
-
-<div class="reelSide">
-
-<div class="reelActionGroup">
-<button class="reelAction" onclick="likeReel(this)">
-<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>
-</button>
-<span class="reelCount">0</span>
-</div>
-
-<div class="reelActionGroup">
-<button class="reelAction" onclick="addReelComment(this)">
-<svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/></svg>
-</button>
-<span class="reelCount">0</span>
-</div>
-
-<div class="reelActionGroup">
-<button class="reelAction" onclick="shareReel(this)">
-<svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
-</button>
-<span class="reelCount">0</span>
-</div>
-
-<div class="reelActionGroup">
-<button class="reelAction" onclick="saveReel(this)">
-<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>
-</button>
-<span class="reelCount">0</span>
-</div>
-
-</div>
-
-<div class="reelBottom">
-<div class="reelUser">
-<div class="avatar">S</div>
-<div>
-<div class="username">Sports & Sport Reels</div>
-<div class="handle">@sportsreels</div>
-</div>
-</div>
-<div class="postText" style="margin-top:10px">Football moments 🔥⚽</div>
-</div>
-</div>
-</main>
-
-<!-- MESSAGES -->
-<main class="page" id="messages">
-<div class="sectionTitle">Messages</div>
-
-<div class="chatList">
-
-<div class="chatFriend" onclick="openInbox('Awa','A','Online')">
-<div class="chatAvatar">
-A
-<div class="chatOnline"></div>
-</div>
-<div class="chatInfo">
-<div class="chatName">Awa</div>
-<div class="chatStatus">Online</div>
-<div class="chatPreview">Tap to open your conversation</div>
-</div>
-<div class="chatTime">Now</div>
-<div class="chatArrow">
-<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-</div>
-</div>
-
-<div class="chatFriend" onclick="openInbox('Sports & Sport Reels','S','Online')">
-<div class="chatAvatar">
-S
-<div class="chatOnline"></div>
-</div>
-<div class="chatInfo">
-<div class="chatName">Sports & Sport Reels</div>
-<div class="chatStatus">Online</div>
-<div class="chatPreview">Tap to open your conversation</div>
-</div>
-<div class="chatTime">Now</div>
-<div class="chatArrow">
-<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-</div>
-</div>
-
-</div>
-</main>
-
-<!-- FAVORITES -->
-<main class="page" id="favorites">
-<div class="sectionTitle">Favorites</div>
-<div class="empty">
-<div class="emptyIcon">
-<svg viewBox="0 0 24 24">
-<path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/>
-</svg>
-</div>
-<h3>Your favorites</h3>
-<p style="margin-top:8px">Posts and reels you save will appear here.</p>
-</div>
-</main>
-
-<!-- PROFILE -->
-<main class="page" id="profile">
-<div class="profileTop">
-
-<div class="profileAvatar">
-<div class="profileAvatarInner">M</div>
-</div>
-
-<div class="profileName">Mustapha</div>
-<div class="profileHandle">@mustapha</div>
-
-<div class="profileStats">
-<div class="stat"><strong>0</strong><span>Posts</span></div>
-<div class="stat"><strong id="followers">0</strong><span>Followers</span></div>
-<div class="stat"><strong>0</strong><span>Following</span></div>
-</div>
-
-<div class="profileButtons">
-<button class="profileBtn">Edit Profile</button>
-<button class="profileBtn">Share</button>
-</div>
-
-</div>
-
-<div class="balance">
-<div class="balanceTop">
-<div class="balanceTitle">
-<div class="walletIcon">
-<svg viewBox="0 0 24 24">
-<path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H19a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 16.5z"/>
-<path d="M4 8h14"/>
-<path d="M16 13h4"/>
-<circle cx="16" cy="13" r=".7"/>
-</svg>
-</div>
-<div>
-<div class="balanceLabel">MicMedia Balance</div>
-<small>Available balance</small>
-</div>
-</div>
-</div>
-
-<div class="balanceAmount">$0.00</div>
-<div class="balanceLine"></div>
-
-<div class="balanceActions">
-<button class="balanceAction">
-<svg viewBox="0 0 24 24">
-<path d="M12 16V4"/>
-<path d="M7 9l5-5 5 5"/>
-<path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>
-</svg>
-Add Funds
-</button>
-
-<button class="balanceAction">
-<svg viewBox="0 0 24 24">
-<path d="M12 8v12"/>
-<path d="M17 13l-5 5-5-5"/>
-<path d="M5 4h14"/>
-</svg>
-Withdraw
-</button>
-</div>
-</div>
-
-<div class="recordsCard">
-<div class="recordsHeader">
-<h3>Balance Records</h3>
-<span>Recent activity</span>
-</div>
-
-<div class="record">
-<div class="recordIcon">
-<svg viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M7 9l5-5 5 5"/></svg>
-</div>
-<div class="recordInfo">
-<div class="recordTitle">No deposits yet</div>
-<div class="recordDate">Your balance activity will appear here</div>
-</div>
-<div class="recordAmount neutral">$0.00</div>
-</div>
-
-<div class="record">
-<div class="recordIcon">
-<svg viewBox="0 0 24 24"><path d="M12 20V8"/><path d="M7 15l5 5 5-5"/></svg>
-</div>
-<div class="recordInfo">
-<div class="recordTitle">No withdrawals yet</div>
-<div class="recordDate">Withdrawals will appear here</div>
-</div>
-<div class="recordAmount neutral">$0.00</div>
-</div>
-</div>
-</main>
 
 <!-- SETTINGS -->
+
 <main class="page" id="settings">
+
 <div class="sectionTitle">Settings</div>
 
-<div class="settingCard">
+<div class="card">
 
-<div class="settingRow">
-<div class="settingLeft">
-<div class="settingIcon">
-<svg viewBox="0 0 24 24">
-<path d="M12 3a9 9 0 1 0 9 9"/>
-<path d="M12 3v5"/>
-<path d="M17 7l-3 3"/>
-</svg>
-</div>
+<div class="setting">
+
+<div class="settingText">
+
 <strong>Dark Mode</strong>
+
+<span>Use dark appearance</span>
+
 </div>
 
-<button class="toggle on" id="themeToggle" onclick="toggleTheme()">
-<div class="toggleCircle"></div>
+<button class="toggle on" onclick="toggleTheme()">
+<span></span>
 </button>
+
 </div>
 
-<div class="settingRow">
-<div class="settingLeft">
-<div class="settingIcon">
-<svg viewBox="0 0 24 24">
-<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
-<path d="M10 21h4"/>
-</svg>
-</div>
+
+<div class="setting">
+
+<div class="settingText">
+
 <strong>Notifications</strong>
-</div>
-<div class="toggle on"><div class="toggleCircle"></div></div>
+
+<span>Receive MicMedia notifications</span>
+
 </div>
 
-<div class="settingRow" onclick="showPage('profile')">
-<div class="settingLeft">
-<div class="settingIcon">
-<svg viewBox="0 0 24 24">
-<circle cx="12" cy="8" r="3"/>
-<path d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"/>
-</svg>
-</div>
-<strong>Account</strong>
-</div>
-<svg viewBox="0 0 24 24" style="width:18px"><path d="M9 5l7 7-7 7"/></svg>
+<button class="toggle on">
+<span></span>
+</button>
+
 </div>
 
-<div class="settingRow">
-<div class="settingLeft">
-<div class="settingIcon">
-<svg viewBox="0 0 24 24">
-<rect x="5" y="10" width="14" height="10" rx="2"/>
-<path d="M8 10V7a4 4 0 0 1 8 0v3"/>
-</svg>
-</div>
+
+<div class="setting">
+
+<div class="settingText">
+
 <strong>Privacy</strong>
-</div>
-<svg viewBox="0 0 24 24" style="width:18px"><path d="M9 5l7 7-7 7"/></svg>
+
+<span>Manage your account privacy</span>
+
 </div>
 
 </div>
+
+</div>
+
 </main>
 
-<!-- SEARCH -->
-<main class="page" id="search">
-<div class="sectionTitle">Search</div>
-<div class="card" style="padding:15px">
-<input id="searchInput" type="text" placeholder="Search MicMedia..." style="width:100%;height:50px;border:0;outline:0;border-radius:15px;padding:0 16px;background:var(--card2);color:var(--text);font-size:15px">
 </div>
-</main>
+
 
 <!-- BOTTOM NAV -->
+
 <nav class="bottomNav">
 
-<button class="navItem active" onclick="showPage('home')" data-page="home">
+<button class="navBtn active" id="navHome" onclick="showPage('home')">
+
 <svg viewBox="0 0 24 24">
-<path d="M3 10.5L12 3l9 7.5"/>
-<path d="M5 9.5V20h14V9.5"/>
-<path d="M9.5 20v-6h5v6"/>
+<path d="M3 10.5 12 3l9 7.5"></path>
+<path d="M5 9.5V21h14V9.5"></path>
 </svg>
-<small>Home</small>
+
+<span class="navText">Home</span>
+
 </button>
 
-<button class="navItem" onclick="showPage('live')" data-page="live">
+
+<button class="navBtn" id="navLive" onclick="showPage('live')">
+
 <svg viewBox="0 0 24 24">
-<rect x="4" y="6" width="16" height="12" rx="3"/>
-<path d="M9 6l1.5-2h3L15 6"/>
-<circle cx="12" cy="12" r="3"/>
+<rect x="3" y="6" width="13" height="12" rx="3"></rect>
+<path d="m16 10 5-3v10l-5-3"></path>
 </svg>
-<small>Live</small>
+
+<span class="navText">Live</span>
+
 </button>
 
-<button class="navItem plusNav" onclick="createPost()">
+
+<button class="navBtn" onclick="alert('Create Post coming soon')">
+
+<div class="plusNav">
+
 <svg viewBox="0 0 24 24">
-<path d="M12 5v14"/>
-<path d="M5 12h14"/>
+<path d="M12 5v14M5 12h14" stroke="white" stroke-width="2"/>
 </svg>
+
+</div>
+
 </button>
 
-<button class="navItem" onclick="showPage('reels')" data-page="reels">
+
+<button class="navBtn" id="navReels" onclick="showPage('reels')">
+
 <svg viewBox="0 0 24 24">
-<rect x="3" y="3" width="18" height="18" rx="5"/>
-<path d="M3 9h18"/>
-<path d="M8 3l3 6"/>
-<path d="M14 3l3 6"/>
-<path d="M10 13l5 3-5 3z"/>
+<rect x="3" y="3" width="18" height="18" rx="4"></rect>
+<path d="m10 8 6 4-6 4z"></path>
 </svg>
-<small>Reels</small>
+
+<span class="navText">Reels</span>
+
 </button>
 
-<button class="navItem" onclick="showPage('messages')" data-page="messages">
+
+<button class="navBtn" id="navChat" onclick="showPage('chat')">
+
 <svg viewBox="0 0 24 24">
-<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/>
+<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
 </svg>
-<small>Chat</small>
+
+<span class="navText">Chat</span>
+
 </button>
 
-<button class="navItem" onclick="showPage('favorites')" data-page="favorites">
+
+<button class="navBtn" id="navBalance" onclick="showPage('balance')">
+
 <svg viewBox="0 0 24 24">
-<path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/>
+<rect x="3" y="6" width="18" height="13" rx="2"></rect>
+<path d="M16 13h5"></path>
+<circle cx="16" cy="13" r="1"></circle>
 </svg>
-<small>Saved</small>
+
+<span class="navText">Balance</span>
+
 </button>
 
-<button class="navItem" onclick="showPage('profile')" data-page="profile">
+
+<button class="navBtn" id="navProfile" onclick="showPage('profile')">
+
 <svg viewBox="0 0 24 24">
-<circle cx="12" cy="8" r="3"/>
-<path d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"/>
+<circle cx="12" cy="8" r="4"></circle>
+<path d="M4 21c.8-4.2 3.5-6 8-6s7.2 1.8 8 6"></path>
 </svg>
-<small>Profile</small>
+
+<span class="navText">Profile</span>
+
 </button>
 
 </nav>
-</div>
 
-<!-- ================= CHAT INBOX ================= -->
-<div id="inbox">
 
-<div class="inboxHeader">
-<button class="inboxBack" onclick="closeInbox()">
-<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-</button>
+<!-- LIVE ROOM -->
 
-<div class="inboxUser">
-<div class="inboxAvatar" id="inboxAvatar">
-A
-<div class="inboxOnline"></div>
-</div>
-
-<div>
-<div class="inboxName" id="inboxName">Awa</div>
-<div class="inboxStatus" id="inboxStatus">Online</div>
-</div>
-</div>
-
-<div class="inboxHeaderActions">
-
-<button class="inboxHeaderBtn" onclick="startCall('voice')">
-<svg viewBox="0 0 24 24">
-<path d="M7 4l3 2-2 3c1.2 2.4 2.6 3.8 5 5l3-2 2 3c.6.9.3 2-.5 2.4l-1.6.8C11 19.5 4.5 13 5.3 8l.8-1.6C6.5 5.6 6.1 4.4 7 4z"/>
-</svg>
-</button>
-
-<button class="inboxHeaderBtn" onclick="startCall('video')">
-<svg viewBox="0 0 24 24">
-<rect x="3" y="6" width="13" height="12" rx="3"/>
-<path d="M16 10l5-3v10l-5-3z"/>
-</svg>
-</button>
-
-</div>
-</div>
-
-<div class="messagesArea" id="messagesArea">
-
-<div class="messageRow">
-<div>
-<div class="message friend">Hey 👋 Welcome to MicMedia.</div>
-<div class="messageTime">Now</div>
-</div>
-</div>
-
-<div class="messageRow me">
-<div>
-<div class="message me">Hey Awa! Nice to see you here.</div>
-<div class="messageTime">Now</div>
-</div>
-</div>
-
-</div>
-
-<div class="stickerPanel" id="stickerPanel">
-<button class="sticker" onclick="sendSticker('❤️')">❤️</button>
-<button class="sticker" onclick="sendSticker('😂')">😂</button>
-<button class="sticker" onclick="sendSticker('🔥')">🔥</button>
-<button class="sticker" onclick="sendSticker('😍')">😍</button>
-<button class="sticker" onclick="sendSticker('🥰')">🥰</button>
-<button class="sticker" onclick="sendSticker('👏')">👏</button>
-<button class="sticker" onclick="sendSticker('🎉')">🎉</button>
-<button class="sticker" onclick="sendSticker('💯')">💯</button>
-<button class="sticker" onclick="sendSticker('😎')">😎</button>
-<button class="sticker" onclick="sendSticker('🙌')">🙌</button>
-</div>
-
-<div class="chatComposer" id="chatComposer">
-
-<button class="composerBtn" onclick="toggleStickerPanel()">
-<svg viewBox="0 0 24 24">
-<circle cx="12" cy="12" r="8.5"/>
-<circle cx="9" cy="10" r="1"/>
-<circle cx="15" cy="10" r="1"/>
-<path d="M8.5 14.5c1 1.4 2.2 2 3.5 2s2.5-.6 3.5-2"/>
-</svg>
-</button>
-
-<textarea id="messageInput" class="messageInput" rows="1" placeholder="Message..."></textarea>
-
-<button class="composerBtn" id="voiceButton" onclick="startVoiceRecording()">
-<svg viewBox="0 0 24 24">
-<rect x="8" y="3" width="8" height="13" rx="4"/>
-<path d="M5 11a7 7 0 0 0 14 0"/>
-<path d="M12 18v3"/>
-<path d="M9 21h6"/>
-</svg>
-</button>
-
-<button class="sendBtn" onclick="sendMessage()">
-<svg viewBox="0 0 24 24">
-<path d="M4 5l16 7-16 7 3-7z"/>
-<path d="M7 12h13"/>
-</svg>
-</button>
-
-</div>
-
-<div class="chatComposer" id="recordingComposer" style="display:none">
-
-<div class="voiceRecording show">
-<div class="recordPulse"></div>
-<div class="recordText" id="recordText">Recording voice message...</div>
-
-<button class="cancelRecord" onclick="cancelVoiceRecording()">
-<svg viewBox="0 0 24 24">
-<path d="M7 7l10 10M17 7L7 17"/>
-</svg>
-</button>
-</div>
-
-<button class="sendBtn" onclick="sendVoiceMessage()">
-<svg viewBox="0 0 24 24">
-<path d="M4 5l16 7-16 7 3-7z"/>
-<path d="M7 12h13"/>
-</svg>
-</button>
-
-</div>
-</div>
-
-<!-- CALL SCREEN -->
-<div class="callScreen" id="callScreen">
-
-<div class="callAvatar" id="callAvatar">A</div>
-<div class="callName" id="callName">Awa</div>
-<div class="callStatus" id="callStatus">Calling...</div>
-
-<div class="callControls">
-
-<button class="callControl">
-<svg viewBox="0 0 24 24">
-<path d="M12 3v10"/>
-<path d="M8 7v5a4 4 0 0 0 8 0V7"/>
-<path d="M5 11a7 7 0 0 0 14 0"/>
-<path d="M12 18v3"/>
-</svg>
-</button>
-
-<button class="callControl">
-<svg viewBox="0 0 24 24">
-<path d="M4 5l16 7-16 7 3-7z"/>
-<path d="M7 12h13"/>
-</svg>
-</button>
-
-<button class="callControl end" onclick="endCall()">
-<svg viewBox="0 0 24 24">
-<path d="M7 4l3 2-2 3c1.2 2.4 2.6 3.8 5 5l3-2 2 3c.6.9.3 2-.5 2.4l-1.6.8C11 19.5 4.5 13 5.3 8l.8-1.6C6.5 5.6 6.1 4.4 7 4z"/>
-</svg>
-</button>
-
-</div>
-</div>
-
-<!-- ================= LIVE ROOM ================= -->
 <div class="liveRoom" id="liveRoom">
 
-<video id="liveVideo" autoplay playsinline muted></video>
-
-<div class="liveVideoOff" id="liveVideoOff">
-<div class="liveVideoOffAvatar">M</div>
-</div>
+<video class="liveVideo" id="liveVideo" autoplay playsinline muted></video>
 
 <div class="liveShade"></div>
 
+
 <div class="liveTop">
 
-<div class="liveBadge">
-<span></span>
-LIVE
-</div>
+<div class="liveBadge">LIVE</div>
 
-<div class="liveViewerCount">
+<div class="liveViewers">
+
 <svg viewBox="0 0 24 24">
-<path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/>
-<circle cx="12" cy="12" r="2.5"/>
+<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"></path>
+<circle cx="12" cy="12" r="2.5"></circle>
 </svg>
+
 <span id="liveViewerCount">1</span>
+
 </div>
 
-<button class="liveEndBtn" onclick="endLive()">
+<button class="liveClose" onclick="askEndLive()">×</button>
+
+</div>
+
+
+<div class="liveTitleArea">
+
+<strong id="liveOwnerName">Mustapha</strong>
+
+<span>Live on MicMedia</span>
+
+</div>
+
+
+<div class="liveRightControls">
+
+<button class="liveControl" id="liveMicBtn" onclick="toggleLiveMic()">
+
 <svg viewBox="0 0 24 24">
-<path d="M6 6l12 12M18 6L6 18"/>
+<rect x="8" y="3" width="8" height="12" rx="4"></rect>
+<path d="M5 11a7 7 0 0 0 14 0"></path>
+<path d="M12 18v3"></path>
 </svg>
+
 </button>
 
-</div>
 
-<div class="liveCreator">
-<div class="liveCreatorAvatar">M</div>
-<div class="liveCreatorInfo">
-<strong>Mustapha</strong>
-<span>@mustapha · Live now</span>
-</div>
-</div>
+<button class="liveControl" id="liveCameraBtn" onclick="toggleLiveCamera()">
 
-<!-- LIVE CONTROLS -->
-<div class="liveControls">
-
-<button class="liveControl active" id="liveMicBtn" onclick="toggleLiveMic()" title="Microphone">
-<svg id="liveMicIcon" viewBox="0 0 24 24">
-<rect x="8" y="3" width="8" height="13" rx="4"/>
-<path d="M5 11a7 7 0 0 0 14 0"/>
-<path d="M12 18v3"/>
-<path d="M9 21h6"/>
-</svg>
-</button>
-
-<button class="liveControl active" id="liveCameraBtn" onclick="toggleLiveCamera()" title="Camera">
 <svg viewBox="0 0 24 24">
-<rect x="3" y="6" width="13" height="12" rx="3"/>
-<path d="M16 10l5-3v10l-5-3z"/>
+<rect x="3" y="6" width="13" height="12" rx="3"></rect>
+<path d="m16 10 5-3v10l-5-3"></path>
 </svg>
+
 </button>
 
-<button class="liveControl" onclick="switchLiveCamera()" title="Switch camera">
+
+<button class="liveControl" onclick="switchLiveCamera()">
+
 <svg viewBox="0 0 24 24">
-<path d="M7 7h10"/>
-<path d="M17 7l-3-3"/>
-<path d="M17 7l-3 3"/>
-<path d="M17 17H7"/>
-<path d="M7 17l3-3"/>
-<path d="M7 17l3 3"/>
+<path d="M7 7h10"></path>
+<path d="m14 4 3 3-3 3"></path>
+<path d="M17 17H7"></path>
+<path d="m10 14-3 3 3 3"></path>
 </svg>
+
 </button>
 
-<button class="liveControl" onclick="openLiveInvites()" title="Invite">
+
+<!-- INVITATION -->
+
+<button class="liveControl" onclick="openLiveInvites()">
+
 <svg viewBox="0 0 24 24">
-<circle cx="9" cy="8" r="3"/>
-<path d="M3.5 20c.6-3.2 2.4-5 5.5-5s4.9 1.8 5.5 5"/>
-<path d="M17 8v6"/>
-<path d="M14 11h6"/>
+<circle cx="9" cy="8" r="3"></circle>
+<path d="M3 20c.5-3 2.5-5 6-5s5.5 2 6 5"></path>
+<path d="M16 11h5M18.5 8.5v5"></path>
 </svg>
+
+</button>
+
+
+<!-- QR -->
+
+<button class="liveControl" onclick="openQR()">
+
+<svg viewBox="0 0 24 24">
+<rect x="3" y="3" width="7" height="7"></rect>
+<rect x="14" y="3" width="7" height="7"></rect>
+<rect x="3" y="14" width="7" height="7"></rect>
+<path d="M14 14h3v3h-3zM18 18h3v3h-3zM18 14h3"></path>
+</svg>
+
 </button>
 
 </div>
 
-<!-- LIVE COMMENTS -->
+
 <div class="liveComments" id="liveComments"></div>
 
-<!-- LIVE BOTTOM -->
+
 <div class="liveBottom">
 
-<div class="liveCommentBox">
+<div class="liveCommentBar">
+
 <input
-id="liveCommentInput"
 class="liveCommentInput"
+id="liveCommentInput"
 placeholder="Comment..."
-autocomplete="off"
 >
-<button class="liveSend" onclick="sendLiveComment()">
+
+</div>
+
+
+<button class="liveBottomBtn" onclick="sendLiveComment()">
+
 <svg viewBox="0 0 24 24">
-<path d="M4 5l16 7-16 7 3-7z"/>
-<path d="M7 12h13"/>
+<path d="M22 2 11 13"></path>
+<path d="m22 2-7 20-4-9-9-4z"></path>
 </svg>
-</button>
-</div>
 
-<button class="liveBottomButton liveHeart" onclick="sendLiveHeart()" id="liveHeartBtn">
-<svg viewBox="0 0 24 24" style="fill:currentColor">
-<path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/>
-</svg>
 </button>
 
-<button class="liveBottomButton" onclick="openLiveInvites()">
+
+<button class="liveBottomBtn" onclick="sendLiveHeart()">
+
 <svg viewBox="0 0 24 24">
-<circle cx="9" cy="8" r="3"/>
-<path d="M3.5 20c.6-3.2 2.4-5 5.5-5s4.9 1.8 5.5 5"/>
-<path d="M17 8v6"/>
-<path d="M14 11h6"/>
+<path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
 </svg>
+
 </button>
 
 </div>
+
 </div>
 
-<!-- INVITATIONS -->
-<div class="liveInviteSheet" id="liveInviteSheet">
 
-<div class="liveInviteHeader">
-<h3>Invite to your Live</h3>
+<!-- INVITATION SHEET -->
 
-<button class="liveInviteClose" onclick="closeLiveInvites()">
-<svg viewBox="0 0 24 24">
-<path d="M7 7l10 10M17 7L7 17"/>
-</svg>
+<div class="inviteSheet" id="inviteSheet">
+
+<div class="inviteHead">
+
+<h3>Invite to Live</h3>
+
+<button onclick="closeLiveInvites()" style="font-size:25px">
+×
 </button>
-</div>
-
-<div class="liveInviteFriend">
-<div class="liveInviteAvatar">A</div>
-
-<div class="liveInviteInfo">
-<div class="liveInviteName">Awa</div>
-<div class="liveInviteStatus">Online</div>
-</div>
-
-<button class="inviteBtn" onclick="inviteFriend(this,'Awa')">Invite</button>
-</div>
-
-<div class="liveInviteFriend">
-<div class="liveInviteAvatar">K</div>
-
-<div class="liveInviteInfo">
-<div class="liveInviteName">Kebba</div>
-<div class="liveInviteStatus">Online</div>
-</div>
-
-<button class="inviteBtn" onclick="inviteFriend(this,'Kebba')">Invite</button>
-</div>
-
-<div class="liveInviteFriend">
-<div class="liveInviteAvatar">S</div>
-
-<div class="liveInviteInfo">
-<div class="liveInviteName">Sports & Sport Reels</div>
-<div class="liveInviteStatus">Online</div>
-</div>
-
-<button class="inviteBtn" onclick="inviteFriend(this,'Sports & Sport Reels')">Invite</button>
-</div>
 
 </div>
+
+
+<div class="inviteFriend">
+
+<div class="avatar">A</div>
+
+<div class="inviteInfo">
+
+<div class="inviteName">Awa</div>
+
+<div class="inviteStatus">Online</div>
+
+</div>
+
+<button class="inviteBtn" onclick="inviteFriend('Awa')">
+Invite
+</button>
+
+</div>
+
+
+<div class="inviteFriend">
+
+<div class="avatar">K</div>
+
+<div class="inviteInfo">
+
+<div class="inviteName">Kebba</div>
+
+<div class="inviteStatus">Online</div>
+
+</div>
+
+<button class="inviteBtn" onclick="inviteFriend('Kebba')">
+Invite
+</button>
+
+</div>
+
+
+<div class="inviteFriend">
+
+<div class="avatar">F</div>
+
+<div class="inviteInfo">
+
+<div class="inviteName">Fatou</div>
+
+<div class="inviteStatus">Active recently</div>
+
+</div>
+
+<button class="inviteBtn" onclick="inviteFriend('Fatou')">
+Invite
+</button>
+
+</div>
+
+
+<!-- QR FROM INVITATION -->
+
+<div style="
+display:flex;
+align-items:center;
+justify-content:center;
+margin-top:12px;
+">
+
+<button
+class="inviteBtn"
+onclick="closeLiveInvites();openQR()"
+style="width:100%;height:44px"
+>
+Share Live QR Code
+</button>
+
+</div>
+
+</div>
+
+
+<!-- QR OVERLAY -->
+
+<div class="qrOverlay" id="qrOverlay">
+
+<div class="qrCard">
+
+<button class="qrClose" onclick="closeQR()">×</button>
+
+<h3>Invite to MicMedia Live</h3>
+
+<p>Scan this QR code to join the live stream.</p>
+
+<div id="liveQRCode"></div>
+
+<div class="qrLink" id="liveQRLink">
+MicMedia Live
+</div>
+
+<button class="copyQRBtn" onclick="copyLiveLink()">
+Copy Live Link
+</button>
+
+</div>
+
+</div>
+
+
+<!-- END LIVE -->
+
+<div class="endLiveBox" id="endLiveBox">
+
+<div class="endLiveCard">
+
+<h3>End Live Stream?</h3>
+
+<p>Your live stream will end for viewers.</p>
+
+<div class="endButtons">
+
+<button onclick="closeEndLive()">Cancel</button>
+
+<button class="danger" onclick="endLive()">End Live</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CHAT INBOX -->
+
+<div class="liveRoom" id="chatInbox" style="background:var(--bg);">
+
+<div style="
+height:68px;
+position:absolute;
+top:0;
+left:0;
+right:0;
+z-index:5;
+display:flex;
+align-items:center;
+gap:10px;
+padding:0 12px;
+background:rgba(8,9,13,.95);
+border-bottom:1px solid var(--line);
+">
+
+<button onclick="closeChat()" style="
+width:40px;
+height:40px;
+border-radius:50%;
+background:var(--card2);
+font-size:25px;
+">‹</button>
+
+
+<div class="chatAvatar" style="width:42px;height:42px;min-width:42px">
+
+<span id="inboxLetter">A</span>
+
+<span class="onlineDot" id="inboxDot"></span>
+
+</div>
+
+
+<div style="flex:1">
+
+<strong id="inboxName">Awa</strong>
+
+<div id="inboxStatus"
+style="font-size:11px;color:#20d66b;margin-top:3px">
+Online
+</div>
+
+</div>
+
+
+<button
+style="width:40px;height:40px;background:var(--card2);border-radius:50%"
+onclick="alert('Voice call coming soon')"
+>
+
+<svg viewBox="0 0 24 24"
+style="width:20px;fill:none;stroke:white;stroke-width:2">
+
+<path d="M7 4h3l2 5-2 2a14 14 0 0 0 3 3l2-2 5 2v3a2 2 0 0 1-2 2C10.8 18.6 5.4 13.2 4 6a2 2 0 0 1 2-2z"/>
+
+</svg>
+
+</button>
+
+</div>
+
+
+<div
+id="chatMessages"
+style="
+position:absolute;
+top:68px;
+bottom:68px;
+left:0;
+right:0;
+padding:18px 14px;
+overflow-y:auto;
+display:flex;
+flex-direction:column;
+gap:9px;
+">
+
+<div style="
+align-self:flex-start;
+background:var(--card2);
+padding:10px 13px;
+border-radius:18px;
+border-bottom-left-radius:5px;
+font-size:14px
+">
+Hey, how are you?
+</div>
+
+
+<div style="
+align-self:flex-end;
+background:linear-gradient(135deg,#8b5cf6,#ec4899);
+padding:10px 13px;
+border-radius:18px;
+border-bottom-right-radius:5px;
+font-size:14px
+">
+I'm good! How about you?
+</div>
+
+</div>
+
+
+<div style="
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+height:68px;
+padding:10px;
+display:flex;
+gap:7px;
+background:var(--bg);
+border-top:1px solid var(--line);
+">
+
+<input
+id="chatInput"
+placeholder="Message..."
+style="
+flex:1;
+border:0;
+outline:0;
+border-radius:23px;
+background:var(--card2);
+color:white;
+padding:0 15px;
+">
+
+
+<button
+onclick="sendChatMessage()"
+style="
+width:45px;
+height:45px;
+border-radius:50%;
+background:linear-gradient(135deg,#8b5cf6,#ec4899);
+font-size:20px;
+">
+➤
+</button>
+
+</div>
+
+</div>
+
 
 <script>
 
-/* SUPABASE */
-const SUPABASE_URL="PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
-const SUPABASE_KEY="PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY_HERE";
-let supabaseClient=null;
-
-/* ENTER */
-function enterMicMedia(){
-document.getElementById("entrySurface").style.display="none";
-document.getElementById("app").style.display="block";
-document.body.style.overflowX="hidden";
-connectSupabase();
-}
-
-function connectSupabase(){
-try{
-if(SUPABASE_URL.includes("PASTE_")||SUPABASE_KEY.includes("PASTE_"))return;
-if(typeof window.supabase==="undefined")return;
-supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-supabaseClient.auth.getSession().catch(()=>{});
-}catch(e){}
-}
-
 /* NAVIGATION */
-let currentPage="home";
-let pageHistory=[];
+
+const pages=[
+"home",
+"live",
+"reels",
+"chat",
+"profile",
+"balance",
+"search",
+"settings"
+];
 
 function showPage(page){
-if(page===currentPage)return;
 
-pageHistory.push(currentPage);
-currentPage=page;
-
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-
-const target=document.getElementById(page);
-if(target)target.classList.add("active");
-
-updateNavigation(page);
-
-const back=document.getElementById("backButton");
-back.style.display=page==="home"?"none":"flex";
-
-window.scrollTo({top:0,behavior:"instant"});
-}
-
-function goBack(){
-if(pageHistory.length===0){
-showPage("home");
-return;
-}
-
-const previous=pageHistory.pop();
-
-currentPage=previous;
-
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-
-const target=document.getElementById(previous);
-if(target)target.classList.add("active");
-
-updateNavigation(previous);
-
-document.getElementById("backButton").style.display=previous==="home"?"none":"flex";
-}
-
-function updateNavigation(page){
-document.querySelectorAll(".navItem[data-page]").forEach(item=>{
-item.classList.toggle("active",item.dataset.page===page);
+pages.forEach(p=>{
+const el=document.getElementById(p);
+if(el)el.classList.remove("active");
 });
+
+const selected=document.getElementById(page);
+
+if(selected)selected.classList.add("active");
+
+document.querySelectorAll(".navBtn").forEach(btn=>{
+btn.classList.remove("active");
+});
+
+if(page==="home")document.getElementById("navHome").classList.add("active");
+if(page==="live")document.getElementById("navLive").classList.add("active");
+if(page==="reels")document.getElementById("navReels").classList.add("active");
+if(page==="chat")document.getElementById("navChat").classList.add("active");
+if(page==="balance")document.getElementById("navBalance").classList.add("active");
+if(page==="profile")document.getElementById("navProfile").classList.add("active");
+
+window.scrollTo(0,0);
+
 }
 
-/* FOLLOW */
-function toggleFollow(button){
-const following=button.classList.toggle("following");
 
-if(button.classList.contains("reelFollow")){
-button.innerHTML=following?
-`<svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg>`:
-`<svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>`;
+/* POSTS */
+
+function likePost(btn){
+
+const count=btn.parentElement.querySelector(".actionCount");
+
+let n=parseInt(count.textContent)||0;
+
+if(!btn.dataset.liked){
+
+n++;
+
+btn.dataset.liked="true";
+
+btn.style.color="#ff304f";
+
 }else{
-button.textContent=following?"✓":"+";
-}
 
-const followers=document.getElementById("followers");
+n--;
 
-if(followers){
-let n=Number(followers.textContent)||0;
-followers.textContent=following?n+1:Math.max(0,n-1);
-}
-}
+delete btn.dataset.liked;
 
-/* LIKE POST */
-function likePost(button){
-const box=button.parentElement;
-const count=box.querySelector(".actionCount");
-let n=Number(count.textContent)||0;
+btn.style.color="";
 
-const active=button.classList.toggle("active");
-
-if(active){
-n++;
-button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
-}else{
-n=Math.max(0,n-1);
-button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
 }
 
 count.textContent=n;
+
 }
 
-/* COMMENT */
-function addComment(button){
-const box=button.parentElement;
-const count=box.querySelector(".actionCount");
-let n=Number(count.textContent)||0;
-
-const comment=prompt("Write your comment:");
-
-if(comment&&comment.trim()){
-n++;
-count.textContent=n;
-alert("Comment added!");
-}
+function addComment(){
+alert("Comments are ready for the next update.");
 }
 
-/* SHARE */
-function sharePost(button){
-const box=button.parentElement;
-const count=box.querySelector(".actionCount");
-let n=Number(count.textContent)||0;
-
-if(!button.classList.contains("shared")){
-button.classList.add("shared");
-n++;
-count.textContent=n;
-
-if(navigator.share){
-navigator.share({
-title:"MicMedia",
-text:"Check out this post on MicMedia!"
-}).catch(()=>{});
-}else{
-alert("Post shared!");
-}
-}
+function sharePost(){
+alert("Post sharing coming soon.");
 }
 
-/* SAVE */
-function savePost(button){
-const box=button.parentElement;
-const count=box.querySelector(".actionCount");
-let n=Number(count.textContent)||0;
-
-const saved=button.classList.toggle("saved");
-
-if(saved){
-n++;
-button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
-}else{
-n=Math.max(0,n-1);
-button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
+function savePost(btn){
+btn.style.color=btn.style.color?"":"#8b5cf6";
 }
 
-count.textContent=n;
+
+/* REELS */
+
+function likeReel(btn){
+btn.style.color=btn.style.color?"":"#ff304f";
 }
 
-/* REEL LIKE */
-function likeReel(button){
-const group=button.parentElement;
-const count=group.querySelector(".reelCount");
-let n=Number(count.textContent)||0;
-
-const liked=button.classList.toggle("liked");
-
-if(liked){
-n++;
-button.style.color="#ff3d68";
-button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
-}else{
-n=Math.max(0,n-1);
-button.style.color="";
-button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
+function addReelComment(){
+alert("Reel comments coming soon.");
 }
 
-count.textContent=n;
+function shareReel(){
+alert("Reel sharing coming soon.");
 }
 
-/* REEL COMMENT */
-function addReelComment(button){
-const group=button.parentElement;
-const count=group.querySelector(".reelCount");
-let n=Number(count.textContent)||0;
-
-const comment=prompt("Write your comment:");
-
-if(comment&&comment.trim()){
-n++;
-count.textContent=n;
-alert("Comment added!");
-}
+function saveReel(btn){
+btn.style.color=btn.style.color?"":"#8b5cf6";
 }
 
-/* REEL SHARE */
-function shareReel(button){
-const group=button.parentElement;
-const count=group.querySelector(".reelCount");
-let n=Number(count.textContent)||0;
 
-if(!button.classList.contains("shared")){
-button.classList.add("shared");
-n++;
-count.textContent=n;
-
-if(navigator.share){
-navigator.share({
-title:"MicMedia Reel",
-text:"Check out this reel on MicMedia!"
-}).catch(()=>{});
-}else{
-alert("Reel shared!");
-}
-}
-}
-
-/* REEL SAVE */
-function saveReel(button){
-const group=button.parentElement;
-const count=group.querySelector(".reelCount");
-let n=Number(count.textContent)||0;
-
-const saved=button.classList.toggle("saved");
-
-if(saved){
-n++;
-button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
-}else{
-n=Math.max(0,n-1);
-button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
-}
-
-count.textContent=n;
-}
-
-/* =========================================================
-   LIVE SYSTEM
-========================================================= */
+/* LIVE */
 
 let liveStream=null;
-let liveFacingMode="user";
-let liveMicOn=true;
-let liveCameraOn=true;
+let liveFacing="user";
+let liveMic=true;
+let liveCamera=true;
 let liveViewerCount=1;
-let liveViewerTimer=null;
-let liveCommentTimer=null;
 
-/* START LIVE */
 async function startLive(){
 
 try{
 
-if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+
 alert("Your browser does not support camera access.");
+
 return;
+
 }
 
 liveStream=await navigator.mediaDevices.getUserMedia({
+
 video:{
-facingMode:liveFacingMode,
-width:{ideal:1280},
-height:{ideal:720}
+facingMode:liveFacing
 },
+
 audio:true
+
 });
 
-const video=document.getElementById("liveVideo");
+document.getElementById("liveVideo").srcObject=liveStream;
 
-video.srcObject=liveStream;
-video.muted=true;
+document.getElementById("liveVideo").style.display="block";
 
 document.getElementById("liveRoom").classList.add("open");
 
-document.body.style.overflow="hidden";
-
-liveMicOn=true;
-liveCameraOn=true;
-liveViewerCount=1;
+liveViewerCount=Math.floor(Math.random()*10)+1;
 
 document.getElementById("liveViewerCount").textContent=liveViewerCount;
 
-document.getElementById("liveVideoOff").classList.remove("show");
-
-updateLiveControls();
+document.getElementById("liveOwnerName").textContent="Mustapha";
 
 document.getElementById("liveComments").innerHTML="";
 
 addLiveComment("MicMedia","You are now live.");
 
-startLiveDemoComments();
-startLiveViewerDemo();
+setTimeout(()=>{
+addLiveComment("Awa","Hey! 👋");
+},2500);
+
+setTimeout(()=>{
+addLiveComment("Kebba","Welcome to your live 🔥");
+},5000);
 
 }catch(error){
 
-console.log(error);
-
-alert("Please allow camera and microphone access to go live.");
+alert("Please allow camera and microphone permission to go live.");
 
 }
 
 }
 
-/* END LIVE */
+
+function askEndLive(){
+document.getElementById("endLiveBox").classList.add("open");
+}
+
+function closeEndLive(){
+document.getElementById("endLiveBox").classList.remove("open");
+}
+
+
 function endLive(){
+
+closeEndLive();
 
 if(liveStream){
 
@@ -1850,177 +2412,133 @@ liveStream.getTracks().forEach(track=>{
 track.stop();
 });
 
+}
+
 liveStream=null;
-}
 
-const video=document.getElementById("liveVideo");
-
-if(video){
-video.srcObject=null;
-}
-
-clearInterval(liveViewerTimer);
-clearInterval(liveCommentTimer);
-
-liveViewerTimer=null;
-liveCommentTimer=null;
+document.getElementById("liveVideo").srcObject=null;
 
 document.getElementById("liveRoom").classList.remove("open");
 
-document.getElementById("liveInviteSheet").classList.remove("open");
+document.getElementById("inviteSheet").classList.remove("open");
 
-document.body.style.overflowX="hidden";
-document.body.style.overflowY="auto";
+document.getElementById("qrOverlay").classList.remove("open");
 
-liveViewerCount=1;
+alert("Your live stream has ended.");
 
 }
 
-/* MUTE MICROPHONE */
+
 function toggleLiveMic(){
 
 if(!liveStream)return;
 
-const audioTrack=liveStream.getAudioTracks()[0];
+const track=liveStream.getAudioTracks()[0];
 
-if(!audioTrack)return;
+if(!track)return;
 
-audioTrack.enabled=!audioTrack.enabled;
+track.enabled=!track.enabled;
 
-liveMicOn=audioTrack.enabled;
+liveMic=track.enabled;
 
-updateLiveControls();
-
-addLiveComment(
-"MicMedia",
-liveMicOn?"Microphone turned on":"Microphone muted"
-);
+document.getElementById("liveMicBtn").classList.toggle("off",!liveMic);
 
 }
 
-/* CAMERA ON/OFF */
+
 function toggleLiveCamera(){
 
 if(!liveStream)return;
 
-const videoTrack=liveStream.getVideoTracks()[0];
+const track=liveStream.getVideoTracks()[0];
 
-if(!videoTrack)return;
+if(!track)return;
 
-videoTrack.enabled=!videoTrack.enabled;
+track.enabled=!track.enabled;
 
-liveCameraOn=videoTrack.enabled;
+liveCamera=track.enabled;
 
-document.getElementById("liveVideoOff")
-.classList.toggle("show",!liveCameraOn);
-
-updateLiveControls();
-
-addLiveComment(
-"MicMedia",
-liveCameraOn?"Camera turned on":"Camera turned off"
-);
+document.getElementById("liveCameraBtn").classList.toggle("off",!liveCamera);
 
 }
 
-/* UPDATE LIVE CONTROLS */
-function updateLiveControls(){
 
-const micBtn=document.getElementById("liveMicBtn");
-const cameraBtn=document.getElementById("liveCameraBtn");
-
-if(micBtn){
-micBtn.classList.toggle("active",liveMicOn);
-
-micBtn.innerHTML=liveMicOn?
-
-`<svg viewBox="0 0 24 24">
-<rect x="8" y="3" width="8" height="13" rx="4"/>
-<path d="M5 11a7 7 0 0 0 14 0"/>
-<path d="M12 18v3"/>
-<path d="M9 21h6"/>
-</svg>`:
-
-`<svg viewBox="0 0 24 24">
-<rect x="8" y="3" width="8" height="13" rx="4"/>
-<path d="M4 4l16 16"/>
-<path d="M5 11a7 7 0 0 0 14 0"/>
-</svg>`;
-}
-
-if(cameraBtn){
-cameraBtn.classList.toggle("active",liveCameraOn);
-
-cameraBtn.innerHTML=liveCameraOn?
-
-`<svg viewBox="0 0 24 24">
-<rect x="3" y="6" width="13" height="12" rx="3"/>
-<path d="M16 10l5-3v10l-5-3z"/>
-</svg>`:
-
-`<svg viewBox="0 0 24 24">
-<rect x="3" y="6" width="13" height="12" rx="3"/>
-<path d="M16 10l5-3v10l-5-3z"/>
-<path d="M4 4l16 16"/>
-</svg>`;
-}
-
-}
-
-/* SWITCH CAMERA */
 async function switchLiveCamera(){
 
 if(!liveStream)return;
 
-const nextFacing=liveFacingMode==="user"?"environment":"user";
+const next=liveFacing==="user"?"environment":"user";
 
 try{
 
-const newStream=await navigator.mediaDevices.getUserMedia({
+const newVideo=await navigator.mediaDevices.getUserMedia({
+
 video:{
-facingMode:nextFacing,
-width:{ideal:1280},
-height:{ideal:720}
+facingMode:next
 },
+
 audio:false
+
 });
 
-const newVideoTrack=newStream.getVideoTracks()[0];
+const newTrack=newVideo.getVideoTracks()[0];
 
-const oldVideoTrack=liveStream.getVideoTracks()[0];
+const oldTrack=liveStream.getVideoTracks()[0];
 
-if(oldVideoTrack){
-oldVideoTrack.stop();
-}
+if(oldTrack)oldTrack.stop();
 
-const audioTrack=liveStream.getAudioTracks()[0];
+if(oldTrack)liveStream.removeTrack(oldTrack);
 
-liveStream=new MediaStream();
-
-if(audioTrack){
-liveStream.addTrack(audioTrack);
-}
-
-liveStream.addTrack(newVideoTrack);
+liveStream.addTrack(newTrack);
 
 document.getElementById("liveVideo").srcObject=liveStream;
 
-liveFacingMode=nextFacing;
-
-addLiveComment(
-"MicMedia",
-nextFacing==="user"?"Front camera":"Back camera"
-);
+liveFacing=next;
 
 }catch(error){
 
-console.log(error);
+alert("Camera switch is not available on this device.");
 
 }
 
 }
 
-/* LIVE COMMENT */
+
+/* LIVE COMMENTS */
+
+function addLiveComment(name,text){
+
+const box=document.getElementById("liveComments");
+
+const row=document.createElement("div");
+
+row.className="liveComment";
+
+const nameSpan=document.createElement("span");
+
+nameSpan.className="liveCommentName";
+
+nameSpan.textContent=name;
+
+const textSpan=document.createElement("span");
+
+textSpan.textContent=text;
+
+row.appendChild(nameSpan);
+
+row.appendChild(textSpan);
+
+box.appendChild(row);
+
+while(box.children.length>8){
+box.removeChild(box.firstChild);
+}
+
+box.scrollTop=box.scrollHeight;
+
+}
+
+
 function sendLiveComment(){
 
 const input=document.getElementById("liveCommentInput");
@@ -2029,513 +2547,277 @@ const text=input.value.trim();
 
 if(!text)return;
 
-addLiveComment("You",text,true);
+addLiveComment("You",text);
 
 input.value="";
 
 }
 
-/* ADD LIVE COMMENT */
-function addLiveComment(name,text,me=false){
 
-const box=document.getElementById("liveComments");
-
-if(!box)return;
-
-const row=document.createElement("div");
-
-row.className="liveComment"+(me?" me":"");
-
-const safeName=document.createTextNode(name);
-
-const safeText=document.createTextNode(text);
-
-const nameSpan=document.createElement("span");
-
-nameSpan.className="liveCommentName";
-
-nameSpan.appendChild(safeName);
-
-row.appendChild(nameSpan);
-row.appendChild(safeText);
-
-box.appendChild(row);
-
-while(box.children.length>40){
-box.removeChild(box.firstChild);
-}
-
-box.scrollTop=box.scrollHeight;
-
-}
-
-/* LIVE HEART */
 function sendLiveHeart(){
 
-const heart=document.getElementById("liveHeartBtn");
-
-heart.classList.remove("pop");
-
-void heart.offsetWidth;
-
-heart.classList.add("pop");
-
-addLiveComment("You","♥");
+addLiveComment("You","❤️");
 
 }
 
-/* LIVE DEMO COMMENTS */
-function startLiveDemoComments(){
 
-const demoComments=[
-["Awa","Nice live 🔥"],
-["Kebba","We are watching!"],
-["Sports & Sport Reels","Welcome to MicMedia Live"],
-["Fatou","This is nice 👏"],
-["Awa","Keep going!"],
-["Kebba","MicMedia 🔥🔥"]
-];
+/* DOUBLE TAP TO LIKE */
 
-let index=0;
+let lastLiveTap=0;
 
-clearInterval(liveCommentTimer);
+document.getElementById("liveRoom").addEventListener("dblclick",function(e){
 
-liveCommentTimer=setInterval(()=>{
-
-if(!document.getElementById("liveRoom").classList.contains("open")){
-clearInterval(liveCommentTimer);
+if(
+e.target.closest(".liveControl")||
+e.target.closest(".liveBottom")||
+e.target.closest(".liveTop")||
+e.target.closest(".liveClose")
+){
 return;
 }
 
-const comment=demoComments[index%demoComments.length];
+sendLiveHeart();
 
-addLiveComment(comment[0],comment[1]);
+showLiveHeart(e.clientX,e.clientY);
 
-index++;
+});
 
-},4500);
 
-}
+function showLiveHeart(x,y){
 
-/* VIEWER COUNT */
-function startLiveViewerDemo(){
+const heart=document.createElement("div");
 
-clearInterval(liveViewerTimer);
+heart.className="doubleTapHeart";
 
-liveViewerTimer=setInterval(()=>{
+heart.textContent="❤️";
 
-if(!document.getElementById("liveRoom").classList.contains("open")){
-clearInterval(liveViewerTimer);
-return;
-}
+heart.style.left=(x-29)+"px";
 
-if(liveViewerCount<100){
-liveViewerCount+=Math.random()>0.5?1:2;
-}
+heart.style.top=(y-29)+"px";
 
-document.getElementById("liveViewerCount").textContent=liveViewerCount;
+document.body.appendChild(heart);
 
-},6000);
+setTimeout(()=>{
+heart.remove();
+},800);
 
 }
+
 
 /* INVITATIONS */
+
 function openLiveInvites(){
 
-document.getElementById("liveInviteSheet").classList.add("open");
+document.getElementById("inviteSheet").classList.add("open");
 
 }
 
 function closeLiveInvites(){
 
-document.getElementById("liveInviteSheet").classList.remove("open");
+document.getElementById("inviteSheet").classList.remove("open");
 
 }
 
-function inviteFriend(button,name){
+function inviteFriend(name){
 
-button.classList.add("sent");
-
-button.textContent="Invited";
-
-addLiveComment("MicMedia","Invitation sent to "+name);
-
-setTimeout(()=>{
-
-button.textContent="Invited";
-
-},1000);
+alert("Live invitation sent to "+name+".");
 
 }
 
-/* LIVE COMMENT ENTER */
-document.getElementById("liveCommentInput")?.addEventListener("keydown",function(e){
 
-if(e.key==="Enter"){
+/* QR */
 
-e.preventDefault();
+function openQR(){
 
-sendLiveComment();
+const overlay=document.getElementById("qrOverlay");
+
+const qrBox=document.getElementById("liveQRCode");
+
+const liveLink=
+window.location.href.split("#")[0]+"?live=mustapha";
+
+document.getElementById("liveQRLink").textContent=liveLink;
+
+qrBox.innerHTML="";
+
+if(typeof QRCode==="undefined"){
+
+alert("QR code library is still loading. Please try again.");
+
+return;
 
 }
+
+new QRCode(qrBox,{
+
+text:liveLink,
+
+width:190,
+
+height:190,
+
+colorDark:"#000000",
+
+colorLight:"#ffffff",
+
+correctLevel:QRCode.CorrectLevel.H
 
 });
 
-/* CREATE */
-function createPost(){
-alert("Create Post: photo, video, reel and story options will appear here.");
+overlay.classList.add("open");
+
 }
 
-/* THEME */
-function loadTheme(){
 
-const theme=localStorage.getItem("micmedia-theme");
-const toggle=document.getElementById("themeToggle");
+function closeQR(){
 
-if(theme==="light"){
+document.getElementById("qrOverlay").classList.remove("open");
 
-document.body.classList.add("light");
+}
 
-if(toggle)toggle.classList.remove("on");
+
+function copyLiveLink(){
+
+const link=
+window.location.href.split("#")[0]+"?live=mustapha";
+
+if(navigator.clipboard){
+
+navigator.clipboard.writeText(link)
+.then(()=>{
+alert("Live link copied!");
+})
+.catch(()=>{
+alert(link);
+});
 
 }else{
 
-document.body.classList.remove("light");
-
-if(toggle)toggle.classList.add("on");
+alert(link);
 
 }
 
 }
 
-function toggleTheme(){
 
-const light=document.body.classList.toggle("light");
+/* OTHER LIVE STREAMS */
 
-const toggle=document.getElementById("themeToggle");
+function watchDemoLive(name,letter){
 
-if(light){
+document.getElementById("liveRoom").classList.add("open");
 
-localStorage.setItem("micmedia-theme","light");
+document.getElementById("liveVideo").style.display="none";
 
-toggle.classList.remove("on");
+document.getElementById("liveOwnerName").textContent=name;
 
-}else{
+document.getElementById("liveViewerCount").textContent=
+Math.floor(Math.random()*900)+100;
 
-localStorage.setItem("micmedia-theme","dark");
+document.getElementById("liveComments").innerHTML="";
 
-toggle.classList.add("on");
+addLiveComment(name,"Welcome everyone!");
+
+setTimeout(()=>{
+addLiveComment("Awa","🔥🔥🔥");
+},1500);
+
+setTimeout(()=>{
+addLiveComment("Kebba","Great live!");
+},3000);
 
 }
 
-}
 
-/* ================= CHAT SYSTEM ================= */
+/* CHAT */
 
-let activeChatName="Awa";
-let activeChatInitial="A";
+function openChat(name,letter,online){
 
-function openInbox(name,initial,status){
-
-activeChatName=name;
-activeChatInitial=initial;
+document.getElementById("chatInbox").classList.add("open");
 
 document.getElementById("inboxName").textContent=name;
-document.getElementById("inboxStatus").textContent=status;
-document.getElementById("inboxAvatar").childNodes[0].nodeValue=initial;
 
-document.getElementById("inbox").classList.add("active");
+document.getElementById("inboxLetter").textContent=letter;
 
-document.body.style.overflow="hidden";
+document.getElementById("inboxStatus").textContent=
+online?"Online":"Active recently";
 
-}
+document.getElementById("inboxStatus").style.color=
+online?"#20d66b":"#969baa";
 
-function closeInbox(){
-
-document.getElementById("inbox").classList.remove("active");
-
-document.body.style.overflowX="hidden";
-document.body.style.overflowY="auto";
+document.getElementById("inboxDot").style.display=
+online?"block":"none";
 
 }
 
-/* SEND TEXT */
-function sendMessage(){
 
-const input=document.getElementById("messageInput");
+function closeChat(){
+
+document.getElementById("chatInbox").classList.remove("open");
+
+}
+
+
+function sendChatMessage(){
+
+const input=document.getElementById("chatInput");
 
 const text=input.value.trim();
 
 if(!text)return;
 
-addMessage(text,"me");
+const box=document.getElementById("chatMessages");
+
+const message=document.createElement("div");
+
+message.style.cssText=
+"align-self:flex-end;background:linear-gradient(135deg,#8b5cf6,#ec4899);padding:10px 13px;border-radius:18px;border-bottom-right-radius:5px;font-size:14px;max-width:75%";
+
+message.textContent=text;
+
+box.appendChild(message);
 
 input.value="";
-input.style.height="43px";
+
+box.scrollTop=box.scrollHeight;
 
 }
 
-/* ADD MESSAGE */
-function addMessage(text,type){
 
-const area=document.getElementById("messagesArea");
+/* THEME */
 
-const row=document.createElement("div");
+function toggleTheme(){
 
-row.className="messageRow "+(type==="me"?"me":"");
-
-const wrap=document.createElement("div");
-
-const bubble=document.createElement("div");
-
-bubble.className="message "+(type==="me"?"me":"friend");
-
-bubble.textContent=text;
-
-const time=document.createElement("div");
-
-time.className="messageTime";
-time.textContent="Now";
-
-wrap.appendChild(bubble);
-wrap.appendChild(time);
-row.appendChild(wrap);
-area.appendChild(row);
-
-area.scrollTop=area.scrollHeight;
+alert("Dark mode is already active.");
 
 }
 
-/* STICKERS */
-function toggleStickerPanel(){
 
-const panel=document.getElementById("stickerPanel");
+/* ENTER KEY */
 
-panel.classList.toggle("show");
+document.addEventListener("keydown",function(e){
 
+if(e.key==="Enter"){
+
+const liveInput=document.getElementById("liveCommentInput");
+
+if(document.activeElement===liveInput){
+sendLiveComment();
 }
 
-function sendSticker(sticker){
+const chatInput=document.getElementById("chatInput");
 
-addMessage(sticker,"me");
-
-document.getElementById("stickerPanel").classList.remove("show");
-
+if(document.activeElement===chatInput){
+sendChatMessage();
 }
-
-/* VOICE RECORDING */
-let voiceRecording=false;
-let voiceSeconds=0;
-let voiceTimer=null;
-
-function startVoiceRecording(){
-
-if(voiceRecording)return;
-
-voiceRecording=true;
-
-document.getElementById("chatComposer").style.display="none";
-document.getElementById("recordingComposer").style.display="flex";
-
-voiceSeconds=0;
-
-document.getElementById("recordText").textContent="Recording 0:00";
-
-voiceTimer=setInterval(()=>{
-
-voiceSeconds++;
-
-const mins=Math.floor(voiceSeconds/60);
-const secs=String(voiceSeconds%60).padStart(2,"0");
-
-document.getElementById("recordText").textContent=
-"Recording "+mins+":"+secs;
-
-},1000);
-
-}
-
-function cancelVoiceRecording(){
-
-voiceRecording=false;
-
-clearInterval(voiceTimer);
-
-document.getElementById("recordingComposer").style.display="none";
-document.getElementById("chatComposer").style.display="flex";
-
-}
-
-function sendVoiceMessage(){
-
-if(!voiceRecording)return;
-
-voiceRecording=false;
-
-clearInterval(voiceTimer);
-
-const duration=Math.max(1,voiceSeconds);
-
-const area=document.getElementById("messagesArea");
-
-const row=document.createElement("div");
-
-row.className="messageRow me";
-
-const wrap=document.createElement("div");
-
-const bubble=document.createElement("div");
-
-bubble.className="message me";
-
-const voice=document.createElement("div");
-
-voice.className="voiceBubble";
-
-voice.innerHTML=`
-<div class="voicePlay">
-<svg viewBox="0 0 24 24">
-<path d="M8 5v14l11-7z"/>
-</svg>
-</div>
-
-<div class="voiceWave">
-<span style="height:8px"></span>
-<span style="height:17px"></span>
-<span style="height:12px"></span>
-<span style="height:22px"></span>
-<span style="height:14px"></span>
-<span style="height:20px"></span>
-<span style="height:9px"></span>
-<span style="height:17px"></span>
-<span style="height:11px"></span>
-<span style="height:21px"></span>
-</div>
-
-<div class="voiceDuration">
-0:${String(duration).padStart(2,"0")}
-</div>
-`;
-
-bubble.appendChild(voice);
-
-const time=document.createElement("div");
-
-time.className="messageTime";
-time.textContent="Now";
-
-wrap.appendChild(bubble);
-wrap.appendChild(time);
-
-row.appendChild(wrap);
-
-area.appendChild(row);
-
-area.scrollTop=area.scrollHeight;
-
-document.getElementById("recordingComposer").style.display="none";
-document.getElementById("chatComposer").style.display="flex";
-
-}
-
-/* CALLS */
-function startCall(type){
-
-document.getElementById("callAvatar").textContent=activeChatInitial;
-
-document.getElementById("callName").textContent=activeChatName;
-
-document.getElementById("callStatus").textContent=
-type==="video"?"Starting video call...":"Calling...";
-
-document.getElementById("callScreen").classList.add("show");
-
-setTimeout(()=>{
-
-if(document.getElementById("callScreen").classList.contains("show")){
-
-document.getElementById("callStatus").textContent=
-type==="video"?"Video call":"Connected";
-
-}
-
-},1500);
-
-}
-
-function endCall(){
-
-document.getElementById("callScreen").classList.remove("show");
-
-}
-
-/* SWIPE */
-let touchStartX=0,touchStartY=0;
-
-document.addEventListener("touchstart",e=>{
-
-touchStartX=e.changedTouches[0].screenX;
-touchStartY=e.changedTouches[0].screenY;
-
-},{passive:true});
-
-document.addEventListener("touchend",e=>{
-
-if(document.getElementById("inbox").classList.contains("active"))return;
-
-if(document.getElementById("liveRoom").classList.contains("open"))return;
-
-const endX=e.changedTouches[0].screenX;
-const endY=e.changedTouches[0].screenY;
-
-const dx=endX-touchStartX;
-const dy=endY-touchStartY;
-
-if(Math.abs(dx)<80||Math.abs(dx)<Math.abs(dy))return;
-
-const pages=["home","live","reels","messages","favorites","profile"];
-
-let index=pages.indexOf(currentPage);
-
-if(index===-1)return;
-
-if(dx<0)index=Math.min(pages.length-1,index+1);
-else index=Math.max(0,index-1);
-
-showPage(pages[index]);
-
-},{passive:true});
-
-/* ENTER KEY SEND */
-document.addEventListener("keydown",e=>{
-
-if(e.key==="Enter" &&
-!e.shiftKey &&
-document.activeElement===document.getElementById("messageInput")){
-
-e.preventDefault();
-
-sendMessage();
 
 }
 
 });
 
-/* MESSAGE AUTO HEIGHT */
-document.addEventListener("input",e=>{
 
-if(e.target.id==="messageInput"){
+/* DEFAULT */
 
-e.target.style.height="43px";
-
-e.target.style.height=
-Math.min(e.target.scrollHeight,110)+"px";
-
-}
-
-});
-
-loadTheme();
+showPage("home");
 
 </script>
 
