@@ -2,2525 +2,723 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0,user-scalable=no">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>MicMedia</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  -webkit-tap-highlight-color:transparent;
-}
-
-:root{
-  --bg:#08090d;
-  --card:#11131a;
-  --card2:#171923;
-  --text:#fff;
-  --muted:#9296a5;
-  --line:#252834;
-  --accent:#8b5cf6;
-}
-
-body{
-  font-family:Arial,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-button{
-  border:0;
-  color:white;
-  cursor:pointer;
-  font-family:inherit;
-}
-
-svg{
-  width:22px;
-  height:22px;
-  fill:none;
-  stroke:currentColor;
-  stroke-width:2;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
-
-/* ================= ENTERING SURFACE ================= */
-
-#entrySurface{
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  background:
-    radial-gradient(circle at 50% 35%,#24184d 0%,#11101d 35%,#08090d 75%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:25px;
-}
-
-.entryBox{
-  width:100%;
-  max-width:390px;
-  text-align:center;
-}
-
-.entryLogo{
-  width:105px;
-  height:105px;
-  margin:0 auto 25px;
-  border-radius:29px;
-  background:linear-gradient(135deg,#ff4ecd,#7c3aed,#18c8ff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 20px 60px rgba(124,58,237,.35);
-}
-
-.entryLogo span{
-  font-size:65px;
-  font-weight:900;
-  font-style:italic;
-  color:white;
-  text-shadow:0 4px 15px rgba(0,0,0,.25);
-}
-
-.entryTitle{
-  font-size:36px;
-  font-weight:800;
-  letter-spacing:-1.5px;
-  margin-bottom:10px;
-}
-
-.entryText{
-  color:#a5a8b6;
-  font-size:15px;
-  line-height:1.5;
-  margin-bottom:32px;
-}
-
-.enterBtn{
-  width:100%;
-  height:58px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
-  font-size:17px;
-  font-weight:800;
-  box-shadow:0 12px 30px rgba(139,92,246,.3);
-}
-
-.enterBtn:active{
-  transform:scale(.97);
-}
-
-/* ================= APP ================= */
-
-#app{
-  display:none;
-  min-height:100vh;
-  padding-bottom:90px;
-}
-
-.topbar{
-  height:66px;
-  position:sticky;
-  top:0;
-  z-index:1000;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 16px;
-  background:rgba(8,9,13,.92);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.brandLogo{
-  width:38px;
-  height:38px;
-  border-radius:11px;
-  background:linear-gradient(135deg,#ff4ecd,#7c3aed,#18c8ff);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:25px;
-  font-weight:900;
-  font-style:italic;
-}
-
-.brandName{
-  font-size:20px;
-  font-weight:800;
-}
-
-.topActions{
-  display:flex;
-  gap:9px;
-}
-
-.iconBtn{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:var(--card2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.iconBtn svg{
-  width:20px;
-  height:20px;
-}
-
-.backBtn{
-  display:none;
-}
-
-/* ================= CONTENT ================= */
-
-.page{
-  display:none;
-  padding:16px;
-  animation:pageIn .18s ease;
-}
-
-.page.active{
-  display:block;
-}
-
-@keyframes pageIn{
-  from{
-    opacity:.3;
-    transform:translateX(8px);
-  }
-  to{
-    opacity:1;
-    transform:translateX(0);
-  }
-}
-
-.sectionTitle{
-  font-size:25px;
-  font-weight:800;
-  margin:8px 0 18px;
-}
-
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:22px;
-  overflow:hidden;
-  margin-bottom:16px;
-}
-
-/* ================= STORIES ================= */
-
-.stories{
-  display:flex;
-  gap:14px;
-  overflow-x:auto;
-  padding:8px 2px 18px;
-}
-
-.stories::-webkit-scrollbar{
-  display:none;
-}
-
-.story{
-  min-width:72px;
-  text-align:center;
-}
-
-.storyAvatar{
-  width:66px;
-  height:66px;
-  border-radius:50%;
-  padding:3px;
-  background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);
-  margin:auto;
-}
-
-.storyAvatar.live{
-  background:linear-gradient(135deg,#ff304f,#ff0055,#ff7a00);
-}
-
-.avatarInner{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  background:#252735;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:25px;
-}
-
-.storyName{
-  font-size:11px;
-  color:#aaaebb;
-  margin-top:7px;
-  white-space:nowrap;
-}
-
-/* ================= POST ================= */
-
-.postHeader{
-  padding:13px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.userInfo{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.avatar{
-  width:43px;
-  height:43px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  position:relative;
-}
-
-.liveDot{
-  position:absolute;
-  bottom:-2px;
-  right:-2px;
-  background:#ff304f;
-  border:3px solid var(--card);
-  width:15px;
-  height:15px;
-  border-radius:50%;
-}
-
-.username{
-  font-weight:700;
-  font-size:14px;
-}
-
-.handle{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:3px;
-}
-
-.followPlus{
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  background:var(--card2);
-  font-size:21px;
-  color:#fff;
-}
-
-.followPlus.following{
-  background:var(--accent);
-  font-size:14px;
-}
-
-.postImage{
-  height:310px;
-  background:
-    linear-gradient(135deg,#17122c,#321b56,#111827);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:42px;
-  font-weight:900;
-}
-
-.postBody{
-  padding:14px;
-}
-
-.postText{
-  font-size:14px;
-  line-height:1.5;
-  color:#ddd;
-}
-
-.postActions{
-  display:flex;
-  gap:18px;
-  padding:0 14px 14px;
-  align-items:center;
-}
-
-.action{
-  background:none;
-  width:25px;
-  height:25px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.action svg{
-  width:23px;
-  height:23px;
-}
-
-.like.active{
-  color:#ff3d68;
-}
-
-.likeCount{
-  font-size:12px;
-  color:var(--muted);
-  margin-left:-10px;
-}
-
-/* ================= LIVE ================= */
-
-.liveHero{
-  padding:25px;
-  border-radius:25px;
-  background:linear-gradient(135deg,#21133c,#111827);
-  margin-bottom:18px;
-}
-
-.liveLabel{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  background:#ff304f;
-  padding:7px 11px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:800;
-  margin-bottom:16px;
-}
-
-.liveLabel span{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:white;
-}
-
-.liveHero h2{
-  font-size:29px;
-  margin-bottom:9px;
-}
-
-.liveHero p{
-  color:#a4a8b7;
-  line-height:1.5;
-  font-size:14px;
-}
-
-.liveButton{
-  margin-top:20px;
-  padding:14px 20px;
-  border-radius:14px;
-  background:#ff304f;
-  font-weight:800;
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-}
-
-.liveButton svg{
-  width:19px;
-  height:19px;
-}
-
-/* ================= REELS ================= */
-
-.reel{
-  height:530px;
-  border-radius:24px;
-  overflow:hidden;
-  position:relative;
-  background:linear-gradient(145deg,#26104c,#081b2e,#29101e);
-  margin-bottom:16px;
-}
-
-.reelContent{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.reelContent svg{
-  width:68px;
-  height:68px;
-  stroke-width:1.7;
-}
-
-.reelBottom{
-  position:absolute;
-  left:16px;
-  right:16px;
-  bottom:20px;
-  z-index:3;
-}
-
-.reelUser{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.reelSide{
-  position:absolute;
-  right:13px;
-  bottom:70px;
-  display:flex;
-  flex-direction:column;
-  gap:15px;
-}
-
-.reelAction{
-  width:46px;
-  height:46px;
-  border-radius:50%;
-  background:rgba(0,0,0,.45);
-  backdrop-filter:blur(8px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.reelAction svg{
-  width:22px;
-  height:22px;
-}
-
-.reelFollow{
-  position:absolute;
-  right:13px;
-  top:18px;
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:#fff;
-  color:#111;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.reelFollow svg{
-  width:22px;
-  height:22px;
-}
-
-.reelFollow.following{
-  background:var(--accent);
-  color:white;
-}
-
-/* ================= PROFILE ================= */
-
-.profileTop{
-  text-align:center;
-  padding:15px 0 25px;
-}
-
-.profileAvatar{
-  width:92px;
-  height:92px;
-  border-radius:50%;
-  margin:auto;
-  background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);
-  padding:3px;
-}
-
-.profileAvatarInner{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  background:#222532;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:34px;
-}
-
-.profileName{
-  font-size:21px;
-  font-weight:800;
-  margin-top:12px;
-}
-
-.profileHandle{
-  color:var(--muted);
-  margin-top:5px;
-}
-
-.profileStats{
-  display:flex;
-  justify-content:center;
-  gap:45px;
-  margin:22px 0;
-}
-
-.stat strong{
-  display:block;
-  font-size:19px;
-}
-
-.stat span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.profileButtons{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-}
-
-.profileBtn{
-  padding:11px 20px;
-  border-radius:13px;
-  background:var(--card2);
-  font-weight:700;
-}
-
-/* ================= MODERN BALANCE ================= */
-
-.balance{
-  padding:20px;
-  background:
-    radial-gradient(circle at 100% 0%,rgba(139,92,246,.28),transparent 42%),
-    linear-gradient(135deg,#21153d,#171923);
-  border:1px solid rgba(139,92,246,.18);
-  border-radius:22px;
-  margin-bottom:16px;
-}
-
-.balanceTop{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.balanceTitle{
-  display:flex;
-  align-items:center;
-  gap:11px;
-}
-
-.walletIcon{
-  width:43px;
-  height:43px;
-  border-radius:14px;
-  background:rgba(139,92,246,.16);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.walletIcon svg{
-  width:22px;
-  height:22px;
-  color:#b99aff;
-}
-
-.balance small{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.balanceLabel{
-  font-size:14px;
-  font-weight:700;
-}
-
-.balanceAmount{
-  font-size:30px;
-  font-weight:800;
-  margin-top:17px;
-}
-
-.balanceLine{
-  height:1px;
-  background:rgba(255,255,255,.08);
-  margin:18px 0;
-}
-
-.balanceActions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.balanceAction{
-  height:43px;
-  border-radius:13px;
-  background:rgba(255,255,255,.06);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  font-weight:700;
-  font-size:13px;
-}
-
-.balanceAction svg{
-  width:18px;
-  height:18px;
-}
-
-.recordsCard{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:22px;
-  overflow:hidden;
-  margin-bottom:20px;
-}
-
-.recordsHeader{
-  padding:17px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid var(--line);
-}
-
-.recordsHeader h3{
-  font-size:16px;
-}
-
-.recordsHeader span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.record{
-  min-height:67px;
-  padding:12px 16px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  border-bottom:1px solid var(--line);
-}
-
-.record:last-child{
-  border-bottom:0;
-}
-
-.recordIcon{
-  width:40px;
-  height:40px;
-  border-radius:13px;
-  background:var(--card2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.recordIcon svg{
-  width:19px;
-  height:19px;
-}
-
-.recordInfo{
-  flex:1;
-}
-
-.recordTitle{
-  font-size:13px;
-  font-weight:700;
-}
-
-.recordDate{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:4px;
-}
-
-.recordAmount{
-  font-size:13px;
-  font-weight:800;
-}
-
-.recordAmount.positive{
-  color:#5ee7a1;
-}
-
-.recordAmount.neutral{
-  color:#aaaebb;
-}
-
-/* ================= SETTINGS ================= */
-
-.settingCard{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:20px;
-  overflow:hidden;
-}
-
-.settingRow{
-  min-height:60px;
-  padding:15px 17px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid var(--line);
-}
-
-.settingRow:last-child{
-  border-bottom:0;
-}
-
-.settingLeft{
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
-
-.settingIcon{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  background:var(--card2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.settingIcon svg{
-  width:19px;
-  height:19px;
-}
-
-.toggle{
-  width:50px;
-  height:29px;
-  border-radius:20px;
-  background:#383b48;
-  padding:3px;
-}
-
-.toggleCircle{
-  width:23px;
-  height:23px;
-  border-radius:50%;
-  background:white;
-  transition:.2s;
-}
-
-.toggle.on{
-  background:var(--accent);
-}
-
-.toggle.on .toggleCircle{
-  transform:translateX(21px);
-}
-
-/* ================= BOTTOM NAV ================= */
-
-.bottomNav{
-  position:fixed;
-  bottom:10px;
-  left:10px;
-  right:10px;
-  height:68px;
-  z-index:2000;
-  background:rgba(20,21,29,.94);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:23px;
-  display:flex;
-  align-items:center;
-  justify-content:space-around;
-  box-shadow:0 12px 35px rgba(0,0,0,.4);
-}
-
-.navItem{
-  width:42px;
-  height:52px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  background:none;
-  color:#858996;
-}
-
-.navItem svg{
-  width:21px;
-  height:21px;
-  transition:.18s;
-}
-
-.navItem small{
-  font-size:8px;
-}
-
-.navItem.active{
-  color:white;
-}
-
-.navItem.active svg{
-  stroke-width:2.5;
-  transform:scale(1.06);
-}
-
-.plusNav{
-  width:48px;
-  height:48px;
-  border-radius:16px;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
-  font-size:27px;
-  color:white;
-  box-shadow:0 8px 22px rgba(139,92,246,.35);
-}
-
-.plusNav svg{
-  width:24px;
-  height:24px;
-  stroke-width:2.5;
-}
-
-/* ================= LIGHT MODE ================= */
-
-body.light{
-  --bg:#f5f6fa;
-  --card:#ffffff;
-  --card2:#eef0f5;
-  --text:#11131a;
-  --muted:#737785;
-  --line:#e1e3e9;
-}
-
-body.light .topbar{
-  background:rgba(245,246,250,.92);
-}
-
-body.light .bottomNav{
-  background:rgba(255,255,255,.94);
-}
-
-body.light .postText{
-  color:#333;
-}
-
-body.light .balanceLine{
-  background:rgba(0,0,0,.08);
-}
-
-/* ================= EMPTY ================= */
-
-.empty{
-  text-align:center;
-  padding:70px 20px;
-  color:var(--muted);
-}
-
-.emptyIcon{
-  width:55px;
-  height:55px;
-  margin:0 auto 15px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.emptyIcon svg{
-  width:50px;
-  height:50px;
-}
-
-/* ================= RESPONSIVE ================= */
-
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#08090d;--card:#11131a;--card2:#171923;--text:#fff;--muted:#9296a5;--line:#252834;--accent:#8b5cf6}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+button{border:0;color:white;cursor:pointer;font-family:inherit}
+svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* ENTER */
+#entrySurface{position:fixed;inset:0;z-index:99999;background:radial-gradient(circle at 50% 35%,#24184d 0%,#11101d 35%,#08090d 75%);display:flex;align-items:center;justify-content:center;padding:25px}
+.entryBox{width:100%;max-width:390px;text-align:center}
+.entryLogo{width:105px;height:105px;margin:0 auto 25px;border-radius:29px;background:linear-gradient(135deg,#ff4ecd,#7c3aed,#18c8ff);display:flex;align-items:center;justify-content:center;box-shadow:0 20px 60px rgba(124,58,237,.35)}
+.entryLogo span{font-size:65px;font-weight:900;font-style:italic;color:white}
+.entryTitle{font-size:36px;font-weight:800;letter-spacing:-1.5px;margin-bottom:10px}
+.entryText{color:#a5a8b6;font-size:15px;line-height:1.5;margin-bottom:32px}
+.enterBtn{width:100%;height:58px;border-radius:18px;background:linear-gradient(135deg,#8b5cf6,#ec4899);font-size:17px;font-weight:800}
+.enterBtn:active{transform:scale(.97)}
+/* APP */
+#app{display:none;min-height:100vh;padding-bottom:90px}
+.topbar{height:66px;position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:rgba(8,9,13,.92);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.05)}
+.brand{display:flex;align-items:center;gap:10px}
+.brandLogo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#ff4ecd,#7c3aed,#18c8ff);display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:900;font-style:italic}
+.brandName{font-size:20px;font-weight:800}
+.topActions{display:flex;gap:9px}
+.iconBtn{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
+.iconBtn svg{width:20px;height:20px}
+.backBtn{display:none}
+/* CONTENT */
+.page{display:none;padding:16px;animation:pageIn .18s ease}
+.page.active{display:block}
+@keyframes pageIn{from{opacity:.3;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+.sectionTitle{font-size:25px;font-weight:800;margin:8px 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-bottom:16px}
+/* STORIES */
+.stories{display:flex;gap:14px;overflow-x:auto;padding:8px 2px 18px}
+.stories::-webkit-scrollbar{display:none}
+.story{min-width:72px;text-align:center}
+.storyAvatar{width:66px;height:66px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);margin:auto}
+.storyAvatar.live{background:linear-gradient(135deg,#ff304f,#ff0055,#ff7a00)}
+.avatarInner{width:100%;height:100%;border-radius:50%;background:#252735;display:flex;align-items:center;justify-content:center;font-size:25px}
+.storyName{font-size:11px;color:#aaaebb;margin-top:7px;white-space:nowrap}
+/* POSTS */
+.postHeader{padding:13px;display:flex;align-items:center;justify-content:space-between}
+.userInfo{display:flex;align-items:center;gap:10px}
+.avatar{width:43px;height:43px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:800;position:relative}
+.liveDot{position:absolute;bottom:-2px;right:-2px;background:#ff304f;border:3px solid var(--card);width:15px;height:15px;border-radius:50%}
+.username{font-weight:700;font-size:14px}
+.handle{color:var(--muted);font-size:12px;margin-top:3px}
+.followPlus{width:34px;height:34px;border-radius:50%;background:var(--card2);font-size:21px;color:#fff}
+.followPlus.following{background:var(--accent);font-size:14px}
+.postImage{height:310px;background:linear-gradient(135deg,#17122c,#321b56,#111827);display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:900}
+.postBody{padding:14px}
+.postText{font-size:14px;line-height:1.5;color:#ddd}
+/* ACTIONS + COUNTERS */
+.postActions{display:flex;align-items:center;gap:12px;padding:0 14px 14px;flex-wrap:wrap}
+.actionBox{display:flex;align-items:center;gap:5px}
+.action{background:none;width:27px;height:27px;display:flex;align-items:center;justify-content:center}
+.action svg{width:22px;height:22px}
+.actionCount{font-size:11px;color:var(--muted);white-space:nowrap}
+.action.active{color:#ff3d68}
+.action.saved{color:#a78bfa}
+.action.shared{color:#5ee7a1}
+/* LIVE */
+.liveHero{padding:25px;border-radius:25px;background:linear-gradient(135deg,#21133c,#111827);margin-bottom:18px}
+.liveLabel{display:inline-flex;align-items:center;gap:7px;background:#ff304f;padding:7px 11px;border-radius:10px;font-size:12px;font-weight:800;margin-bottom:16px}
+.liveLabel span{width:7px;height:7px;border-radius:50%;background:white}
+.liveHero h2{font-size:29px;margin-bottom:9px}
+.liveHero p{color:#a4a8b7;line-height:1.5;font-size:14px}
+.liveButton{margin-top:20px;padding:14px 20px;border-radius:14px;background:#ff304f;font-weight:800;display:inline-flex;align-items:center;gap:9px}
+.liveButton svg{width:19px;height:19px}
+/* REELS */
+.reel{height:530px;border-radius:24px;overflow:hidden;position:relative;background:linear-gradient(145deg,#26104c,#081b2e,#29101e);margin-bottom:16px}
+.reelContent{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.reelContent svg{width:68px;height:68px;stroke-width:1.7}
+.reelBottom{position:absolute;left:16px;right:16px;bottom:20px;z-index:3}
+.reelUser{display:flex;align-items:center;gap:10px}
+.reelSide{position:absolute;right:13px;bottom:65px;display:flex;flex-direction:column;gap:7px}
+.reelActionGroup{display:flex;flex-direction:column;align-items:center}
+.reelAction{width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.45);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center}
+.reelAction svg{width:22px;height:22px}
+.reelCount{font-size:10px;font-weight:700;margin-top:2px;color:white}
+.reelFollow{position:absolute;right:13px;top:18px;width:42px;height:42px;border-radius:50%;background:#fff;color:#111;display:flex;align-items:center;justify-content:center}
+.reelFollow svg{width:22px;height:22px}
+.reelFollow.following{background:var(--accent);color:white}
+/* PROFILE */
+.profileTop{text-align:center;padding:15px 0 25px}
+.profileAvatar{width:92px;height:92px;border-radius:50%;margin:auto;background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);padding:3px}
+.profileAvatarInner{width:100%;height:100%;border-radius:50%;background:#222532;display:flex;align-items:center;justify-content:center;font-size:34px}
+.profileName{font-size:21px;font-weight:800;margin-top:12px}
+.profileHandle{color:var(--muted);margin-top:5px}
+.profileStats{display:flex;justify-content:center;gap:45px;margin:22px 0}
+.stat strong{display:block;font-size:19px}.stat span{color:var(--muted);font-size:12px}
+.profileButtons{display:flex;justify-content:center;gap:10px}
+.profileBtn{padding:11px 20px;border-radius:13px;background:var(--card2);font-weight:700}
+/* BALANCE */
+.balance{padding:20px;background:radial-gradient(circle at 100% 0%,rgba(139,92,246,.28),transparent 42%),linear-gradient(135deg,#21153d,#171923);border:1px solid rgba(139,92,246,.18);border-radius:22px;margin-bottom:16px}
+.balanceTop{display:flex;align-items:center;justify-content:space-between}
+.balanceTitle{display:flex;align-items:center;gap:11px}
+.walletIcon{width:43px;height:43px;border-radius:14px;background:rgba(139,92,246,.16);display:flex;align-items:center;justify-content:center}
+.walletIcon svg{width:22px;height:22px;color:#b99aff}
+.balance small{color:var(--muted);font-size:12px}
+.balanceLabel{font-size:14px;font-weight:700}
+.balanceAmount{font-size:30px;font-weight:800;margin-top:17px}
+.balanceLine{height:1px;background:rgba(255,255,255,.08);margin:18px 0}
+.balanceActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.balanceAction{height:43px;border-radius:13px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:13px}
+.balanceAction svg{width:18px;height:18px}
+/* RECORDS */
+.recordsCard{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-bottom:20px}
+.recordsHeader{padding:17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.recordsHeader h3{font-size:16px}.recordsHeader span{color:var(--muted);font-size:12px}
+.record{min-height:67px;padding:12px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
+.record:last-child{border-bottom:0}
+.recordIcon{width:40px;height:40px;border-radius:13px;background:var(--card2);display:flex;align-items:center;justify-content:center}
+.recordIcon svg{width:19px;height:19px}
+.recordInfo{flex:1}.recordTitle{font-size:13px;font-weight:700}.recordDate{color:var(--muted);font-size:11px;margin-top:4px}
+.recordAmount{font-size:13px;font-weight:800}.recordAmount.positive{color:#5ee7a1}.recordAmount.neutral{color:#aaaebb}
+/* SETTINGS */
+.settingCard{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.settingRow{min-height:60px;padding:15px 17px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.settingRow:last-child{border-bottom:0}
+.settingLeft{display:flex;align-items:center;gap:13px}
+.settingIcon{width:38px;height:38px;border-radius:12px;background:var(--card2);display:flex;align-items:center;justify-content:center}
+.settingIcon svg{width:19px;height:19px}
+.toggle{width:50px;height:29px;border-radius:20px;background:#383b48;padding:3px}
+.toggleCircle{width:23px;height:23px;border-radius:50%;background:white;transition:.2s}
+.toggle.on{background:var(--accent)}.toggle.on .toggleCircle{transform:translateX(21px)}
+/* NAV */
+.bottomNav{position:fixed;bottom:10px;left:10px;right:10px;height:68px;z-index:2000;background:rgba(20,21,29,.94);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:23px;display:flex;align-items:center;justify-content:space-around;box-shadow:0 12px 35px rgba(0,0,0,.4)}
+.navItem{width:42px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:none;color:#858996}
+.navItem svg{width:21px;height:21px;transition:.18s}.navItem small{font-size:8px}
+.navItem.active{color:white}.navItem.active svg{stroke-width:2.5;transform:scale(1.06)}
+.plusNav{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#8b5cf6,#ec4899);font-size:27px;color:white;box-shadow:0 8px 22px rgba(139,92,246,.35)}
+.plusNav svg{width:24px;height:24px;stroke-width:2.5}
+/* LIGHT */
+body.light{--bg:#f5f6fa;--card:#fff;--card2:#eef0f5;--text:#11131a;--muted:#737785;--line:#e1e3e9}
+body.light .topbar{background:rgba(245,246,250,.92)}
+body.light .bottomNav{background:rgba(255,255,255,.94)}
+body.light .postText{color:#333}
+body.light .balanceLine{background:rgba(0,0,0,.08)}
+/* EMPTY */
+.empty{text-align:center;padding:70px 20px;color:var(--muted)}
+.emptyIcon{width:55px;height:55px;margin:0 auto 15px;display:flex;align-items:center;justify-content:center}
+.emptyIcon svg{width:50px;height:50px}
 @media(max-width:380px){
-
-  .brandName{
-    font-size:18px;
-  }
-
-  .profileStats{
-    gap:28px;
-  }
-
-  .reel{
-    height:500px;
-  }
-
-  .bottomNav{
-    left:7px;
-    right:7px;
-  }
-
-  .navItem{
-    width:39px;
-  }
-
+.brandName{font-size:18px}.profileStats{gap:28px}.reel{height:500px}.bottomNav{left:7px;right:7px}.navItem{width:39px}
 }
 </style>
 </head>
-
 <body>
-
-<!-- ================= ENTERING SURFACE ================= -->
-
+<!-- ENTERING SURFACE -->
 <div id="entrySurface">
-
-  <div class="entryBox">
-
-    <div class="entryLogo">
-      <span>M</span>
-    </div>
-
-    <div class="entryTitle">Welcome to MicMedia</div>
-
-    <div class="entryText">
-      Connect. Create. Share.<br>
-      Your world, your voice, your media.
-    </div>
-
-    <button class="enterBtn" onclick="enterMicMedia()">
-      Enter MicMedia
-    </button>
-
-  </div>
-
+<div class="entryBox">
+<div class="entryLogo"><span>M</span></div>
+<div class="entryTitle">Welcome to MicMedia</div>
+<div class="entryText">Connect. Create. Share.<br>Your world, your voice, your media.</div>
+<button class="enterBtn" onclick="enterMicMedia()">Enter MicMedia</button>
 </div>
-
-
-<!-- ================= APP ================= -->
-
+</div>
 <div id="app">
-
 <header class="topbar">
-
-  <button class="iconBtn backBtn"
-          id="backButton"
-          onclick="goBack()">
-
-    <svg viewBox="0 0 24 24">
-      <path d="M15 18l-6-6 6-6"/>
-    </svg>
-
-  </button>
-
-  <div class="brand">
-    <div class="brandLogo">M</div>
-    <div class="brandName">MicMedia</div>
-  </div>
-
-  <div class="topActions">
-
-    <!-- Modern Search -->
-    <button class="iconBtn"
-            onclick="showPage('search')">
-
-      <svg viewBox="0 0 24 24">
-        <circle cx="11" cy="11" r="6.5"/>
-        <path d="M16 16l5 5"/>
-      </svg>
-
-    </button>
-
-    <!-- Modern Settings -->
-    <button class="iconBtn"
-            onclick="showPage('settings')">
-
-      <svg viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.05.05-1.42 1.42-.05-.05a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-2v-.07a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.05.05-1.42-1.42.05-.05A1.7 1.7 0 0 0 9.4 15a1.7 1.7 0 0 0-1.56-1.03H7v-2h.84A1.7 1.7 0 0 0 9.4 11a1.7 1.7 0 0 0-.34-1.88l-.05-.05 1.42-1.42.05.05a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 13.4 6.5V5h2v1.5a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.05-.05 1.42 1.42-.05.05A1.7 1.7 0 0 0 19.4 11a1.7 1.7 0 0 0 1.56 1.03H21v2h-.04A1.7 1.7 0 0 0 19.4 15z"/>
-      </svg>
-
-    </button>
-
-  </div>
-
-</header>
-
-
-<!-- ================= HOME ================= -->
-
-<main class="page active" id="home">
-
-  <div class="sectionTitle">Home</div>
-
-  <div class="stories">
-
-    <div class="story">
-      <div class="storyAvatar">
-        <div class="avatarInner">M</div>
-      </div>
-      <div class="storyName">Your story</div>
-    </div>
-
-    <div class="story">
-      <div class="storyAvatar live">
-        <div class="avatarInner">S</div>
-      </div>
-      <div class="storyName">Sports</div>
-    </div>
-
-    <div class="story">
-      <div class="storyAvatar">
-        <div class="avatarInner">A</div>
-      </div>
-      <div class="storyName">Awa</div>
-    </div>
-
-    <div class="story">
-      <div class="storyAvatar">
-        <div class="avatarInner">K</div>
-      </div>
-      <div class="storyName">Kebba</div>
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="postHeader">
-
-      <div class="userInfo">
-
-        <div class="avatar">
-          S
-          <div class="liveDot"></div>
-        </div>
-
-        <div>
-          <div class="username">Sports & Sport Reels</div>
-          <div class="handle">@sportsreels</div>
-        </div>
-
-      </div>
-
-      <button class="followPlus"
-              onclick="toggleFollow(this)">
-        +
-      </button>
-
-    </div>
-
-    <div class="postImage">
-      SPORTS
-    </div>
-
-    <div class="postBody">
-
-      <div class="postText">
-        Welcome to Sports & Sport Reels on MicMedia ⚽🔥
-      </div>
-
-    </div>
-
-    <div class="postActions">
-
-      <button class="action like"
-              onclick="likePost(this)">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/>
-        </svg>
-
-      </button>
-
-      <span class="likeCount">0 likes</span>
-
-      <!-- Comment -->
-      <button class="action">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/>
-        </svg>
-
-      </button>
-
-      <!-- Share -->
-      <button class="action">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M12 16V4"/>
-          <path d="M7 9l5-5 5 5"/>
-          <path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>
-        </svg>
-
-      </button>
-
-      <!-- Save -->
-      <button class="action">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/>
-        </svg>
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="postHeader">
-
-      <div class="userInfo">
-
-        <div class="avatar">M</div>
-
-        <div>
-          <div class="username">MicMedia</div>
-          <div class="handle">@micmedia</div>
-        </div>
-
-      </div>
-
-      <button class="followPlus"
-              onclick="toggleFollow(this)">
-        +
-      </button>
-
-    </div>
-
-    <div class="postImage">
-      MICMEDIA
-    </div>
-
-    <div class="postBody">
-
-      <div class="postText">
-        Create. Share. Connect. 🚀
-      </div>
-
-    </div>
-
-    <div class="postActions">
-
-      <button class="action like"
-              onclick="likePost(this)">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/>
-        </svg>
-
-      </button>
-
-      <span class="likeCount">0 likes</span>
-
-      <button class="action">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/>
-        </svg>
-
-      </button>
-
-      <button class="action">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M12 16V4"/>
-          <path d="M7 9l5-5 5 5"/>
-          <path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>
-        </svg>
-
-      </button>
-
-      <button class="action">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/>
-        </svg>
-
-      </button>
-
-    </div>
-
-  </div>
-
-</main>
-
-
-<!-- ================= LIVE ================= -->
-
-<main class="page" id="live">
-
-  <div class="sectionTitle">Live</div>
-
-  <div class="liveHero">
-
-    <div class="liveLabel">
-      <span></span>
-      LIVE NOW
-    </div>
-
-    <h2>Go Live on MicMedia</h2>
-
-    <p>
-      Share your moment with your followers and connect with people in real time.
-    </p>
-
-    <button class="liveButton"
-            onclick="startLive()">
-
-      <svg viewBox="0 0 24 24">
-        <rect x="3" y="6" width="18" height="13" rx="3"/>
-        <path d="M9 6l1.5-2h3L15 6"/>
-        <circle cx="12" cy="12.5" r="3"/>
-      </svg>
-
-      Start Live Stream
-
-    </button>
-
-  </div>
-
-
-  <div class="card">
-
-    <div class="postHeader">
-
-      <div class="userInfo">
-
-        <div class="avatar">
-          S
-          <div class="liveDot"></div>
-        </div>
-
-        <div>
-          <div class="username">Sports & Sport Reels</div>
-          <div class="handle">@sportsreels · LIVE</div>
-        </div>
-
-      </div>
-
-      <button class="followPlus"
-              onclick="toggleFollow(this)">
-        +
-      </button>
-
-    </div>
-
-    <div class="postImage">
-      LIVE
-    </div>
-
-  </div>
-
-</main>
-
-
-<!-- ================= REELS ================= -->
-
-<main class="page" id="reels">
-
-  <div class="sectionTitle">Reels</div>
-
-  <div class="reel">
-
-    <div class="reelContent">
-
-      <svg viewBox="0 0 24 24">
-        <path d="M8 5.5v13l10-6.5z"/>
-      </svg>
-
-    </div>
-
-    <button class="reelFollow"
-            onclick="toggleFollow(this)">
-
-      <svg viewBox="0 0 24 24">
-        <path d="M12 5v14"/>
-        <path d="M5 12h14"/>
-      </svg>
-
-    </button>
-
-    <div class="reelSide">
-
-      <button class="reelAction"
-              onclick="likeReel(this)">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/>
-        </svg>
-
-      </button>
-
-      <button class="reelAction">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/>
-        </svg>
-
-      </button>
-
-      <button class="reelAction">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M12 16V4"/>
-          <path d="M7 9l5-5 5 5"/>
-          <path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>
-        </svg>
-
-      </button>
-
-      <button class="reelAction">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/>
-        </svg>
-
-      </button>
-
-    </div>
-
-    <div class="reelBottom">
-
-      <div class="reelUser">
-
-        <div class="avatar">S</div>
-
-        <div>
-          <div class="username">Sports & Sport Reels</div>
-          <div class="handle">@sportsreels</div>
-        </div>
-
-      </div>
-
-      <div class="postText"
-           style="margin-top:10px">
-        Football moments 🔥⚽
-      </div>
-
-    </div>
-
-  </div>
-
-</main>
-
-
-<!-- ================= MESSAGES ================= -->
-
-<main class="page" id="messages">
-
-  <div class="sectionTitle">Messages</div>
-
-  <div class="card">
-
-    <div class="postHeader">
-
-      <div class="userInfo">
-
-        <div class="avatar">A</div>
-
-        <div>
-          <div class="username">Awa</div>
-          <div class="handle">Online</div>
-        </div>
-
-      </div>
-
-      <button class="iconBtn">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M5 12h13"/>
-          <path d="M13 6l6 6-6 6"/>
-        </svg>
-
-      </button>
-
-    </div>
-
-  </div>
-
-</main>
-
-
-<!-- ================= FAVORITES ================= -->
-
-<main class="page" id="favorites">
-
-  <div class="sectionTitle">Favorites</div>
-
-  <div class="empty">
-
-    <div class="emptyIcon">
-
-      <svg viewBox="0 0 24 24">
-        <path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/>
-      </svg>
-
-    </div>
-
-    <h3>Your favorites</h3>
-
-    <p style="margin-top:8px">
-      Posts and reels you save will appear here.
-    </p>
-
-  </div>
-
-</main>
-
-
-<!-- ================= PROFILE ================= -->
-
-<main class="page" id="profile">
-
-  <div class="profileTop">
-
-    <div class="profileAvatar">
-
-      <div class="profileAvatarInner">
-        M
-      </div>
-
-    </div>
-
-    <div class="profileName">
-      Mustapha
-    </div>
-
-    <div class="profileHandle">
-      @mustapha
-    </div>
-
-    <div class="profileStats">
-
-      <div class="stat">
-        <strong>0</strong>
-        <span>Posts</span>
-      </div>
-
-      <div class="stat">
-        <strong id="followers">0</strong>
-        <span>Followers</span>
-      </div>
-
-      <div class="stat">
-        <strong>0</strong>
-        <span>Following</span>
-      </div>
-
-    </div>
-
-    <div class="profileButtons">
-
-      <button class="profileBtn">
-        Edit Profile
-      </button>
-
-      <button class="profileBtn">
-        Share
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- MODERN BALANCE -->
-
-  <div class="balance">
-
-    <div class="balanceTop">
-
-      <div class="balanceTitle">
-
-        <div class="walletIcon">
-
-          <svg viewBox="0 0 24 24">
-            <path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H19a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 16.5z"/>
-            <path d="M4 8h14"/>
-            <path d="M16 13h4"/>
-            <circle cx="16" cy="13" r=".7"/>
-          </svg>
-
-        </div>
-
-        <div>
-
-          <div class="balanceLabel">
-            MicMedia Balance
-          </div>
-
-          <small>
-            Available balance
-          </small>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="balanceAmount">
-      $0.00
-    </div>
-
-    <div class="balanceLine"></div>
-
-    <div class="balanceActions">
-
-      <button class="balanceAction">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M12 16V4"/>
-          <path d="M7 9l5-5 5 5"/>
-          <path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>
-        </svg>
-
-        Add Funds
-
-      </button>
-
-      <button class="balanceAction">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M12 8v12"/>
-          <path d="M17 13l-5 5-5-5"/>
-          <path d="M5 4h14"/>
-        </svg>
-
-        Withdraw
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- BALANCE RECORDS -->
-
-  <div class="recordsCard">
-
-    <div class="recordsHeader">
-
-      <h3>Balance Records</h3>
-
-      <span>Recent activity</span>
-
-    </div>
-
-
-    <div class="record">
-
-      <div class="recordIcon">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M12 4v16"/>
-          <path d="M7 9l5-5 5 5"/>
-        </svg>
-
-      </div>
-
-      <div class="recordInfo">
-
-        <div class="recordTitle">
-          No deposits yet
-        </div>
-
-        <div class="recordDate">
-          Your balance activity will appear here
-        </div>
-
-      </div>
-
-      <div class="recordAmount neutral">
-        $0.00
-      </div>
-
-    </div>
-
-
-    <div class="record">
-
-      <div class="recordIcon">
-
-        <svg viewBox="0 0 24 24">
-          <path d="M12 20V8"/>
-          <path d="M7 15l5 5 5-5"/>
-        </svg>
-
-      </div>
-
-      <div class="recordInfo">
-
-        <div class="recordTitle">
-          No withdrawals yet
-        </div>
-
-        <div class="recordDate">
-          Withdrawals will appear here
-        </div>
-
-      </div>
-
-      <div class="recordAmount neutral">
-        $0.00
-      </div>
-
-    </div>
-
-  </div>
-
-</main>
-
-
-<!-- ================= SETTINGS ================= -->
-
-<main class="page" id="settings">
-
-  <div class="sectionTitle">Settings</div>
-
-  <div class="settingCard">
-
-    <div class="settingRow">
-
-      <div class="settingLeft">
-
-        <div class="settingIcon">
-
-          <svg viewBox="0 0 24 24">
-            <path d="M12 3a9 9 0 1 0 9 9"/>
-            <path d="M12 3v5"/>
-            <path d="M17 7l-3 3"/>
-          </svg>
-
-        </div>
-
-        <div>
-          <strong>Dark Mode</strong>
-        </div>
-
-      </div>
-
-      <button class="toggle on"
-              id="themeToggle"
-              onclick="toggleTheme()">
-
-        <div class="toggleCircle"></div>
-
-      </button>
-
-    </div>
-
-
-    <div class="settingRow">
-
-      <div class="settingLeft">
-
-        <div class="settingIcon">
-
-          <svg viewBox="0 0 24 24">
-            <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
-            <path d="M10 21h4"/>
-          </svg>
-
-        </div>
-
-        <div>
-          <strong>Notifications</strong>
-        </div>
-
-      </div>
-
-      <div class="toggle on">
-        <div class="toggleCircle"></div>
-      </div>
-
-    </div>
-
-
-    <div class="settingRow"
-         onclick="showPage('profile')">
-
-      <div class="settingLeft">
-
-        <div class="settingIcon">
-
-          <svg viewBox="0 0 24 24">
-            <circle cx="12" cy="8" r="3"/>
-            <path d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"/>
-          </svg>
-
-        </div>
-
-        <div>
-          <strong>Account</strong>
-        </div>
-
-      </div>
-
-      <svg viewBox="0 0 24 24"
-           style="width:18px">
-
-        <path d="M9 5l7 7-7 7"/>
-
-      </svg>
-
-    </div>
-
-
-    <div class="settingRow">
-
-      <div class="settingLeft">
-
-        <div class="settingIcon">
-
-          <svg viewBox="0 0 24 24">
-            <rect x="5" y="10" width="14" height="10" rx="2"/>
-            <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
-          </svg>
-
-        </div>
-
-        <div>
-          <strong>Privacy</strong>
-        </div>
-
-      </div>
-
-      <svg viewBox="0 0 24 24"
-           style="width:18px">
-
-        <path d="M9 5l7 7-7 7"/>
-
-      </svg>
-
-    </div>
-
-  </div>
-
-</main>
-
-
-<!-- ================= SEARCH ================= -->
-
-<main class="page" id="search">
-
-  <div class="sectionTitle">Search</div>
-
-  <div class="card" style="padding:15px">
-
-    <input id="searchInput"
-           type="text"
-           placeholder="Search MicMedia..."
-           style="
-           width:100%;
-           height:50px;
-           border:0;
-           outline:0;
-           border-radius:15px;
-           padding:0 16px;
-           background:var(--card2);
-           color:var(--text);
-           font-size:15px;">
-
-  </div>
-
-</main>
-
-
-<!-- ================= MODERN BOTTOM NAV ================= -->
-
-<nav class="bottomNav">
-
-  <!-- HOME -->
-  <button class="navItem active"
-          onclick="showPage('home')"
-          data-page="home">
-
-    <svg viewBox="0 0 24 24">
-      <path d="M3 10.5L12 3l9 7.5"/>
-      <path d="M5 9.5V20h14V9.5"/>
-      <path d="M9.5 20v-6h5v6"/>
-    </svg>
-
-    <small>Home</small>
-
-  </button>
-
-
-  <!-- LIVE -->
-  <button class="navItem"
-          onclick="showPage('live')"
-          data-page="live">
-
-    <svg viewBox="0 0 24 24">
-      <rect x="4" y="6" width="16" height="12" rx="3"/>
-      <path d="M9 6l1.5-2h3L15 6"/>
-      <circle cx="12" cy="12" r="3"/>
-    </svg>
-
-    <small>Live</small>
-
-  </button>
-
-
-  <!-- CREATE -->
-  <button class="navItem plusNav"
-          onclick="createPost()">
-
-    <svg viewBox="0 0 24 24">
-      <path d="M12 5v14"/>
-      <path d="M5 12h14"/>
-    </svg>
-
-  </button>
-
-
-  <!-- REELS -->
-  <button class="navItem"
-          onclick="showPage('reels')"
-          data-page="reels">
-
-    <svg viewBox="0 0 24 24">
-      <rect x="3" y="3" width="18" height="18" rx="5"/>
-      <path d="M3 9h18"/>
-      <path d="M8 3l3 6"/>
-      <path d="M14 3l3 6"/>
-      <path d="M10 13l5 3-5 3z"/>
-    </svg>
-
-    <small>Reels</small>
-
-  </button>
-
-
-  <!-- CHAT -->
-  <button class="navItem"
-          onclick="showPage('messages')"
-          data-page="messages">
-
-    <svg viewBox="0 0 24 24">
-      <path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/>
-    </svg>
-
-    <small>Chat</small>
-
-  </button>
-
-
-  <!-- SAVED -->
-  <button class="navItem"
-          onclick="showPage('favorites')"
-          data-page="favorites">
-
-    <svg viewBox="0 0 24 24">
-      <path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/>
-    </svg>
-
-    <small>Saved</small>
-
-  </button>
-
-
-  <!-- PROFILE -->
-  <button class="navItem"
-          onclick="showPage('profile')"
-          data-page="profile">
-
-    <svg viewBox="0 0 24 24">
-      <circle cx="12" cy="8" r="3"/>
-      <path d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"/>
-    </svg>
-
-    <small>Profile</small>
-
-  </button>
-
-</nav>
-
+<button class="iconBtn backBtn" id="backButton" onclick="goBack()">
+<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+</button>
+<div class="brand">
+<div class="brandLogo">M</div>
+<div class="brandName">MicMedia</div>
 </div>
-
-
+<div class="topActions">
+<button class="iconBtn" onclick="showPage('search')">
+<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
+</button>
+<button class="iconBtn" onclick="showPage('settings')">
+<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.05.05-1.42 1.42-.05-.05a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-2v-.07a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.05.05-1.42-1.42.05-.05A1.7 1.7 0 0 0 9.4 15a1.7 1.7 0 0 0-1.56-1.03H7v-2h.84A1.7 1.7 0 0 0 9.4 11a1.7 1.7 0 0 0-.34-1.88l-.05-.05 1.42-1.42.05.05a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 13.4 6.5V5h2v1.5a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.05-.05 1.42 1.42-.05.05A1.7 1.7 0 0 0 19.4 11a1.7 1.7 0 0 0 1.56 1.03H21v2h-.04A1.7 1.7 0 0 0 19.4 15z"/></svg>
+</button>
+</div>
+</header>
+<!-- HOME -->
+<main class="page active" id="home">
+<div class="sectionTitle">Home</div>
+<div class="stories">
+<div class="story"><div class="storyAvatar"><div class="avatarInner">M</div></div><div class="storyName">Your story</div></div>
+<div class="story"><div class="storyAvatar live"><div class="avatarInner">S</div></div><div class="storyName">Sports</div></div>
+<div class="story"><div class="storyAvatar"><div class="avatarInner">A</div></div><div class="storyName">Awa</div></div>
+<div class="story"><div class="storyAvatar"><div class="avatarInner">K</div></div><div class="storyName">Kebba</div></div>
+</div>
+<!-- POST 1 -->
+<div class="card">
+<div class="postHeader">
+<div class="userInfo">
+<div class="avatar">S<div class="liveDot"></div></div>
+<div><div class="username">Sports & Sport Reels</div><div class="handle">@sportsreels</div></div>
+</div>
+<button class="followPlus" onclick="toggleFollow(this)">+</button>
+</div>
+<div class="postImage">SPORTS</div>
+<div class="postBody">
+<div class="postText">Welcome to Sports & Sport Reels on MicMedia ⚽🔥</div>
+</div>
+<div class="postActions">
+<div class="actionBox">
+<button class="action like" onclick="likePost(this)">
+<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>
+</button>
+<span class="actionCount">0</span>
+</div>
+<div class="actionBox">
+<button class="action" onclick="addComment(this)">
+<svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/></svg>
+</button>
+<span class="actionCount">0</span>
+</div>
+<div class="actionBox">
+<button class="action" onclick="sharePost(this)">
+<svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+</button>
+<span class="actionCount">0</span>
+</div>
+<div class="actionBox">
+<button class="action" onclick="savePost(this)">
+<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>
+</button>
+<span class="actionCount">0</span>
+</div>
+</div>
+</div>
+<!-- POST 2 -->
+<div class="card">
+<div class="postHeader">
+<div class="userInfo">
+<div class="avatar">M</div>
+<div><div class="username">MicMedia</div><div class="handle">@micmedia</div></div>
+</div>
+<button class="followPlus" onclick="toggleFollow(this)">+</button>
+</div>
+<div class="postImage">MICMEDIA</div>
+<div class="postBody">
+<div class="postText">Create. Share. Connect. 🚀</div>
+</div>
+<div class="postActions">
+<div class="actionBox">
+<button class="action like" onclick="likePost(this)">
+<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>
+</button>
+<span class="actionCount">0</span>
+</div>
+<div class="actionBox">
+<button class="action" onclick="addComment(this)">
+<svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/></svg>
+</button>
+<span class="actionCount">0</span>
+</div>
+<div class="actionBox">
+<button class="action" onclick="sharePost(this)">
+<svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+</button>
+<span class="actionCount">0</span>
+</div>
+<div class="actionBox">
+<button class="action" onclick="savePost(this)">
+<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>
+</button>
+<span class="actionCount">0</span>
+</div>
+</div>
+</div>
+</main>
+<!-- LIVE -->
+<main class="page" id="live">
+<div class="sectionTitle">Live</div>
+<div class="liveHero">
+<div class="liveLabel"><span></span>LIVE NOW</div>
+<h2>Go Live on MicMedia</h2>
+<p>Share your moment with your followers and connect with people in real time.</p>
+<button class="liveButton" onclick="startLive()">
+<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M9 6l1.5-2h3L15 6"/><circle cx="12" cy="12.5" r="3"/></svg>
+Start Live Stream
+</button>
+</div>
+<div class="card">
+<div class="postHeader">
+<div class="userInfo">
+<div class="avatar">S<div class="liveDot"></div></div>
+<div><div class="username">Sports & Sport Reels</div><div class="handle">@sportsreels · LIVE</div></div>
+</div>
+<button class="followPlus" onclick="toggleFollow(this)">+</button>
+</div>
+<div class="postImage">LIVE</div>
+</div>
+</main>
+<!-- REELS -->
+<main class="page" id="reels">
+<div class="sectionTitle">Reels</div>
+<div class="reel">
+<div class="reelContent">
+<svg viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg>
+</div>
+<button class="reelFollow" onclick="toggleFollow(this)">
+<svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+</button>
+<div class="reelSide">
+<div class="reelActionGroup">
+<button class="reelAction" onclick="likeReel(this)">
+<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>
+</button>
+<span class="reelCount">0</span>
+</div>
+<div class="reelActionGroup">
+<button class="reelAction" onclick="addReelComment(this)">
+<svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/></svg>
+</button>
+<span class="reelCount">0</span>
+</div>
+<div class="reelActionGroup">
+<button class="reelAction" onclick="shareReel(this)">
+<svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+</button>
+<span class="reelCount">0</span>
+</div>
+<div class="reelActionGroup">
+<button class="reelAction" onclick="saveReel(this)">
+<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>
+</button>
+<span class="reelCount">0</span>
+</div>
+</div>
+<div class="reelBottom">
+<div class="reelUser">
+<div class="avatar">S</div>
+<div><div class="username">Sports & Sport Reels</div><div class="handle">@sportsreels</div></div>
+</div>
+<div class="postText" style="margin-top:10px">Football moments 🔥⚽</div>
+</div>
+</div>
+</main>
+<!-- MESSAGES -->
+<main class="page" id="messages">
+<div class="sectionTitle">Messages</div>
+<div class="card">
+<div class="postHeader">
+<div class="userInfo">
+<div class="avatar">A</div>
+<div><div class="username">Awa</div><div class="handle">Online</div></div>
+</div>
+<button class="iconBtn"><svg viewBox="0 0 24 24"><path d="M5 12h13"/><path d="M13 6l6 6-6 6"/></svg></button>
+</div>
+</div>
+</main>
+<!-- FAVORITES -->
+<main class="page" id="favorites">
+<div class="sectionTitle">Favorites</div>
+<div class="empty">
+<div class="emptyIcon"><svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg></div>
+<h3>Your favorites</h3>
+<p style="margin-top:8px">Posts and reels you save will appear here.</p>
+</div>
+</main>
+<!-- PROFILE -->
+<main class="page" id="profile">
+<div class="profileTop">
+<div class="profileAvatar"><div class="profileAvatarInner">M</div></div>
+<div class="profileName">Mustapha</div>
+<div class="profileHandle">@mustapha</div>
+<div class="profileStats">
+<div class="stat"><strong>0</strong><span>Posts</span></div>
+<div class="stat"><strong id="followers">0</strong><span>Followers</span></div>
+<div class="stat"><strong>0</strong><span>Following</span></div>
+</div>
+<div class="profileButtons">
+<button class="profileBtn">Edit Profile</button>
+<button class="profileBtn">Share</button>
+</div>
+</div>
+<div class="balance">
+<div class="balanceTop">
+<div class="balanceTitle">
+<div class="walletIcon">
+<svg viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H19a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 16.5z"/><path d="M4 8h14"/><path d="M16 13h4"/><circle cx="16" cy="13" r=".7"/></svg>
+</div>
+<div><div class="balanceLabel">MicMedia Balance</div><small>Available balance</small></div>
+</div>
+</div>
+<div class="balanceAmount">$0.00</div>
+<div class="balanceLine"></div>
+<div class="balanceActions">
+<button class="balanceAction"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>Add Funds</button>
+<button class="balanceAction"><svg viewBox="0 0 24 24"><path d="M12 8v12"/><path d="M17 13l-5 5-5-5"/><path d="M5 4h14"/></svg>Withdraw</button>
+</div>
+</div>
+<div class="recordsCard">
+<div class="recordsHeader"><h3>Balance Records</h3><span>Recent activity</span></div>
+<div class="record">
+<div class="recordIcon"><svg viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M7 9l5-5 5 5"/></svg></div>
+<div class="recordInfo"><div class="recordTitle">No deposits yet</div><div class="recordDate">Your balance activity will appear here</div></div>
+<div class="recordAmount neutral">$0.00</div>
+</div>
+<div class="record">
+<div class="recordIcon"><svg viewBox="0 0 24 24"><path d="M12 20V8"/><path d="M7 15l5 5 5-5"/></svg></div>
+<div class="recordInfo"><div class="recordTitle">No withdrawals yet</div><div class="recordDate">Withdrawals will appear here</div></div>
+<div class="recordAmount neutral">$0.00</div>
+</div>
+</div>
+</main>
+<!-- SETTINGS -->
+<main class="page" id="settings">
+<div class="sectionTitle">Settings</div>
+<div class="settingCard">
+<div class="settingRow">
+<div class="settingLeft">
+<div class="settingIcon"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 3v5"/><path d="M17 7l-3 3"/></svg></div>
+<strong>Dark Mode</strong>
+</div>
+<button class="toggle on" id="themeToggle" onclick="toggleTheme()"><div class="toggleCircle"></div></button>
+</div>
+<div class="settingRow">
+<div class="settingLeft">
+<div class="settingIcon"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></div>
+<strong>Notifications</strong>
+</div>
+<div class="toggle on"><div class="toggleCircle"></div></div>
+</div>
+<div class="settingRow" onclick="showPage('profile')">
+<div class="settingLeft">
+<div class="settingIcon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"/></svg></div>
+<strong>Account</strong>
+</div>
+<svg viewBox="0 0 24 24" style="width:18px"><path d="M9 5l7 7-7 7"/></svg>
+</div>
+<div class="settingRow">
+<div class="settingLeft">
+<div class="settingIcon"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+<strong>Privacy</strong>
+</div>
+<svg viewBox="0 0 24 24" style="width:18px"><path d="M9 5l7 7-7 7"/></svg>
+</div>
+</div>
+</main>
+<!-- SEARCH -->
+<main class="page" id="search">
+<div class="sectionTitle">Search</div>
+<div class="card" style="padding:15px">
+<input id="searchInput" type="text" placeholder="Search MicMedia..." style="width:100%;height:50px;border:0;outline:0;border-radius:15px;padding:0 16px;background:var(--card2);color:var(--text);font-size:15px">
+</div>
+</main>
+<!-- BOTTOM NAV -->
+<nav class="bottomNav">
+<button class="navItem active" onclick="showPage('home')" data-page="home">
+<svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M9.5 20v-6h5v6"/></svg>
+<small>Home</small>
+</button>
+<button class="navItem" onclick="showPage('live')" data-page="live">
+<svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="3"/><path d="M9 6l1.5-2h3L15 6"/><circle cx="12" cy="12" r="3"/></svg>
+<small>Live</small>
+</button>
+<button class="navItem plusNav" onclick="createPost()">
+<svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+</button>
+<button class="navItem" onclick="showPage('reels')" data-page="reels">
+<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M3 9h18"/><path d="M8 3l3 6"/><path d="M14 3l3 6"/><path d="M10 13l5 3-5 3z"/></svg>
+<small>Reels</small>
+</button>
+<button class="navItem" onclick="showPage('messages')" data-page="messages">
+<svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/></svg>
+<small>Chat</small>
+</button>
+<button class="navItem" onclick="showPage('favorites')" data-page="favorites">
+<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>
+<small>Saved</small>
+</button>
+<button class="navItem" onclick="showPage('profile')" data-page="profile">
+<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"/></svg>
+<small>Profile</small>
+</button>
+</nav>
+</div>
 <script>
-
-/* =====================================================
-   SUPABASE
-   ===================================================== */
-
-const SUPABASE_URL =
-"PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
-
-const SUPABASE_KEY =
-"PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY_HERE";
-
-let supabaseClient = null;
-
-
-/* =====================================================
-   ENTER MICMEDIA
-   ===================================================== */
-
+/* SUPABASE */
+const SUPABASE_URL="PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
+const SUPABASE_KEY="PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY_HERE";
+let supabaseClient=null;
+/* ENTER */
 function enterMicMedia(){
-
-  const entry =
-    document.getElementById("entrySurface");
-
-  const app =
-    document.getElementById("app");
-
-  entry.style.display = "none";
-  app.style.display = "block";
-
-  document.body.style.overflowX = "hidden";
-
-  connectSupabase();
-
+document.getElementById("entrySurface").style.display="none";
+document.getElementById("app").style.display="block";
+document.body.style.overflowX="hidden";
+connectSupabase();
 }
-
-
-/* =====================================================
-   SUPABASE CONNECTION
-   ===================================================== */
-
 function connectSupabase(){
-
-  try{
-
-    if(
-      SUPABASE_URL.includes("PASTE_") ||
-      SUPABASE_KEY.includes("PASTE_")
-    ){
-
-      console.log(
-        "Supabase not configured yet."
-      );
-
-      return;
-    }
-
-    if(
-      typeof window.supabase === "undefined"
-    ){
-
-      console.log(
-        "Supabase library unavailable."
-      );
-
-      return;
-    }
-
-    supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-
-    supabaseClient.auth.getSession()
-      .then(({data,error}) => {
-
-        if(error){
-
-          console.log(
-            "Supabase session:",
-            error.message
-          );
-
-          return;
-        }
-
-        console.log(
-          "Supabase connected."
-        );
-
-      })
-      .catch(err => {
-
-        console.log(
-          "Supabase background error:",
-          err
-        );
-
-      });
-
-  }catch(error){
-
-    console.log(
-      "Supabase connection error:",
-      error
-    );
-
-  }
-
+try{
+if(SUPABASE_URL.includes("PASTE_")||SUPABASE_KEY.includes("PASTE_"))return;
+if(typeof window.supabase==="undefined")return;
+supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+supabaseClient.auth.getSession().catch(()=>{});
+}catch(e){}
 }
-
-
-/* =====================================================
-   PAGE NAVIGATION
-   ===================================================== */
-
-let currentPage = "home";
-let pageHistory = [];
-
-
+/* NAVIGATION */
+let currentPage="home";
+let pageHistory=[];
 function showPage(page){
-
-  if(page === currentPage){
-    return;
-  }
-
-  pageHistory.push(currentPage);
-  currentPage = page;
-
-  document
-    .querySelectorAll(".page")
-    .forEach(p =>
-      p.classList.remove("active")
-    );
-
-  const target =
-    document.getElementById(page);
-
-  if(target){
-    target.classList.add("active");
-  }
-
-  updateNavigation(page);
-
-  const back =
-    document.getElementById("backButton");
-
-  if(page === "home"){
-    back.style.display = "none";
-  }else{
-    back.style.display = "flex";
-  }
-
-  window.scrollTo({
-    top:0,
-    behavior:"instant"
-  });
-
+if(page===currentPage)return;
+pageHistory.push(currentPage);
+currentPage=page;
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+const target=document.getElementById(page);
+if(target)target.classList.add("active");
+updateNavigation(page);
+const back=document.getElementById("backButton");
+back.style.display=page==="home"?"none":"flex";
+window.scrollTo({top:0,behavior:"instant"});
 }
-
-
 function goBack(){
-
-  if(pageHistory.length === 0){
-
-    showPage("home");
-
-    return;
-  }
-
-  const previous =
-    pageHistory.pop();
-
-  currentPage = previous;
-
-  document
-    .querySelectorAll(".page")
-    .forEach(p =>
-      p.classList.remove("active")
-    );
-
-  const target =
-    document.getElementById(previous);
-
-  if(target){
-    target.classList.add("active");
-  }
-
-  updateNavigation(previous);
-
-  const back =
-    document.getElementById("backButton");
-
-  if(previous === "home"){
-    back.style.display = "none";
-  }else{
-    back.style.display = "flex";
-  }
-
+if(pageHistory.length===0){showPage("home");return}
+const previous=pageHistory.pop();
+currentPage=previous;
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+const target=document.getElementById(previous);
+if(target)target.classList.add("active");
+updateNavigation(previous);
+document.getElementById("backButton").style.display=previous==="home"?"none":"flex";
 }
-
-
 function updateNavigation(page){
-
-  document
-    .querySelectorAll(
-      ".navItem[data-page]"
-    )
-    .forEach(item => {
-
-      item.classList.remove("active");
-
-      if(
-        item.dataset.page === page
-      ){
-
-        item.classList.add("active");
-
-      }
-
-    });
-
+document.querySelectorAll(".navItem[data-page]").forEach(item=>{
+item.classList.toggle("active",item.dataset.page===page);
+});
 }
-
-
-/* =====================================================
-   FOLLOW
-   ===================================================== */
-
+/* FOLLOW */
 function toggleFollow(button){
-
-  const following =
-    button.classList.toggle("following");
-
-  if(following){
-
-    if(button.classList.contains("reelFollow")){
-
-      button.innerHTML = `
-        <svg viewBox="0 0 24 24">
-          <path d="M5 12l4 4L19 6"/>
-        </svg>
-      `;
-
-    }else{
-
-      button.textContent = "✓";
-
-    }
-
-    const profileFollowers =
-      document.getElementById("followers");
-
-    if(profileFollowers){
-
-      profileFollowers.textContent =
-        Number(profileFollowers.textContent) + 1;
-
-    }
-
-  }else{
-
-    if(button.classList.contains("reelFollow")){
-
-      button.innerHTML = `
-        <svg viewBox="0 0 24 24">
-          <path d="M12 5v14"/>
-          <path d="M5 12h14"/>
-        </svg>
-      `;
-
-    }else{
-
-      button.textContent = "+";
-
-    }
-
-  }
-
+const following=button.classList.toggle("following");
+if(button.classList.contains("reelFollow")){
+button.innerHTML=following?
+`<svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg>`:
+`<svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>`;
+}else{
+button.textContent=following?"✓":"+";
 }
-
-
-/* =====================================================
-   LIKE POST
-   ===================================================== */
-
+const followers=document.getElementById("followers");
+if(followers){
+let n=Number(followers.textContent)||0;
+followers.textContent=following?n+1:Math.max(0,n-1);
+}
+}
+/* LIKE POST */
 function likePost(button){
-
-  button.classList.toggle("active");
-
-  const count =
-    button.nextElementSibling;
-
-  let number =
-    parseInt(
-      count.textContent
-    ) || 0;
-
-  if(
-    button.classList.contains("active")
-  ){
-
-    button.innerHTML = `
-      <svg viewBox="0 0 24 24"
-           style="fill:currentColor">
-        <path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/>
-      </svg>
-    `;
-
-    number++;
-
-  }else{
-
-    button.innerHTML = `
-      <svg viewBox="0 0 24 24">
-        <path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/>
-      </svg>
-    `;
-
-    number =
-      Math.max(0,number-1);
-
-  }
-
-  count.textContent =
-    number + " likes";
-
+const box=button.parentElement;
+const count=box.querySelector(".actionCount");
+let n=Number(count.textContent)||0;
+const active=button.classList.toggle("active");
+if(active){
+n++;
+button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
+}else{
+n=Math.max(0,n-1);
+button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
 }
-
-
-/* =====================================================
-   LIKE REEL
-   ===================================================== */
-
+count.textContent=n;
+}
+/* COMMENT */
+function addComment(button){
+const box=button.parentElement;
+const count=box.querySelector(".actionCount");
+let n=Number(count.textContent)||0;
+const comment=prompt("Write your comment:");
+if(comment&&comment.trim()){
+n++;
+count.textContent=n;
+alert("Comment added!");
+}
+}
+/* SHARE */
+function sharePost(button){
+const box=button.parentElement;
+const count=box.querySelector(".actionCount");
+let n=Number(count.textContent)||0;
+if(!button.classList.contains("shared")){
+button.classList.add("shared");
+n++;
+count.textContent=n;
+if(navigator.share){
+navigator.share({
+title:"MicMedia",
+text:"Check out this post on MicMedia!"
+}).catch(()=>{});
+}else{
+alert("Post shared!");
+}
+}
+}
+/* SAVE */
+function savePost(button){
+const box=button.parentElement;
+const count=box.querySelector(".actionCount");
+let n=Number(count.textContent)||0;
+const saved=button.classList.toggle("saved");
+if(saved){
+n++;
+button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
+}else{
+n=Math.max(0,n-1);
+button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
+}
+count.textContent=n;
+}
+/* REEL LIKE */
 function likeReel(button){
-
-  button.classList.toggle("liked");
-
-  if(
-    button.classList.contains("liked")
-  ){
-
-    button.innerHTML = `
-      <svg viewBox="0 0 24 24"
-           style="fill:currentColor">
-        <path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/>
-      </svg>
-    `;
-
-    button.style.color =
-      "#ff3d68";
-
-  }else{
-
-    button.innerHTML = `
-      <svg viewBox="0 0 24 24">
-        <path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/>
-      </svg>
-    `;
-
-    button.style.color = "";
-
-  }
-
+const group=button.parentElement;
+const count=group.querySelector(".reelCount");
+let n=Number(count.textContent)||0;
+const liked=button.classList.toggle("liked");
+if(liked){
+n++;
+button.style.color="#ff3d68";
+button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
+}else{
+n=Math.max(0,n-1);
+button.style.color="";
+button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
 }
-
-
-/* =====================================================
-   LIVE
-   ===================================================== */
-
+count.textContent=n;
+}
+/* REEL COMMENT */
+function addReelComment(button){
+const group=button.parentElement;
+const count=group.querySelector(".reelCount");
+let n=Number(count.textContent)||0;
+const comment=prompt("Write your comment:");
+if(comment&&comment.trim()){
+n++;
+count.textContent=n;
+alert("Comment added!");
+}
+}
+/* REEL SHARE */
+function shareReel(button){
+const group=button.parentElement;
+const count=group.querySelector(".reelCount");
+let n=Number(count.textContent)||0;
+if(!button.classList.contains("shared")){
+button.classList.add("shared");
+n++;
+count.textContent=n;
+if(navigator.share){
+navigator.share({
+title:"MicMedia Reel",
+text:"Check out this reel on MicMedia!"
+}).catch(()=>{});
+}else{
+alert("Reel shared!");
+}
+}
+}
+/* REEL SAVE */
+function saveReel(button){
+const group=button.parentElement;
+const count=group.querySelector(".reelCount");
+let n=Number(count.textContent)||0;
+const saved=button.classList.toggle("saved");
+if(saved){
+n++;
+button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
+}else{
+n=Math.max(0,n-1);
+button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
+}
+count.textContent=n;
+}
+/* LIVE */
 function startLive(){
-
-  alert(
-    "MicMedia Live is ready for the livestream system."
-  );
-
+alert("MicMedia Live is ready for the livestream system.");
 }
-
-
-/* =====================================================
-   CREATE POST
-   ===================================================== */
-
+/* CREATE */
 function createPost(){
-
-  alert(
-    "Create Post: photo, video, reel and story options will appear here."
-  );
-
+alert("Create Post: photo, video, reel and story options will appear here.");
 }
-
-
-/* =====================================================
-   DARK / LIGHT MODE
-   ===================================================== */
-
+/* THEME */
 function loadTheme(){
-
-  const theme =
-    localStorage.getItem(
-      "micmedia-theme"
-    );
-
-  const toggle =
-    document.getElementById(
-      "themeToggle"
-    );
-
-  if(theme === "light"){
-
-    document.body.classList.add("light");
-
-    if(toggle){
-      toggle.classList.remove("on");
-    }
-
-  }else{
-
-    document.body.classList.remove("light");
-
-    if(toggle){
-      toggle.classList.add("on");
-    }
-
-  }
-
+const theme=localStorage.getItem("micmedia-theme");
+const toggle=document.getElementById("themeToggle");
+if(theme==="light"){
+document.body.classList.add("light");
+if(toggle)toggle.classList.remove("on");
+}else{
+document.body.classList.remove("light");
+if(toggle)toggle.classList.add("on");
 }
-
-
+}
 function toggleTheme(){
-
-  const light =
-    document.body.classList.toggle("light");
-
-  const toggle =
-    document.getElementById(
-      "themeToggle"
-    );
-
-  if(light){
-
-    localStorage.setItem(
-      "micmedia-theme",
-      "light"
-    );
-
-    toggle.classList.remove("on");
-
-  }else{
-
-    localStorage.setItem(
-      "micmedia-theme",
-      "dark"
-    );
-
-    toggle.classList.add("on");
-
-  }
-
+const light=document.body.classList.toggle("light");
+const toggle=document.getElementById("themeToggle");
+if(light){
+localStorage.setItem("micmedia-theme","light");
+toggle.classList.remove("on");
+}else{
+localStorage.setItem("micmedia-theme","dark");
+toggle.classList.add("on");
 }
-
-
-/* =====================================================
-   SWIPE NAVIGATION
-   ===================================================== */
-
-let touchStartX = 0;
-let touchStartY = 0;
-
-
-document.addEventListener(
-  "touchstart",
-  function(event){
-
-    touchStartX =
-      event.changedTouches[0].screenX;
-
-    touchStartY =
-      event.changedTouches[0].screenY;
-
-  },
-  {passive:true}
-);
-
-
-document.addEventListener(
-  "touchend",
-  function(event){
-
-    const endX =
-      event.changedTouches[0].screenX;
-
-    const endY =
-      event.changedTouches[0].screenY;
-
-    const differenceX =
-      endX - touchStartX;
-
-    const differenceY =
-      endY - touchStartY;
-
-    if(
-      Math.abs(differenceX) < 80 ||
-      Math.abs(differenceX) <
-      Math.abs(differenceY)
-    ){
-
-      return;
-
-    }
-
-    const pages = [
-      "home",
-      "live",
-      "reels",
-      "messages",
-      "favorites",
-      "profile"
-    ];
-
-    let index =
-      pages.indexOf(currentPage);
-
-    if(index === -1){
-      return;
-    }
-
-    if(differenceX < 0){
-
-      index =
-        Math.min(
-          pages.length-1,
-          index+1
-        );
-
-    }else{
-
-      index =
-        Math.max(
-          0,
-          index-1
-        );
-
-    }
-
-    showPage(
-      pages[index]
-    );
-
-  },
-  {passive:true}
-);
-
-
-/* =====================================================
-   STARTUP
-   ===================================================== */
-
+}
+/* SWIPE */
+let touchStartX=0,touchStartY=0;
+document.addEventListener("touchstart",e=>{
+touchStartX=e.changedTouches[0].screenX;
+touchStartY=e.changedTouches[0].screenY;
+},{passive:true});
+document.addEventListener("touchend",e=>{
+const endX=e.changedTouches[0].screenX;
+const endY=e.changedTouches[0].screenY;
+const dx=endX-touchStartX;
+const dy=endY-touchStartY;
+if(Math.abs(dx)<80||Math.abs(dx)<Math.abs(dy))return;
+const pages=["home","live","reels","messages","favorites","profile"];
+let index=pages.indexOf(currentPage);
+if(index===-1)return;
+if(dx<0)index=Math.min(pages.length-1,index+1);
+else index=Math.max(0,index-1);
+showPage(pages[index]);
+},{passive:true});
 loadTheme();
-
 </script>
-
 </body>
 </html>
