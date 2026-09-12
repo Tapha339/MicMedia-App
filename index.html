@@ -1,3357 +1,1014 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>MicMedia</title>
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-:root{
-  --bg:#08090d;
-  --card:#11131a;
-  --card2:#191c25;
-  --text:#fff;
-  --muted:#969baa;
-  --line:#272a35;
-  --accent:#8b5cf6;
-  --pink:#ec4899;
-  --green:#20d66b;
-  --red:#ff304f;
-}
-
-html,body{
-  width:100%;
-  min-height:100%;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
-}
-
-body{
-  padding-bottom:82px;
-  overflow-x:hidden;
-}
-
-button,
-input,
-textarea{
-  font:inherit;
-}
-
-button{
-  border:0;
-  color:white;
-  background:none;
-  cursor:pointer;
-}
-
-button:active{
-  transform:scale(.96);
-}
-
-.app{
-  width:100%;
-  max-width:600px;
-  min-height:100vh;
-  margin:auto;
-  background:var(--bg);
-}
-
-/* TOP BAR */
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 16px;
-  background:rgba(8,9,13,.92);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  font-size:21px;
-  font-weight:800;
-  letter-spacing:-.6px;
-}
-
-.logoMark{
-  width:34px;
-  height:34px;
-  border-radius:11px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:23px;
-  font-weight:900;
-  color:#fff;
-  background:linear-gradient(135deg,#7c3aed,#ec4899,#f97316);
-  box-shadow:0 7px 25px rgba(139,92,246,.25);
-}
-
-.topSearch{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:var(--card2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-}
-
-/* PAGES */
-.page{
-  display:none;
-  animation:pageIn .18s ease;
-}
-
-.page.active{
-  display:block;
-}
-
-@keyframes pageIn{
-  from{
-    opacity:0;
-    transform:translateY(5px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-/* STORIES */
-.stories{
-  display:flex;
-  gap:13px;
-  overflow-x:auto;
-  padding:15px 14px 12px;
-  scrollbar-width:none;
-}
-
-.stories::-webkit-scrollbar{
-  display:none;
-}
-
-.storyItem{
-  flex:0 0 68px;
-  text-align:center;
-}
-
-.storyCircle{
-  width:64px;
-  height:64px;
-  border-radius:50%;
-  padding:2px;
-  background:linear-gradient(135deg,#f59e0b,#ec4899,#8b5cf6);
-  margin:auto;
-}
-
-.storyCircle span{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  border:2px solid var(--bg);
-  background:var(--card2);
-  overflow:hidden;
-  font-size:25px;
-}
-
-.storyCircle img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.storyName{
-  display:block;
-  margin-top:5px;
-  color:#ddd;
-  font-size:11px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-/* POSTS */
-.post{
-  background:var(--card);
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-  margin-bottom:12px;
-}
-
-.postHead{
-  display:flex;
-  align-items:center;
-  padding:12px 14px;
-  gap:10px;
-}
-
-.avatar{
-  width:42px;
-  height:42px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:800;
-  overflow:hidden;
-  flex:none;
-}
-
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.postUser{
-  flex:1;
-}
-
-.postUser strong{
-  display:block;
-  font-size:14px;
-}
-
-.postUser small{
-  color:var(--muted);
-  font-size:11px;
-}
-
-.moreBtn{
-  width:34px;
-  height:34px;
-  font-size:21px;
-}
-
-.postMedia{
-  width:100%;
-  min-height:290px;
-  background:linear-gradient(135deg,#161827,#25203c);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  overflow:hidden;
-  touch-action:manipulation;
-}
-
-.mediaText{
-  font-size:44px;
-  font-weight:900;
-  letter-spacing:-2px;
-  background:linear-gradient(90deg,#8b5cf6,#ec4899,#f59e0b);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.postMedia img,
-.postMedia video{
-  width:100%;
-  height:100%;
-  min-height:290px;
-  object-fit:cover;
-}
-
-.postBody{
-  padding:10px 14px 14px;
-}
-
-.actions{
-  display:flex;
-  align-items:center;
-  gap:17px;
-  margin-bottom:8px;
-}
-
-.actionBtn{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  color:#eee;
-  font-size:22px;
-  transition:.15s;
-}
-
-.actionBtn span{
-  font-size:12px;
-  color:#c5c7ce;
-}
-
-.actionBtn.liked{
-  color:var(--red);
-}
-
-.actionBtn.saved{
-  color:#fff;
-}
-
-.postCaption{
-  font-size:14px;
-  line-height:1.4;
-  margin-top:4px;
-}
-
-.postCaption b{
-  margin-right:4px;
-}
-
-.commentPreview{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:7px;
-  cursor:pointer;
-}
-
-.postTime{
-  color:#666b79;
-  font-size:10px;
-  margin-top:8px;
-}
-
-/* LIVE */
-.liveHero{
-  margin:15px;
-  min-height:210px;
-  border-radius:22px;
-  background:
-    radial-gradient(circle at 80% 20%,rgba(236,72,153,.5),transparent 30%),
-    radial-gradient(circle at 20% 80%,rgba(124,58,237,.6),transparent 35%),
-    linear-gradient(135deg,#151522,#090a10);
-  border:1px solid var(--line);
-  padding:25px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-}
-
-.liveHero h2{
-  font-size:28px;
-  margin-bottom:6px;
-}
-
-.liveHero p{
-  color:var(--muted);
-  margin-bottom:18px;
-}
-
-.primaryBtn{
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
-  padding:13px 20px;
-  border-radius:14px;
-  font-weight:700;
-}
-
-.liveSectionTitle{
-  padding:8px 15px 12px;
-  font-size:17px;
-}
-
-.liveGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  padding:0 12px;
-}
-
-.liveCard{
-  min-height:220px;
-  border-radius:18px;
-  overflow:hidden;
-  position:relative;
-  background:linear-gradient(135deg,#202033,#11131b);
-  border:1px solid var(--line);
-}
-
-.liveCardInner{
-  height:100%;
-  min-height:220px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:42px;
-}
-
-.liveBadge{
-  position:absolute;
-  top:10px;
-  left:10px;
-  background:#ff304f;
-  padding:5px 8px;
-  border-radius:7px;
-  font-size:10px;
-  font-weight:800;
-}
-
-.liveCardBottom{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  padding:30px 10px 10px;
-  background:linear-gradient(transparent,rgba(0,0,0,.8));
-}
-
-.liveCardBottom strong{
-  font-size:13px;
-}
-
-.liveCardBottom small{
-  color:#ccc;
-}
-
-/* REELS */
-.reelsPage{
-  background:#000;
-}
-
-.reel{
-  position:relative;
-  height:calc(100vh - 146px);
-  min-height:520px;
-  overflow:hidden;
-  background:linear-gradient(135deg,#111322,#251334);
-  touch-action:manipulation;
-}
-
-.reelMedia{
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-.reelMedia video,
-.reelMedia img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.reelText{
-  font-size:55px;
-  font-weight:900;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899,#f59e0b);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.reelInfo{
-  position:absolute;
-  left:14px;
-  right:80px;
-  bottom:20px;
-  z-index:5;
-  text-shadow:0 2px 8px #000;
-}
-
-.reelInfo strong{
-  font-size:16px;
-}
-
-.reelInfo p{
-  margin-top:8px;
-  line-height:1.4;
-}
-
-.reelActions{
-  position:absolute;
-  right:10px;
-  bottom:25px;
-  z-index:6;
-  display:flex;
-  flex-direction:column;
-  gap:17px;
-  align-items:center;
-}
-
-.reelAction{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:3px;
-  font-size:25px;
-  text-shadow:0 2px 8px #000;
-}
-
-.reelActionCount{
-  font-size:10px;
-  color:#fff;
-  text-shadow:0 1px 4px #000;
-}
-
-.reelAction.liked{
-  color:var(--red);
-}
-
-/* CHAT */
-.chatList{
-  padding:10px;
-}
-
-.chatRow{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:13px 9px;
-  border-bottom:1px solid var(--line);
-  cursor:pointer;
-}
-
-.chatRow:active{
-  background:var(--card);
-}
-
-.chatInfo{
-  flex:1;
-}
-
-.chatInfo strong{
-  display:block;
-  font-size:14px;
-}
-
-.chatInfo small{
-  display:block;
-  color:var(--muted);
-  margin-top:4px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  max-width:250px;
-}
-
-.onlineDot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:var(--green);
-}
-
-/* PROFILE */
-.profileHead{
-  padding:22px 16px;
-  display:flex;
-  align-items:center;
-  gap:18px;
-}
-
-.profileAvatar{
-  width:88px;
-  height:88px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:32px;
-  font-weight:900;
-}
-
-.profileInfo{
-  flex:1;
-}
-
-.profileInfo h2{
-  font-size:20px;
-}
-
-.profileInfo p{
-  color:var(--muted);
-  margin-top:3px;
-}
-
-.stats{
-  display:flex;
-  justify-content:space-between;
-  padding:0 25px 20px;
-}
-
-.stat{
-  text-align:center;
-}
-
-.stat strong{
-  display:block;
-  font-size:18px;
-}
-
-.stat span{
-  color:var(--muted);
-  font-size:11px;
-}
-
-.profileBtns{
-  display:flex;
-  gap:8px;
-  padding:0 14px 18px;
-}
-
-.profileBtns button{
-  flex:1;
-  background:var(--card2);
-  border:1px solid var(--line);
-  padding:11px;
-  border-radius:11px;
-  font-weight:700;
-}
-
-/* BALANCE */
-.balanceCard{
-  margin:18px 14px;
-  padding:24px;
-  border-radius:22px;
-  background:linear-gradient(135deg,#1d1832,#17131e);
-  border:1px solid #342b4e;
-}
-
-.balanceLabel{
-  color:var(--muted);
-  font-size:13px;
-}
-
-.balanceAmount{
-  font-size:38px;
-  font-weight:900;
-  margin:8px 0 20px;
-}
-
-.balanceButtons{
-  display:flex;
-  gap:9px;
-}
-
-.balanceButtons button{
-  flex:1;
-  padding:12px;
-  border-radius:12px;
-  background:var(--card2);
-}
-
-.balanceButtons button:first-child{
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
-}
-
-.earningsBox{
-  margin:14px;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:17px;
-  padding:18px;
-}
-
-.earningRow{
-  display:flex;
-  justify-content:space-between;
-  padding:12px 0;
-  border-bottom:1px solid var(--line);
-}
-
-.earningRow:last-child{
-  border-bottom:0;
-}
-
-.earningRow span{
-  color:var(--muted);
-}
-
-/* SEARCH */
-.searchBox{
-  padding:16px;
-}
-
-.searchInput{
-  width:100%;
-  background:var(--card2);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:14px 15px;
-  color:#fff;
-  outline:none;
-}
-
-.searchResults{
-  padding:0 14px;
-}
-
-.searchUser{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:13px 0;
-  border-bottom:1px solid var(--line);
-}
-
-/* SETTINGS */
-.settingsTitle{
-  font-size:26px;
-  font-weight:800;
-  padding:20px 16px;
-}
-
-.settingGroup{
-  margin:0 12px 18px;
-  border-radius:17px;
-  overflow:hidden;
-  background:var(--card);
-  border:1px solid var(--line);
-}
-
-.settingRow{
-  min-height:58px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:10px 15px;
-  border-bottom:1px solid var(--line);
-}
-
-.settingRow:last-child{
-  border-bottom:0;
-}
-
-.settingIcon{
-  width:35px;
-  height:35px;
-  border-radius:10px;
-  background:var(--card2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.settingInfo{
-  flex:1;
-}
-
-.settingInfo strong{
-  display:block;
-  font-size:14px;
-}
-
-.settingInfo small{
-  color:var(--muted);
-}
-
-.toggle{
-  width:45px;
-  height:26px;
-  border-radius:20px;
-  background:#30333d;
-  padding:3px;
-}
-
-.toggle i{
-  display:block;
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  background:white;
-  transition:.2s;
-}
-
-.toggle.on{
-  background:var(--accent);
-}
-
-.toggle.on i{
-  transform:translateX(19px);
-}
-
-/* BOTTOM NAV */
-.bottomNav{
-  position:fixed;
-  z-index:2000;
-  left:50%;
-  bottom:0;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:600px;
-  height:72px;
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  align-items:center;
-  background:rgba(8,9,13,.96);
-  backdrop-filter:blur(20px);
-  border-top:1px solid var(--line);
-}
-
-.navBtn{
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  gap:4px;
-  color:#777b87;
-  font-size:21px;
-}
-
-.navBtn small{
-  font-size:9px;
-}
-
-.navBtn.active{
-  color:#fff;
-}
-
-.createBtn{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:25px;
-  margin:auto;
-}
-
-/* OVERLAYS */
-.overlay{
-  display:none;
-  position:fixed;
-  z-index:5000;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  align-items:center;
-  justify-content:center;
-}
-
-.overlay.show{
-  display:flex;
-}
-
-.sheet{
-  width:min(94%,520px);
-  max-height:85vh;
-  overflow:auto;
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:23px;
-  padding:18px;
-  animation:sheetIn .2s ease;
-}
-
-@keyframes sheetIn{
-  from{
-    transform:translateY(30px);
-    opacity:0;
-  }
-  to{
-    transform:translateY(0);
-    opacity:1;
-  }
-}
-
-.sheetHead{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
-}
-
-.closeBtn{
-  width:35px;
-  height:35px;
-  border-radius:50%;
-  background:var(--card2);
-  font-size:20px;
-}
-
-/* COMMENTS */
-.commentItem{
-  display:flex;
-  gap:10px;
-  padding:11px 0;
-  border-bottom:1px solid var(--line);
-}
-
-.commentText{
-  flex:1;
-}
-
-.commentText strong{
-  font-size:13px;
-}
-
-.commentText p{
-  margin-top:3px;
-  color:#ddd;
-  font-size:13px;
-}
-
-.commentLike{
-  color:#999;
-  font-size:12px;
-}
-
-.commentInputRow{
-  display:flex;
-  gap:8px;
-  margin-top:14px;
-}
-
-.commentInputRow input{
-  flex:1;
-  background:var(--card2);
-  border:1px solid var(--line);
-  color:#fff;
-  border-radius:13px;
-  padding:12px;
-  outline:none;
-}
-
-.sendBtn{
-  width:45px;
-  border-radius:13px;
-  background:var(--accent);
-}
-
-/* LIVE ROOM */
-.liveRoom{
-  position:fixed;
-  z-index:6000;
-  inset:0;
-  background:#000;
-  display:none;
-}
-
-.liveRoom.show{
-  display:block;
-}
-
-.liveVideo{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  background:linear-gradient(135deg,#19162b,#08090d);
-}
-
-.liveTop{
-  position:absolute;
-  top:18px;
-  left:15px;
-  right:15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  z-index:2;
-}
-
-.liveTopLeft{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.liveStatus{
-  background:#ff304f;
-  padding:7px 10px;
-  border-radius:8px;
-  font-weight:800;
-  font-size:11px;
-}
-
-.viewerCount{
-  background:rgba(0,0,0,.55);
-  padding:7px 10px;
-  border-radius:8px;
-  font-size:11px;
-}
-
-.liveClose{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:rgba(0,0,0,.5);
-  font-size:20px;
-}
-
-.liveBottom{
-  position:absolute;
-  left:15px;
-  right:15px;
-  bottom:18px;
-  z-index:3;
-}
-
-.liveOwner{
-  margin-bottom:12px;
-}
-
-.liveOwner strong{
-  font-size:16px;
-}
-
-.liveComments{
-  max-height:160px;
-  overflow:auto;
-  margin-bottom:12px;
-}
-
-.liveComment{
-  display:table;
-  max-width:90%;
-  background:rgba(0,0,0,.45);
-  border-radius:13px;
-  padding:7px 10px;
-  margin:5px 0;
-  font-size:12px;
-}
-
-.liveInputRow{
-  display:flex;
-  gap:8px;
-}
-
-.liveInput{
-  flex:1;
-  padding:12px 14px;
-  border-radius:20px;
-  background:rgba(0,0,0,.5);
-  border:1px solid rgba(255,255,255,.18);
-  color:#fff;
-  outline:none;
-}
-
-.circleControl{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:rgba(0,0,0,.58);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:19px;
-}
-
-.liveControls{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-bottom:12px;
-}
-
-/* INVITES */
-.inviteRow{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:12px 0;
-  border-bottom:1px solid var(--line);
-}
-
-.inviteRow .avatar{
-  width:40px;
-  height:40px;
-}
-
-.inviteRow .inviteInfo{
-  flex:1;
-}
-
-.inviteRow button{
-  background:var(--accent);
-  padding:8px 13px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:700;
-}
-
-.qrBox{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:white;
-  border-radius:14px;
-  padding:18px;
-  width:max-content;
-  margin:15px auto;
-}
-
-.qrShareBtn{
-  width:100%;
-  padding:13px;
-  background:var(--accent);
-  border-radius:13px;
-  font-weight:700;
-}
-
-/* STORY */
-.storyViewer{
-  position:fixed;
-  z-index:7000;
-  inset:0;
-  background:#000;
-  display:none;
-}
-
-.storyViewer.show{
-  display:block;
-}
-
-.storyProgress{
-  position:absolute;
-  top:10px;
-  left:10px;
-  right:10px;
-  height:3px;
-  background:rgba(255,255,255,.3);
-  z-index:5;
-}
-
-.storyProgress i{
-  display:block;
-  width:40%;
-  height:100%;
-  background:white;
-}
-
-.storyHeader{
-  position:absolute;
-  z-index:5;
-  top:22px;
-  left:15px;
-  right:15px;
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.storyHeader .avatar{
-  width:37px;
-  height:37px;
-}
-
-.storyHeaderInfo{
-  flex:1;
-}
-
-.storyHeaderInfo strong{
-  font-size:13px;
-}
-
-.storyHeaderInfo small{
-  display:block;
-  color:#bbb;
-}
-
-.storyClose{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:rgba(0,0,0,.45);
-  font-size:20px;
-}
-
-.storyContent{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  touch-action:manipulation;
-}
-
-.storyFallback{
-  font-size:60px;
-  font-weight:900;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899,#f59e0b);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.storyContent img,
-.storyContent video{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.storyTapLeft,
-.storyTapRight{
-  position:absolute;
-  top:70px;
-  bottom:90px;
-  width:35%;
-  z-index:4;
-}
-
-.storyTapLeft{left:0}
-.storyTapRight{right:0}
-
-.storyBottom{
-  position:absolute;
-  left:15px;
-  right:15px;
-  bottom:18px;
-  z-index:6;
-  display:flex;
-  gap:8px;
-}
-
-.storyReply{
-  flex:1;
-  padding:12px 15px;
-  border-radius:22px;
-  border:1px solid rgba(255,255,255,.3);
-  background:rgba(0,0,0,.4);
-  color:#fff;
-  outline:none;
-}
-
-.storyHeart{
-  width:45px;
-  height:45px;
-  border-radius:50%;
-  background:rgba(0,0,0,.45);
-  font-size:22px;
-}
-
-.storyHeart.liked{
-  color:var(--red);
-}
-
-/* CHAT WINDOW */
-.chatWindow{
-  position:fixed;
-  z-index:4500;
-  inset:0;
-  background:var(--bg);
-  display:none;
-  max-width:600px;
-  margin:auto;
-}
-
-.chatWindow.show{
-  display:flex;
-  flex-direction:column;
-}
-
-.chatHeader{
-  height:64px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:0 12px;
-  border-bottom:1px solid var(--line);
-}
-
-.chatBack{
-  width:38px;
-  height:38px;
-  font-size:25px;
-}
-
-.chatHeader .avatar{
-  width:39px;
-  height:39px;
-}
-
-.chatHeaderInfo{
-  flex:1;
-}
-
-.chatHeaderInfo strong{
-  display:block;
-  font-size:14px;
-}
-
-.chatHeaderInfo small{
-  color:var(--green);
-}
-
-.chatCall{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:var(--card2);
-}
-
-.chatMessages{
-  flex:1;
-  overflow:auto;
-  padding:15px;
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.message{
-  max-width:75%;
-  padding:10px 13px;
-  border-radius:17px;
-  font-size:14px;
-  line-height:1.35;
-}
-
-.message.me{
-  align-self:flex-end;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
-  border-bottom-right-radius:5px;
-}
-
-.message.them{
-  align-self:flex-start;
-  background:var(--card2);
-  border-bottom-left-radius:5px;
-}
-
-.chatComposer{
-  padding:10px;
-  display:flex;
-  gap:7px;
-  align-items:center;
-  border-top:1px solid var(--line);
-}
-
-.chatInput{
-  flex:1;
-  background:var(--card2);
-  border:1px solid var(--line);
-  border-radius:22px;
-  color:#fff;
-  outline:none;
-  padding:12px 15px;
-}
-
-.voiceBtn{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:var(--card2);
-  border:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-.voiceIcon{
-  width:18px;
-  height:23px;
-  border:2px solid #fff;
-  border-radius:10px;
-  position:relative;
-}
-
-.voiceIcon:after{
-  content:"";
-  position:absolute;
-  width:23px;
-  height:11px;
-  border-bottom:2px solid #fff;
-  border-radius:50%;
-  left:50%;
-  bottom:-8px;
-  transform:translateX(-50%);
-}
-
-.voiceIcon:before{
-  content:"";
-  position:absolute;
-  width:2px;
-  height:8px;
-  background:#fff;
-  left:50%;
-  bottom:-13px;
-  transform:translateX(-50%);
-}
-
-.voiceBtn.recording{
-  background:#ff304f;
-  animation:pulse 1s infinite;
-}
-
-@keyframes pulse{
-  50%{
-    transform:scale(1.08);
-  }
-}
-
-/* GIFT */
-.giftSheet{
-  width:min(94%,500px);
-  background:var(--card);
-  border-radius:24px;
-  padding:18px;
-  border:1px solid var(--line);
-}
-
-.giftGrid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-}
-
-.giftItem{
-  background:var(--card2);
-  border-radius:15px;
-  padding:12px 5px;
-  text-align:center;
-}
-
-.giftItem span{
-  display:block;
-  font-size:30px;
-  margin-bottom:4px;
-}
-
-.giftItem small{
-  color:#bbb;
-}
-
-/* TOAST */
-.toast{
-  position:fixed;
-  z-index:15000;
-  left:50%;
-  bottom:95px;
-  transform:translate(-50%,20px);
-  background:#fff;
-  color:#111;
-  padding:11px 17px;
-  border-radius:14px;
-  font-size:13px;
-  font-weight:700;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  white-space:nowrap;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
-/* HEART ANIMATION */
-.doubleTapHeart{
-  position:fixed;
-  z-index:12000;
-  pointer-events:none;
-  font-size:58px;
-  animation:heartPop .8s ease forwards;
-}
-
-@keyframes heartPop{
-  0%{
-    transform:scale(.3);
-    opacity:0;
-  }
-  25%{
-    transform:scale(1.25);
-    opacity:1;
-  }
-  100%{
-    transform:translateY(-110px) scale(1);
-    opacity:0;
-  }
-}
-
-.storyLikeHeart{
-  position:absolute;
-  z-index:10;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  font-size:75px;
-  animation:storyHeart .8s ease forwards;
-  pointer-events:none;
-}
-
-@keyframes storyHeart{
-  0%{
-    transform:translate(-50%,-50%) scale(.3);
-    opacity:0;
-  }
-  30%{
-    transform:translate(-50%,-50%) scale(1.2);
-    opacity:1;
-  }
-  100%{
-    transform:translate(-50%,-50%) scale(1);
-    opacity:0;
-  }
-}
-
-/* DARK/LIGHT */
-body.lightMode{
-  --bg:#f5f6fa;
-  --card:#fff;
-  --card2:#eef0f5;
-  --text:#101116;
-  --muted:#6e7280;
-  --line:#dddfe6;
-}
-
-body.lightMode .topbar,
-body.lightMode .bottomNav{
-  background:rgba(245,246,250,.94);
-}
-
-body.lightMode .post{
-  background:#fff;
-}
-
-@media(max-width:420px){
-  .logo{
-    font-size:19px;
-  }
-
-  .liveGrid{
-    gap:7px;
-    padding:0 8px;
-  }
-
-  .reel{
-    height:calc(100vh - 140px);
-  }
-}
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MicMedia</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    :root {
+      --black: #050509;
+      --dark: #0b0b13;
+      --card: #11111c;
+      --blue: #1677ff;
+      --purple: #8b35ff;
+      --text: #ffffff;
+      --muted: #9696a8;
+      --border: rgba(255,255,255,.08);
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--black);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    /* =========================
+       BACKGROUND
+    ========================= */
+
+    .app {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(22,119,255,.18), transparent 28%),
+        radial-gradient(circle at 85% 75%, rgba(139,53,255,.20), transparent 32%),
+        #050509;
+    }
+
+    .glow {
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: .18;
+      pointer-events: none;
+    }
+
+    .glow.blue {
+      background: #1677ff;
+      top: -180px;
+      left: -150px;
+    }
+
+    .glow.purple {
+      background: #8b35ff;
+      bottom: -180px;
+      right: -150px;
+    }
+
+    /* =========================
+       SPLASH
+    ========================= */
+
+    .splash {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #050509;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+
+    .splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .logo-wrap {
+      text-align: center;
+      animation: logoIn 1s ease;
+    }
+
+    .logo {
+      width: 82px;
+      height: 82px;
+      margin: auto;
+      display: grid;
+      place-items: center;
+      border-radius: 26px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      box-shadow:
+        0 0 35px rgba(22,119,255,.35),
+        0 0 70px rgba(139,53,255,.18);
+      font-size: 32px;
+      font-weight: 900;
+    }
+
+    .brand {
+      margin-top: 20px;
+      font-size: 31px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .brand span {
+      background: linear-gradient(90deg, #2385ff, #9a48ff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .loading {
+      width: 90px;
+      height: 3px;
+      margin: 25px auto 0;
+      overflow: hidden;
+      border-radius: 20px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .loading::after {
+      content: "";
+      display: block;
+      width: 45%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+      animation: loading 1.2s infinite ease-in-out;
+    }
+
+    @keyframes loading {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(230%); }
+    }
+
+    @keyframes logoIn {
+      from {
+        opacity: 0;
+        transform: scale(.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    .auth {
+      min-height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .auth.active {
+      display: flex;
+      animation: fadeUp .6s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 430px;
+      padding: 34px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: rgba(13,13,22,.88);
+      backdrop-filter: blur(25px);
+      box-shadow: 0 30px 100px rgba(0,0,0,.5);
+    }
+
+    .mini-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 17px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      font-weight: 900;
+      font-size: 21px;
+      margin-bottom: 26px;
+    }
+
+    .auth h1 {
+      font-size: 30px;
+      letter-spacing: -.8px;
+      margin-bottom: 9px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      display: block;
+      color: #cfcfdb;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      height: 53px;
+      padding: 0 16px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      outline: none;
+      color: white;
+      background: #090910;
+      transition: .2s;
+    }
+
+    .input-wrap input:focus {
+      border-color: rgba(45,126,255,.7);
+      box-shadow: 0 0 0 4px rgba(22,119,255,.09);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9999aa;
+      background: transparent;
+      font-size: 13px;
+    }
+
+    .primary {
+      width: 100%;
+      height: 54px;
+      margin-top: 8px;
+      border-radius: 16px;
+      color: white;
+      font-weight: 700;
+      background: linear-gradient(100deg, #1677ff, #8136ff);
+      box-shadow: 0 10px 30px rgba(70,75,255,.22);
+      transition: .2s;
+    }
+
+    .primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 35px rgba(70,75,255,.32);
+    }
+
+    .switch {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 23px;
+    }
+
+    .switch button {
+      color: #559cff;
+      background: transparent;
+      font-weight: 700;
+    }
+
+    .forgot {
+      display: block;
+      text-align: right;
+      color: #579dff;
+      background: transparent;
+      margin: 7px 0 18px;
+      font-size: 13px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 25px 0;
+      color: #777789;
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--border);
+    }
+
+    .social-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .social {
+      height: 48px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #0b0b13;
+      color: white;
+    }
+
+    .terms {
+      margin-top: 22px;
+      text-align: center;
+      color: #696979;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       HOME PREVIEW
+    ========================= */
+
+    .home {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .home.active {
+      display: block;
+    }
+
+    .home-header {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(5,5,9,.8);
+      backdrop-filter: blur(20px);
+    }
+
+    .home-brand {
+      font-size: 22px;
+      font-weight: 800;
+      background: linear-gradient(90deg,#2586ff,#9947ff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 9px;
+    }
+
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      color: white;
+      background: #10101a;
+      border: 1px solid var(--border);
+    }
+
+    .content {
+      max-width: 720px;
+      margin: auto;
+      padding: 22px 15px 110px;
+    }
+
+    .stories {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 20px;
+    }
+
+    .story {
+      min-width: 66px;
+      text-align: center;
+      font-size: 11px;
+      color: #aaaaba;
+    }
+
+    .story-ring {
+      width: 62px;
+      height: 62px;
+      padding: 2px;
+      border-radius: 50%;
+      margin: auto auto 7px;
+      background: linear-gradient(135deg,#1677ff,#8d35ff);
+    }
+
+    .story-avatar {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #161620;
+      border: 3px solid #090910;
+      font-weight: 700;
+    }
+
+    .post {
+      margin-top: 15px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      background: #0c0c14;
+    }
+
+    .post-head {
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg,#1677ff,#8136ff);
+      font-weight: 700;
+    }
+
+    .post-user {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .post-time {
+      color: #777789;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .post-media {
+      height: 390px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at 25% 20%,rgba(22,119,255,.4),transparent 30%),
+        radial-gradient(circle at 80% 80%,rgba(139,53,255,.45),transparent 30%),
+        #12121d;
+      font-size: 50px;
+      font-weight: 800;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 7px;
+      padding: 12px 14px 5px;
+    }
+
+    .post-action {
+      background: transparent;
+      color: white;
+      padding: 8px;
+    }
+
+    .post-caption {
+      padding: 5px 15px 18px;
+      font-size: 14px;
+      color: #dddde7;
+    }
+
+    /* =========================
+       BOTTOM NAV
+    ========================= */
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 20;
+      left: 50%;
+      bottom: 15px;
+      transform: translateX(-50%);
+      width: min(700px, calc(100% - 22px));
+      height: 66px;
+      padding: 7px;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(12,12,20,.92);
+      backdrop-filter: blur(22px);
+      box-shadow: 0 15px 50px rgba(0,0,0,.45);
+    }
+
+    .nav-item {
+      background: transparent;
+      color: #777789;
+      border-radius: 16px;
+      font-size: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .nav-item.active {
+      color: white;
+      background: linear-gradient(
+        135deg,
+        rgba(22,119,255,.18),
+        rgba(139,53,255,.18)
+      );
+    }
+
+    .nav-icon {
+      font-size: 19px;
+    }
+
+    @media (max-width: 480px) {
+      .auth-card {
+        padding: 25px 20px;
+        border-radius: 23px;
+      }
+
+      .auth h1 {
+        font-size: 27px;
+      }
+
+      .post-media {
+        height: 330px;
+      }
+
+      .nav-item {
+        font-size: 8px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <div class="app">
 
-<!-- TOP BAR -->
-<header class="topbar">
-  <div class="logo">
-    <div class="logoMark">M</div>
-    <span>MicMedia</span>
-  </div>
+  <div class="glow blue"></div>
+  <div class="glow purple"></div>
 
-  <button class="topSearch" onclick="showPage('search')">⌕</button>
-</header>
+  <!-- ================= SPLASH ================= -->
 
-
-<!-- HOME -->
-<section id="home" class="page active">
-
-  <div class="stories">
-
-    <div class="storyItem" onclick="addStory()">
-      <div class="storyCircle">
-        <span>＋</span>
-      </div>
-      <span class="storyName">Your story</span>
+  <section class="splash" id="splash">
+    <div class="logo-wrap">
+      <div class="logo">M</div>
+      <div class="brand">Mic<span>Media</span></div>
+      <div class="loading"></div>
     </div>
+  </section>
 
-    <div class="storyItem" onclick="openStory(0)">
-      <div class="storyCircle">
-        <span>👩🏾</span>
-      </div>
-      <span class="storyName">Awa</span>
-    </div>
+  <!-- ================= AUTH ================= -->
 
-    <div class="storyItem" onclick="openStory(1)">
-      <div class="storyCircle">
-        <span>👨🏾</span>
-      </div>
-      <span class="storyName">Kebba</span>
-    </div>
+  <main class="auth active" id="auth">
 
-    <div class="storyItem" onclick="openStory(2)">
-      <div class="storyCircle">
-        <span>👩🏾‍🦱</span>
-      </div>
-      <span class="storyName">Fatou</span>
-    </div>
+    <div class="auth-card">
 
-    <div class="storyItem" onclick="openStory(3)">
-      <div class="storyCircle">
-        <span>⚽</span>
-      </div>
-      <span class="storyName">Sports</span>
-    </div>
+      <div class="mini-logo">M</div>
 
-  </div>
+      <!-- SIGN IN -->
 
+      <form id="loginForm">
 
-  <!-- POST 1 -->
-  <article class="post" data-post-id="post1">
+        <h1>Welcome back</h1>
 
-    <div class="postHead">
-      <div class="avatar">⚽</div>
+        <p class="subtitle">
+          Sign in to continue your MicMedia experience.
+        </p>
 
-      <div class="postUser">
-        <strong>MicMedia Sports</strong>
-        <small>@sports · 1h</small>
-      </div>
+        <div class="field">
+          <label>Email or username</label>
 
-      <button class="moreBtn">•••</button>
-    </div>
-
-    <div class="postMedia doubleTapTarget">
-      <div class="mediaText">SPORTS</div>
-    </div>
-
-    <div class="postBody">
-
-      <div class="actions">
-
-        <button class="actionBtn likeButton"
-                onclick="likePost(this)">
-          ♡ <span class="likeCount">120</span>
-        </button>
-
-        <button class="actionBtn"
-                onclick="addComment(this)">
-          ♡̩ <span class="commentCount">24</span>
-        </button>
-
-        <button class="actionBtn"
-                onclick="sharePost(this)">
-          ↗ <span class="shareCount">12</span>
-        </button>
-
-        <button class="actionBtn"
-                onclick="savePost(this)">
-          ♧
-        </button>
-
-      </div>
-
-      <div class="postCaption">
-        <b>MicMedia Sports</b>
-        Welcome to MicMedia! Follow for the latest sports updates.
-      </div>
-
-      <div class="commentPreview"
-           onclick="addComment(this)">
-        View all 24 comments
-      </div>
-
-      <div class="postTime">
-        1 hour ago
-      </div>
-
-    </div>
-  </article>
-
-
-  <!-- POST 2 -->
-  <article class="post" data-post-id="post2">
-
-    <div class="postHead">
-
-      <div class="avatar">👩🏾</div>
-
-      <div class="postUser">
-        <strong>Awa</strong>
-        <small>@awa · 3h</small>
-      </div>
-
-      <button class="moreBtn">•••</button>
-
-    </div>
-
-    <div class="postMedia doubleTapTarget">
-      <div class="mediaText">MICMEDIA</div>
-    </div>
-
-    <div class="postBody">
-
-      <div class="actions">
-
-        <button class="actionBtn likeButton"
-                onclick="likePost(this)">
-          ♡ <span class="likeCount">84</span>
-        </button>
-
-        <button class="actionBtn"
-                onclick="addComment(this)">
-          ♡̩ <span class="commentCount">11</span>
-        </button>
-
-        <button class="actionBtn"
-                onclick="sharePost(this)">
-          ↗ <span class="shareCount">7</span>
-        </button>
-
-        <button class="actionBtn"
-                onclick="savePost(this)">
-          ♧
-        </button>
-
-      </div>
-
-      <div class="postCaption">
-        <b>Awa</b>
-        New day, new memories ❤️
-      </div>
-
-      <div class="commentPreview"
-           onclick="addComment(this)">
-        View all 11 comments
-      </div>
-
-      <div class="postTime">
-        3 hours ago
-      </div>
-
-    </div>
-  </article>
-
-</section>
-
-
-<!-- LIVE PAGE -->
-<section id="live" class="page">
-
-  <div class="liveHero">
-    <h2>Go Live</h2>
-    <p>Connect with your followers in real time.</p>
-    <button class="primaryBtn" onclick="startLive()">
-      🔴 Start Live
-    </button>
-  </div>
-
-  <h3 class="liveSectionTitle">Live now</h3>
-
-  <div class="liveGrid">
-
-    <div class="liveCard" onclick="watchDemoLive('Awa')">
-      <div class="liveCardInner">👩🏾</div>
-
-      <span class="liveBadge">LIVE</span>
-
-      <div class="liveCardBottom">
-        <strong>Awa</strong>
-        <small> · 1.2K viewers</small>
-      </div>
-    </div>
-
-    <div class="liveCard" onclick="watchDemoLive('Kebba')">
-      <div class="liveCardInner">👨🏾</div>
-
-      <span class="liveBadge">LIVE</span>
-
-      <div class="liveCardBottom">
-        <strong>Kebba</strong>
-        <small> · 843 viewers</small>
-      </div>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- REELS -->
-<section id="reels" class="page reelsPage">
-
-  <div class="reel" data-reel-id="reel1">
-
-    <div class="reelMedia doubleTapTarget">
-
-      <div class="reelText">
-        SPORTS
-      </div>
-
-    </div>
-
-    <div class="reelInfo">
-      <strong>@sportsreels</strong>
-      <p>
-        Football moments you don't want to miss ⚽🔥
-      </p>
-    </div>
-
-    <div class="reelActions">
-
-      <button class="reelAction likeReelButton"
-              onclick="likeReel(this)">
-        ♡
-        <span class="reelActionCount likeReelCount">0</span>
-      </button>
-
-      <button class="reelAction"
-              onclick="addReelComment(this)">
-        💬
-        <span class="reelActionCount reelCommentCount">0</span>
-      </button>
-
-      <button class="reelAction"
-              onclick="shareReel(this)">
-        ↗
-        <span class="reelActionCount reelShareCount">0</span>
-      </button>
-
-      <button class="reelAction"
-              onclick="saveReel(this)">
-        ♧
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- CHAT -->
-<section id="chat" class="page">
-
-  <div class="chatList">
-
-    <div class="chatRow" onclick="openChat('Awa')">
-
-      <div class="avatar">👩🏾</div>
-
-      <div class="chatInfo">
-        <strong>Awa</strong>
-        <small>Hey, how are you?</small>
-      </div>
-
-      <div class="onlineDot"></div>
-
-    </div>
-
-
-    <div class="chatRow" onclick="openChat('Kebba')">
-
-      <div class="avatar">👨🏾</div>
-
-      <div class="chatInfo">
-        <strong>Kebba</strong>
-        <small>See you later bro</small>
-      </div>
-
-      <div class="onlineDot"></div>
-
-    </div>
-
-
-    <div class="chatRow" onclick="openChat('Fatou')">
-
-      <div class="avatar">👩🏾‍🦱</div>
-
-      <div class="chatInfo">
-        <strong>Fatou</strong>
-        <small>That was funny 😂</small>
-      </div>
-
-      <div class="onlineDot"></div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- PROFILE -->
-<section id="profile" class="page">
-
-  <div class="profileHead">
-
-    <div class="profileAvatar">
-      M
-    </div>
-
-    <div class="profileInfo">
-      <h2>Mustapha</h2>
-      <p>@mustapha</p>
-    </div>
-
-  </div>
-
-  <div class="stats">
-
-    <div class="stat">
-      <strong>0</strong>
-      <span>Posts</span>
-    </div>
-
-    <div class="stat">
-      <strong>1.2K</strong>
-      <span>Followers</span>
-    </div>
-
-    <div class="stat">
-      <strong>356</strong>
-      <span>Following</span>
-    </div>
-
-  </div>
-
-  <div class="profileBtns">
-    <button onclick="editProfile()">Edit Profile</button>
-    <button onclick="shareProfile()">Share Profile</button>
-  </div>
-
-</section>
-
-
-<!-- BALANCE -->
-<section id="balance" class="page">
-
-  <div class="balanceCard">
-
-    <div class="balanceLabel">
-      Available balance
-    </div>
-
-    <div class="balanceAmount">
-      $0.00
-    </div>
-
-    <div class="balanceButtons">
-      <button onclick="addBalance()">＋ Add Balance</button>
-      <button onclick="withdrawBalance()">Withdraw</button>
-    </div>
-
-  </div>
-
-  <div class="earningsBox">
-
-    <h3>Earnings</h3>
-
-    <div class="earningRow">
-      <span>Live Gifts</span>
-      <strong>$0.00</strong>
-    </div>
-
-    <div class="earningRow">
-      <span>Creator Rewards</span>
-      <strong>$0.00</strong>
-    </div>
-
-    <div class="earningRow">
-      <span>Ads</span>
-      <strong>$0.00</strong>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- SEARCH -->
-<section id="search" class="page">
-
-  <div class="searchBox">
-    <input
-      id="searchInput"
-      class="searchInput"
-      placeholder="Search MicMedia..."
-      oninput="runSearch(this.value)"
-    >
-  </div>
-
-  <div id="searchResults" class="searchResults">
-
-    <div class="searchUser">
-      <div class="avatar">⚽</div>
-      <div>
-        <strong>MicMedia Sports</strong>
-        <small>@sports</small>
-      </div>
-    </div>
-
-    <div class="searchUser">
-      <div class="avatar">👩🏾</div>
-      <div>
-        <strong>Awa</strong>
-        <small>@awa</small>
-      </div>
-    </div>
-
-    <div class="searchUser">
-      <div class="avatar">👨🏾</div>
-      <div>
-        <strong>Kebba</strong>
-        <small>@kebba</small>
-      </div>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- SETTINGS -->
-<section id="settings" class="page">
-
-  <div class="settingsTitle">
-    Settings
-  </div>
-
-  <div class="settingGroup">
-
-    <div class="settingRow" onclick="toggleTheme()">
-
-      <div class="settingIcon">🌙</div>
-
-      <div class="settingInfo">
-        <strong>Dark Mode</strong>
-        <small>Choose your appearance</small>
-      </div>
-
-      <div id="themeToggle" class="toggle on">
-        <i></i>
-      </div>
-
-    </div>
-
-
-    <div class="settingRow" onclick="toggleNotifications()">
-
-      <div class="settingIcon">🔔</div>
-
-      <div class="settingInfo">
-        <strong>Notifications</strong>
-        <small>Likes, comments and messages</small>
-      </div>
-
-      <div id="notificationToggle" class="toggle on">
-        <i></i>
-      </div>
-
-    </div>
-
-
-    <div class="settingRow" onclick="showPrivacy()">
-
-      <div class="settingIcon">🔒</div>
-
-      <div class="settingInfo">
-        <strong>Privacy</strong>
-        <small>Control your privacy</small>
-      </div>
-
-      <span>›</span>
-
-    </div>
-
-
-    <div class="settingRow" onclick="showPage('balance')">
-
-      <div class="settingIcon">💰</div>
-
-      <div class="settingInfo">
-        <strong>Balance & Earnings</strong>
-        <small>Manage your MicMedia balance</small>
-      </div>
-
-      <span>›</span>
-
-    </div>
-
-  </div>
-
-</section>
-
-</div>
-
-
-<!-- BOTTOM NAV -->
-<nav class="bottomNav">
-
-  <button class="navBtn active" data-page="home"
-          onclick="showPage('home')">
-    ⌂
-    <small>Home</small>
-  </button>
-
-  <button class="navBtn" data-page="live"
-          onclick="showPage('live')">
-    ◉
-    <small>Live</small>
-  </button>
-
-  <button class="navBtn" onclick="createPost()">
-    <div class="createBtn">＋</div>
-  </button>
-
-  <button class="navBtn" data-page="reels"
-          onclick="showPage('reels')">
-    ▷
-    <small>Reels</small>
-  </button>
-
-  <button class="navBtn" data-page="chat"
-          onclick="showPage('chat')">
-    ♡
-    <small>Chat</small>
-  </button>
-
-  <button class="navBtn" data-page="balance"
-          onclick="showPage('balance')">
-    $
-    <small>Balance</small>
-  </button>
-
-  <button class="navBtn" data-page="profile"
-          onclick="showPage('profile')">
-    ●
-    <small>Profile</small>
-  </button>
-
-</nav>
-
-
-<!-- COMMENTS OVERLAY -->
-<div id="commentsOverlay" class="overlay">
-
-  <div class="sheet">
-
-    <div class="sheetHead">
-      <h3>Comments</h3>
-
-      <button class="closeBtn"
-              onclick="closeComments()">×</button>
-    </div>
-
-    <div id="commentsList">
-
-      <div class="commentItem">
-
-        <div class="avatar">👩🏾</div>
-
-        <div class="commentText">
-          <strong>Awa</strong>
-          <p>Nice post 🔥</p>
+          <div class="input-wrap">
+            <input
+              type="text"
+              id="loginUser"
+              placeholder="Enter your email or username"
+              required
+            />
+          </div>
         </div>
 
-        <button class="commentLike">
-          ♡ 4
-        </button>
+        <div class="field">
+          <label>Password</label>
 
-      </div>
+          <div class="input-wrap">
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Enter your password"
+              required
+            />
 
-
-      <div class="commentItem">
-
-        <div class="avatar">👨🏾</div>
-
-        <div class="commentText">
-          <strong>Kebba</strong>
-          <p>This is amazing!</p>
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="togglePassword('loginPassword', this)"
+            >
+              Show
+            </button>
+          </div>
         </div>
 
-        <button class="commentLike">
-          ♡ 2
+        <button type="button" class="forgot">
+          Forgot password?
         </button>
 
+        <button type="submit" class="primary">
+          Sign In
+        </button>
+
+        <div class="divider">
+          OR
+        </div>
+
+        <div class="social-buttons">
+          <button type="button" class="social">
+            Google
+          </button>
+
+          <button type="button" class="social">
+            Apple
+          </button>
+        </div>
+
+        <p class="switch">
+          Don't have an account?
+          <button type="button" onclick="showSignup()">
+            Create account
+          </button>
+        </p>
+
+      </form>
+
+
+      <!-- CREATE ACCOUNT -->
+
+      <form id="signupForm" style="display:none">
+
+        <h1>Create your account</h1>
+
+        <p class="subtitle">
+          Join MicMedia and connect with your community.
+        </p>
+
+        <div class="field">
+          <label>Full name</label>
+          <div class="input-wrap">
+            <input
+              type="text"
+              placeholder="Your name"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Username</label>
+          <div class="input-wrap">
+            <input
+              type="text"
+              placeholder="@username"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <div class="input-wrap">
+            <input
+              type="email"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+
+          <div class="input-wrap">
+            <input
+              type="password"
+              id="signupPassword"
+              placeholder="Create a password"
+              required
+            />
+
+            <button
+              type="button"
+              class="password-toggle"
+              onclick="togglePassword('signupPassword', this)"
+            >
+              Show
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="primary">
+          Create Account
+        </button>
+
+        <p class="switch">
+          Already have an account?
+          <button type="button" onclick="showLogin()">
+            Sign in
+          </button>
+        </p>
+
+        <p class="terms">
+          By creating an account, you agree to MicMedia's
+          Terms of Service and Privacy Policy.
+        </p>
+
+      </form>
+
+    </div>
+
+  </main>
+
+
+  <!-- ================= HOME ================= -->
+
+  <section class="home" id="home">
+
+    <header class="home-header">
+
+      <div class="home-brand">
+        MicMedia
       </div>
 
-    </div>
-
-    <div class="commentInputRow">
-
-      <input id="commentInput"
-             placeholder="Add a comment...">
-
-      <button class="sendBtn"
-              onclick="sendComment()">➤</button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- INVITATION SHEET -->
-<div id="inviteOverlay" class="overlay">
-
-  <div class="sheet">
-
-    <div class="sheetHead">
-      <h3>Invite to Live</h3>
-
-      <button class="closeBtn"
-              onclick="closeLiveInvites()">×</button>
-    </div>
-
-
-    <div class="inviteRow">
-
-      <div class="avatar">👩🏾</div>
-
-      <div class="inviteInfo">
-        <strong>Awa</strong>
+      <div class="header-actions">
+        <button class="icon-btn">⌕</button>
+        <button class="icon-btn">♡</button>
       </div>
 
-      <button onclick="inviteFriend('Awa')">
-        Invite
-      </button>
-
-    </div>
+    </header>
 
 
-    <div class="inviteRow">
+    <div class="content">
 
-      <div class="avatar">👨🏾</div>
+      <div class="stories">
 
-      <div class="inviteInfo">
-        <strong>Kebba</strong>
+        <div class="story">
+          <div class="story-ring">
+            <div class="story-avatar">+</div>
+          </div>
+          Your story
+        </div>
+
+        <div class="story">
+          <div class="story-ring">
+            <div class="story-avatar">A</div>
+          </div>
+          Alex
+        </div>
+
+        <div class="story">
+          <div class="story-ring">
+            <div class="story-avatar">J</div>
+          </div>
+          James
+        </div>
+
+        <div class="story">
+          <div class="story-ring">
+            <div class="story-avatar">M</div>
+          </div>
+          Maya
+        </div>
+
+        <div class="story">
+          <div class="story-ring">
+            <div class="story-avatar">K</div>
+          </div>
+          Kevin
+        </div>
+
       </div>
 
-      <button onclick="inviteFriend('Kebba')">
-        Invite
-      </button>
+
+      <article class="post">
+
+        <div class="post-head">
+
+          <div class="avatar">
+            M
+          </div>
+
+          <div>
+            <div class="post-user">
+              MicMedia
+            </div>
+
+            <div class="post-time">
+              2h ago
+            </div>
+          </div>
+
+        </div>
+
+        <div class="post-media">
+          MICMEDIA
+        </div>
+
+        <div class="post-actions">
+
+          <button class="post-action">♡</button>
+          <button class="post-action">◯</button>
+          <button class="post-action">↗️</button>
+          <button class="post-action">▢</button>
+
+        </div>
+
+        <div class="post-caption">
+          Welcome to the new MicMedia experience.
+        </div>
+
+      </article>
 
     </div>
 
 
-    <div class="inviteRow">
+    <!-- MODERN NAVIGATION -->
 
-      <div class="avatar">👩🏾‍🦱</div>
+    <nav class="bottom-nav">
 
-      <div class="inviteInfo">
-        <strong>Fatou</strong>
-      </div>
-
-      <button onclick="inviteFriend('Fatou')">
-        Invite
+      <button class="nav-item active">
+        <span class="nav-icon">⌂</span>
+        Home
       </button>
 
-    </div>
+      <button class="nav-item">
+        <span class="nav-icon">◉</span>
+        Live
+      </button>
 
+      <button class="nav-item">
+        <span class="nav-icon">＋</span>
+        Create
+      </button>
 
-    <button class="qrShareBtn"
-            style="margin-top:15px"
-            onclick="openQR()">
-      ▣ Share Live QR Code
-    </button>
+      <button class="nav-item">
+        <span class="nav-icon">▷</span>
+        Reels
+      </button>
 
-  </div>
+      <button class="nav-item">
+        <span class="nav-icon">◌</span>
+        Chat
+      </button>
+
+      <button class="nav-item">
+        <span class="nav-icon">◇</span>
+        Balance
+      </button>
+
+      <button class="nav-item">
+        <span class="nav-icon">○</span>
+        Profile
+      </button>
+
+    </nav>
+
+  </section>
 
 </div>
-
-
-<!-- QR OVERLAY -->
-<div id="qrOverlay" class="overlay">
-
-  <div class="sheet">
-
-    <div class="sheetHead">
-
-      <h3>Share Live</h3>
-
-      <button class="closeBtn"
-              onclick="closeQR()">×</button>
-
-    </div>
-
-    <p style="text-align:center;color:#aaa">
-      Scan this QR code to join the live.
-    </p>
-
-    <div id="qrcode" class="qrBox"></div>
-
-    <button class="qrShareBtn"
-            onclick="copyLiveLink()">
-      Copy Live Link
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- STORY VIEWER -->
-<div id="storyViewer" class="storyViewer">
-
-  <div class="storyProgress">
-    <i id="storyProgress"></i>
-  </div>
-
-  <div class="storyHeader">
-
-    <div class="avatar" id="storyAvatar">
-      👩🏾
-    </div>
-
-    <div class="storyHeaderInfo">
-      <strong id="storyUsername">Awa</strong>
-      <small id="storyTime">2h</small>
-    </div>
-
-    <button class="storyClose"
-            onclick="closeStory()">×</button>
-
-  </div>
-
-  <div id="storyContent" class="storyContent doubleTapTarget">
-    <div class="storyFallback">STORY</div>
-  </div>
-
-  <div class="storyTapLeft"
-       onclick="previousStory()"></div>
-
-  <div class="storyTapRight"
-       onclick="nextStory()"></div>
-
-  <div class="storyBottom">
-
-    <input id="storyReply"
-           class="storyReply"
-           placeholder="Reply to story...">
-
-    <button id="storyHeart"
-            class="storyHeart"
-            onclick="likeStory()">
-      ♡
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- LIVE ROOM -->
-<div id="liveRoom" class="liveRoom">
-
-  <video id="liveVideo"
-         class="liveVideo"
-         autoplay
-         playsinline
-         muted></video>
-
-  <div id="liveFallback"
-       style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:70px">
-    🔴
-  </div>
-
-  <div class="liveTop">
-
-    <div class="liveTopLeft">
-
-      <span class="liveStatus">LIVE</span>
-
-      <span class="viewerCount">
-        👁 1
-      </span>
-
-    </div>
-
-    <button class="liveClose"
-            onclick="askEndLive()">×</button>
-
-  </div>
-
-
-  <div class="liveBottom">
-
-    <div class="liveOwner">
-      <strong id="liveOwnerName">Mustapha</strong>
-    </div>
-
-    <div id="liveComments"
-         class="liveComments"></div>
-
-
-    <div class="liveControls">
-
-      <button class="circleControl"
-              onclick="toggleLiveMic()">
-        🎙
-      </button>
-
-      <button class="circleControl"
-              onclick="toggleLiveCamera()">
-        ▣
-      </button>
-
-      <button class="circleControl"
-              onclick="switchLiveCamera()">
-        ↻
-      </button>
-
-      <button class="circleControl"
-              onclick="openLiveInvites()">
-        👥
-      </button>
-
-      <button class="circleControl"
-              onclick="openQR()">
-        ▣
-      </button>
-
-      <button class="circleControl"
-              onclick="openGifts()">
-        🎁
-      </button>
-
-    </div>
-
-
-    <div class="liveInputRow">
-
-      <input id="liveCommentInput"
-             class="liveInput"
-             placeholder="Say something...">
-
-      <button class="circleControl"
-              onclick="sendLiveComment()">
-        ➤
-      </button>
-
-      <button class="circleControl"
-              onclick="sendLiveHeart()">
-        ❤️
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- GIFT SHEET -->
-<div id="giftOverlay" class="overlay">
-
-  <div class="giftSheet">
-
-    <div class="sheetHead">
-
-      <h3>Send a Gift</h3>
-
-      <button class="closeBtn"
-              onclick="closeGifts()">×</button>
-
-    </div>
-
-    <div class="giftGrid">
-
-      <button class="giftItem"
-              onclick="sendGift('❤️','Heart')">
-        <span>❤️</span>
-        <small>Heart</small>
-      </button>
-
-      <button class="giftItem"
-              onclick="sendGift('🌹','Rose')">
-        <span>🌹</span>
-        <small>Rose</small>
-      </button>
-
-      <button class="giftItem"
-              onclick="sendGift('🔥','Fire')">
-        <span>🔥</span>
-        <small>Fire</small>
-      </button>
-
-      <button class="giftItem"
-              onclick="sendGift('⭐','Star')">
-        <span>⭐</span>
-        <small>Star</small>
-      </button>
-
-      <button class="giftItem"
-              onclick="sendGift('💎','Diamond')">
-        <span>💎</span>
-        <small>Diamond</small>
-      </button>
-
-      <button class="giftItem"
-              onclick="sendGift('👑','Crown')">
-        <span>👑</span>
-        <small>Crown</small>
-      </button>
-
-      <button class="giftItem"
-              onclick="sendGift('🚀','Rocket')">
-        <span>🚀</span>
-        <small>Rocket</small>
-      </button>
-
-      <button class="giftItem"
-              onclick="sendGift('🏆','Champion')">
-        <span>🏆</span>
-        <small>Champion</small>
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- END LIVE -->
-<div id="endLiveOverlay" class="overlay">
-
-  <div class="sheet" style="text-align:center">
-
-    <h3>End Live?</h3>
-
-    <p style="color:#aaa;margin:12px 0 20px">
-      Are you sure you want to end your live stream?
-    </p>
-
-    <div style="display:flex;gap:9px">
-
-      <button
-        style="flex:1;padding:13px;border-radius:12px;background:var(--card2)"
-        onclick="closeEndLive()">
-        Cancel
-      </button>
-
-      <button
-        style="flex:1;padding:13px;border-radius:12px;background:#ff304f"
-        onclick="endLive()">
-        End Live
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- CHAT WINDOW -->
-<div id="chatWindow" class="chatWindow">
-
-  <div class="chatHeader">
-
-    <button class="chatBack"
-            onclick="closeChat()">‹</button>
-
-    <div class="avatar"
-         id="chatAvatar">
-      👩🏾
-    </div>
-
-    <div class="chatHeaderInfo">
-      <strong id="chatUser">Awa</strong>
-      <small>Online</small>
-    </div>
-
-    <button class="chatCall"
-            onclick="startChatCall()">☎</button>
-
-  </div>
-
-
-  <div id="chatMessages"
-       class="chatMessages">
-
-    <div class="message them">
-      Hey 👋🏾
-    </div>
-
-    <div class="message them">
-      How are you?
-    </div>
-
-  </div>
-
-
-  <div class="chatComposer">
-
-    <button id="voiceBtn"
-            class="voiceBtn"
-            onclick="toggleVoiceRecording()">
-
-      <span class="voiceIcon"></span>
-
-    </button>
-
-    <input id="chatInput"
-           class="chatInput"
-           placeholder="Message...">
-
-    <button class="sendBtn"
-            onclick="sendChatMessage()">
-      ➤
-    </button>
-
-  </div>
-
-</div>
-
-
-<div id="toast" class="toast"></div>
 
 
 <script>
-/* =========================
-   MICMEDIA JAVASCRIPT
-========================= */
 
-let currentPage = "home";
+  /* =========================
+     SPLASH
+  ========================= */
 
-let currentStory = 0;
+  window.addEventListener("load", () => {
 
-let currentChatUser = "";
-
-let currentCommentPost = null;
-
-let liveStream = null;
-
-let liveCameraFacing = "user";
-
-let liveMicOn = true;
-
-let liveCameraOn = true;
-
-let voiceRecorder = null;
-
-let voiceChunks = [];
-
-let voiceRecording = false;
-
-let lastTapTime = 0;
-
-let lastTapTarget = null;
-
-
-/* =========================
-   BASIC HELPERS
-========================= */
-
-function toast(message){
-
-  const el = document.getElementById("toast");
-
-  if(!el) return;
-
-  el.textContent = message;
-
-  el.classList.add("show");
-
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer = setTimeout(()=>{
-    el.classList.remove("show");
-  },2200);
-}
-
-
-/* =========================
-   NAVIGATION
-========================= */
-
-function showPage(page){
-
-  const pages = document.querySelectorAll(".page");
-
-  pages.forEach(p=>{
-    p.classList.remove("active");
-  });
-
-  const target = document.getElementById(page);
-
-  if(target){
-    target.classList.add("active");
-  }
-
-  currentPage = page;
-
-  document.querySelectorAll(".navBtn").forEach(btn=>{
-    btn.classList.remove("active");
-
-    if(btn.dataset.page === page){
-      btn.classList.add("active");
-    }
-  });
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
-
-
-/* =========================
-   CREATE
-========================= */
-
-function createPost(){
-
-  const choice = confirm(
-    "Create something for MicMedia?\n\nOK = New Post\nCancel = Start Live"
-  );
-
-  if(choice){
-    toast("Post creator opened");
-  }else{
-    startLive();
-  }
-}
-
-
-/* =========================
-   STORIES
-========================= */
-
-const stories = [
-  {
-    name:"Awa",
-    avatar:"👩🏾",
-    time:"2h",
-    text:"Hello from Awa ❤️"
-  },
-  {
-    name:"Kebba",
-    avatar:"👨🏾",
-    time:"3h",
-    text:"Good vibes today 🔥"
-  },
-  {
-    name:"Fatou",
-    avatar:"👩🏾‍🦱",
-    time:"5h",
-    text:"MicMedia is amazing!"
-  },
-  {
-    name:"Sports",
-    avatar:"⚽",
-    time:"1h",
-    text:"Football updates ⚽"
-  }
-];
-
-
-function addStory(){
-
-  const input = document.createElement("input");
-
-  input.type = "file";
-
-  input.accept = "image/*,video/*";
-
-  input.onchange = function(){
-
-    if(input.files && input.files.length){
-
-      toast("Your story has been added");
-
-    }
-
-  };
-
-  input.click();
-}
-
-
-function openStory(index){
-
-  if(index < 0){
-    index = stories.length - 1;
-  }
-
-  if(index >= stories.length){
-    index = 0;
-  }
-
-  currentStory = index;
-
-  const story = stories[currentStory];
-
-  document.getElementById("storyUsername").textContent =
-    story.name;
-
-  document.getElementById("storyTime").textContent =
-    story.time;
-
-  document.getElementById("storyAvatar").textContent =
-    story.avatar;
-
-  document.getElementById("storyHeart").classList.remove("liked");
-
-  document.getElementById("storyHeart").textContent = "♡";
-
-  const content =
-    document.getElementById("storyContent");
-
-  content.innerHTML =
-    '<div class="storyFallback">'+
-    story.text+
-    '</div>';
-
-  const viewer =
-    document.getElementById("storyViewer");
-
-  viewer.classList.add("show");
-
-  const progress =
-    document.getElementById("storyProgress");
-
-  progress.style.width = "0%";
-
-  setTimeout(()=>{
-    progress.style.transition = "width 5s linear";
-    progress.style.width = "100%";
-  },30);
-}
-
-
-function closeStory(){
-
-  document
-    .getElementById("storyViewer")
-    .classList.remove("show");
-}
-
-
-function previousStory(){
-  openStory(currentStory - 1);
-}
-
-
-function nextStory(){
-  openStory(currentStory + 1);
-}
-
-
-function likeStory(){
-
-  const button =
-    document.getElementById("storyHeart");
-
-  button.classList.add("liked");
-
-  button.textContent = "♥";
-
-  showStoryHeart();
-
-  toast("Story liked ❤️");
-}
-
-
-function showStoryHeart(){
-
-  const viewer =
-    document.getElementById("storyContent");
-
-  const heart =
-    document.createElement("div");
-
-  heart.className = "storyLikeHeart";
-
-  heart.textContent = "❤️";
-
-  viewer.appendChild(heart);
-
-  setTimeout(()=>{
-    heart.remove();
-  },800);
-}
-
-
-/* =========================
-   DOUBLE TAP
-========================= */
-
-function showDoubleTapHeart(x,y){
-
-  const heart =
-    document.createElement("div");
-
-  heart.className = "doubleTapHeart";
-
-  heart.textContent = "❤️";
-
-  heart.style.left =
-    (x - 29) + "px";
-
-  heart.style.top =
-    (y - 29) + "px";
-
-  document.body.appendChild(heart);
-
-  setTimeout(()=>{
-    heart.remove();
-  },800);
-}
-
-
-function handleDoubleTap(target,event){
-
-  const now = Date.now();
-
-  const sameTarget =
-    lastTapTarget === target;
-
-  const quick =
-    now - lastTapTime < 350;
-
-  if(sameTarget && quick){
-
-    if(
-      target.closest(".storyContent")
-    ){
-
-      likeStory();
-
-    }else{
-
-      const post =
-        target.closest(".post");
-
-      if(post){
-
-        const likeButton =
-          post.querySelector(".likeButton");
-
-        if(likeButton){
-          likePost(likeButton,true);
-        }
-
-      }
-
-      const reel =
-        target.closest(".reel");
-
-      if(reel){
-
-        const likeButton =
-          reel.querySelector(".likeReelButton");
-
-        if(likeButton){
-          likeReel(likeButton,true);
-        }
-
-      }
-
-    }
-
-    if(event){
-
-      showDoubleTapHeart(
-        event.clientX,
-        event.clientY
-      );
-
-    }
-
-    lastTapTime = 0;
-    lastTapTarget = null;
-
-    return;
-  }
-
-  lastTapTime = now;
-  lastTapTarget = target;
-}
-
-
-document.addEventListener(
-  "pointerup",
-  function(event){
-
-    const media =
-      event.target.closest(
-        ".doubleTapTarget"
-      );
-
-    if(!media) return;
-
-    if(
-      event.target.closest("button") ||
-      event.target.closest("input")
-    ){
-      return;
-    }
-
-    handleDoubleTap(media,event);
-
-  },
-  {passive:true}
-);
-
-
-/* =========================
-   POSTS
-========================= */
-
-function likePost(button,forceLike=false){
-
-  if(!button) return;
-
-  const liked =
-    button.classList.contains("liked");
-
-  if(liked && !forceLike){
-
-    button.classList.remove("liked");
-
-    const count =
-      button.querySelector(".likeCount");
-
-    if(count){
-
-      count.textContent =
-        Math.max(
-          0,
-          Number(count.textContent)-1
-        );
-
-    }
-
-    button.innerHTML =
-      "♡ <span class='likeCount'>"+
-      (count ? count.textContent : "0")+
-      "</span>";
-
-    return;
-  }
-
-  if(!liked){
-
-    button.classList.add("liked");
-
-    const count =
-      button.querySelector(".likeCount");
-
-    if(count){
-
-      count.textContent =
-        Number(count.textContent)+1;
-
-    }
-
-    button.innerHTML =
-      "♥ <span class='likeCount'>"+
-      (count ? count.textContent : "1")+
-      "</span>";
-  }
-}
-
-
-function addComment(source){
-
-  let post = null;
-
-  if(source){
-
-    post =
-      source.closest(".post");
-
-  }
-
-  if(!post){
-
-    post =
-      document.querySelector(
-        ".post"
-      );
-  }
-
-  currentCommentPost = post;
-
-  document
-    .getElementById("commentsOverlay")
-    .classList.add("show");
-
-  document
-    .getElementById("commentInput")
-    .focus();
-}
-
-
-function closeComments(){
-
-  document
-    .getElementById("commentsOverlay")
-    .classList.remove("show");
-
-  currentCommentPost = null;
-}
-
-
-function sendComment(){
-
-  const input =
-    document.getElementById("commentInput");
-
-  const text =
-    input.value.trim();
-
-  if(!text){
-
-    toast("Write a comment first");
-
-    return;
-  }
-
-  const list =
-    document.getElementById("commentsList");
-
-  const item =
-    document.createElement("div");
-
-  item.className = "commentItem";
-
-  item.innerHTML = `
-    <div class="avatar">M</div>
-    <div class="commentText">
-      <strong>You</strong>
-      <p>${escapeHTML(text)}</p>
-    </div>
-    <button class="commentLike">♡ 0</button>
-  `;
-
-  list.appendChild(item);
-
-  if(currentCommentPost){
-
-    const count =
-      currentCommentPost.querySelector(
-        ".commentCount"
-      );
-
-    if(count){
-
-      count.textContent =
-        Number(count.textContent)+1;
-
-    }
-  }
-
-  input.value = "";
-
-  toast("Comment added");
-}
-
-
-function sharePost(button){
-
-  const post =
-    button.closest(".post");
-
-  const count =
-    post.querySelector(".shareCount");
-
-  if(count){
-
-    count.textContent =
-      Number(count.textContent)+1;
-
-  }
-
-  const text =
-    "Check this post on MicMedia";
-
-  if(
-    navigator.share
-  ){
-
-    navigator.share({
-      title:"MicMedia",
-      text:text
-    }).catch(()=>{});
-
-  }else{
-
-    navigator.clipboard
-      ?.writeText(text);
-
-    toast("Post link copied");
-
-  }
-}
-
-
-function savePost(button){
-
-  button.classList.toggle("saved");
-
-  button.textContent =
-    button.classList.contains("saved")
-    ? "♣"
-    : "♧";
-
-  toast(
-    button.classList.contains("saved")
-    ? "Post saved"
-    : "Post removed from saved"
-  );
-}
-
-
-/* =========================
-   REELS
-========================= */
-
-function likeReel(button,forceLike=false){
-
-  if(!button) return;
-
-  const liked =
-    button.classList.contains("liked");
-
-  const count =
-    button.querySelector(".likeReelCount");
-
-  let number =
-    Number(count?.textContent || 0);
-
-  if(liked && !forceLike){
-
-    button.classList.remove("liked");
-
-    number =
-      Math.max(0,number-1);
-
-  }else if(!liked){
-
-    button.classList.add("liked");
-
-    number++;
-
-  }
-
-  if(count){
-    count.textContent = number;
-  }
-
-  button.firstChild.textContent =
-    button.classList.contains("liked")
-    ? "♥"
-    : "♡";
-}
-
-
-function addReelComment(button){
-
-  const reel =
-    button.closest(".reel");
-
-  currentCommentPost = reel;
-
-  document
-    .getElementById("commentsOverlay")
-    .classList.add("show");
-
-  document
-    .getElementById("commentInput")
-    .focus();
-}
-
-
-function shareReel(button){
-
-  const reel =
-    button.closest(".reel");
-
-  const count =
-    reel.querySelector(
-      ".reelShareCount"
-    );
-
-  if(count){
-
-    count.textContent =
-      Number(count.textContent)+1;
-
-  }
-
-  if(navigator.share){
-
-    navigator.share({
-      title:"MicMedia Reel",
-      text:"Check this MicMedia reel!"
-    }).catch(()=>{});
-
-  }else{
-
-    toast("Reel link copied");
-
-  }
-}
-
-
-function saveReel(button){
-
-  button.classList.toggle("liked");
-
-  button.textContent =
-    button.classList.contains("liked")
-    ? "♣"
-    : "♧";
-
-  toast(
-    button.classList.contains("liked")
-    ? "Reel saved"
-    : "Reel removed"
-  );
-}
-
-
-/* =========================
-   LIVE
-========================= */
-
-async function startLive(){
-
-  document
-    .getElementById("liveRoom")
-    .classList.add("show");
-
-  document
-    .getElementById("liveOwnerName")
-    .textContent = "Mustapha";
-
-  try{
-
-    if(
-      navigator.mediaDevices &&
-      navigator.mediaDevices.getUserMedia
-    ){
-
-      liveStream =
-        await navigator.mediaDevices.getUserMedia({
-          video:{
-            facingMode:liveCameraFacing
-          },
-          audio:true
-        });
-
-      const video =
-        document.getElementById("liveVideo");
-
-      video.srcObject =
-        liveStream;
+    setTimeout(() => {
 
       document
-        .getElementById("liveFallback")
-        .style.display = "none";
+        .getElementById("splash")
+        .classList.add("hidden");
 
-    }else{
+    }, 1600);
 
-      toast("Camera is not available");
+  });
+
+
+  /* =========================
+     AUTH SWITCHING
+  ========================= */
+
+  function showSignup() {
+
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("signupForm").style.display = "block";
+
+  }
+
+
+  function showLogin() {
+
+    document.getElementById("signupForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+
+  }
+
+
+  /* =========================
+     PASSWORD
+  ========================= */
+
+  function togglePassword(id, button) {
+
+    const input = document.getElementById(id);
+
+    if (input.type === "password") {
+
+      input.type = "text";
+      button.textContent = "Hide";
+
+    } else {
+
+      input.type = "password";
+      button.textContent = "Show";
 
     }
 
-  }catch(error){
+  }
+
+
+  /* =========================
+     DEMO LOGIN
+  ========================= */
+
+  document
+    .getElementById("loginForm")
+    .addEventListener("submit", function(e) {
+
+      e.preventDefault();
+
+      openHome();
+
+    });
+
+
+  document
+    .getElementById("signupForm")
+    .addEventListener("submit", function(e) {
+
+      e.preventDefault();
+
+      openHome();
+
+    });
+
+
+  function openHome() {
 
     document
-      .getElement
-    }catch(error){
+      .getElementById("auth")
+      .classList.remove("active");
 
     document
-      .getElement
+      .getElementById("home")
+      .classList.add("active");
+
+    window.scrollTo(0, 0);
+
+  }
+
+</script>
+
+</body>
+</html>
