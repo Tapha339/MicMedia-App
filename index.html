@@ -23,10 +23,83 @@ html,body{
   background:#050507;
   color:#fff;
   font-family:Arial,Helvetica,sans-serif;
+  transition:background .3s,color .3s;
 }
 
 body{
   overflow-x:hidden;
+}
+
+/* =========================
+   ENTERING SCREEN
+========================= */
+
+#entryScreen{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(236,47,126,.25),transparent 35%),
+    radial-gradient(circle at 90% 90%,rgba(65,105,255,.25),transparent 35%),
+    #050507;
+}
+
+.entryContent{
+  text-align:center;
+  animation:entryPop .8s ease;
+}
+
+.entryLogo{
+  width:105px;
+  height:105px;
+  border-radius:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:auto;
+  font-size:65px;
+  font-weight:900;
+  background:linear-gradient(135deg,#ff1687,#9b45ff,#287cff);
+  box-shadow:0 20px 70px rgba(174,54,255,.4);
+}
+
+.entryTitle{
+  font-size:38px;
+  font-weight:900;
+  margin-top:20px;
+}
+
+.entryText{
+  color:#888590;
+  margin-top:8px;
+}
+
+.entryLoader{
+  width:45px;
+  height:45px;
+  border:3px solid #292733;
+  border-top-color:#b342ff;
+  border-radius:50%;
+  margin:28px auto 0;
+  animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+@keyframes entryPop{
+  from{
+    opacity:0;
+    transform:scale(.8);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
 }
 
 /* =========================
@@ -35,7 +108,7 @@ body{
 
 #authScreen{
   min-height:100vh;
-  display:flex;
+  display:none;
   justify-content:center;
   align-items:center;
   padding:25px;
@@ -135,10 +208,6 @@ body{
   background:linear-gradient(90deg,#ef248b,#8c43ff,#397dff);
 }
 
-.authButton:active{
-  transform:scale(.98);
-}
-
 .authMessage{
   min-height:22px;
   margin-top:15px;
@@ -195,6 +264,25 @@ body{
   font-size:23px;
 }
 
+/* back button */
+
+.backButton{
+  display:none;
+  width:44px;
+  height:44px;
+  border:0;
+  border-radius:50%;
+  background:#121118;
+  color:white;
+  font-size:25px;
+  margin-right:12px;
+}
+
+.topLeft{
+  display:flex;
+  align-items:center;
+}
+
 /* sections */
 
 .screen{
@@ -212,6 +300,64 @@ body{
   font-size:30px;
   font-weight:900;
   margin-bottom:22px;
+}
+
+/* =========================
+   STORY
+========================= */
+
+.storyRow{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  padding:4px 0 22px;
+  scrollbar-width:none;
+}
+
+.storyRow::-webkit-scrollbar{
+  display:none;
+}
+
+.storyItem{
+  min-width:76px;
+  text-align:center;
+}
+
+.storyAvatar{
+  width:66px;
+  height:66px;
+  margin:auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  font-weight:900;
+  background:linear-gradient(135deg,#ff2389,#a23eff,#397dff);
+  border:3px solid #ff2589;
+}
+
+.storyName{
+  font-size:11px;
+  margin-top:6px;
+  color:#aaa7b2;
+}
+
+.storyLive{
+  position:relative;
+}
+
+.storyLive::after{
+  content:"LIVE";
+  position:absolute;
+  bottom:-3px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#ef245e;
+  border-radius:7px;
+  padding:2px 5px;
+  font-size:7px;
+  font-weight:900;
 }
 
 /* home cards */
@@ -241,6 +387,23 @@ body{
   font-size:23px;
   font-weight:900;
   background:linear-gradient(135deg,#ff268d,#8344ff,#3184ff);
+  position:relative;
+}
+
+.liveRing{
+  border:3px solid #ff245f;
+}
+
+.liveMini{
+  position:absolute;
+  bottom:-5px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#ed245d;
+  border-radius:8px;
+  padding:2px 5px;
+  font-size:7px;
+  font-weight:900;
 }
 
 .username{
@@ -277,6 +440,37 @@ body{
   gap:25px;
   color:#aaa7b2;
   font-size:16px;
+}
+
+.actionButton{
+  border:0;
+  background:transparent;
+  color:inherit;
+  font-size:inherit;
+  cursor:pointer;
+}
+
+.actionButton.liked{
+  color:#ff2b73;
+}
+
+/* follow */
+
+.followPlus{
+  margin-left:auto;
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ef278b,#9145ff,#3582ff);
+  color:white;
+  font-size:24px;
+  font-weight:700;
+}
+
+.followPlus.following{
+  background:#292733;
+  font-size:17px;
 }
 
 /* live */
@@ -343,6 +537,17 @@ body{
   font-size:75px;
   font-weight:900;
   background:linear-gradient(135deg,#ff2489,#8b42ff,#3381ff);
+  position:relative;
+}
+
+.profileLive{
+  position:absolute;
+  bottom:5px;
+  background:#ed245d;
+  padding:6px 10px;
+  border-radius:12px;
+  font-size:11px;
+  font-weight:900;
 }
 
 .profileName{
@@ -371,6 +576,10 @@ body{
   color:white;
   font-size:16px;
   font-weight:900;
+}
+
+.profileButton.following{
+  background:linear-gradient(90deg,#ef278b,#9145ff);
 }
 
 .stats{
@@ -447,6 +656,282 @@ body{
   font-weight:900;
 }
 
+/* =========================
+   MESSAGES
+========================= */
+
+.chatCard{
+  background:#111016;
+  border:1px solid #27252d;
+  border-radius:20px;
+  padding:15px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.chatAvatar{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#ff268d,#8344ff,#3184ff);
+  font-weight:900;
+  font-size:22px;
+}
+
+.chatInfo{
+  flex:1;
+}
+
+.chatName{
+  font-weight:900;
+}
+
+.chatPreview{
+  color:#777580;
+  font-size:13px;
+  margin-top:4px;
+}
+
+.voiceBar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  background:#19181f;
+  border-radius:15px;
+  margin-top:12px;
+}
+
+.voicePlay{
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ef278b,#9145ff);
+  color:white;
+}
+
+.voiceLine{
+  flex:1;
+  height:4px;
+  background:#393641;
+  border-radius:5px;
+}
+
+.micComposer{
+  position:fixed;
+  bottom:90px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(850px,calc(100% - 30px));
+  background:#121118;
+  border:1px solid #292733;
+  border-radius:18px;
+  padding:10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  z-index:90;
+}
+
+.messageInput{
+  flex:1;
+  border:0;
+  outline:none;
+  padding:13px;
+  border-radius:13px;
+  background:#0b0a0f;
+  color:white;
+}
+
+.micButton{
+  width:48px;
+  height:48px;
+  border:0;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ef278b,#9145ff,#3582ff);
+  color:white;
+  font-size:21px;
+}
+
+.recording{
+  background:#e9275e!important;
+  animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+  50%{transform:scale(1.08)}
+}
+
+/* =========================
+   STORIES
+========================= */
+
+.storyLike{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:14px;
+  margin-top:14px;
+  background:#19181f;
+  color:white;
+  font-weight:900;
+}
+
+.storyLike.liked{
+  color:#ff2b73;
+}
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settingCard{
+  background:#111016;
+  border:1px solid #27252d;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.settingRow{
+  min-height:65px;
+  padding:15px 18px;
+  border-bottom:1px solid #25232d;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.settingRow:last-child{
+  border-bottom:0;
+}
+
+.settingLeft{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.settingIcon{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#1c1a23;
+}
+
+.themeButtons{
+  display:flex;
+  gap:6px;
+}
+
+.themeButton{
+  border:0;
+  padding:8px 11px;
+  border-radius:10px;
+  background:#292733;
+  color:#aaa7b2;
+  font-weight:800;
+}
+
+.themeButton.active{
+  background:linear-gradient(90deg,#ef278b,#9145ff);
+  color:white;
+}
+
+/* =========================
+   LIGHT MODE
+========================= */
+
+body.light{
+  background:#f5f5f7;
+  color:#17151c;
+}
+
+body.light .topbar{
+  background:#fff;
+  border-color:#e5e3e9;
+}
+
+body.light .circleButton,
+body.light .backButton{
+  background:#eeeef2;
+  color:#17151c;
+}
+
+body.light .screenTitle{
+  color:#17151c;
+}
+
+body.light .post,
+body.light .chatCard,
+body.light .settingCard,
+body.light .earningsCard{
+  background:#fff;
+  border-color:#e3e1e7;
+}
+
+body.light .postText{
+  color:#4e4b55;
+}
+
+body.light .handle,
+body.light .profileHandle,
+body.light .statLabel,
+body.light .chatPreview{
+  color:#77747d;
+}
+
+body.light .bottomNav{
+  background:rgba(255,255,255,.97);
+  border-color:#e4e2e7;
+}
+
+body.light .navItem{
+  color:#77747d;
+}
+
+body.light .navItem.active{
+  color:#17151c;
+}
+
+body.light .balance{
+  background:linear-gradient(135deg,#ece8ff,#f4e9f5);
+}
+
+body.light .balanceButton,
+body.light .profileButton,
+body.light .storyLike,
+body.light .voiceBar{
+  background:#e9e7ed;
+  color:#17151c;
+}
+
+body.light .settingRow{
+  border-color:#e3e1e7;
+}
+
+body.light .settingIcon{
+  background:#ededf1;
+}
+
+body.light .micComposer{
+  background:#fff;
+  border-color:#dddbe2;
+}
+
+body.light .messageInput{
+  background:#f0eff3;
+  color:#17151c;
+}
+
 /* bottom navigation */
 
 .bottomNav{
@@ -497,6 +982,27 @@ body{
   box-shadow:0 8px 25px rgba(144,57,255,.3);
 }
 
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:105px;
+  transform:translateX(-50%) translateY(20px);
+  background:#25232d;
+  color:white;
+  padding:12px 18px;
+  border-radius:14px;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:1000;
+  white-space:nowrap;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
 @media(max-width:600px){
 
   .topbar{
@@ -538,9 +1044,19 @@ body{
 
 <body>
 
-<!-- =========================
-     LOGIN / SIGN UP
-========================= -->
+<!-- ENTERING SCREEN -->
+
+<div id="entryScreen">
+  <div class="entryContent">
+    <div class="entryLogo">M</div>
+    <div class="entryTitle">MicMedia</div>
+    <div class="entryText">Connect. Create. Share.</div>
+    <div class="entryLoader"></div>
+  </div>
+</div>
+
+
+<!-- AUTH -->
 
 <div id="authScreen">
 
@@ -555,6 +1071,7 @@ body{
     </div>
 
     <div class="authTabs">
+
       <button
         id="loginTab"
         class="authTab active"
@@ -568,6 +1085,7 @@ body{
         onclick="showSignup()">
         Create Account
       </button>
+
     </div>
 
     <div id="signupFields" style="display:none">
@@ -590,15 +1108,13 @@ body{
       id="emailInput"
       class="authInput"
       type="email"
-      placeholder="Email address"
-      autocomplete="email">
+      placeholder="Email address">
 
     <input
       id="passwordInput"
       class="authInput"
       type="password"
-      placeholder="Password"
-      autocomplete="current-password">
+      placeholder="Password">
 
     <button
       id="authButton"
@@ -614,248 +1130,707 @@ body{
 </div>
 
 
-<!-- =========================
-     MICMEDIA APP
-========================= -->
+<!-- APP -->
 
 <div id="app">
 
-  <header class="topbar">
+<header class="topbar">
+
+  <div class="topLeft">
+
+    <button
+      id="backButton"
+      class="backButton"
+      onclick="goBack()">
+      ‹
+    </button>
 
     <div class="logoText">MicMedia</div>
 
-    <div class="topActions">
-      <button class="circleButton">⌕</button>
-      <button class="circleButton">♡</button>
+  </div>
+
+  <div class="topActions">
+
+    <button
+      class="circleButton"
+      onclick="showToast('Search coming soon')">
+      ⌕
+    </button>
+
+    <button
+      class="circleButton"
+      onclick="showScreen('favorites',null)">
+      ♡
+    </button>
+
+  </div>
+
+</header>
+
+
+<!-- HOME -->
+
+<section id="home" class="screen active">
+
+  <div class="screenTitle">Home</div>
+
+  <!-- STORIES -->
+
+  <div class="storyRow">
+
+    <div class="storyItem">
+      <div class="storyAvatar">+</div>
+      <div class="storyName">Your Story</div>
     </div>
 
-  </header>
-
-
-  <!-- HOME -->
-
-  <section id="home" class="screen active">
-
-    <div class="screenTitle">Home</div>
-
-    <div class="post">
-
-      <div class="postHeader">
-
-        <div class="avatar">M</div>
-
-        <div>
-          <div class="username">MicMedia</div>
-          <div class="handle">@micmedia</div>
-        </div>
-
-      </div>
-
-      <div class="postImage">M</div>
-
-      <div class="postText">
-        Welcome to MicMedia 🎬
-        Share your moments, watch reels,
-        join live streams and connect with people.
-      </div>
-
-      <div class="postActions">
-        <span>♡ Like</span>
-        <span>💬 Comment</span>
-        <span>↗ Share</span>
-      </div>
-
+    <div
+      class="storyItem"
+      onclick="openProfile('Sarah','@sarah','S',true)">
+      <div class="storyAvatar storyLive">S</div>
+      <div class="storyName">Sarah</div>
     </div>
 
-
-    <div class="post">
-
-      <div class="postHeader">
-
-        <div class="avatar">S</div>
-
-        <div>
-          <div class="username">Sports & Sport Reels</div>
-          <div class="handle">@sports</div>
-        </div>
-
-      </div>
-
-      <div class="postImage">⚽</div>
-
-      <div class="postText">
-        Sports highlights and amazing moments.
-      </div>
-
-      <div class="postActions">
-        <span>♡ Like</span>
-        <span>💬 Comment</span>
-        <span>↗ Share</span>
-      </div>
-
+    <div
+      class="storyItem"
+      onclick="openProfile('John','@john','J',false)">
+      <div class="storyAvatar">J</div>
+      <div class="storyName">John</div>
     </div>
 
-  </section>
-
-
-  <!-- LIVE -->
-
-  <section id="live" class="screen">
-
-    <div class="screenTitle">Live</div>
-
-    <div class="liveHero">
-
-      <div class="liveBadge">● LIVE</div>
-
-      <h2>Go Live on MicMedia</h2>
-
-      <p>
-        Connect with your audience in real time.
-      </p>
-
-      <button class="liveButton" onclick="startLive()">
-        Start Live Stream
-      </button>
-
+    <div
+      class="storyItem"
+      onclick="openProfile('Sports','@sports','S',true)">
+      <div class="storyAvatar storyLive">⚽</div>
+      <div class="storyName">Sports</div>
     </div>
 
-  </section>
+  </div>
 
 
-  <!-- REELS -->
+  <div class="post">
 
-  <section id="reels" class="screen">
+    <div class="postHeader">
 
-    <div class="screenTitle">Reels</div>
-
-    <div class="post">
-
-      <div class="postImage">▶</div>
-
-      <div class="postText">
-        Your short videos and reels will appear here.
-      </div>
-
-      <div class="postActions">
-        <span>♡ Like</span>
-        <span>💬 Comment</span>
-        <span>↗ Share</span>
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- MESSAGES -->
-
-  <section id="messages" class="screen">
-
-    <div class="screenTitle">Messages</div>
-
-    <div class="post">
-      <h2>💬 Messages</h2>
-      <p style="color:#888;margin-top:10px">
-        Your conversations will appear here.
-      </p>
-    </div>
-
-  </section>
-
-
-  <!-- FAVORITES -->
-
-  <section id="favorites" class="screen">
-
-    <div class="screenTitle">Favorites</div>
-
-    <div class="post">
-      <h2>♡ Your Favorites</h2>
-      <p style="color:#888;margin-top:10px">
-        Posts and reels you save will appear here.
-      </p>
-    </div>
-
-  </section>
-
-
-  <!-- PROFILE -->
-
-  <section id="profile" class="screen">
-
-    <div class="profileHeader">
-
-      <div id="profileAvatar" class="profileAvatar">
+      <div class="avatar">
         M
       </div>
 
       <div>
-
-        <div id="profileName" class="profileName">
-          MicMedia
-        </div>
-
-        <div id="profileHandle" class="profileHandle">
-          @micmedia
-        </div>
-
+        <div class="username">MicMedia</div>
+        <div class="handle">@micmedia</div>
       </div>
 
     </div>
 
+    <div class="postImage">M</div>
 
-    <div class="profileButtons">
+    <div class="postText">
+      Welcome to MicMedia 🎬
+      Share your moments, watch reels,
+      join live streams and connect with people.
+    </div>
 
-      <button class="profileButton">
-        Edit profile
+    <div class="postActions">
+
+      <button
+        class="actionButton"
+        onclick="toggleLike(this)">
+        ♡ Like
       </button>
 
-      <button class="profileButton">
-        Share profile
+      <button
+        class="actionButton">
+        💬 Comment
+      </button>
+
+      <button
+        class="actionButton">
+        ↗ Share
       </button>
 
     </div>
 
+  </div>
 
-    <div class="stats">
 
-      <div>
-        <div class="statNumber">120</div>
-        <div class="statLabel">Posts</div>
+  <div class="post">
+
+    <div class="postHeader">
+
+      <div
+        class="avatar liveRing"
+        onclick="openProfile('Sports & Sport Reels','@sports','S',true)">
+        S
+        <span class="liveMini">LIVE</span>
       </div>
 
       <div>
-        <div class="statNumber">2.4K</div>
-        <div class="statLabel">Followers</div>
+
+        <div class="username">
+          Sports & Sport Reels
+        </div>
+
+        <div class="handle">
+          @sports
+        </div>
+
+      </div>
+
+      <button
+        class="followPlus"
+        onclick="toggleFollow(this)">
+        +
+      </button>
+
+    </div>
+
+    <div class="postImage">⚽</div>
+
+    <div class="postText">
+      Sports highlights and amazing moments.
+    </div>
+
+    <div class="postActions">
+
+      <button
+        class="actionButton"
+        onclick="toggleLike(this)">
+        ♡ Like
+      </button>
+
+      <button class="actionButton">
+        💬 Comment
+      </button>
+
+      <button class="actionButton">
+        ↗ Share
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- LIVE -->
+
+<section id="live" class="screen">
+
+  <div class="screenTitle">Live</div>
+
+  <div class="liveHero">
+
+    <div class="liveBadge">● LIVE</div>
+
+    <h2>Go Live on MicMedia</h2>
+
+    <p>
+      Connect with your audience in real time.
+    </p>
+
+    <button
+      class="liveButton"
+      onclick="startLive()">
+      Start Live Stream
+    </button>
+
+  </div>
+
+  <div
+    class="post"
+    style="margin-top:18px">
+
+    <div class="postHeader">
+
+      <div class="avatar liveRing">
+        S
+        <span class="liveMini">LIVE</span>
       </div>
 
       <div>
-        <div class="statNumber">350</div>
-        <div class="statLabel">Following</div>
+
+        <div class="username">Sarah is Live</div>
+        <div class="handle">@sarah</div>
+
       </div>
 
     </div>
 
+    <button
+      class="liveButton"
+      onclick="watchLive('Sarah')">
+      Watch Live
+    </button>
 
-    <div class="balance">
+  </div>
 
-      <div class="balanceTitle">
-        MicMedia Balance
+</section>
+
+
+<!-- REELS -->
+
+<section id="reels" class="screen">
+
+  <div class="screenTitle">Reels</div>
+
+  <div class="post">
+
+    <div class="postHeader">
+
+      <div
+        class="avatar"
+        onclick="openProfile('Sarah','@sarah','S',true)">
+        S
       </div>
 
-      <div class="balanceAmount">
-        $0.00
+      <div>
+
+        <div class="username">Sarah</div>
+        <div class="handle">@sarah</div>
+
       </div>
 
-      <div class="balanceButtons">
+      <button
+        class="followPlus"
+        onclick="toggleFollow(this)">
+        +
+      </button>
 
-        <button class="balanceButton">
-          + $10
+    </div>
+
+    <div class="postImage">▶</div>
+
+    <div class="postText">
+      Amazing new Reel 🎬
+    </div>
+
+    <div class="postActions">
+
+      <button
+        class="actionButton"
+        onclick="toggleLike(this)">
+        ♡ Like
+      </button>
+
+      <button class="actionButton">
+        💬 Comment
+      </button>
+
+      <button class="actionButton">
+        ↗ Share
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- MESSAGES -->
+
+<section id="messages" class="screen">
+
+  <div class="screenTitle">Messages</div>
+
+  <div
+    class="chatCard"
+    onclick="openChat('Sarah')">
+
+    <div class="chatAvatar">S</div>
+
+    <div class="chatInfo">
+
+      <div class="chatName">Sarah</div>
+
+      <div class="chatPreview">
+        Voice message · 0:08
+      </div>
+
+    </div>
+
+    <span>›</span>
+
+  </div>
+
+
+  <div
+    class="chatCard"
+    onclick="openChat('John')">
+
+    <div class="chatAvatar">J</div>
+
+    <div class="chatInfo">
+
+      <div class="chatName">John</div>
+
+      <div class="chatPreview">
+        Hey 👋
+      </div>
+
+    </div>
+
+    <span>›</span>
+
+  </div>
+
+</section>
+
+
+<!-- CHAT -->
+
+<section id="chat" class="screen">
+
+  <div class="screenTitle">
+    <span id="chatTitle">Chat</span>
+  </div>
+
+  <div class="post">
+
+    <div class="postHeader">
+
+      <div class="chatAvatar" id="chatAvatar">
+        S
+      </div>
+
+      <div>
+
+        <div
+          class="username"
+          id="chatUser">
+          Sarah
+        </div>
+
+        <div class="handle">
+          Online
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="voiceBar">
+
+      <button
+        class="voicePlay"
+        onclick="playVoice(this)">
+        ▶
+      </button>
+
+      <div class="voiceLine"></div>
+
+      <span>0:08</span>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FAVORITES -->
+
+<section id="favorites" class="screen">
+
+  <div class="screenTitle">Favorites</div>
+
+  <div class="post">
+
+    <h2>♡ Your Favorites</h2>
+
+    <p style="color:#888;margin-top:10px">
+      Posts and reels you save will appear here.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- STORY VIEW -->
+
+<section id="story" class="screen">
+
+  <div class="screenTitle">Story</div>
+
+  <div class="post">
+
+    <div class="postHeader">
+
+      <div class="avatar" id="storyAvatar">
+        S
+      </div>
+
+      <div>
+
+        <div
+          class="username"
+          id="storyUser">
+          Sarah
+        </div>
+
+        <div class="handle">
+          Just now
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      class="postImage"
+      style="height:480px">
+      📸
+    </div>
+
+    <button
+      id="storyLikeButton"
+      class="storyLike"
+      onclick="toggleStoryLike()">
+      ♡ Like Story
+    </button>
+
+    <p
+      id="storyLikeCount"
+      style="color:#777580;margin-top:10px">
+      0 likes
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- OTHER PROFILE -->
+
+<section id="otherProfile" class="screen">
+
+  <div class="profileHeader">
+
+    <div
+      id="otherProfileAvatar"
+      class="profileAvatar">
+      S
+    </div>
+
+    <div>
+
+      <div
+        id="otherProfileName"
+        class="profileName">
+        Sarah
+      </div>
+
+      <div
+        id="otherProfileHandle"
+        class="profileHandle">
+        @sarah
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="profileButtons">
+
+    <button
+      id="otherFollowButton"
+      class="profileButton"
+      onclick="toggleProfileFollow()">
+      + Follow
+    </button>
+
+    <button
+      class="profileButton"
+      onclick="showToast('Profile shared')">
+      Share
+    </button>
+
+  </div>
+
+  <div class="stats">
+
+    <div>
+      <div class="statNumber">85</div>
+      <div class="statLabel">Posts</div>
+    </div>
+
+    <div>
+      <div class="statNumber">4.2K</div>
+      <div class="statLabel">Followers</div>
+    </div>
+
+    <div>
+      <div class="statNumber">190</div>
+      <div class="statLabel">Following</div>
+    </div>
+
+  </div>
+
+  <div
+    id="otherLiveCard"
+    class="post"
+    style="display:none">
+
+    <div class="liveBadge">● LIVE NOW</div>
+
+    <p style="color:#aaa;margin-top:10px">
+      This person is currently live.
+    </p>
+
+    <button
+      class="liveButton"
+      onclick="watchLive('Sarah')">
+      Watch Live
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="screen">
+
+  <div class="profileHeader">
+
+    <div
+      id="profileAvatar"
+      class="profileAvatar">
+      M
+    </div>
+
+    <div>
+
+      <div
+        id="profileName"
+        class="profileName">
+        MicMedia
+      </div>
+
+      <div
+        id="profileHandle"
+        class="profileHandle">
+        @micmedia
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="profileButtons">
+
+    <button class="profileButton">
+      Edit profile
+    </button>
+
+    <button class="profileButton">
+      Share profile
+    </button>
+
+  </div>
+
+  <div class="stats">
+
+    <div>
+      <div class="statNumber">120</div>
+      <div class="statLabel">Posts</div>
+    </div>
+
+    <div>
+      <div class="statNumber">2.4K</div>
+      <div class="statLabel">Followers</div>
+    </div>
+
+    <div>
+      <div class="statNumber">350</div>
+      <div class="statLabel">Following</div>
+    </div>
+
+  </div>
+
+  <div class="balance">
+
+    <div class="balanceTitle">
+      MicMedia Balance
+    </div>
+
+    <div class="balanceAmount">
+      $0.00
+    </div>
+
+    <div class="balanceButtons">
+
+      <button class="balanceButton">
+        + $10
+      </button>
+
+      <button class="balanceButton">
+        Withdraw
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="earningsCard">
+
+    <h2>💰 Balance & Earnings</h2>
+
+    <p style="color:#85828e;margin-top:10px">
+      Your MicMedia earnings will appear here.
+    </p>
+
+  </div>
+
+  <button
+    class="logoutButton"
+    onclick="logout()">
+    Log Out
+  </button>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="screen">
+
+  <div class="screenTitle">Settings</div>
+
+  <div class="settingCard">
+
+    <div class="settingRow">
+
+      <div class="settingLeft">
+
+        <div class="settingIcon">🌙</div>
+
+        <div>
+          <strong>Appearance</strong>
+          <div style="color:#777580;font-size:12px;margin-top:3px">
+            Choose your MicMedia theme
+          </div>
+        </div>
+
+      </div>
+
+      <div class="themeButtons">
+
+        <button
+          id="darkTheme"
+          class="themeButton active"
+          onclick="setTheme('dark')">
+          Dark
         </button>
 
-        <button class="balanceButton">
-          Withdraw
+        <button
+          id="lightTheme"
+          class="themeButton"
+          onclick="setTheme('light')">
+          Light
         </button>
 
       </div>
@@ -863,120 +1838,157 @@ body{
     </div>
 
 
-    <div class="earningsCard">
+    <div class="settingRow">
 
-      <h2>💰 Balance & Earnings</h2>
+      <div class="settingLeft">
 
-      <p style="color:#85828e;margin-top:10px">
-        Your MicMedia earnings will appear here.
-      </p>
+        <div class="settingIcon">🔔</div>
+
+        <div>
+          <strong>Notifications</strong>
+          <div style="color:#777580;font-size:12px;margin-top:3px">
+            Likes, messages and live alerts
+          </div>
+        </div>
+
+      </div>
+
+      <span>›</span>
 
     </div>
 
 
-    <button
-      class="logoutButton"
-      onclick="logout()">
-      Log Out
-    </button>
+    <div class="settingRow">
 
-  </section>
+      <div class="settingLeft">
 
+        <div class="settingIcon">🔒</div>
 
-  <!-- BOTTOM NAVIGATION -->
+        <div>
+          <strong>Privacy</strong>
+          <div style="color:#777580;font-size:12px;margin-top:3px">
+            Control your account privacy
+          </div>
+        </div>
 
-  <nav class="bottomNav">
+      </div>
 
-    <button
-      class="navItem active"
-      onclick="showScreen('home',this)">
+      <span>›</span>
 
-      <span class="navIcon">⌂</span>
-      <span>Home</span>
+    </div>
 
-    </button>
+  </div>
 
-
-    <button
-      class="navItem"
-      onclick="showScreen('live',this)">
-
-      <span class="navIcon">🔴</span>
-      <span>Live</span>
-
-    </button>
+</section>
 
 
-    <button
-      class="plusNav"
-      onclick="showScreen('reels',this)">
-      +
-    </button>
+<!-- VOICE COMPOSER -->
 
+<div
+  id="voiceComposer"
+  class="micComposer"
+  style="display:none">
 
-    <button
-      class="navItem"
-      onclick="showScreen('reels',this)">
+  <input
+    id="messageInput"
+    class="messageInput"
+    placeholder="Write a message...">
 
-      <span class="navIcon">▶</span>
-      <span>Reels</span>
-
-    </button>
-
-
-    <button
-      class="navItem"
-      onclick="showScreen('messages',this)">
-
-      <span class="navIcon">♣</span>
-      <span>Messages</span>
-
-    </button>
-
-
-    <button
-      class="navItem"
-      onclick="showScreen('favorites',this)">
-
-      <span class="navIcon">♡</span>
-      <span>Favorite</span>
-
-    </button>
-
-
-    <button
-      class="navItem"
-      onclick="showScreen('profile',this)">
-
-      <span class="navIcon">●</span>
-      <span>Profile</span>
-
-    </button>
-
-  </nav>
+  <button
+    id="micButton"
+    class="micButton"
+    onpointerdown="startRecording(event)"
+    onpointerup="stopRecording(event)"
+    onpointercancel="stopRecording(event)">
+    🎙
+  </button>
 
 </div>
+
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottomNav">
+
+  <button
+    class="navItem active"
+    onclick="showScreen('home',this)">
+
+    <span class="navIcon">⌂</span>
+    <span>Home</span>
+
+  </button>
+
+
+  <button
+    class="navItem"
+    onclick="showScreen('live',this)">
+
+    <span class="navIcon">🔴</span>
+    <span>Live</span>
+
+  </button>
+
+
+  <button
+    class="plusNav"
+    onclick="showScreen('reels',this)">
+    +
+  </button>
+
+
+  <button
+    class="navItem"
+    onclick="showScreen('reels',this)">
+
+    <span class="navIcon">▶</span>
+    <span>Reels</span>
+
+  </button>
+
+
+  <button
+    class="navItem"
+    onclick="showScreen('messages',this)">
+
+    <span class="navIcon">♣</span>
+    <span>Messages</span>
+
+  </button>
+
+
+  <button
+    class="navItem"
+    onclick="showScreen('favorites',this)">
+
+    <span class="navIcon">♡</span>
+    <span>Favorite</span>
+
+  </button>
+
+
+  <button
+    class="navItem"
+    onclick="showScreen('profile',this)">
+
+    <span class="navIcon">●</span>
+    <span>Profile</span>
+
+  </button>
+
+</nav>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
 
 
 <script>
 
 /* =====================================================
-   SUPABASE CONNECTION
+   SUPABASE
 ===================================================== */
-
-/*
-  REPLACE THESE TWO VALUES.
-
-  Supabase Dashboard:
-  Project Settings
-  → API
-
-  Use:
-  Project URL
-  Publishable key / anon key
-
-  DO NOT use the service_role key here.
-*/
 
 const SUPABASE_URL =
   "PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
@@ -984,9 +1996,7 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY_HERE";
 
-
-const { createClient } =
-  supabase;
+const { createClient } = supabase;
 
 const supabaseClient =
   createClient(
@@ -996,11 +2006,68 @@ const supabaseClient =
 
 
 /* =====================================================
-   AUTH UI
+   APP STATE
 ===================================================== */
 
 let authMode = "login";
+let currentScreen = "home";
+let previousScreen = "home";
+let currentOtherProfile = null;
+let profileFollowing = false;
+let recording = false;
+let mediaRecorder = null;
+let audioChunks = [];
 
+
+/* =====================================================
+   ENTERING SCREEN
+===================================================== */
+
+window.addEventListener("load",()=>{
+
+  const savedTheme =
+    localStorage.getItem("micmedia_theme");
+
+  if(savedTheme){
+    setTheme(savedTheme,false);
+  }
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("entryScreen")
+      .style.display = "none";
+
+    checkSession();
+
+  },1400);
+
+});
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },2200);
+
+}
+
+
+/* =====================================================
+   AUTH
+===================================================== */
 
 function showLogin(){
 
@@ -1021,10 +2088,6 @@ function showLogin(){
   document
     .getElementById("authButton")
     .textContent = "Sign In";
-
-  document
-    .getElementById("passwordInput")
-    .autocomplete = "current-password";
 
   setMessage("");
 
@@ -1051,10 +2114,6 @@ function showSignup(){
     .getElementById("authButton")
     .textContent = "Create Account";
 
-  document
-    .getElementById("passwordInput")
-    .autocomplete = "new-password";
-
   setMessage("");
 
 }
@@ -1068,10 +2127,6 @@ function setMessage(message){
 
 }
 
-
-/* =====================================================
-   SIGN IN / SIGN UP
-===================================================== */
 
 async function handleAuth(){
 
@@ -1130,15 +2185,16 @@ async function handleAuth(){
     }
 
 
-    setMessage("Creating your MicMedia account...");
+    setMessage(
+      "Creating your MicMedia account..."
+    );
 
 
-    const { data, error } =
+    const {data,error} =
       await supabaseClient.auth.signUp({
 
-        email: email,
-
-        password: password,
+        email,
+        password,
 
         options:{
           data:{
@@ -1153,22 +2209,14 @@ async function handleAuth(){
     if(error){
 
       setMessage(error.message);
-
       return;
+
     }
 
-
-    /*
-      Your Supabase setting has Confirm email ON.
-
-      Therefore the user may need to open their
-      email and confirm before signing in.
-    */
 
     if(data.session){
 
       loadUser(data.user);
-
       showApp();
 
     }else{
@@ -1185,19 +2233,14 @@ async function handleAuth(){
   }
 
 
-  /* =========================
-     SIGN IN
-  ========================= */
-
   setMessage("Signing in...");
 
 
-  const { data, error } =
+  const {data,error} =
     await supabaseClient.auth.signInWithPassword({
 
-      email:email,
-
-      password:password
+      email,
+      password
 
     });
 
@@ -1205,15 +2248,14 @@ async function handleAuth(){
   if(error){
 
     setMessage(error.message);
-
     return;
+
   }
 
 
   if(data.user){
 
     loadUser(data.user);
-
     showApp();
 
   }
@@ -1222,7 +2264,7 @@ async function handleAuth(){
 
 
 /* =====================================================
-   SHOW APP
+   APP
 ===================================================== */
 
 function showApp(){
@@ -1238,10 +2280,6 @@ function showApp(){
 }
 
 
-/* =====================================================
-   SHOW AUTH
-===================================================== */
-
 function showAuth(){
 
   document
@@ -1256,83 +2294,54 @@ function showAuth(){
 
 
 /* =====================================================
-   LOAD USER PROFILE
+   USER
 ===================================================== */
 
 function loadUser(user){
 
-  if(!user) return;
-
+  if(!user)return;
 
   const metadata =
     user.user_metadata || {};
-
 
   const name =
     metadata.full_name ||
     "MicMedia User";
 
-
   const username =
     metadata.username ||
-    user.email
-      .split("@")[0];
-
+    user.email.split("@")[0];
 
   document
     .getElementById("profileName")
     .textContent = name;
 
-
   document
     .getElementById("profileHandle")
-    .textContent =
-      "@" + username;
-
-
-  const firstLetter =
-    name
-      .charAt(0)
-      .toUpperCase();
-
+    .textContent = "@" + username;
 
   document
     .getElementById("profileAvatar")
     .textContent =
-      firstLetter;
+      name.charAt(0).toUpperCase();
 
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
-
 async function logout(){
 
-  const { error } =
+  const {error} =
     await supabaseClient.auth.signOut();
-
 
   if(error){
 
     alert(error.message);
-
     return;
+
   }
 
-
   showAuth();
-
   showLogin();
-
-  document
-    .getElementById("emailInput")
-    .value = "";
-
-  document
-    .getElementById("passwordInput")
-    .value = "";
 
 }
 
@@ -1343,34 +2352,31 @@ async function logout(){
 
 function showScreen(screenId,button){
 
+  if(screenId === currentScreen){
+    return;
+  }
+
+  previousScreen = currentScreen;
+  currentScreen = screenId;
+
   document
     .querySelectorAll(".screen")
-    .forEach(screen => {
-
+    .forEach(screen=>{
       screen.classList.remove("active");
-
     });
-
 
   const target =
     document.getElementById(screenId);
 
-
   if(target){
-
     target.classList.add("active");
-
   }
-
 
   document
     .querySelectorAll(".navItem")
-    .forEach(item => {
-
+    .forEach(item=>{
       item.classList.remove("active");
-
     });
-
 
   if(button &&
      button.classList.contains("navItem")){
@@ -1378,6 +2384,313 @@ function showScreen(screenId,button){
     button.classList.add("active");
 
   }
+
+  updateBackButton();
+
+  const voiceComposer =
+    document.getElementById("voiceComposer");
+
+  if(screenId === "chat"){
+    voiceComposer.style.display = "flex";
+  }else{
+    voiceComposer.style.display = "none";
+  }
+
+}
+
+
+function updateBackButton(){
+
+  const back =
+    document.getElementById("backButton");
+
+  const mainScreens = [
+    "home",
+    "live",
+    "reels",
+    "messages",
+    "favorites",
+    "profile"
+  ];
+
+  if(mainScreens.includes(currentScreen)){
+    back.style.display = "none";
+  }else{
+    back.style.display = "block";
+  }
+
+}
+
+
+function goBack(){
+
+  const destination =
+    previousScreen || "home";
+
+  const targetButton =
+    document.querySelector(
+      `.navItem[onclick*="'${destination}'"]`
+    );
+
+  currentScreen = "";
+
+  showScreen(destination,targetButton);
+
+}
+
+
+/* =====================================================
+   SWIPE BACK
+===================================================== */
+
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.addEventListener("touchstart",e=>{
+
+  if(e.touches.length !== 1)return;
+
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+
+},{passive:true});
+
+
+document.addEventListener("touchend",e=>{
+
+  if(e.changedTouches.length !== 1)return;
+
+  const endX =
+    e.changedTouches[0].clientX;
+
+  const endY =
+    e.changedTouches[0].clientY;
+
+  const deltaX =
+    endX - touchStartX;
+
+  const deltaY =
+    Math.abs(endY - touchStartY);
+
+  /* Swipe from left edge */
+
+  if(
+    touchStartX < 45 &&
+    deltaX > 90 &&
+    deltaY < 100
+  ){
+
+    goBack();
+
+  }
+
+});
+
+
+/* =====================================================
+   FOLLOW
+===================================================== */
+
+function toggleFollow(button){
+
+  const following =
+    button.classList.toggle("following");
+
+  if(following){
+
+    button.textContent = "✓";
+
+    showToast("Following");
+
+  }else{
+
+    button.textContent = "+";
+
+    showToast("Unfollowed");
+
+  }
+
+}
+
+
+function toggleProfileFollow(){
+
+  profileFollowing =
+    !profileFollowing;
+
+  const button =
+    document.getElementById(
+      "otherFollowButton"
+    );
+
+  if(profileFollowing){
+
+    button.textContent = "✓ Following";
+
+    button.classList.add("following");
+
+    showToast(
+      "You are now following " +
+      currentOtherProfile.name
+    );
+
+  }else{
+
+    button.textContent = "+ Follow";
+
+    button.classList.remove("following");
+
+    showToast("Unfollowed");
+
+  }
+
+}
+
+
+/* =====================================================
+   OPEN SOMEONE PROFILE
+===================================================== */
+
+function openProfile(
+  name,
+  handle,
+  letter,
+  isLive
+){
+
+  currentOtherProfile = {
+    name,
+    handle,
+    letter,
+    isLive
+  };
+
+  document
+    .getElementById("otherProfileName")
+    .textContent = name;
+
+  document
+    .getElementById("otherProfileHandle")
+    .textContent = handle;
+
+  document
+    .getElementById("otherProfileAvatar")
+    .textContent = letter;
+
+  document
+    .getElementById("otherLiveCard")
+    .style.display =
+      isLive ? "block" : "none";
+
+  profileFollowing = false;
+
+  document
+    .getElementById("otherFollowButton")
+    .textContent = "+ Follow";
+
+  document
+    .getElementById("otherFollowButton")
+    .classList.remove("following");
+
+  previousScreen = currentScreen;
+  currentScreen = "";
+
+  showScreen("otherProfile",null);
+
+}
+
+
+/* =====================================================
+   REEL / POST LIKE
+===================================================== */
+
+function toggleLike(button){
+
+  const liked =
+    button.classList.toggle("liked");
+
+  if(liked){
+
+    button.textContent = "♥ Liked";
+
+  }else{
+
+    button.textContent = "♡ Like";
+
+  }
+
+}
+
+
+/* =====================================================
+   STORY
+===================================================== */
+
+let storyLiked = false;
+let storyLikes = 0;
+
+function openStory(
+  name,
+  letter
+){
+
+  document
+    .getElementById("storyUser")
+    .textContent = name;
+
+  document
+    .getElementById("storyAvatar")
+    .textContent = letter;
+
+  previousScreen = currentScreen;
+
+  currentScreen = "";
+
+  showScreen("story",null);
+
+}
+
+
+function toggleStoryLike(){
+
+  storyLiked = !storyLiked;
+
+  if(storyLiked){
+
+    storyLikes++;
+
+  }else{
+
+    storyLikes =
+      Math.max(0,storyLikes-1);
+
+  }
+
+  const button =
+    document.getElementById(
+      "storyLikeButton"
+    );
+
+  if(storyLiked){
+
+    button.textContent =
+      "♥ Liked";
+
+    button.classList.add("liked");
+
+  }else{
+
+    button.textContent =
+      "♡ Like Story";
+
+    button.classList.remove("liked");
+
+  }
+
+  document
+    .getElementById("storyLikeCount")
+    .textContent =
+      storyLikes + " likes";
 
 }
 
@@ -1388,29 +2701,245 @@ function showScreen(screenId,button){
 
 function startLive(){
 
-  alert(
-    "Live streaming interface is ready to connect to your video streaming system."
+  showToast(
+    "Live streaming interface ready"
+  );
+
+}
+
+
+function watchLive(name){
+
+  showToast(
+    "Opening " + name + "'s live..."
   );
 
 }
 
 
 /* =====================================================
-   CHECK EXISTING SESSION
+   MESSAGES
+===================================================== */
+
+function openChat(name){
+
+  previousScreen = "messages";
+
+  document
+    .getElementById("chatTitle")
+    .textContent = name;
+
+  document
+    .getElementById("chatUser")
+    .textContent = name;
+
+  document
+    .getElementById("chatAvatar")
+    .textContent =
+      name.charAt(0).toUpperCase();
+
+  currentScreen = "";
+
+  showScreen("chat",null);
+
+}
+
+
+function playVoice(button){
+
+  button.textContent = "❚❚";
+
+  showToast("Playing voice message");
+
+  setTimeout(()=>{
+
+    button.textContent = "▶";
+
+  },2000);
+
+}
+
+
+/* =====================================================
+   VOICE RECORDING
+===================================================== */
+
+async function startRecording(event){
+
+  if(recording)return;
+
+  recording = true;
+
+  const button =
+    document.getElementById("micButton");
+
+  button.classList.add("recording");
+  button.textContent = "⏺";
+
+  if(!navigator.mediaDevices ||
+     !navigator.mediaDevices.getUserMedia){
+
+    showToast(
+      "Voice recording is not supported here"
+    );
+
+    recording = false;
+
+    button.classList.remove("recording");
+    button.textContent = "🎙";
+
+    return;
+
+  }
+
+
+  try{
+
+    const stream =
+      await navigator.mediaDevices
+        .getUserMedia({
+          audio:true
+        });
+
+    audioChunks = [];
+
+    mediaRecorder =
+      new MediaRecorder(stream);
+
+    mediaRecorder.ondataavailable =
+      e=>{
+
+        if(e.data.size > 0){
+          audioChunks.push(e.data);
+        }
+
+      };
+
+    mediaRecorder.start();
+
+    showToast(
+      "Recording... release to send"
+    );
+
+  }catch(error){
+
+    recording = false;
+
+    button.classList.remove("recording");
+    button.textContent = "🎙";
+
+    showToast(
+      "Microphone permission is needed"
+    );
+
+  }
+
+}
+
+
+function stopRecording(event){
+
+  if(!recording)return;
+
+  recording = false;
+
+  const button =
+    document.getElementById("micButton");
+
+  button.classList.remove("recording");
+  button.textContent = "🎙";
+
+
+  if(mediaRecorder &&
+     mediaRecorder.state !== "inactive"){
+
+    mediaRecorder.stop();
+
+    mediaRecorder.onstop = ()=>{
+
+      mediaRecorder
+        .stream
+        .getTracks()
+        .forEach(track=>track.stop());
+
+      showToast(
+        "Voice message ready to send"
+      );
+
+      /*
+        In the next backend step,
+        this Blob can be uploaded to
+        Supabase Storage and saved in
+        a messages table.
+      */
+
+    };
+
+  }
+
+}
+
+
+/* =====================================================
+   DARK / LIGHT MODE
+===================================================== */
+
+function setTheme(theme,save=true){
+
+  if(theme === "light"){
+
+    document.body.classList.add("light");
+
+    document
+      .getElementById("lightTheme")
+      ?.classList.add("active");
+
+    document
+      .getElementById("darkTheme")
+      ?.classList.remove("active");
+
+  }else{
+
+    document.body.classList.remove("light");
+
+    document
+      .getElementById("darkTheme")
+      ?.classList.add("active");
+
+    document
+      .getElementById("lightTheme")
+      ?.classList.remove("active");
+
+  }
+
+  if(save){
+
+    localStorage.setItem(
+      "micmedia_theme",
+      theme
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SESSION
 ===================================================== */
 
 async function checkSession(){
 
-  const { data } =
+  const {data} =
     await supabaseClient.auth.getSession();
 
-
-  if(data &&
-     data.session &&
-     data.session.user){
+  if(
+    data &&
+    data.session &&
+    data.session.user
+  ){
 
     loadUser(data.session.user);
-
     showApp();
 
   }else{
@@ -1423,11 +2952,11 @@ async function checkSession(){
 
 
 /* =====================================================
-   AUTH STATE LISTENER
+   AUTH STATE
 ===================================================== */
 
 supabaseClient.auth.onAuthStateChange(
-  (event, session) => {
+  (event,session)=>{
 
     if(
       session &&
@@ -1435,7 +2964,6 @@ supabaseClient.auth.onAuthStateChange(
     ){
 
       loadUser(session.user);
-
       showApp();
 
     }else if(
@@ -1448,13 +2976,6 @@ supabaseClient.auth.onAuthStateChange(
 
   }
 );
-
-
-/* =====================================================
-   START
-===================================================== */
-
-checkSession();
 
 </script>
 
