@@ -6,2785 +6,3348 @@
 <title>MicMedia</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 :root{
- --bg:#08090d;
- --card:#11131a;
- --card2:#191c25;
- --text:#fff;
- --muted:#969baa;
- --line:#272a35;
- --accent:#8b5cf6;
- --pink:#ec4899;
- --green:#20d66b;
- --red:#ff304f;
+  --bg:#08090d;
+  --card:#11131a;
+  --card2:#191c25;
+  --text:#fff;
+  --muted:#969baa;
+  --line:#272a35;
+  --accent:#8b5cf6;
+  --pink:#ec4899;
+  --green:#20d66b;
+  --red:#ff304f;
+}
+
+html,body{
+  width:100%;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
- font-family:Arial,sans-serif;
- background:var(--bg);
- color:var(--text);
- min-height:100vh;
- overflow-x:hidden;
+  padding-bottom:82px;
+  overflow-x:hidden;
+}
+
+button,
+input,
+textarea{
+  font:inherit;
 }
 
 button{
- border:0;
- outline:0;
- color:inherit;
- background:none;
- cursor:pointer;
+  border:0;
+  color:white;
+  background:none;
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(.96);
 }
 
 .app{
- max-width:600px;
- margin:auto;
- min-height:100vh;
- padding-bottom:82px;
+  width:100%;
+  max-width:600px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--bg);
 }
 
+/* TOP BAR */
 .topbar{
- height:62px;
- padding:0 16px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- border-bottom:1px solid var(--line);
- position:sticky;
- top:0;
- z-index:100;
- background:rgba(8,9,13,.92);
- backdrop-filter:blur(20px);
+  position:sticky;
+  top:0;
+  z-index:1000;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  background:rgba(8,9,13,.92);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.05);
 }
 
 .logo{
- font-size:22px;
- font-weight:900;
- letter-spacing:-1px;
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
- -webkit-background-clip:text;
- color:transparent;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:21px;
+  font-weight:800;
+  letter-spacing:-.6px;
 }
 
-.topAction{
- width:40px;
- height:40px;
- border-radius:50%;
- background:var(--card2);
- display:flex;
- align-items:center;
- justify-content:center;
+.logoMark{
+  width:34px;
+  height:34px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:23px;
+  font-weight:900;
+  color:#fff;
+  background:linear-gradient(135deg,#7c3aed,#ec4899,#f97316);
+  box-shadow:0 7px 25px rgba(139,92,246,.25);
 }
 
-.topAction svg{
- width:20px;
- fill:none;
- stroke:currentColor;
- stroke-width:2;
+.topSearch{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:var(--card2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
 }
 
+/* PAGES */
 .page{
- display:none;
- padding:16px;
- animation:fade .2s ease;
+  display:none;
+  animation:pageIn .18s ease;
 }
 
-.page.active{display:block}
-
-@keyframes fade{
- from{opacity:.4;transform:translateY(4px)}
- to{opacity:1;transform:translateY(0)}
+.page.active{
+  display:block;
 }
 
-.sectionTitle{
- font-size:24px;
- font-weight:850;
- margin-bottom:16px;
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(5px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
 }
-
-.card{
- background:var(--card);
- border:1px solid var(--line);
- border-radius:20px;
- padding:14px;
- margin-bottom:14px;
-}
-
-.postHeader{
- display:flex;
- align-items:center;
- justify-content:space-between;
-}
-
-.userInfo{
- display:flex;
- align-items:center;
- gap:10px;
-}
-
-.avatar{
- width:43px;
- height:43px;
- border-radius:50%;
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
- display:flex;
- align-items:center;
- justify-content:center;
- font-weight:800;
-}
-
-.username{font-weight:750}
-
-.handle{
- color:var(--muted);
- font-size:12px;
- margin-top:3px;
-}
-
-.postImage{
- width:100%;
- height:330px;
- border-radius:16px;
- margin-top:13px;
- background:linear-gradient(135deg,rgba(139,92,246,.75),rgba(236,72,153,.7)),#181a22;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:42px;
- font-weight:900;
-}
-
-.postText{
- margin-top:12px;
- font-size:14px;
- line-height:1.45;
-}
-
-.postActions{
- display:flex;
- align-items:center;
- gap:8px;
- margin-top:13px;
-}
-
-.actionBox{
- display:flex;
- align-items:center;
- gap:4px;
-}
-
-.actionBtn{
- width:40px;
- height:40px;
- border-radius:50%;
- background:var(--card2);
- display:flex;
- align-items:center;
- justify-content:center;
-}
-
-.actionBtn svg{
- width:20px;
- fill:none;
- stroke:currentColor;
- stroke-width:2;
-}
-
-.actionCount{
- font-size:11px;
- color:var(--muted);
-}
-
 
 /* STORIES */
-
-.storiesWrap{
- margin:0 -16px 18px;
- padding:4px 16px 12px;
- overflow-x:auto;
- display:flex;
- gap:13px;
- scrollbar-width:none;
+.stories{
+  display:flex;
+  gap:13px;
+  overflow-x:auto;
+  padding:15px 14px 12px;
+  scrollbar-width:none;
 }
 
-.storiesWrap::-webkit-scrollbar{display:none}
+.stories::-webkit-scrollbar{
+  display:none;
+}
 
 .storyItem{
- width:68px;
- min-width:68px;
- text-align:center;
- cursor:pointer;
- position:relative;
+  flex:0 0 68px;
+  text-align:center;
 }
 
-.storyRing{
- width:66px;
- height:66px;
- padding:3px;
- border-radius:50%;
- background:linear-gradient(135deg,#8b5cf6,#ec4899,#ff304f);
- display:flex;
- align-items:center;
- justify-content:center;
+.storyCircle{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  padding:2px;
+  background:linear-gradient(135deg,#f59e0b,#ec4899,#8b5cf6);
+  margin:auto;
 }
 
-.storyRing.seen{
- background:#454852;
+.storyCircle span{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  border:2px solid var(--bg);
+  background:var(--card2);
+  overflow:hidden;
+  font-size:25px;
 }
 
-.storyAvatar{
- width:60px;
- height:60px;
- border-radius:50%;
- background:linear-gradient(135deg,#191c25,#343746);
- border:3px solid var(--bg);
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:19px;
- font-weight:900;
+.storyCircle img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 .storyName{
- margin-top:5px;
- font-size:10px;
- color:#ddd;
- white-space:nowrap;
- overflow:hidden;
- text-overflow:ellipsis;
+  display:block;
+  margin-top:5px;
+  color:#ddd;
+  font-size:11px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
 
-.addStory .storyAvatar{
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
+/* POSTS */
+.post{
+  background:var(--card);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  margin-bottom:12px;
 }
 
-.storyPlus{
- position:absolute;
- right:0;
- bottom:18px;
- width:23px;
- height:23px;
- border-radius:50%;
- background:#fff;
- color:#8b5cf6;
- border:3px solid var(--bg);
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:17px;
- font-weight:900;
+.postHead{
+  display:flex;
+  align-items:center;
+  padding:12px 14px;
+  gap:10px;
 }
 
+.avatar{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:800;
+  overflow:hidden;
+  flex:none;
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.postUser{
+  flex:1;
+}
+
+.postUser strong{
+  display:block;
+  font-size:14px;
+}
+
+.postUser small{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.moreBtn{
+  width:34px;
+  height:34px;
+  font-size:21px;
+}
+
+.postMedia{
+  width:100%;
+  min-height:290px;
+  background:linear-gradient(135deg,#161827,#25203c);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  touch-action:manipulation;
+}
+
+.mediaText{
+  font-size:44px;
+  font-weight:900;
+  letter-spacing:-2px;
+  background:linear-gradient(90deg,#8b5cf6,#ec4899,#f59e0b);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.postMedia img,
+.postMedia video{
+  width:100%;
+  height:100%;
+  min-height:290px;
+  object-fit:cover;
+}
+
+.postBody{
+  padding:10px 14px 14px;
+}
+
+.actions{
+  display:flex;
+  align-items:center;
+  gap:17px;
+  margin-bottom:8px;
+}
+
+.actionBtn{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  color:#eee;
+  font-size:22px;
+  transition:.15s;
+}
+
+.actionBtn span{
+  font-size:12px;
+  color:#c5c7ce;
+}
+
+.actionBtn.liked{
+  color:var(--red);
+}
+
+.actionBtn.saved{
+  color:#fff;
+}
+
+.postCaption{
+  font-size:14px;
+  line-height:1.4;
+  margin-top:4px;
+}
+
+.postCaption b{
+  margin-right:4px;
+}
+
+.commentPreview{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:7px;
+  cursor:pointer;
+}
+
+.postTime{
+  color:#666b79;
+  font-size:10px;
+  margin-top:8px;
+}
 
 /* LIVE */
-
 .liveHero{
- height:250px;
- border-radius:24px;
- overflow:hidden;
- position:relative;
- background:linear-gradient(135deg,#171329,#25152a);
- margin-bottom:18px;
-}
-
-.liveHeroBg{
- position:absolute;
- inset:0;
- background:
- radial-gradient(circle at 30% 30%,rgba(139,92,246,.55),transparent 35%),
- radial-gradient(circle at 80% 70%,rgba(236,72,153,.45),transparent 35%);
-}
-
-.liveHeroContent{
- position:absolute;
- inset:0;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- text-align:center;
- padding:20px;
-}
-
-.liveIcon{
- width:76px;
- height:76px;
- border-radius:24px;
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
- display:flex;
- align-items:center;
- justify-content:center;
- margin-bottom:15px;
-}
-
-.liveIcon svg{
- width:36px;
- fill:none;
- stroke:white;
- stroke-width:2;
+  margin:15px;
+  min-height:210px;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 80% 20%,rgba(236,72,153,.5),transparent 30%),
+    radial-gradient(circle at 20% 80%,rgba(124,58,237,.6),transparent 35%),
+    linear-gradient(135deg,#151522,#090a10);
+  border:1px solid var(--line);
+  padding:25px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
 }
 
 .liveHero h2{
- font-size:25px;
- margin-bottom:7px;
+  font-size:28px;
+  margin-bottom:6px;
 }
 
 .liveHero p{
- color:#bbb;
- font-size:13px;
- margin-bottom:18px;
+  color:var(--muted);
+  margin-bottom:18px;
 }
 
-.startLiveBtn{
- padding:13px 24px;
- border-radius:25px;
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
- font-weight:800;
+.primaryBtn{
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  padding:13px 20px;
+  border-radius:14px;
+  font-weight:700;
 }
 
-.liveListTitle{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin-bottom:12px;
+.liveSectionTitle{
+  padding:8px 15px 12px;
+  font-size:17px;
 }
 
-.liveListTitle h3{font-size:18px}
+.liveGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:0 12px;
+}
 
 .liveCard{
- display:flex;
- align-items:center;
- gap:12px;
- padding:12px;
- background:var(--card);
- border:1px solid var(--line);
- border-radius:18px;
- margin-bottom:10px;
+  min-height:220px;
+  border-radius:18px;
+  overflow:hidden;
+  position:relative;
+  background:linear-gradient(135deg,#202033,#11131b);
+  border:1px solid var(--line);
 }
 
-.liveThumb{
- width:65px;
- height:65px;
- border-radius:15px;
- background:linear-gradient(135deg,#321c56,#7b204f);
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:23px;
- font-weight:800;
-}
-
-.liveInfo{flex:1}
-
-.liveName{font-weight:750}
-
-.liveMeta{
- font-size:11px;
- color:var(--muted);
- margin-top:5px;
-}
-
-.liveBadgeSmall{
- display:inline-flex;
- padding:4px 8px;
- border-radius:7px;
- background:#ff304f;
- font-size:9px;
- font-weight:900;
- margin-bottom:5px;
-}
-
-.watchBtn{
- padding:9px 13px;
- border-radius:18px;
- background:var(--card2);
- font-size:12px;
- font-weight:700;
-}
-
-
-/* REELS */
-
-.reelCard{
- height:540px;
- border-radius:22px;
- overflow:hidden;
- background:linear-gradient(145deg,#17142b,#32152c);
- position:relative;
- margin-bottom:15px;
-}
-
-.reelBg{
- position:absolute;
- inset:0;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:55px;
- font-weight:900;
- background:
- radial-gradient(circle at 50% 30%,rgba(139,92,246,.5),transparent 35%),
- linear-gradient(145deg,#121421,#35152e);
-}
-
-.reelInfo{
- position:absolute;
- left:15px;
- right:75px;
- bottom:18px;
-}
-
-.reelInfo h3{margin-bottom:7px}
-
-.reelInfo p{
- font-size:13px;
- line-height:1.4;
- color:#ddd;
-}
-
-.reelActions{
- position:absolute;
- right:12px;
- bottom:20px;
- display:flex;
- flex-direction:column;
- gap:12px;
-}
-
-.reelAction{
- width:46px;
- height:46px;
- border-radius:50%;
- background:rgba(0,0,0,.45);
- backdrop-filter:blur(8px);
- display:flex;
- align-items:center;
- justify-content:center;
-}
-
-.reelAction svg{
- width:21px;
- fill:none;
- stroke:white;
- stroke-width:2;
-}
-
-
-/* CHAT */
-
-.chatUser{
- width:100%;
- padding:11px 5px;
- display:flex;
- align-items:center;
- gap:12px;
- border-radius:18px;
- margin-bottom:3px;
- text-align:left;
-}
-
-.chatUser:active{background:var(--card2)}
-
-.chatAvatar{
- width:54px;
- height:54px;
- min-width:54px;
- border-radius:50%;
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
- display:flex;
- align-items:center;
- justify-content:center;
- font-weight:800;
- position:relative;
-}
-
-.onlineDot{
- position:absolute;
- width:13px;
- height:13px;
- right:0;
- bottom:1px;
- border-radius:50%;
- background:#20d66b;
- border:3px solid var(--bg);
-}
-
-.chatInfo{flex:1}
-
-.chatName{font-weight:750}
-
-.chatPreview{
- font-size:12px;
- color:var(--muted);
- margin-top:5px;
- white-space:nowrap;
- overflow:hidden;
- text-overflow:ellipsis;
-}
-
-.chatTime{
- color:var(--muted);
- font-size:10px;
-}
-
-
-/* PROFILE */
-
-.profileTop{
- text-align:center;
- padding:20px 0;
-}
-
-.profileAvatar{
- width:90px;
- height:90px;
- border-radius:50%;
- margin:auto;
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:30px;
- font-weight:900;
-}
-
-.profileName{
- font-size:22px;
- font-weight:850;
- margin-top:12px;
-}
-
-.profileHandle{
- color:var(--muted);
- font-size:13px;
- margin-top:5px;
-}
-
-.stats{
- display:flex;
- justify-content:space-around;
- padding:18px 0;
- border-top:1px solid var(--line);
- border-bottom:1px solid var(--line);
- margin-top:18px;
-}
-
-.stat strong{
- display:block;
- font-size:18px;
-}
-
-.stat span{
- color:var(--muted);
- font-size:11px;
- margin-top:4px;
- display:block;
-}
-
-.profileBtns{
- display:flex;
- gap:9px;
- margin-top:15px;
-}
-
-.profileBtn{
- flex:1;
- height:42px;
- border-radius:14px;
- background:var(--card2);
- font-weight:700;
-}
-
-
-/* BALANCE */
-
-.balanceCard{
- padding:22px;
- border-radius:24px;
- background:linear-gradient(135deg,#241a4c,#35162d);
- margin-bottom:16px;
-}
-
-.balanceLabel{
- color:#bbb;
- font-size:13px;
-}
-
-.balanceAmount{
- font-size:35px;
- font-weight:900;
- margin:9px 0 20px;
-}
-
-.balanceButtons{
- display:flex;
- gap:8px;
-}
-
-.balanceBtn{
- flex:1;
- height:42px;
- border-radius:14px;
- background:rgba(255,255,255,.1);
- font-weight:700;
-}
-
-
-/* NAVIGATION */
-
-.bottomNav{
- position:fixed;
- left:50%;
- bottom:0;
- transform:translateX(-50%);
- width:min(600px,100%);
- height:76px;
- background:rgba(10,11,16,.95);
- backdrop-filter:blur(22px);
- border-top:1px solid var(--line);
- z-index:3000;
- display:grid;
- grid-template-columns:repeat(7,1fr);
- align-items:center;
- padding:7px 8px 8px;
-}
-
-.navBtn{
- height:58px;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- gap:4px;
- color:#777b88;
- position:relative;
-}
-
-.navBtn.active{color:white}
-
-.navBtn svg{
- width:21px;
- height:21px;
- fill:none;
- stroke:currentColor;
- stroke-width:2;
-}
-
-.navText{
- font-size:8px;
- font-weight:700;
-}
-
-.plusNav{
- width:48px;
- height:48px;
- border-radius:17px;
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
- display:flex;
- align-items:center;
- justify-content:center;
- color:white;
- box-shadow:0 7px 25px rgba(139,92,246,.35);
-}
-
-.plusNav svg{width:24px}
-
-
-/* LIVE ROOM */
-
-.liveRoom{
- position:fixed;
- inset:0;
- z-index:7000;
- background:#000;
- display:none;
- overflow:hidden;
-}
-
-.liveRoom.open{display:block}
-
-.liveVideo{
- position:absolute;
- inset:0;
- width:100%;
- height:100%;
- object-fit:cover;
- background:#101116;
-}
-
-.liveShade{
- position:absolute;
- inset:0;
- background:
- linear-gradient(to bottom,rgba(0,0,0,.65),transparent 30%,transparent 60%,rgba(0,0,0,.8));
- pointer-events:none;
-}
-
-.liveTop{
- position:absolute;
- top:0;
- left:0;
- right:0;
- padding:18px 14px;
- display:flex;
- align-items:center;
- gap:8px;
- z-index:3;
+.liveCardInner{
+  height:100%;
+  min-height:220px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px;
 }
 
 .liveBadge{
- background:#ff304f;
- padding:7px 10px;
- border-radius:8px;
- font-size:11px;
- font-weight:900;
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:#ff304f;
+  padding:5px 8px;
+  border-radius:7px;
+  font-size:10px;
+  font-weight:800;
 }
 
-.liveViewers{
- display:flex;
- align-items:center;
- gap:5px;
- padding:7px 10px;
- border-radius:8px;
- background:rgba(0,0,0,.5);
- font-size:12px;
+.liveCardBottom{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:30px 10px 10px;
+  background:linear-gradient(transparent,rgba(0,0,0,.8));
 }
 
-.liveViewers svg{
- width:16px;
- fill:none;
- stroke:white;
- stroke-width:2;
+.liveCardBottom strong{
+  font-size:13px;
+}
+
+.liveCardBottom small{
+  color:#ccc;
+}
+
+/* REELS */
+.reelsPage{
+  background:#000;
+}
+
+.reel{
+  position:relative;
+  height:calc(100vh - 146px);
+  min-height:520px;
+  overflow:hidden;
+  background:linear-gradient(135deg,#111322,#251334);
+  touch-action:manipulation;
+}
+
+.reelMedia{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.reelMedia video,
+.reelMedia img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.reelText{
+  font-size:55px;
+  font-weight:900;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899,#f59e0b);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.reelInfo{
+  position:absolute;
+  left:14px;
+  right:80px;
+  bottom:20px;
+  z-index:5;
+  text-shadow:0 2px 8px #000;
+}
+
+.reelInfo strong{
+  font-size:16px;
+}
+
+.reelInfo p{
+  margin-top:8px;
+  line-height:1.4;
+}
+
+.reelActions{
+  position:absolute;
+  right:10px;
+  bottom:25px;
+  z-index:6;
+  display:flex;
+  flex-direction:column;
+  gap:17px;
+  align-items:center;
+}
+
+.reelAction{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  font-size:25px;
+  text-shadow:0 2px 8px #000;
+}
+
+.reelActionCount{
+  font-size:10px;
+  color:#fff;
+  text-shadow:0 1px 4px #000;
+}
+
+.reelAction.liked{
+  color:var(--red);
+}
+
+/* CHAT */
+.chatList{
+  padding:10px;
+}
+
+.chatRow{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 9px;
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+}
+
+.chatRow:active{
+  background:var(--card);
+}
+
+.chatInfo{
+  flex:1;
+}
+
+.chatInfo strong{
+  display:block;
+  font-size:14px;
+}
+
+.chatInfo small{
+  display:block;
+  color:var(--muted);
+  margin-top:4px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:250px;
+}
+
+.onlineDot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--green);
+}
+
+/* PROFILE */
+.profileHead{
+  padding:22px 16px;
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.profileAvatar{
+  width:88px;
+  height:88px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:32px;
+  font-weight:900;
+}
+
+.profileInfo{
+  flex:1;
+}
+
+.profileInfo h2{
+  font-size:20px;
+}
+
+.profileInfo p{
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.stats{
+  display:flex;
+  justify-content:space-between;
+  padding:0 25px 20px;
+}
+
+.stat{
+  text-align:center;
+}
+
+.stat strong{
+  display:block;
+  font-size:18px;
+}
+
+.stat span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.profileBtns{
+  display:flex;
+  gap:8px;
+  padding:0 14px 18px;
+}
+
+.profileBtns button{
+  flex:1;
+  background:var(--card2);
+  border:1px solid var(--line);
+  padding:11px;
+  border-radius:11px;
+  font-weight:700;
+}
+
+/* BALANCE */
+.balanceCard{
+  margin:18px 14px;
+  padding:24px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#1d1832,#17131e);
+  border:1px solid #342b4e;
+}
+
+.balanceLabel{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.balanceAmount{
+  font-size:38px;
+  font-weight:900;
+  margin:8px 0 20px;
+}
+
+.balanceButtons{
+  display:flex;
+  gap:9px;
+}
+
+.balanceButtons button{
+  flex:1;
+  padding:12px;
+  border-radius:12px;
+  background:var(--card2);
+}
+
+.balanceButtons button:first-child{
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+}
+
+.earningsBox{
+  margin:14px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:18px;
+}
+
+.earningRow{
+  display:flex;
+  justify-content:space-between;
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.earningRow:last-child{
+  border-bottom:0;
+}
+
+.earningRow span{
+  color:var(--muted);
+}
+
+/* SEARCH */
+.searchBox{
+  padding:16px;
+}
+
+.searchInput{
+  width:100%;
+  background:var(--card2);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px 15px;
+  color:#fff;
+  outline:none;
+}
+
+.searchResults{
+  padding:0 14px;
+}
+
+.searchUser{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line);
+}
+
+/* SETTINGS */
+.settingsTitle{
+  font-size:26px;
+  font-weight:800;
+  padding:20px 16px;
+}
+
+.settingGroup{
+  margin:0 12px 18px;
+  border-radius:17px;
+  overflow:hidden;
+  background:var(--card);
+  border:1px solid var(--line);
+}
+
+.settingRow{
+  min-height:58px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 15px;
+  border-bottom:1px solid var(--line);
+}
+
+.settingRow:last-child{
+  border-bottom:0;
+}
+
+.settingIcon{
+  width:35px;
+  height:35px;
+  border-radius:10px;
+  background:var(--card2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.settingInfo{
+  flex:1;
+}
+
+.settingInfo strong{
+  display:block;
+  font-size:14px;
+}
+
+.settingInfo small{
+  color:var(--muted);
+}
+
+.toggle{
+  width:45px;
+  height:26px;
+  border-radius:20px;
+  background:#30333d;
+  padding:3px;
+}
+
+.toggle i{
+  display:block;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:white;
+  transition:.2s;
+}
+
+.toggle.on{
+  background:var(--accent);
+}
+
+.toggle.on i{
+  transform:translateX(19px);
+}
+
+/* BOTTOM NAV */
+.bottomNav{
+  position:fixed;
+  z-index:2000;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:600px;
+  height:72px;
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  align-items:center;
+  background:rgba(8,9,13,.96);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--line);
+}
+
+.navBtn{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:4px;
+  color:#777b87;
+  font-size:21px;
+}
+
+.navBtn small{
+  font-size:9px;
+}
+
+.navBtn.active{
+  color:#fff;
+}
+
+.createBtn{
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  margin:auto;
+}
+
+/* OVERLAYS */
+.overlay{
+  display:none;
+  position:fixed;
+  z-index:5000;
+  inset:0;
+  background:rgba(0,0,0,.72);
+  align-items:center;
+  justify-content:center;
+}
+
+.overlay.show{
+  display:flex;
+}
+
+.sheet{
+  width:min(94%,520px);
+  max-height:85vh;
+  overflow:auto;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:23px;
+  padding:18px;
+  animation:sheetIn .2s ease;
+}
+
+@keyframes sheetIn{
+  from{
+    transform:translateY(30px);
+    opacity:0;
+  }
+  to{
+    transform:translateY(0);
+    opacity:1;
+  }
+}
+
+.sheetHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.closeBtn{
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:var(--card2);
+  font-size:20px;
+}
+
+/* COMMENTS */
+.commentItem{
+  display:flex;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.commentText{
+  flex:1;
+}
+
+.commentText strong{
+  font-size:13px;
+}
+
+.commentText p{
+  margin-top:3px;
+  color:#ddd;
+  font-size:13px;
+}
+
+.commentLike{
+  color:#999;
+  font-size:12px;
+}
+
+.commentInputRow{
+  display:flex;
+  gap:8px;
+  margin-top:14px;
+}
+
+.commentInputRow input{
+  flex:1;
+  background:var(--card2);
+  border:1px solid var(--line);
+  color:#fff;
+  border-radius:13px;
+  padding:12px;
+  outline:none;
+}
+
+.sendBtn{
+  width:45px;
+  border-radius:13px;
+  background:var(--accent);
+}
+
+/* LIVE ROOM */
+.liveRoom{
+  position:fixed;
+  z-index:6000;
+  inset:0;
+  background:#000;
+  display:none;
+}
+
+.liveRoom.show{
+  display:block;
+}
+
+.liveVideo{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  background:linear-gradient(135deg,#19162b,#08090d);
+}
+
+.liveTop{
+  position:absolute;
+  top:18px;
+  left:15px;
+  right:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:2;
+}
+
+.liveTopLeft{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.liveStatus{
+  background:#ff304f;
+  padding:7px 10px;
+  border-radius:8px;
+  font-weight:800;
+  font-size:11px;
+}
+
+.viewerCount{
+  background:rgba(0,0,0,.55);
+  padding:7px 10px;
+  border-radius:8px;
+  font-size:11px;
 }
 
 .liveClose{
- margin-left:auto;
- width:38px;
- height:38px;
- border-radius:50%;
- background:rgba(0,0,0,.5);
- font-size:20px;
-}
-
-.liveRightControls{
- position:absolute;
- right:12px;
- bottom:145px;
- display:flex;
- flex-direction:column;
- gap:12px;
- z-index:4;
-}
-
-.liveControl{
- width:46px;
- height:46px;
- border-radius:50%;
- background:rgba(0,0,0,.5);
- backdrop-filter:blur(10px);
- display:flex;
- align-items:center;
- justify-content:center;
-}
-
-.liveControl svg{
- width:21px;
- fill:none;
- stroke:white;
- stroke-width:2;
-}
-
-.liveControl.off{background:#ff304f}
-
-.liveComments{
- position:absolute;
- left:13px;
- bottom:105px;
- width:72%;
- max-height:190px;
- overflow:hidden;
- display:flex;
- flex-direction:column;
- justify-content:flex-end;
- gap:6px;
- z-index:3;
-}
-
-.liveComment{
- width:max-content;
- max-width:100%;
- padding:8px 11px;
- border-radius:14px;
- background:rgba(0,0,0,.5);
- backdrop-filter:blur(8px);
- font-size:12px;
- line-height:1.3;
-}
-
-.liveCommentName{
- font-weight:800;
- margin-right:5px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:rgba(0,0,0,.5);
+  font-size:20px;
 }
 
 .liveBottom{
- position:absolute;
- left:0;
- right:0;
- bottom:0;
- padding:12px;
- display:flex;
- align-items:center;
- gap:7px;
- z-index:5;
+  position:absolute;
+  left:15px;
+  right:15px;
+  bottom:18px;
+  z-index:3;
 }
 
-.liveCommentBar{
- flex:1;
- height:44px;
- border-radius:23px;
- background:rgba(0,0,0,.55);
- border:1px solid rgba(255,255,255,.15);
- display:flex;
- align-items:center;
- padding:0 14px;
+.liveOwner{
+  margin-bottom:12px;
 }
 
-.liveCommentInput{
- width:100%;
- border:0;
- outline:0;
- background:transparent;
- color:white;
- font-size:13px;
+.liveOwner strong{
+  font-size:16px;
 }
 
-.liveCommentInput::placeholder{color:#bbb}
-
-.liveBottomBtn{
- width:44px;
- height:44px;
- border-radius:50%;
- background:rgba(0,0,0,.55);
- display:flex;
- align-items:center;
- justify-content:center;
+.liveComments{
+  max-height:160px;
+  overflow:auto;
+  margin-bottom:12px;
 }
 
-.liveBottomBtn svg{
- width:20px;
- fill:none;
- stroke:white;
- stroke-width:2;
+.liveComment{
+  display:table;
+  max-width:90%;
+  background:rgba(0,0,0,.45);
+  border-radius:13px;
+  padding:7px 10px;
+  margin:5px 0;
+  font-size:12px;
 }
 
-.liveTitleArea{
- position:absolute;
- left:14px;
- top:72px;
- z-index:3;
+.liveInputRow{
+  display:flex;
+  gap:8px;
 }
 
-.liveTitleArea strong{font-size:15px}
-
-.liveTitleArea span{
- display:block;
- color:#ddd;
- font-size:11px;
- margin-top:4px;
+.liveInput{
+  flex:1;
+  padding:12px 14px;
+  border-radius:20px;
+  background:rgba(0,0,0,.5);
+  border:1px solid rgba(255,255,255,.18);
+  color:#fff;
+  outline:none;
 }
 
-
-/* INVITATIONS */
-
-.inviteSheet{
- position:fixed;
- left:0;
- right:0;
- bottom:0;
- z-index:8000;
- background:#11131a;
- border-radius:25px 25px 0 0;
- padding:18px;
- transform:translateY(110%);
- transition:.25s ease;
- border-top:1px solid var(--line);
+.circleControl{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:rgba(0,0,0,.58);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:19px;
 }
 
-.inviteSheet.open{transform:translateY(0)}
-
-.inviteHead{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin-bottom:15px;
+.liveControls{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:12px;
 }
 
-.inviteHead h3{font-size:18px}
-
-.inviteFriend{
- display:flex;
- align-items:center;
- gap:11px;
- padding:10px 0;
+/* INVITES */
+.inviteRow{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
 }
 
-.inviteFriend .avatar{
- width:44px;
- height:44px;
+.inviteRow .avatar{
+  width:40px;
+  height:40px;
 }
 
-.inviteInfo{flex:1}
-
-.inviteName{font-weight:750}
-
-.inviteStatus{
- color:var(--muted);
- font-size:11px;
- margin-top:3px;
+.inviteRow .inviteInfo{
+  flex:1;
 }
 
-.inviteBtn{
- padding:9px 15px;
- border-radius:18px;
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
- font-size:11px;
- font-weight:800;
+.inviteRow button{
+  background:var(--accent);
+  padding:8px 13px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:700;
 }
 
-
-/* QR */
-
-.qrOverlay{
- position:fixed;
- inset:0;
- z-index:10000;
- background:rgba(0,0,0,.78);
- display:none;
- align-items:center;
- justify-content:center;
- padding:20px;
+.qrBox{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:white;
+  border-radius:14px;
+  padding:18px;
+  width:max-content;
+  margin:15px auto;
 }
 
-.qrOverlay.open{display:flex}
-
-.qrCard{
- width:100%;
- max-width:340px;
- background:var(--card);
- border:1px solid var(--line);
- border-radius:25px;
- padding:24px;
- text-align:center;
- position:relative;
+.qrShareBtn{
+  width:100%;
+  padding:13px;
+  background:var(--accent);
+  border-radius:13px;
+  font-weight:700;
 }
 
-.qrCard h3{
- font-size:20px;
- margin-bottom:7px;
-}
-
-.qrCard p{
- color:var(--muted);
- font-size:12px;
- margin-bottom:18px;
-}
-
-.qrClose{
- position:absolute;
- right:12px;
- top:10px;
- width:35px;
- height:35px;
- border-radius:50%;
- background:var(--card2);
- font-size:22px;
-}
-
-#liveQRCode{
- width:210px;
- height:210px;
- background:white;
- padding:10px;
- margin:0 auto 15px;
- border-radius:15px;
- display:flex;
- align-items:center;
- justify-content:center;
-}
-
-#liveQRCode img{
- width:190px!important;
- height:190px!important;
-}
-
-.qrLink{
- background:var(--card2);
- padding:11px;
- border-radius:12px;
- color:var(--muted);
- font-size:11px;
- overflow:hidden;
- white-space:nowrap;
- text-overflow:ellipsis;
- margin-bottom:10px;
-}
-
-.copyQRBtn{
- width:100%;
- height:44px;
- border-radius:14px;
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
- font-weight:800;
-}
-
-
-/* STORY VIEWER */
-
+/* STORY */
 .storyViewer{
- position:fixed;
- inset:0;
- z-index:15000;
- background:#000;
- display:none;
- overflow:hidden;
+  position:fixed;
+  z-index:7000;
+  inset:0;
+  background:#000;
+  display:none;
 }
 
-.storyViewer.open{
- display:block;
-}
-
-.storyMedia{
- position:absolute;
- inset:0;
- width:100%;
- height:100%;
- object-fit:contain;
- background:#000;
-}
-
-.storyFallback{
- position:absolute;
- inset:0;
- display:flex;
- align-items:center;
- justify-content:center;
- text-align:center;
- padding:30px;
- font-size:34px;
- font-weight:900;
- background:linear-gradient(135deg,#171329,#35152e);
-}
-
-.storyShade{
- position:absolute;
- inset:0;
- background:
- linear-gradient(to bottom,rgba(0,0,0,.7),transparent 25%,
- transparent 65%,rgba(0,0,0,.7));
- pointer-events:none;
+.storyViewer.show{
+  display:block;
 }
 
 .storyProgress{
- position:absolute;
- top:9px;
- left:10px;
- right:10px;
- display:flex;
- gap:4px;
- z-index:5;
+  position:absolute;
+  top:10px;
+  left:10px;
+  right:10px;
+  height:3px;
+  background:rgba(255,255,255,.3);
+  z-index:5;
 }
 
-.storyProgressBar{
- flex:1;
- height:3px;
- background:rgba(255,255,255,.35);
- border-radius:5px;
- overflow:hidden;
-}
-
-.storyProgressFill{
- height:100%;
- width:0;
- background:#fff;
- transition:width .03s linear;
+.storyProgress i{
+  display:block;
+  width:40%;
+  height:100%;
+  background:white;
 }
 
 .storyHeader{
- position:absolute;
- top:22px;
- left:14px;
- right:14px;
- display:flex;
- align-items:center;
- gap:9px;
- z-index:5;
+  position:absolute;
+  z-index:5;
+  top:22px;
+  left:15px;
+  right:15px;
+  display:flex;
+  align-items:center;
+  gap:9px;
 }
 
-.storyHeaderAvatar{
- width:38px;
- height:38px;
- border-radius:50%;
- background:linear-gradient(135deg,#8b5cf6,#ec4899);
- display:flex;
- align-items:center;
- justify-content:center;
- font-weight:900;
+.storyHeader .avatar{
+  width:37px;
+  height:37px;
 }
 
 .storyHeaderInfo{
- flex:1;
+  flex:1;
 }
 
-.storyHeaderName{
- font-size:13px;
- font-weight:800;
+.storyHeaderInfo strong{
+  font-size:13px;
 }
 
-.storyHeaderTime{
- font-size:10px;
- color:#ccc;
- margin-top:3px;
+.storyHeaderInfo small{
+  display:block;
+  color:#bbb;
 }
 
 .storyClose{
- width:40px;
- height:40px;
- border-radius:50%;
- background:rgba(0,0,0,.45);
- font-size:25px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:rgba(0,0,0,.45);
+  font-size:20px;
+}
+
+.storyContent{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  touch-action:manipulation;
+}
+
+.storyFallback{
+  font-size:60px;
+  font-weight:900;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899,#f59e0b);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.storyContent img,
+.storyContent video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
 .storyTapLeft,
 .storyTapRight{
- position:absolute;
- top:90px;
- bottom:90px;
- width:35%;
- z-index:4;
+  position:absolute;
+  top:70px;
+  bottom:90px;
+  width:35%;
+  z-index:4;
 }
 
 .storyTapLeft{left:0}
 .storyTapRight{right:0}
 
 .storyBottom{
- position:absolute;
- left:14px;
- right:14px;
- bottom:18px;
- display:flex;
- align-items:center;
- gap:8px;
- z-index:5;
+  position:absolute;
+  left:15px;
+  right:15px;
+  bottom:18px;
+  z-index:6;
+  display:flex;
+  gap:8px;
 }
 
 .storyReply{
- flex:1;
- height:43px;
- border-radius:23px;
- border:1px solid rgba(255,255,255,.3);
- background:rgba(0,0,0,.4);
- color:white;
- padding:0 15px;
- outline:0;
+  flex:1;
+  padding:12px 15px;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.3);
+  background:rgba(0,0,0,.4);
+  color:#fff;
+  outline:none;
 }
 
 .storyHeart{
- width:45px;
- height:45px;
- border-radius:50%;
- background:rgba(0,0,0,.4);
- font-size:23px;
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:rgba(0,0,0,.45);
+  font-size:22px;
 }
 
-.storyLikeHeart{
- position:absolute;
- z-index:20;
- font-size:75px;
- pointer-events:none;
- animation:storyHeartPop .8s ease forwards;
+.storyHeart.liked{
+  color:var(--red);
 }
 
-@keyframes storyHeartPop{
- 0%{transform:scale(.2);opacity:0}
- 25%{transform:scale(1.3);opacity:1}
- 100%{transform:scale(1) translateY(-80px);opacity:0}
+/* CHAT WINDOW */
+.chatWindow{
+  position:fixed;
+  z-index:4500;
+  inset:0;
+  background:var(--bg);
+  display:none;
+  max-width:600px;
+  margin:auto;
 }
 
-
-/* END LIVE */
-
-.endLiveBox{
- position:fixed;
- inset:0;
- background:rgba(0,0,0,.72);
- z-index:9000;
- display:none;
- align-items:center;
- justify-content:center;
- padding:25px;
+.chatWindow.show{
+  display:flex;
+  flex-direction:column;
 }
 
-.endLiveBox.open{display:flex}
-
-.endLiveCard{
- width:100%;
- max-width:340px;
- padding:22px;
- border-radius:22px;
- background:var(--card);
- text-align:center;
- border:1px solid var(--line);
+.chatHeader{
+  height:64px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 12px;
+  border-bottom:1px solid var(--line);
 }
 
-.endLiveCard h3{margin-bottom:8px}
-
-.endLiveCard p{
- color:var(--muted);
- font-size:13px;
- margin-bottom:20px;
+.chatBack{
+  width:38px;
+  height:38px;
+  font-size:25px;
 }
 
-.endButtons{
- display:flex;
- gap:9px;
+.chatHeader .avatar{
+  width:39px;
+  height:39px;
 }
 
-.endButtons button{
- flex:1;
- height:43px;
- border-radius:13px;
- background:var(--card2);
- font-weight:700;
+.chatHeaderInfo{
+  flex:1;
 }
 
-.endButtons .danger{background:#ff304f}
-
-
-/* SEARCH */
-
-.searchBox{
- display:flex;
- align-items:center;
- gap:9px;
- background:var(--card);
- border:1px solid var(--line);
- border-radius:17px;
- padding:0 14px;
- height:48px;
- margin-bottom:18px;
+.chatHeaderInfo strong{
+  display:block;
+  font-size:14px;
 }
 
-.searchBox svg{
- width:20px;
- fill:none;
- stroke:var(--muted);
- stroke-width:2;
+.chatHeaderInfo small{
+  color:var(--green);
 }
 
-.searchBox input{
- flex:1;
- background:transparent;
- border:0;
- outline:0;
- color:white;
+.chatCall{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:var(--card2);
 }
 
-
-/* SETTINGS */
-
-.setting{
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:16px 2px;
- border-bottom:1px solid var(--line);
+.chatMessages{
+  flex:1;
+  overflow:auto;
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
 }
 
-.settingText strong{
- display:block;
- font-size:14px;
+.message{
+  max-width:75%;
+  padding:10px 13px;
+  border-radius:17px;
+  font-size:14px;
+  line-height:1.35;
 }
 
-.settingText span{
- display:block;
- color:var(--muted);
- font-size:11px;
- margin-top:4px;
+.message.me{
+  align-self:flex-end;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  border-bottom-right-radius:5px;
 }
 
-.toggle{
- width:45px;
- height:25px;
- border-radius:20px;
- background:#383b46;
- padding:3px;
+.message.them{
+  align-self:flex-start;
+  background:var(--card2);
+  border-bottom-left-radius:5px;
 }
 
-.toggle span{
- display:block;
- width:19px;
- height:19px;
- border-radius:50%;
- background:white;
- transition:.2s;
+.chatComposer{
+  padding:10px;
+  display:flex;
+  gap:7px;
+  align-items:center;
+  border-top:1px solid var(--line);
 }
 
-.toggle.on{background:var(--accent)}
+.chatInput{
+  flex:1;
+  background:var(--card2);
+  border:1px solid var(--line);
+  border-radius:22px;
+  color:#fff;
+  outline:none;
+  padding:12px 15px;
+}
 
-.toggle.on span{transform:translateX(20px)}
+.voiceBtn{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:var(--card2);
+  border:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
 
+.voiceIcon{
+  width:18px;
+  height:23px;
+  border:2px solid #fff;
+  border-radius:10px;
+  position:relative;
+}
 
-/* DOUBLE TAP HEART */
+.voiceIcon:after{
+  content:"";
+  position:absolute;
+  width:23px;
+  height:11px;
+  border-bottom:2px solid #fff;
+  border-radius:50%;
+  left:50%;
+  bottom:-8px;
+  transform:translateX(-50%);
+}
 
+.voiceIcon:before{
+  content:"";
+  position:absolute;
+  width:2px;
+  height:8px;
+  background:#fff;
+  left:50%;
+  bottom:-13px;
+  transform:translateX(-50%);
+}
+
+.voiceBtn.recording{
+  background:#ff304f;
+  animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+  50%{
+    transform:scale(1.08);
+  }
+}
+
+/* GIFT */
+.giftSheet{
+  width:min(94%,500px);
+  background:var(--card);
+  border-radius:24px;
+  padding:18px;
+  border:1px solid var(--line);
+}
+
+.giftGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.giftItem{
+  background:var(--card2);
+  border-radius:15px;
+  padding:12px 5px;
+  text-align:center;
+}
+
+.giftItem span{
+  display:block;
+  font-size:30px;
+  margin-bottom:4px;
+}
+
+.giftItem small{
+  color:#bbb;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  z-index:15000;
+  left:50%;
+  bottom:95px;
+  transform:translate(-50%,20px);
+  background:#fff;
+  color:#111;
+  padding:11px 17px;
+  border-radius:14px;
+  font-size:13px;
+  font-weight:700;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  white-space:nowrap;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* HEART ANIMATION */
 .doubleTapHeart{
- position:fixed;
- z-index:12000;
- pointer-events:none;
- font-size:58px;
- animation:heartPop .8s ease forwards;
+  position:fixed;
+  z-index:12000;
+  pointer-events:none;
+  font-size:58px;
+  animation:heartPop .8s ease forwards;
 }
 
 @keyframes heartPop{
- 0%{
-  transform:scale(.3);
-  opacity:0;
- }
- 25%{
-  transform:scale(1.25);
-  opacity:1;
- }
- 100%{
-  transform:translateY(-110px) scale(1);
-  opacity:0;
- }
+  0%{
+    transform:scale(.3);
+    opacity:0;
+  }
+  25%{
+    transform:scale(1.25);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(-110px) scale(1);
+    opacity:0;
+  }
 }
 
-@media(max-width:380px){
- .navText{font-size:7px}
- .plusNav{width:43px;height:43px}
- .bottomNav{padding-left:3px;padding-right:3px}
+.storyLikeHeart{
+  position:absolute;
+  z-index:10;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font-size:75px;
+  animation:storyHeart .8s ease forwards;
+  pointer-events:none;
+}
+
+@keyframes storyHeart{
+  0%{
+    transform:translate(-50%,-50%) scale(.3);
+    opacity:0;
+  }
+  30%{
+    transform:translate(-50%,-50%) scale(1.2);
+    opacity:1;
+  }
+  100%{
+    transform:translate(-50%,-50%) scale(1);
+    opacity:0;
+  }
+}
+
+/* DARK/LIGHT */
+body.lightMode{
+  --bg:#f5f6fa;
+  --card:#fff;
+  --card2:#eef0f5;
+  --text:#101116;
+  --muted:#6e7280;
+  --line:#dddfe6;
+}
+
+body.lightMode .topbar,
+body.lightMode .bottomNav{
+  background:rgba(245,246,250,.94);
+}
+
+body.lightMode .post{
+  background:#fff;
+}
+
+@media(max-width:420px){
+  .logo{
+    font-size:19px;
+  }
+
+  .liveGrid{
+    gap:7px;
+    padding:0 8px;
+  }
+
+  .reel{
+    height:calc(100vh - 140px);
+  }
 }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-
 </head>
 
 <body>
 
 <div class="app">
 
+<!-- TOP BAR -->
 <header class="topbar">
+  <div class="logo">
+    <div class="logoMark">M</div>
+    <span>MicMedia</span>
+  </div>
 
-<div class="logo">MicMedia</div>
-
-<button class="topAction" onclick="showPage('search')">
-
-<svg viewBox="0 0 24 24">
-<circle cx="11" cy="11" r="6"></circle>
-<path d="M16 16l5 5"></path>
-</svg>
-
-</button>
-
+  <button class="topSearch" onclick="showPage('search')">⌕</button>
 </header>
 
 
 <!-- HOME -->
+<section id="home" class="page active">
+
+  <div class="stories">
+
+    <div class="storyItem" onclick="addStory()">
+      <div class="storyCircle">
+        <span>＋</span>
+      </div>
+      <span class="storyName">Your story</span>
+    </div>
 
-<main class="page active" id="home">
+    <div class="storyItem" onclick="openStory(0)">
+      <div class="storyCircle">
+        <span>👩🏾</span>
+      </div>
+      <span class="storyName">Awa</span>
+    </div>
 
-<div class="sectionTitle">Home</div>
+    <div class="storyItem" onclick="openStory(1)">
+      <div class="storyCircle">
+        <span>👨🏾</span>
+      </div>
+      <span class="storyName">Kebba</span>
+    </div>
 
+    <div class="storyItem" onclick="openStory(2)">
+      <div class="storyCircle">
+        <span>👩🏾‍🦱</span>
+      </div>
+      <span class="storyName">Fatou</span>
+    </div>
 
-<!-- STORIES -->
+    <div class="storyItem" onclick="openStory(3)">
+      <div class="storyCircle">
+        <span>⚽</span>
+      </div>
+      <span class="storyName">Sports</span>
+    </div>
 
-<div class="storiesWrap" id="storiesWrap">
+  </div>
 
-<button class="storyItem addStory" onclick="addStory()">
 
-<div class="storyRing">
+  <!-- POST 1 -->
+  <article class="post" data-post-id="post1">
 
-<div class="storyAvatar">M</div>
+    <div class="postHead">
+      <div class="avatar">⚽</div>
 
-</div>
+      <div class="postUser">
+        <strong>MicMedia Sports</strong>
+        <small>@sports · 1h</small>
+      </div>
 
-<div class="storyPlus">+</div>
+      <button class="moreBtn">•••</button>
+    </div>
 
-<div class="storyName">Your story</div>
+    <div class="postMedia doubleTapTarget">
+      <div class="mediaText">SPORTS</div>
+    </div>
 
-</button>
+    <div class="postBody">
 
+      <div class="actions">
 
-<div class="storyItem" onclick="openStory(0)">
+        <button class="actionBtn likeButton"
+                onclick="likePost(this)">
+          ♡ <span class="likeCount">120</span>
+        </button>
 
-<div class="storyRing">
+        <button class="actionBtn"
+                onclick="addComment(this)">
+          ♡̩ <span class="commentCount">24</span>
+        </button>
 
-<div class="storyAvatar">A</div>
+        <button class="actionBtn"
+                onclick="sharePost(this)">
+          ↗ <span class="shareCount">12</span>
+        </button>
 
-</div>
+        <button class="actionBtn"
+                onclick="savePost(this)">
+          ♧
+        </button>
 
-<div class="storyName">Awa</div>
+      </div>
 
-</div>
+      <div class="postCaption">
+        <b>MicMedia Sports</b>
+        Welcome to MicMedia! Follow for the latest sports updates.
+      </div>
 
+      <div class="commentPreview"
+           onclick="addComment(this)">
+        View all 24 comments
+      </div>
 
-<div class="storyItem" onclick="openStory(1)">
+      <div class="postTime">
+        1 hour ago
+      </div>
 
-<div class="storyRing">
+    </div>
+  </article>
 
-<div class="storyAvatar">K</div>
 
-</div>
+  <!-- POST 2 -->
+  <article class="post" data-post-id="post2">
 
-<div class="storyName">Kebba</div>
+    <div class="postHead">
 
-</div>
+      <div class="avatar">👩🏾</div>
 
+      <div class="postUser">
+        <strong>Awa</strong>
+        <small>@awa · 3h</small>
+      </div>
 
-<div class="storyItem" onclick="openStory(2)">
+      <button class="moreBtn">•••</button>
 
-<div class="storyRing">
+    </div>
 
-<div class="storyAvatar">F</div>
+    <div class="postMedia doubleTapTarget">
+      <div class="mediaText">MICMEDIA</div>
+    </div>
 
-</div>
+    <div class="postBody">
 
-<div class="storyName">Fatou</div>
+      <div class="actions">
 
-</div>
+        <button class="actionBtn likeButton"
+                onclick="likePost(this)">
+          ♡ <span class="likeCount">84</span>
+        </button>
 
+        <button class="actionBtn"
+                onclick="addComment(this)">
+          ♡̩ <span class="commentCount">11</span>
+        </button>
 
-<div class="storyItem" onclick="openStory(3)">
+        <button class="actionBtn"
+                onclick="sharePost(this)">
+          ↗ <span class="shareCount">7</span>
+        </button>
 
-<div class="storyRing">
+        <button class="actionBtn"
+                onclick="savePost(this)">
+          ♧
+        </button>
 
-<div class="storyAvatar">S</div>
+      </div>
 
-</div>
+      <div class="postCaption">
+        <b>Awa</b>
+        New day, new memories ❤️
+      </div>
 
-<div class="storyName">Sports</div>
+      <div class="commentPreview"
+           onclick="addComment(this)">
+        View all 11 comments
+      </div>
 
-</div>
+      <div class="postTime">
+        3 hours ago
+      </div>
 
-</div>
+    </div>
+  </article>
 
+</section>
 
-<div class="card">
 
-<div class="postHeader">
+<!-- LIVE PAGE -->
+<section id="live" class="page">
 
-<div class="userInfo">
+  <div class="liveHero">
+    <h2>Go Live</h2>
+    <p>Connect with your followers in real time.</p>
+    <button class="primaryBtn" onclick="startLive()">
+      🔴 Start Live
+    </button>
+  </div>
 
-<div class="avatar">M</div>
+  <h3 class="liveSectionTitle">Live now</h3>
 
-<div>
+  <div class="liveGrid">
 
-<div class="username">MicMedia Sports</div>
+    <div class="liveCard" onclick="watchDemoLive('Awa')">
+      <div class="liveCardInner">👩🏾</div>
 
-<div class="handle">@sports</div>
+      <span class="liveBadge">LIVE</span>
 
-</div>
+      <div class="liveCardBottom">
+        <strong>Awa</strong>
+        <small> · 1.2K viewers</small>
+      </div>
+    </div>
 
-</div>
+    <div class="liveCard" onclick="watchDemoLive('Kebba')">
+      <div class="liveCardInner">👨🏾</div>
 
-</div>
+      <span class="liveBadge">LIVE</span>
 
+      <div class="liveCardBottom">
+        <strong>Kebba</strong>
+        <small> · 843 viewers</small>
+      </div>
+    </div>
 
-<div class="postImage">
-SPORTS
-</div>
+  </div>
 
-
-<div class="postText">
-
-Welcome to MicMedia. Share your moments, watch reels and connect with people.
-
-</div>
-
-
-<div class="postActions">
-
-<div class="actionBox">
-
-<button class="actionBtn" onclick="likePost(this)">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
-
-</svg>
-
-</button>
-
-<span class="actionCount">120</span>
-
-</div>
-
-
-<div class="actionBox">
-
-<button class="actionBtn" onclick="addComment()">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
-
-</svg>
-
-</button>
-
-<span class="actionCount">24</span>
-
-</div>
-
-
-<div class="actionBox">
-
-<button class="actionBtn" onclick="sharePost()">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M22 2 11 13"></path>
-
-<path d="m22 2-7 20-4-9-9-4z"></path>
-
-</svg>
-
-</button>
-
-</div>
-
-
-<div class="actionBox">
-
-<button class="actionBtn" onclick="savePost(this)">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M6 3h12v18l-6-4-6 4z"/>
-
-</svg>
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="postHeader">
-
-<div class="userInfo">
-
-<div class="avatar">A</div>
-
-<div>
-
-<div class="username">Awa</div>
-
-<div class="handle">@awa</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="postImage" style="background:linear-gradient(135deg,#172554,#831843)">
-
-MICMEDIA
-
-</div>
-
-
-<div class="postText">
-
-New day, new memories ❤️
-
-</div>
-
-
-<div class="postActions">
-
-<div class="actionBox">
-
-<button class="actionBtn" onclick="likePost(this)">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
-
-</svg>
-
-</button>
-
-<span class="actionCount">84</span>
-
-</div>
-
-
-<div class="actionBox">
-
-<button class="actionBtn" onclick="addComment()">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
-
-</svg>
-
-</button>
-
-<span class="actionCount">11</span>
-
-</div>
-
-</div>
-
-</div>
-
-</main>
-
-
-<!-- LIVE -->
-
-<main class="page" id="live">
-
-<div class="sectionTitle">Live</div>
-
-
-<div class="liveHero">
-
-<div class="liveHeroBg"></div>
-
-<div class="liveHeroContent">
-
-<div class="liveIcon">
-
-<svg viewBox="0 0 24 24">
-
-<rect x="3" y="6" width="13" height="12" rx="3"></rect>
-
-<path d="m16 10 5-3v10l-5-3"></path>
-
-</svg>
-
-</div>
-
-<h2>Go Live</h2>
-
-<p>Connect with your audience in real time.</p>
-
-<button class="startLiveBtn" onclick="startLive()">
-
-Start Live Stream
-
-</button>
-
-</div>
-
-</div>
-
-
-<div class="liveListTitle">
-
-<h3>Live Now</h3>
-
-<span style="color:#20d66b;font-size:12px">● Online</span>
-
-</div>
-
-
-<div class="liveCard" onclick="watchDemoLive('Awa','A')">
-
-<div class="liveThumb">A</div>
-
-<div class="liveInfo">
-
-<div class="liveBadgeSmall">LIVE</div>
-
-<div class="liveName">Awa</div>
-
-<div class="liveMeta">1.2K viewers • Music</div>
-
-</div>
-
-<button class="watchBtn">Watch</button>
-
-</div>
-
-
-<div class="liveCard" onclick="watchDemoLive('Kebba','K')">
-
-<div class="liveThumb">K</div>
-
-<div class="liveInfo">
-
-<div class="liveBadgeSmall">LIVE</div>
-
-<div class="liveName">Kebba</div>
-
-<div class="liveMeta">534 viewers • Sports</div>
-
-</div>
-
-<button class="watchBtn">Watch</button>
-
-</div>
-
-</main>
+</section>
 
 
 <!-- REELS -->
+<section id="reels" class="page reelsPage">
 
-<main class="page" id="reels">
+  <div class="reel" data-reel-id="reel1">
 
-<div class="sectionTitle">Reels</div>
+    <div class="reelMedia doubleTapTarget">
 
-<div class="reelCard">
+      <div class="reelText">
+        SPORTS
+      </div>
 
-<div class="reelBg">SPORTS</div>
+    </div>
 
-<div class="reelInfo">
+    <div class="reelInfo">
+      <strong>@sportsreels</strong>
+      <p>
+        Football moments you don't want to miss ⚽🔥
+      </p>
+    </div>
 
-<h3>@sportsreels</h3>
+    <div class="reelActions">
 
-<p>Best football moments on MicMedia ⚽</p>
+      <button class="reelAction likeReelButton"
+              onclick="likeReel(this)">
+        ♡
+        <span class="reelActionCount likeReelCount">0</span>
+      </button>
 
-</div>
+      <button class="reelAction"
+              onclick="addReelComment(this)">
+        💬
+        <span class="reelActionCount reelCommentCount">0</span>
+      </button>
 
+      <button class="reelAction"
+              onclick="shareReel(this)">
+        ↗
+        <span class="reelActionCount reelShareCount">0</span>
+      </button>
 
-<div class="reelActions">
+      <button class="reelAction"
+              onclick="saveReel(this)">
+        ♧
+      </button>
 
-<button class="reelAction" onclick="likeReel(this)">
+    </div>
 
-<svg viewBox="0 0 24 24">
+  </div>
 
-<path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
-
-</svg>
-
-</button>
-
-
-<button class="reelAction" onclick="addReelComment()">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
-
-</svg>
-
-</button>
-
-
-<button class="reelAction" onclick="shareReel()">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M22 2 11 13"></path>
-
-<path d="m22 2-7 20-4-9-9-4z"></path>
-
-</svg>
-
-</button>
-
-
-<button class="reelAction" onclick="saveReel(this)">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M6 3h12v18l-6-4-6 4z"/>
-
-</svg>
-
-</button>
-
-</div>
-
-</div>
-
-</main>
+</section>
 
 
 <!-- CHAT -->
+<section id="chat" class="page">
 
-<main class="page" id="chat">
+  <div class="chatList">
 
-<div class="sectionTitle">Messages</div>
+    <div class="chatRow" onclick="openChat('Awa')">
 
+      <div class="avatar">👩🏾</div>
 
-<button class="chatUser" onclick="openChat('Awa','A',true)">
+      <div class="chatInfo">
+        <strong>Awa</strong>
+        <small>Hey, how are you?</small>
+      </div>
 
-<div class="chatAvatar">
+      <div class="onlineDot"></div>
 
-A
-
-<span class="onlineDot"></span>
-
-</div>
-
-<div class="chatInfo">
-
-<div class="chatName">Awa</div>
-
-<div class="chatPreview">Hey, how are you?</div>
-
-</div>
-
-<div class="chatTime">2m</div>
-
-</button>
+    </div>
 
 
-<button class="chatUser" onclick="openChat('Kebba','K',true)">
+    <div class="chatRow" onclick="openChat('Kebba')">
 
-<div class="chatAvatar">
+      <div class="avatar">👨🏾</div>
 
-K
+      <div class="chatInfo">
+        <strong>Kebba</strong>
+        <small>See you later bro</small>
+      </div>
 
-<span class="onlineDot"></span>
+      <div class="onlineDot"></div>
 
-</div>
-
-<div class="chatInfo">
-
-<div class="chatName">Kebba</div>
-
-<div class="chatPreview">Nice reel 🔥</div>
-
-</div>
-
-<div class="chatTime">15m</div>
-
-</button>
+    </div>
 
 
-<button class="chatUser" onclick="openChat('Fatou','F',false)">
+    <div class="chatRow" onclick="openChat('Fatou')">
 
-<div class="chatAvatar">F</div>
+      <div class="avatar">👩🏾‍🦱</div>
 
-<div class="chatInfo">
+      <div class="chatInfo">
+        <strong>Fatou</strong>
+        <small>That was funny 😂</small>
+      </div>
 
-<div class="chatName">Fatou</div>
+      <div class="onlineDot"></div>
 
-<div class="chatPreview">See you later</div>
+    </div>
 
-</div>
+  </div>
 
-<div class="chatTime">1h</div>
-
-</button>
-
-</main>
+</section>
 
 
 <!-- PROFILE -->
+<section id="profile" class="page">
 
-<main class="page" id="profile">
+  <div class="profileHead">
 
-<div class="profileTop">
+    <div class="profileAvatar">
+      M
+    </div>
 
-<div class="profileAvatar">M</div>
+    <div class="profileInfo">
+      <h2>Mustapha</h2>
+      <p>@mustapha</p>
+    </div>
 
-<div class="profileName">Mustapha</div>
+  </div>
 
-<div class="profileHandle">@mustapha</div>
+  <div class="stats">
 
+    <div class="stat">
+      <strong>0</strong>
+      <span>Posts</span>
+    </div>
 
-<div class="stats">
+    <div class="stat">
+      <strong>1.2K</strong>
+      <span>Followers</span>
+    </div>
 
-<div class="stat">
+    <div class="stat">
+      <strong>356</strong>
+      <span>Following</span>
+    </div>
 
-<strong>0</strong>
+  </div>
 
-<span>Posts</span>
+  <div class="profileBtns">
+    <button onclick="editProfile()">Edit Profile</button>
+    <button onclick="shareProfile()">Share Profile</button>
+  </div>
 
-</div>
-
-
-<div class="stat">
-
-<strong>120</strong>
-
-<span>Followers</span>
-
-</div>
-
-
-<div class="stat">
-
-<strong>85</strong>
-
-<span>Following</span>
-
-</div>
-
-</div>
-
-
-<div class="profileBtns">
-
-<button class="profileBtn">Edit Profile</button>
-
-<button class="profileBtn">Share</button>
-
-</div>
-
-</div>
-
-
-<div class="balanceCard">
-
-<div class="balanceLabel">MicMedia Balance</div>
-
-<div class="balanceAmount">$0.00</div>
-
-<div class="balanceButtons">
-
-<button class="balanceBtn" onclick="alert('Add Balance coming soon')">
-
-Add Balance
-
-</button>
-
-<button class="balanceBtn" onclick="alert('Withdraw coming soon')">
-
-Withdraw
-
-</button>
-
-</div>
-
-</div>
-
-</main>
+</section>
 
 
 <!-- BALANCE -->
+<section id="balance" class="page">
 
-<main class="page" id="balance">
+  <div class="balanceCard">
 
-<div class="sectionTitle">Balance</div>
+    <div class="balanceLabel">
+      Available balance
+    </div>
 
+    <div class="balanceAmount">
+      $0.00
+    </div>
 
-<div class="balanceCard">
+    <div class="balanceButtons">
+      <button onclick="addBalance()">＋ Add Balance</button>
+      <button onclick="withdrawBalance()">Withdraw</button>
+    </div>
 
-<div class="balanceLabel">Available Balance</div>
+  </div>
 
-<div class="balanceAmount">$0.00</div>
+  <div class="earningsBox">
 
-<div class="balanceButtons">
+    <h3>Earnings</h3>
 
-<button class="balanceBtn" onclick="alert('Add Balance coming soon')">
+    <div class="earningRow">
+      <span>Live Gifts</span>
+      <strong>$0.00</strong>
+    </div>
 
-Add Balance
+    <div class="earningRow">
+      <span>Creator Rewards</span>
+      <strong>$0.00</strong>
+    </div>
 
-</button>
+    <div class="earningRow">
+      <span>Ads</span>
+      <strong>$0.00</strong>
+    </div>
 
-<button class="balanceBtn" onclick="alert('Withdraw coming soon')">
+  </div>
 
-Withdraw
-
-</button>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="setting">
-
-<div class="settingText">
-
-<strong>Earnings</strong>
-
-<span>Your MicMedia earnings</span>
-
-</div>
-
-<strong>$0.00</strong>
-
-</div>
-
-
-<div class="setting">
-
-<div class="settingText">
-
-<strong>Live Gifts</strong>
-
-<span>Money received from live streams</span>
-
-</div>
-
-<strong>$0.00</strong>
-
-</div>
-
-</div>
-
-</main>
+</section>
 
 
 <!-- SEARCH -->
+<section id="search" class="page">
 
-<main class="page" id="search">
+  <div class="searchBox">
+    <input
+      id="searchInput"
+      class="searchInput"
+      placeholder="Search MicMedia..."
+      oninput="runSearch(this.value)"
+    >
+  </div>
 
-<div class="sectionTitle">Search</div>
+  <div id="searchResults" class="searchResults">
 
+    <div class="searchUser">
+      <div class="avatar">⚽</div>
+      <div>
+        <strong>MicMedia Sports</strong>
+        <small>@sports</small>
+      </div>
+    </div>
 
-<div class="searchBox">
+    <div class="searchUser">
+      <div class="avatar">👩🏾</div>
+      <div>
+        <strong>Awa</strong>
+        <small>@awa</small>
+      </div>
+    </div>
 
-<svg viewBox="0 0 24 24">
+    <div class="searchUser">
+      <div class="avatar">👨🏾</div>
+      <div>
+        <strong>Kebba</strong>
+        <small>@kebba</small>
+      </div>
+    </div>
 
-<circle cx="11" cy="11" r="6"></circle>
+  </div>
 
-<path d="M16 16l5 5"></path>
-
-</svg>
-
-<input type="text" placeholder="Search MicMedia">
-
-</div>
-
-
-<div class="card">
-
-<strong>Discover people, reels and live streams.</strong>
-
-</div>
-
-</main>
+</section>
 
 
 <!-- SETTINGS -->
+<section id="settings" class="page">
 
-<main class="page" id="settings">
+  <div class="settingsTitle">
+    Settings
+  </div>
 
-<div class="sectionTitle">Settings</div>
+  <div class="settingGroup">
 
+    <div class="settingRow" onclick="toggleTheme()">
 
-<div class="card">
+      <div class="settingIcon">🌙</div>
 
-<div class="setting">
+      <div class="settingInfo">
+        <strong>Dark Mode</strong>
+        <small>Choose your appearance</small>
+      </div>
 
-<div class="settingText">
+      <div id="themeToggle" class="toggle on">
+        <i></i>
+      </div>
 
-<strong>Dark Mode</strong>
-
-<span>Use dark appearance</span>
-
-</div>
-
-<button class="toggle on" onclick="toggleTheme()">
-
-<span></span>
-
-</button>
-
-</div>
+    </div>
 
 
-<div class="setting">
+    <div class="settingRow" onclick="toggleNotifications()">
 
-<div class="settingText">
+      <div class="settingIcon">🔔</div>
 
-<strong>Notifications</strong>
+      <div class="settingInfo">
+        <strong>Notifications</strong>
+        <small>Likes, comments and messages</small>
+      </div>
 
-<span>Receive MicMedia notifications</span>
+      <div id="notificationToggle" class="toggle on">
+        <i></i>
+      </div>
 
-</div>
-
-<button class="toggle on">
-
-<span></span>
-
-</button>
-
-</div>
+    </div>
 
 
-<div class="setting">
+    <div class="settingRow" onclick="showPrivacy()">
 
-<div class="settingText">
+      <div class="settingIcon">🔒</div>
 
-<strong>Privacy</strong>
+      <div class="settingInfo">
+        <strong>Privacy</strong>
+        <small>Control your privacy</small>
+      </div>
 
-<span>Manage your account privacy</span>
+      <span>›</span>
 
-</div>
+    </div>
 
-</div>
 
-</div>
+    <div class="settingRow" onclick="showPage('balance')">
 
-</main>
+      <div class="settingIcon">💰</div>
+
+      <div class="settingInfo">
+        <strong>Balance & Earnings</strong>
+        <small>Manage your MicMedia balance</small>
+      </div>
+
+      <span>›</span>
+
+    </div>
+
+  </div>
+
+</section>
 
 </div>
 
 
 <!-- BOTTOM NAV -->
-
 <nav class="bottomNav">
 
-<button class="navBtn active" id="navHome" onclick="showPage('home')">
+  <button class="navBtn active" data-page="home"
+          onclick="showPage('home')">
+    ⌂
+    <small>Home</small>
+  </button>
 
-<svg viewBox="0 0 24 24">
+  <button class="navBtn" data-page="live"
+          onclick="showPage('live')">
+    ◉
+    <small>Live</small>
+  </button>
 
-<path d="M3 10.5 12 3l9 7.5"></path>
+  <button class="navBtn" onclick="createPost()">
+    <div class="createBtn">＋</div>
+  </button>
 
-<path d="M5 9.5V21h14V9.5"></path>
+  <button class="navBtn" data-page="reels"
+          onclick="showPage('reels')">
+    ▷
+    <small>Reels</small>
+  </button>
 
-</svg>
+  <button class="navBtn" data-page="chat"
+          onclick="showPage('chat')">
+    ♡
+    <small>Chat</small>
+  </button>
 
-<span class="navText">Home</span>
+  <button class="navBtn" data-page="balance"
+          onclick="showPage('balance')">
+    $
+    <small>Balance</small>
+  </button>
 
-</button>
-
-
-<button class="navBtn" id="navLive" onclick="showPage('live')">
-
-<svg viewBox="0 0 24 24">
-
-<rect x="3" y="6" width="13" height="12" rx="3"></rect>
-
-<path d="m16 10 5-3v10l-5-3"></path>
-
-</svg>
-
-<span class="navText">Live</span>
-
-</button>
-
-
-<button class="navBtn" onclick="alert('Create Post coming soon')">
-
-<div class="plusNav">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M12 5v14M5 12h14" stroke="white" stroke-width="2"/>
-
-</svg>
-
-</div>
-
-</button>
-
-
-<button class="navBtn" id="navReels" onclick="showPage('reels')">
-
-<svg viewBox="0 0 24 24">
-
-<rect x="3" y="3" width="18" height="18" rx="4"></rect>
-
-<path d="m10 8 6 4-6 4z"></path>
-
-</svg>
-
-<span class="navText">Reels</span>
-
-</button>
-
-
-<button class="navBtn" id="navChat" onclick="showPage('chat')">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-4-.9L4 20l1.5-3.4A7.5 7.5 0 1 1 20 11.5z"/>
-
-</svg>
-
-<span class="navText">Chat</span>
-
-</button>
-
-
-<button class="navBtn" id="navBalance" onclick="showPage('balance')">
-
-<svg viewBox="0 0 24 24">
-
-<rect x="3" y="6" width="18" height="13" rx="2"></rect>
-
-<path d="M16 13h5"></path>
-
-<circle cx="16" cy="13" r="1"></circle>
-
-</svg>
-
-<span class="navText">Balance</span>
-
-</button>
-
-
-<button class="navBtn" id="navProfile" onclick="showPage('profile')">
-
-<svg viewBox="0 0 24 24">
-
-<circle cx="12" cy="8" r="4"></circle>
-
-<path d="M4 21c.8-4.2 3.5-6 8-6s7.2 1.8 8 6"></path>
-
-</svg>
-
-<span class="navText">Profile</span>
-
-</button>
+  <button class="navBtn" data-page="profile"
+          onclick="showPage('profile')">
+    ●
+    <small>Profile</small>
+  </button>
 
 </nav>
 
 
-<!-- LIVE ROOM -->
+<!-- COMMENTS OVERLAY -->
+<div id="commentsOverlay" class="overlay">
 
-<div class="liveRoom" id="liveRoom">
+  <div class="sheet">
 
-<video class="liveVideo" id="liveVideo" autoplay playsinline muted></video>
+    <div class="sheetHead">
+      <h3>Comments</h3>
 
-<div class="liveShade"></div>
+      <button class="closeBtn"
+              onclick="closeComments()">×</button>
+    </div>
 
+    <div id="commentsList">
 
-<div class="liveTop">
+      <div class="commentItem">
 
-<div class="liveBadge">LIVE</div>
+        <div class="avatar">👩🏾</div>
 
-<div class="liveViewers">
+        <div class="commentText">
+          <strong>Awa</strong>
+          <p>Nice post 🔥</p>
+        </div>
 
-<svg viewBox="0 0 24 24">
+        <button class="commentLike">
+          ♡ 4
+        </button>
 
-<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"></path>
+      </div>
 
-<circle cx="12" cy="12" r="2.5"></circle>
 
-</svg>
+      <div class="commentItem">
 
-<span id="liveViewerCount">1</span>
+        <div class="avatar">👨🏾</div>
 
-</div>
+        <div class="commentText">
+          <strong>Kebba</strong>
+          <p>This is amazing!</p>
+        </div>
 
-<button class="liveClose" onclick="askEndLive()">×</button>
+        <button class="commentLike">
+          ♡ 2
+        </button>
 
-</div>
+      </div>
 
+    </div>
 
-<div class="liveTitleArea">
+    <div class="commentInputRow">
 
-<strong id="liveOwnerName">Mustapha</strong>
+      <input id="commentInput"
+             placeholder="Add a comment...">
 
-<span>Live on MicMedia</span>
+      <button class="sendBtn"
+              onclick="sendComment()">➤</button>
 
-</div>
+    </div>
 
-
-<div class="liveRightControls">
-
-<button class="liveControl" id="liveMicBtn" onclick="toggleLiveMic()">
-
-<svg viewBox="0 0 24 24">
-
-<rect x="8" y="3" width="8" height="12" rx="4"></rect>
-
-<path d="M5 11a7 7 0 0 0 14 0"></path>
-
-<path d="M12 18v3"></path>
-
-</svg>
-
-</button>
-
-
-<button class="liveControl" id="liveCameraBtn" onclick="toggleLiveCamera()">
-
-<svg viewBox="0 0 24 24">
-
-<rect x="3" y="6" width="13" height="12" rx="3"></rect>
-
-<path d="m16 10 5-3v10l-5-3"></path>
-
-</svg>
-
-</button>
-
-
-<button class="liveControl" onclick="switchLiveCamera()">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M7 7h10"></path>
-
-<path d="m14 4 3 3-3 3"></path>
-
-<path d="M17 17H7"></path>
-
-<path d="m10 14-3 3 3 3"></path>
-
-</svg>
-
-</button>
-
-
-<button class="liveControl" onclick="openLiveInvites()">
-
-<svg viewBox="0 0 24 24">
-
-<circle cx="9" cy="8" r="3"></circle>
-
-<path d="M3 20c.5-3 2.5-5 6-5s5.5 2 6 5"></path>
-
-<path d="M16 11h5M18.5 8.5v5"></path>
-
-</svg>
-
-</button>
-
-
-<button class="liveControl" onclick="openQR()">
-
-<svg viewBox="0 0 24 24">
-
-<rect x="3" y="3" width="7" height="7"></rect>
-
-<rect x="14" y="3" width="7" height="7"></rect>
-
-<rect x="3" y="14" width="7" height="7"></rect>
-
-<path d="M14 14h3v3h-3zM18 18h3v3h-3zM18 14h3"></path>
-
-</svg>
-
-</button>
-
-</div>
-
-
-<div class="liveComments" id="liveComments"></div>
-
-
-<div class="liveBottom">
-
-<div class="liveCommentBar">
-
-<input
-class="liveCommentInput"
-id="liveCommentInput"
-placeholder="Comment..."
->
-
-</div>
-
-
-<button class="liveBottomBtn" onclick="sendLiveComment()">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M22 2 11 13"></path>
-
-<path d="m22 2-7 20-4-9-9-4z"></path>
-
-</svg>
-
-</button>
-
-
-<button class="liveBottomBtn" onclick="sendLiveHeart()">
-
-<svg viewBox="0 0 24 24">
-
-<path d="M20.8 8.7c0 5.5-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3z"/>
-
-</svg>
-
-</button>
-
-</div>
+  </div>
 
 </div>
 
 
 <!-- INVITATION SHEET -->
+<div id="inviteOverlay" class="overlay">
 
-<div class="inviteSheet" id="inviteSheet">
+  <div class="sheet">
 
-<div class="inviteHead">
+    <div class="sheetHead">
+      <h3>Invite to Live</h3>
 
-<h3>Invite to Live</h3>
-
-<button onclick="closeLiveInvites()" style="font-size:25px">
-
-×
-
-</button>
-
-</div>
+      <button class="closeBtn"
+              onclick="closeLiveInvites()">×</button>
+    </div>
 
 
-<div class="inviteFriend">
+    <div class="inviteRow">
 
-<div class="avatar">A</div>
+      <div class="avatar">👩🏾</div>
 
-<div class="inviteInfo">
+      <div class="inviteInfo">
+        <strong>Awa</strong>
+      </div>
 
-<div class="inviteName">Awa</div>
+      <button onclick="inviteFriend('Awa')">
+        Invite
+      </button>
 
-<div class="inviteStatus">Online</div>
-
-</div>
-
-<button class="inviteBtn" onclick="inviteFriend('Awa')">
-
-Invite
-
-</button>
-
-</div>
+    </div>
 
 
-<div class="inviteFriend">
+    <div class="inviteRow">
 
-<div class="avatar">K</div>
+      <div class="avatar">👨🏾</div>
 
-<div class="inviteInfo">
+      <div class="inviteInfo">
+        <strong>Kebba</strong>
+      </div>
 
-<div class="inviteName">Kebba</div>
+      <button onclick="inviteFriend('Kebba')">
+        Invite
+      </button>
 
-<div class="inviteStatus">Online</div>
-
-</div>
-
-<button class="inviteBtn" onclick="inviteFriend('Kebba')">
-
-Invite
-
-</button>
-
-</div>
+    </div>
 
 
-<div class="inviteFriend">
+    <div class="inviteRow">
 
-<div class="avatar">F</div>
+      <div class="avatar">👩🏾‍🦱</div>
 
-<div class="inviteInfo">
+      <div class="inviteInfo">
+        <strong>Fatou</strong>
+      </div>
 
-<div class="inviteName">Fatou</div>
+      <button onclick="inviteFriend('Fatou')">
+        Invite
+      </button>
 
-<div class="inviteStatus">Active recently</div>
-
-</div>
-
-<button class="inviteBtn" onclick="inviteFriend('Fatou')">
-
-Invite
-
-</button>
-
-</div>
+    </div>
 
 
-<div style="
-display:flex;
-align-items:center;
-justify-content:center;
-margin-top:12px;
-">
+    <button class="qrShareBtn"
+            style="margin-top:15px"
+            onclick="openQR()">
+      ▣ Share Live QR Code
+    </button>
 
-<button
-class="inviteBtn"
-onclick="closeLiveInvites();openQR()"
-style="width:100%;height:44px"
->
-
-Share Live QR Code
-
-</button>
-
-</div>
+  </div>
 
 </div>
 
 
 <!-- QR OVERLAY -->
+<div id="qrOverlay" class="overlay">
 
-<div class="qrOverlay" id="qrOverlay">
+  <div class="sheet">
 
-<div class="qrCard">
+    <div class="sheetHead">
 
-<button class="qrClose" onclick="closeQR()">×</button>
+      <h3>Share Live</h3>
 
-<h3>Invite to MicMedia Live</h3>
+      <button class="closeBtn"
+              onclick="closeQR()">×</button>
 
-<p>Scan this QR code to join the live stream.</p>
+    </div>
 
-<div id="liveQRCode"></div>
+    <p style="text-align:center;color:#aaa">
+      Scan this QR code to join the live.
+    </p>
 
-<div class="qrLink" id="liveQRLink">
-MicMedia Live
-</div>
+    <div id="qrcode" class="qrBox"></div>
 
-<button class="copyQRBtn" onclick="copyLiveLink()">
+    <button class="qrShareBtn"
+            onclick="copyLiveLink()">
+      Copy Live Link
+    </button>
 
-Copy Live Link
-
-</button>
-
-</div>
+  </div>
 
 </div>
 
 
 <!-- STORY VIEWER -->
+<div id="storyViewer" class="storyViewer">
 
-<div class="storyViewer" id="storyViewer">
+  <div class="storyProgress">
+    <i id="storyProgress"></i>
+  </div>
 
-<div class="storyProgress" id="storyProgress"></div>
+  <div class="storyHeader">
 
-<div class="storyFallback" id="storyFallback"></div>
+    <div class="avatar" id="storyAvatar">
+      👩🏾
+    </div>
 
-<img
-class="storyMedia"
-id="storyImage"
-style="display:none"
->
+    <div class="storyHeaderInfo">
+      <strong id="storyUsername">Awa</strong>
+      <small id="storyTime">2h</small>
+    </div>
 
-<video
-class="storyMedia"
-id="storyVideo"
-playsinline
-style="display:none"
-></video>
+    <button class="storyClose"
+            onclick="closeStory()">×</button>
 
-<div class="storyShade"></div>
+  </div>
 
-<div class="storyHeader">
+  <div id="storyContent" class="storyContent doubleTapTarget">
+    <div class="storyFallback">STORY</div>
+  </div>
 
-<div class="storyHeaderAvatar" id="storyAvatar">A</div>
+  <div class="storyTapLeft"
+       onclick="previousStory()"></div>
 
-<div class="storyHeaderInfo">
+  <div class="storyTapRight"
+       onclick="nextStory()"></div>
 
-<div class="storyHeaderName" id="storyName">
-Awa
-</div>
+  <div class="storyBottom">
 
-<div class="storyHeaderTime" id="storyTime">
-Just now
-</div>
+    <input id="storyReply"
+           class="storyReply"
+           placeholder="Reply to story...">
 
-</div>
+    <button id="storyHeart"
+            class="storyHeart"
+            onclick="likeStory()">
+      ♡
+    </button>
 
-<button class="storyClose" onclick="closeStory()">×</button>
-
-</div>
-
-<div class="storyTapLeft" onclick="previousStory()"></div>
-
-<div class="storyTapRight" onclick="nextStory()"></div>
-
-<div class="storyBottom">
-
-<input
-class="storyReply"
-id="storyReply"
-placeholder="Reply to story..."
->
-
-<button class="storyHeart" onclick="likeStory()">
-
-❤️
-
-</button>
+  </div>
 
 </div>
+
+
+<!-- LIVE ROOM -->
+<div id="liveRoom" class="liveRoom">
+
+  <video id="liveVideo"
+         class="liveVideo"
+         autoplay
+         playsinline
+         muted></video>
+
+  <div id="liveFallback"
+       style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:70px">
+    🔴
+  </div>
+
+  <div class="liveTop">
+
+    <div class="liveTopLeft">
+
+      <span class="liveStatus">LIVE</span>
+
+      <span class="viewerCount">
+        👁 1
+      </span>
+
+    </div>
+
+    <button class="liveClose"
+            onclick="askEndLive()">×</button>
+
+  </div>
+
+
+  <div class="liveBottom">
+
+    <div class="liveOwner">
+      <strong id="liveOwnerName">Mustapha</strong>
+    </div>
+
+    <div id="liveComments"
+         class="liveComments"></div>
+
+
+    <div class="liveControls">
+
+      <button class="circleControl"
+              onclick="toggleLiveMic()">
+        🎙
+      </button>
+
+      <button class="circleControl"
+              onclick="toggleLiveCamera()">
+        ▣
+      </button>
+
+      <button class="circleControl"
+              onclick="switchLiveCamera()">
+        ↻
+      </button>
+
+      <button class="circleControl"
+              onclick="openLiveInvites()">
+        👥
+      </button>
+
+      <button class="circleControl"
+              onclick="openQR()">
+        ▣
+      </button>
+
+      <button class="circleControl"
+              onclick="openGifts()">
+        🎁
+      </button>
+
+    </div>
+
+
+    <div class="liveInputRow">
+
+      <input id="liveCommentInput"
+             class="liveInput"
+             placeholder="Say something...">
+
+      <button class="circleControl"
+              onclick="sendLiveComment()">
+        ➤
+      </button>
+
+      <button class="circleControl"
+              onclick="sendLiveHeart()">
+        ❤️
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- GIFT SHEET -->
+<div id="giftOverlay" class="overlay">
+
+  <div class="giftSheet">
+
+    <div class="sheetHead">
+
+      <h3>Send a Gift</h3>
+
+      <button class="closeBtn"
+              onclick="closeGifts()">×</button>
+
+    </div>
+
+    <div class="giftGrid">
+
+      <button class="giftItem"
+              onclick="sendGift('❤️','Heart')">
+        <span>❤️</span>
+        <small>Heart</small>
+      </button>
+
+      <button class="giftItem"
+              onclick="sendGift('🌹','Rose')">
+        <span>🌹</span>
+        <small>Rose</small>
+      </button>
+
+      <button class="giftItem"
+              onclick="sendGift('🔥','Fire')">
+        <span>🔥</span>
+        <small>Fire</small>
+      </button>
+
+      <button class="giftItem"
+              onclick="sendGift('⭐','Star')">
+        <span>⭐</span>
+        <small>Star</small>
+      </button>
+
+      <button class="giftItem"
+              onclick="sendGift('💎','Diamond')">
+        <span>💎</span>
+        <small>Diamond</small>
+      </button>
+
+      <button class="giftItem"
+              onclick="sendGift('👑','Crown')">
+        <span>👑</span>
+        <small>Crown</small>
+      </button>
+
+      <button class="giftItem"
+              onclick="sendGift('🚀','Rocket')">
+        <span>🚀</span>
+        <small>Rocket</small>
+      </button>
+
+      <button class="giftItem"
+              onclick="sendGift('🏆','Champion')">
+        <span>🏆</span>
+        <small>Champion</small>
+      </button>
+
+    </div>
+
+  </div>
 
 </div>
 
 
 <!-- END LIVE -->
+<div id="endLiveOverlay" class="overlay">
 
-<div class="endLiveBox" id="endLiveBox">
+  <div class="sheet" style="text-align:center">
 
-<div class="endLiveCard">
+    <h3>End Live?</h3>
 
-<h3>End Live Stream?</h3>
+    <p style="color:#aaa;margin:12px 0 20px">
+      Are you sure you want to end your live stream?
+    </p>
 
-<p>Your live stream will end for viewers.</p>
+    <div style="display:flex;gap:9px">
 
-<div class="endButtons">
+      <button
+        style="flex:1;padding:13px;border-radius:12px;background:var(--card2)"
+        onclick="closeEndLive()">
+        Cancel
+      </button>
 
-<button onclick="closeEndLive()">Cancel</button>
+      <button
+        style="flex:1;padding:13px;border-radius:12px;background:#ff304f"
+        onclick="endLive()">
+        End Live
+      </button>
 
-<button class="danger" onclick="endLive()">End Live</button>
+    </div>
 
-</div>
-
-</div>
-
-</div>
-
-
-<!-- CHAT INBOX -->
-
-<div class="liveRoom" id="chatInbox" style="background:var(--bg);">
-
-<div style="
-height:68px;
-position:absolute;
-top:0;
-left:0;
-right:0;
-z-index:5;
-display:flex;
-align-items:center;
-gap:10px;
-padding:0 12px;
-background:rgba(8,9,13,.95);
-border-bottom:1px solid var(--line);
-">
-
-<button onclick="closeChat()" style="
-width:40px;
-height:40px;
-border-radius:50%;
-background:var(--card2);
-font-size:25px;
-">‹</button>
-
-
-<div class="chatAvatar" style="width:42px;height:42px;min-width:42px">
-
-<span id="inboxLetter">A</span>
-
-<span class="onlineDot" id="inboxDot"></span>
+  </div>
 
 </div>
 
 
-<div style="flex:1">
+<!-- CHAT WINDOW -->
+<div id="chatWindow" class="chatWindow">
 
-<strong id="inboxName">Awa</strong>
+  <div class="chatHeader">
 
-<div id="inboxStatus"
-style="font-size:11px;color:#20d66b;margin-top:3px">
+    <button class="chatBack"
+            onclick="closeChat()">‹</button>
 
-Online
+    <div class="avatar"
+         id="chatAvatar">
+      👩🏾
+    </div>
 
-</div>
+    <div class="chatHeaderInfo">
+      <strong id="chatUser">Awa</strong>
+      <small>Online</small>
+    </div>
 
-</div>
+    <button class="chatCall"
+            onclick="startChatCall()">☎</button>
 
-
-<button
-style="width:40px;height:40px;background:var(--card2);border-radius:50%"
-onclick="alert('Voice call coming soon')"
->
-
-<svg viewBox="0 0 24 24"
-style="width:20px;fill:none;stroke:white;stroke-width:2">
-
-<path d="M7 4h3l2 5-2 2a14 14 0 0 0 3 3l2-2 5 2v3a2 2 0 0 1-2 2C10.8 18.6 5.4 13.2 4 6a2 2 0 0 1 2-2z"/>
-
-</svg>
-
-</button>
-
-</div>
+  </div>
 
 
-<div
-id="chatMessages"
-style="
-position:absolute;
-top:68px;
-bottom:68px;
-left:0;
-right:0;
-padding:18px 14px;
-overflow-y:auto;
-display:flex;
-flex-direction:column;
-gap:9px;
-">
+  <div id="chatMessages"
+       class="chatMessages">
 
-<div style="
-align-self:flex-start;
-background:var(--card2);
-padding:10px 13px;
-border-radius:18px;
-border-bottom-left-radius:5px;
-font-size:14px
-">
+    <div class="message them">
+      Hey 👋🏾
+    </div>
 
-Hey, how are you?
+    <div class="message them">
+      How are you?
+    </div>
 
-</div>
+  </div>
 
 
-<div style="
-align-self:flex-end;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-padding:10px 13px;
-border-radius:18px;
-border-bottom-right-radius:5px;
-font-size:14px
-">
+  <div class="chatComposer">
 
-I'm good! How about you?
+    <button id="voiceBtn"
+            class="voiceBtn"
+            onclick="toggleVoiceRecording()">
 
-</div>
+      <span class="voiceIcon"></span>
+
+    </button>
+
+    <input id="chatInput"
+           class="chatInput"
+           placeholder="Message...">
+
+    <button class="sendBtn"
+            onclick="sendChatMessage()">
+      ➤
+    </button>
+
+  </div>
 
 </div>
 
 
-<div style="
-position:absolute;
-bottom:0;
-left:0;
-right:0;
-height:68px;
-padding:10px;
-display:flex;
-gap:7px;
-background:var(--bg);
-border-top:1px solid var(--line);
-">
-
-<input
-id="chatInput"
-placeholder="Message..."
-style="
-flex:1;
-border:0;
-outline:0;
-border-radius:23px;
-background:var(--card2);
-color:white;
-padding:0 15px;
-">
+<div id="toast" class="toast"></div>
 
 
-<button
-onclick="sendChatMessage()"
-style="
-width:45px;
-height:45px;
-border-radius:50%;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-font-size:20px;
-">
+<script>
+/* =========================
+   MICMEDIA JAVASCRIPT
+========================= */
 
-➤
+let currentPage = "home";
 
-</button>
+let currentStory = 0;
 
-</div>
+let currentChatUser = "";
 
-</div>
+let currentCommentPost = null;
+
+let liveStream = null;
+
+let liveCameraFacing = "user";
+
+let liveMicOn = true;
+
+let liveCameraOn = true;
+
+let voiceRecorder = null;
+
+let voiceChunks = [];
+
+let voiceRecording = false;
+
+let lastTapTime = 0;
+
+let lastTapTarget = null;
+
+
+/* =========================
+   BASIC HELPERS
+========================= */
+
+function toast(message){
+
+  const el = document.getElementById("toast");
+
+  if(!el) return;
+
+  el.textContent = message;
+
+  el.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(()=>{
+    el.classList.remove("show");
+  },2200);
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showPage(page){
+
+  const pages = document.querySelectorAll(".page");
+
+  pages.forEach(p=>{
+    p.classList.remove("active");
+  });
+
+  const target = document.getElementById(page);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  currentPage = page;
+
+  document.querySelectorAll(".navBtn").forEach(btn=>{
+    btn.classList.remove("active");
+
+    if(btn.dataset.page === page){
+      btn.classList.add("active");
+    }
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* =========================
+   CREATE
+========================= */
+
+function createPost(){
+
+  const choice = confirm(
+    "Create something for MicMedia?\n\nOK = New Post\nCancel = Start Live"
+  );
+
+  if(choice){
+    toast("Post creator opened");
+  }else{
+    startLive();
+  }
+}
+
+
+/* =========================
+   STORIES
+========================= */
+
+const stories = [
+  {
+    name:"Awa",
+    avatar:"👩🏾",
+    time:"2h",
+    text:"Hello from Awa ❤️"
+  },
+  {
+    name:"Kebba",
+    avatar:"👨🏾",
+    time:"3h",
+    text:"Good vibes today 🔥"
+  },
+  {
+    name:"Fatou",
+    avatar:"👩🏾‍🦱",
+    time:"5h",
+    text:"MicMedia is amazing!"
+  },
+  {
+    name:"Sports",
+    avatar:"⚽",
+    time:"1h",
+    text:"Football updates ⚽"
+  }
+];
+
+
+function addStory(){
+
+  const input = document.createElement("input");
+
+  input.type = "file";
+
+  input.accept = "image/*,video/*";
+
+  input.onchange = function(){
+
+    if(input.files && input.files.length){
+
+      toast("Your story has been added");
+
+    }
+
+  };
+
+  input.click();
+}
+
+
+function openStory(index){
+
+  if(index < 0){
+    index = stories.length - 1;
+  }
+
+  if(index >= stories.length){
+    index = 0;
+  }
+
+  currentStory = index;
+
+  const story = stories[currentStory];
+
+  document.getElementById("storyUsername").textContent =
+    story.name;
+
+  document.getElementById("storyTime").textContent =
+    story.time;
+
+  document.getElementById("storyAvatar").textContent =
+    story.avatar;
+
+  document.getElementById("storyHeart").classList.remove("liked");
+
+  document.getElementById("storyHeart").textContent = "♡";
+
+  const content =
+    document.getElementById("storyContent");
+
+  content.innerHTML =
+    '<div class="storyFallback">'+
+    story.text+
+    '</div>';
+
+  const viewer =
+    document.getElementById("storyViewer");
+
+  viewer.classList.add("show");
+
+  const progress =
+    document.getElementById("storyProgress");
+
+  progress.style.width = "0%";
+
+  setTimeout(()=>{
+    progress.style.transition = "width 5s linear";
+    progress.style.width = "100%";
+  },30);
+}
+
+
+function closeStory(){
+
+  document
+    .getElementById("storyViewer")
+    .classList.remove("show");
+}
+
+
+function previousStory(){
+  openStory(currentStory - 1);
+}
+
+
+function nextStory(){
+  openStory(currentStory + 1);
+}
+
+
+function likeStory(){
+
+  const button =
+    document.getElementById("storyHeart");
+
+  button.classList.add("liked");
+
+  button.textContent = "♥";
+
+  showStoryHeart();
+
+  toast("Story liked ❤️");
+}
+
+
+function showStoryHeart(){
+
+  const viewer =
+    document.getElementById("storyContent");
+
+  const heart =
+    document.createElement("div");
+
+  heart.className = "storyLikeHeart";
+
+  heart.textContent = "❤️";
+
+  viewer.appendChild(heart);
+
+  setTimeout(()=>{
+    heart.remove();
+  },800);
+}
+
+
+/* =========================
+   DOUBLE TAP
+========================= */
+
+function showDoubleTapHeart(x,y){
+
+  const heart =
+    document.createElement("div");
+
+  heart.className = "doubleTapHeart";
+
+  heart.textContent = "❤️";
+
+  heart.style.left =
+    (x - 29) + "px";
+
+  heart.style.top =
+    (y - 29) + "px";
+
+  document.body.appendChild(heart);
+
+  setTimeout(()=>{
+    heart.remove();
+  },800);
+}
+
+
+function handleDoubleTap(target,event){
+
+  const now = Date.now();
+
+  const sameTarget =
+    lastTapTarget === target;
+
+  const quick =
+    now - lastTapTime < 350;
+
+  if(sameTarget && quick){
+
+    if(
+      target.closest(".storyContent")
+    ){
+
+      likeStory();
+
+    }else{
+
+      const post =
+        target.closest(".post");
+
+      if(post){
+
+        const likeButton =
+          post.querySelector(".likeButton");
+
+        if(likeButton){
+          likePost(likeButton,true);
+        }
+
+      }
+
+      const reel =
+        target.closest(".reel");
+
+      if(reel){
+
+        const likeButton =
+          reel.querySelector(".likeReelButton");
+
+        if(likeButton){
+          likeReel(likeButton,true);
+        }
+
+      }
+
+    }
+
+    if(event){
+
+      showDoubleTapHeart(
+        event.clientX,
+        event.clientY
+      );
+
+    }
+
+    lastTapTime = 0;
+    lastTapTarget = null;
+
+    return;
+  }
+
+  lastTapTime = now;
+  lastTapTarget = target;
+}
+
+
+document.addEventListener(
+  "pointerup",
+  function(event){
+
+    const media =
+      event.target.closest(
+        ".doubleTapTarget"
+      );
+
+    if(!media) return;
+
+    if(
+      event.target.closest("button") ||
+      event.target.closest("input")
+    ){
+      return;
+    }
+
+    handleDoubleTap(media,event);
+
+  },
+  {passive:true}
+);
+
+
+/* =========================
+   POSTS
+========================= */
+
+function likePost(button,forceLike=false){
+
+  if(!button) return;
+
+  const liked =
+    button.classList.contains("liked");
+
+  if(liked && !forceLike){
+
+    button.classList.remove("liked");
+
+    const count =
+      button.querySelector(".likeCount");
+
+    if(count){
+
+      count.textContent =
+        Math.max(
+          0,
+          Number(count.textContent)-1
+        );
+
+    }
+
+    button.innerHTML =
+      "♡ <span class='likeCount'>"+
+      (count ? count.textContent : "0")+
+      "</span>";
+
+    return;
+  }
+
+  if(!liked){
+
+    button.classList.add("liked");
+
+    const count =
+      button.querySelector(".likeCount");
+
+    if(count){
+
+      count.textContent =
+        Number(count.textContent)+1;
+
+    }
+
+    button.innerHTML =
+      "♥ <span class='likeCount'>"+
+      (count ? count.textContent : "1")+
+      "</span>";
+  }
+}
+
+
+function addComment(source){
+
+  let post = null;
+
+  if(source){
+
+    post =
+      source.closest(".post");
+
+  }
+
+  if(!post){
+
+    post =
+      document.querySelector(
+        ".post"
+      );
+  }
+
+  currentCommentPost = post;
+
+  document
+    .getElementById("commentsOverlay")
+    .classList.add("show");
+
+  document
+    .getElementById("commentInput")
+    .focus();
+}
+
+
+function closeComments(){
+
+  document
+    .getElementById("commentsOverlay")
+    .classList.remove("show");
+
+  currentCommentPost = null;
+}
+
+
+function sendComment(){
+
+  const input =
+    document.getElementById("commentInput");
+
+  const text =
+    input.value.trim();
+
+  if(!text){
+
+    toast("Write a comment first");
+
+    return;
+  }
+
+  const list =
+    document.getElementById("commentsList");
+
+  const item =
+    document.createElement("div");
+
+  item.className = "commentItem";
+
+  item.innerHTML = `
+    <div class="avatar">M</div>
+    <div class="commentText">
+      <strong>You</strong>
+      <p>${escapeHTML(text)}</p>
+    </div>
+    <button class="commentLike">♡ 0</button>
+  `;
+
+  list.appendChild(item);
+
+  if(currentCommentPost){
+
+    const count =
+      currentCommentPost.querySelector(
+        ".commentCount"
+      );
+
+    if(count){
+
+      count.textContent =
+        Number(count.textContent)+1;
+
+    }
+  }
+
+  input.value = "";
+
+  toast("Comment added");
+}
+
+
+function sharePost(button){
+
+  const post =
+    button.closest(".post");
+
+  const count =
+    post.querySelector(".shareCount");
+
+  if(count){
+
+    count.textContent =
+      Number(count.textContent)+1;
+
+  }
+
+  const text =
+    "Check this post on MicMedia";
+
+  if(
+    navigator.share
+  ){
+
+    navigator.share({
+      title:"MicMedia",
+      text:text
+    }).catch(()=>{});
+
+  }else{
+
+    navigator.clipboard
+      ?.writeText(text);
+
+    toast("Post link copied");
+
+  }
+}
+
+
+function savePost(button){
+
+  button.classList.toggle("saved");
+
+  button.textContent =
+    button.classList.contains("saved")
+    ? "♣"
+    : "♧";
+
+  toast(
+    button.classList.contains("saved")
+    ? "Post saved"
+    : "Post removed from saved"
+  );
+}
+
+
+/* =========================
+   REELS
+========================= */
+
+function likeReel(button,forceLike=false){
+
+  if(!button) return;
+
+  const liked =
+    button.classList.contains("liked");
+
+  const count =
+    button.querySelector(".likeReelCount");
+
+  let number =
+    Number(count?.textContent || 0);
+
+  if(liked && !forceLike){
+
+    button.classList.remove("liked");
+
+    number =
+      Math.max(0,number-1);
+
+  }else if(!liked){
+
+    button.classList.add("liked");
+
+    number++;
+
+  }
+
+  if(count){
+    count.textContent = number;
+  }
+
+  button.firstChild.textContent =
+    button.classList.contains("liked")
+    ? "♥"
+    : "♡";
+}
+
+
+function addReelComment(button){
+
+  const reel =
+    button.closest(".reel");
+
+  currentCommentPost = reel;
+
+  document
+    .getElementById("commentsOverlay")
+    .classList.add("show");
+
+  document
+    .getElementById("commentInput")
+    .focus();
+}
+
+
+function shareReel(button){
+
+  const reel =
+    button.closest(".reel");
+
+  const count =
+    reel.querySelector(
+      ".reelShareCount"
+    );
+
+  if(count){
+
+    count.textContent =
+      Number(count.textContent)+1;
+
+  }
+
+  if(navigator.share){
+
+    navigator.share({
+      title:"MicMedia Reel",
+      text:"Check this MicMedia reel!"
+    }).catch(()=>{});
+
+  }else{
+
+    toast("Reel link copied");
+
+  }
+}
+
+
+function saveReel(button){
+
+  button.classList.toggle("liked");
+
+  button.textContent =
+    button.classList.contains("liked")
+    ? "♣"
+    : "♧";
+
+  toast(
+    button.classList.contains("liked")
+    ? "Reel saved"
+    : "Reel removed"
+  );
+}
+
+
+/* =========================
+   LIVE
+========================= */
+
+async function startLive(){
+
+  document
+    .getElementById("liveRoom")
+    .classList.add("show");
+
+  document
+    .getElementById("liveOwnerName")
+    .textContent = "Mustapha";
+
+  try{
+
+    if(
+      navigator.mediaDevices &&
+      navigator.mediaDevices.getUserMedia
+    ){
+
+      liveStream =
+        await navigator.mediaDevices.getUserMedia({
+          video:{
+            facingMode:liveCameraFacing
+          },
+          audio:true
+        });
+
+      const video =
+        document.getElementById("liveVideo");
+
+      video.srcObject =
+        liveStream;
+
+      document
+        .getElementById("liveFallback")
+        .style.display = "none";
+
+    }else{
+
+      toast("Camera is not available");
+
+    }
+
+  }catch(error){
+
+    document
+      .getElement
