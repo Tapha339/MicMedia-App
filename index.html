@@ -64,7 +64,7 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 .postBody{padding:14px}
 .postText{font-size:14px;line-height:1.5;color:#ddd}
 
-/* ACTIONS + COUNTERS */
+/* ACTIONS */
 .postActions{display:flex;align-items:center;gap:12px;padding:0 14px 14px;flex-wrap:wrap}
 .actionBox{display:flex;align-items:center;gap:5px}
 .action{background:none;width:27px;height:27px;display:flex;align-items:center;justify-content:center}
@@ -74,7 +74,7 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 .action.saved{color:#a78bfa}
 .action.shared{color:#5ee7a1}
 
-/* LIVE */
+/* LIVE PAGE */
 .liveHero{padding:25px;border-radius:25px;background:linear-gradient(135deg,#21133c,#111827);margin-bottom:18px}
 .liveLabel{display:inline-flex;align-items:center;gap:7px;background:#ff304f;padding:7px 11px;border-radius:10px;font-size:12px;font-weight:800;margin-bottom:16px}
 .liveLabel span{width:7px;height:7px;border-radius:50%;background:white}
@@ -83,89 +83,400 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-l
 .liveButton{margin-top:20px;padding:14px 20px;border-radius:14px;background:#ff304f;font-weight:800;display:inline-flex;align-items:center;gap:9px}
 .liveButton svg{width:19px;height:19px}
 
-/* LIVE STREAM LIST */
-.liveSectionTitle{
-font-size:16px;
-font-weight:800;
-margin:22px 0 12px;
-}
-.liveCreator{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:20px;
+/* LIVE ROOM */
+.liveRoom{
+position:fixed;
+inset:0;
+z-index:8000;
+display:none;
+background:#000;
 overflow:hidden;
-margin-bottom:12px;
 }
-.liveCreatorPreview{
-height:145px;
-background:linear-gradient(135deg,#281044,#101827,#39111f);
-display:flex;
+
+.liveRoom.open{display:block}
+
+#liveVideo{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+background:#111;
+}
+
+.liveVideoOff{
+position:absolute;
+inset:0;
+display:none;
 align-items:center;
 justify-content:center;
-position:relative;
+background:radial-gradient(circle,#29213c,#08090d 70%);
+z-index:2;
 }
-.liveCreatorPreview .playCircle{
-width:52px;
-height:52px;
+
+.liveVideoOff.show{display:flex}
+
+.liveVideoOffAvatar{
+width:105px;
+height:105px;
 border-radius:50%;
-background:rgba(255,255,255,.14);
-backdrop-filter:blur(10px);
+background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:42px;
+font-weight:900;
+}
+
+.liveShade{
+position:absolute;
+inset:0;
+z-index:3;
+pointer-events:none;
+background:linear-gradient(
+to bottom,
+rgba(0,0,0,.65),
+transparent 25%,
+transparent 55%,
+rgba(0,0,0,.82)
+);
+}
+
+.liveTop{
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:75px;
+z-index:10;
+display:flex;
+align-items:center;
+gap:9px;
+padding:12px 14px;
+padding-top:calc(12px + env(safe-area-inset-top));
+}
+
+.liveBadge{
+display:flex;
+align-items:center;
+gap:7px;
+padding:8px 11px;
+border-radius:10px;
+background:#ff304f;
+font-size:11px;
+font-weight:900;
+}
+
+.liveBadge span{
+width:7px;
+height:7px;
+border-radius:50%;
+background:#fff;
+}
+
+.liveViewerCount{
+display:flex;
+align-items:center;
+gap:6px;
+padding:8px 11px;
+border-radius:10px;
+background:rgba(0,0,0,.45);
+backdrop-filter:blur(12px);
+font-size:12px;
+font-weight:700;
+}
+
+.liveViewerCount svg{
+width:16px;
+height:16px;
+}
+
+.liveEndBtn{
+margin-left:auto;
+width:40px;
+height:40px;
+border-radius:50%;
+background:rgba(0,0,0,.5);
+backdrop-filter:blur(12px);
 display:flex;
 align-items:center;
 justify-content:center;
 }
-.liveCreatorPreview .playCircle svg{
-width:22px;
-fill:white;
+
+.liveEndBtn svg{
+width:20px;
 }
-.liveMiniBadge{
+
+.liveCreator{
 position:absolute;
-top:10px;
-left:10px;
-background:#ff304f;
-padding:5px 8px;
-border-radius:7px;
-font-size:9px;
-font-weight:800;
-}
-.liveMiniViewers{
-position:absolute;
-top:10px;
-right:10px;
-background:rgba(0,0,0,.5);
-padding:5px 8px;
-border-radius:8px;
-font-size:10px;
+top:83px;
+left:14px;
+z-index:10;
 display:flex;
 align-items:center;
-gap:4px;
+gap:9px;
 }
-.liveCreatorInfo{
-padding:12px;
-display:flex;
-align-items:center;
-gap:10px;
-}
+
 .liveCreatorAvatar{
-width:43px;
-height:43px;
+width:40px;
+height:40px;
 border-radius:50%;
 background:linear-gradient(135deg,#8b5cf6,#ec4899);
 display:flex;
 align-items:center;
 justify-content:center;
 font-weight:800;
-position:relative;
 }
-.liveCreatorDetails{flex:1}
-.liveCreatorName{font-size:14px;font-weight:800}
-.liveCreatorHandle{font-size:11px;color:var(--muted);margin-top:3px}
-.joinLiveBtn{
-padding:9px 13px;
-border-radius:11px;
-background:#ff304f;
-font-size:11px;
+
+.liveCreatorInfo strong{
+display:block;
+font-size:13px;
+}
+
+.liveCreatorInfo span{
+font-size:10px;
+color:#d0d2da;
+margin-top:3px;
+display:block;
+}
+
+.liveControls{
+position:absolute;
+right:13px;
+top:50%;
+transform:translateY(-50%);
+z-index:10;
+display:flex;
+flex-direction:column;
+gap:11px;
+}
+
+.liveControl{
+width:46px;
+height:46px;
+border-radius:50%;
+background:rgba(0,0,0,.45);
+backdrop-filter:blur(12px);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.liveControl svg{
+width:21px;
+height:21px;
+}
+
+.liveControl.active{
+background:rgba(139,92,246,.85);
+}
+
+.liveComments{
+position:absolute;
+left:14px;
+right:70px;
+bottom:95px;
+z-index:10;
+height:220px;
+overflow-y:auto;
+display:flex;
+flex-direction:column;
+justify-content:flex-end;
+gap:7px;
+padding-right:5px;
+}
+
+.liveComments::-webkit-scrollbar{
+display:none;
+}
+
+.liveComment{
+width:max-content;
+max-width:100%;
+padding:7px 10px;
+border-radius:14px;
+background:rgba(0,0,0,.42);
+backdrop-filter:blur(10px);
+font-size:12px;
+line-height:1.35;
+color:#fff;
+}
+
+.liveCommentName{
 font-weight:800;
+margin-right:5px;
+}
+
+.liveComment.me{
+background:rgba(139,92,246,.65);
+}
+
+.liveBottom{
+position:absolute;
+left:12px;
+right:12px;
+bottom:0;
+z-index:20;
+padding-bottom:calc(12px + env(safe-area-inset-bottom));
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.liveCommentBox{
+height:46px;
+border-radius:23px;
+background:rgba(0,0,0,.52);
+backdrop-filter:blur(14px);
+border:1px solid rgba(255,255,255,.12);
+display:flex;
+align-items:center;
+padding:0 8px 0 15px;
+flex:1;
+}
+
+.liveCommentInput{
+width:100%;
+border:0;
+outline:0;
+background:transparent;
+color:#fff;
+font-size:13px;
+}
+
+.liveCommentInput::placeholder{
+color:#b4b6c0;
+}
+
+.liveSend{
+width:37px;
+height:37px;
+border-radius:50%;
+background:linear-gradient(135deg,#8b5cf6,#ec4899);
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
+}
+
+.liveSend svg{
+width:17px;
+}
+
+.liveBottomButton{
+width:46px;
+height:46px;
+border-radius:50%;
+background:rgba(0,0,0,.52);
+backdrop-filter:blur(12px);
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
+}
+
+.liveBottomButton svg{
+width:20px;
+}
+
+.liveHeart{
+color:#ff4f72;
+}
+
+.liveHeart.pop{
+animation:liveHeartPop .35s ease;
+}
+
+@keyframes liveHeartPop{
+50%{transform:scale(1.4)}
+}
+
+/* INVITATION SHEET */
+.liveInviteSheet{
+position:fixed;
+left:0;
+right:0;
+bottom:-100%;
+z-index:8500;
+background:rgba(17,19,26,.98);
+border-top:1px solid var(--line);
+border-radius:25px 25px 0 0;
+padding:18px 15px calc(18px + env(safe-area-inset-bottom));
+transition:.25s ease;
+max-height:75vh;
+overflow-y:auto;
+}
+
+.liveInviteSheet.open{
+bottom:0;
+}
+
+.liveInviteHeader{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:15px;
+}
+
+.liveInviteHeader h3{
+font-size:18px;
+}
+
+.liveInviteClose{
+width:36px;
+height:36px;
+border-radius:50%;
+background:var(--card2);
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+.liveInviteFriend{
+display:flex;
+align-items:center;
+gap:11px;
+padding:11px 4px;
+border-bottom:1px solid var(--line);
+}
+
+.liveInviteAvatar{
+width:45px;
+height:45px;
+border-radius:50%;
+background:linear-gradient(135deg,#8b5cf6,#ec4899);
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:800;
+}
+
+.liveInviteInfo{
+flex:1;
+}
+
+.liveInviteName{
+font-size:14px;
+font-weight:800;
+}
+
+.liveInviteStatus{
+font-size:11px;
+color:#2bd66f;
+margin-top:3px;
+}
+
+.inviteBtn{
+padding:9px 15px;
+border-radius:12px;
+background:var(--accent);
+font-size:12px;
+font-weight:800;
+}
+
+.inviteBtn.sent{
+background:#2bd66f;
+color:#fff;
 }
 
 /* REELS */
@@ -230,44 +541,12 @@ font-weight:800;
 .toggleCircle{width:23px;height:23px;border-radius:50%;background:white;transition:.2s}
 .toggle.on{background:var(--accent)}.toggle.on .toggleCircle{transform:translateX(21px)}
 
-/* MODERN CHAT LIST */
+/* CHAT */
 .chatList{display:flex;flex-direction:column;gap:10px}
-.chatFriend{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:20px;
-padding:13px;
-display:flex;
-align-items:center;
-gap:12px;
-cursor:pointer;
-transition:.15s;
-}
+.chatFriend{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:13px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:.15s}
 .chatFriend:active{transform:scale(.98)}
-.chatAvatar{
-width:50px;
-height:50px;
-border-radius:50%;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:800;
-font-size:18px;
-position:relative;
-flex-shrink:0;
-}
-.chatOnline{
-position:absolute;
-right:-1px;
-bottom:0;
-width:15px;
-height:15px;
-border-radius:50%;
-background:#2bd66f;
-border:3px solid var(--card);
-box-shadow:0 0 0 2px rgba(43,214,111,.12);
-}
+.chatAvatar{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;position:relative;flex-shrink:0}
+.chatOnline{position:absolute;right:-1px;bottom:0;width:15px;height:15px;border-radius:50%;background:#2bd66f;border:3px solid var(--card);box-shadow:0 0 0 2px rgba(43,214,111,.12)}
 .chatInfo{flex:1;min-width:0}
 .chatName{font-size:15px;font-weight:800}
 .chatStatus{font-size:12px;color:#2bd66f;margin-top:4px}
@@ -277,649 +556,72 @@ box-shadow:0 0 0 2px rgba(43,214,111,.12);
 .chatArrow svg{width:17px;height:17px}
 
 /* INBOX */
-#inbox{
-display:none;
-position:fixed;
-inset:0;
-z-index:5000;
-background:var(--bg);
-}
+#inbox{display:none;position:fixed;inset:0;z-index:5000;background:var(--bg)}
 .inbox.active{display:flex;flex-direction:column}
-.inboxHeader{
-height:68px;
-display:flex;
-align-items:center;
-gap:10px;
-padding:0 12px;
-background:rgba(8,9,13,.94);
-backdrop-filter:blur(18px);
-border-bottom:1px solid var(--line);
-flex-shrink:0;
-}
-.inboxBack{
-width:40px;
-height:40px;
-border-radius:50%;
-background:var(--card2);
-display:flex;
-align-items:center;
-justify-content:center;
-}
+.inboxHeader{height:68px;display:flex;align-items:center;gap:10px;padding:0 12px;background:rgba(8,9,13,.94);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);flex-shrink:0}
+.inboxBack{width:40px;height:40px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
 .inboxBack svg{width:21px}
-.inboxUser{
-display:flex;
-align-items:center;
-gap:10px;
-flex:1;
-min-width:0;
-}
-.inboxAvatar{
-width:40px;
-height:40px;
-border-radius:50%;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:800;
-position:relative;
-}
-.inboxOnline{
-position:absolute;
-right:-1px;
-bottom:-1px;
-width:12px;
-height:12px;
-border-radius:50%;
-background:#2bd66f;
-border:2px solid var(--bg);
-}
+.inboxUser{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.inboxAvatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;font-weight:800;position:relative}
+.inboxOnline{position:absolute;right:-1px;bottom:-1px;width:12px;height:12px;border-radius:50%;background:#2bd66f;border:2px solid var(--bg)}
 .inboxName{font-size:14px;font-weight:800}
 .inboxStatus{font-size:11px;color:#2bd66f;margin-top:2px}
 .inboxHeaderActions{display:flex;gap:7px}
-.inboxHeaderBtn{
-width:38px;
-height:38px;
-border-radius:50%;
-background:var(--card2);
-display:flex;
-align-items:center;
-justify-content:center;
-}
+.inboxHeaderBtn{width:38px;height:38px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
 .inboxHeaderBtn svg{width:19px;height:19px}
 
-/* MESSAGES AREA */
-.messagesArea{
-flex:1;
-overflow-y:auto;
-padding:18px 14px 10px;
-display:flex;
-flex-direction:column;
-gap:9px;
-}
+/* MESSAGES */
+.messagesArea{flex:1;overflow-y:auto;padding:18px 14px 10px;display:flex;flex-direction:column;gap:9px}
 .messageRow{display:flex}
 .messageRow.me{justify-content:flex-end}
-.message{
-max-width:76%;
-padding:10px 13px;
-border-radius:18px;
-font-size:14px;
-line-height:1.4;
-}
-.message.friend{
-background:var(--card2);
-border-bottom-left-radius:5px;
-}
-.message.me{
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-border-bottom-right-radius:5px;
-}
-.messageTime{
-font-size:9px;
-color:var(--muted);
-margin-top:3px;
-padding:0 5px;
-}
+.message{max-width:76%;padding:10px 13px;border-radius:18px;font-size:14px;line-height:1.4}
+.message.friend{background:var(--card2);border-bottom-left-radius:5px}
+.message.me{background:linear-gradient(135deg,#8b5cf6,#ec4899);border-bottom-right-radius:5px}
+.messageTime{font-size:9px;color:var(--muted);margin-top:3px;padding:0 5px}
 .messageRow.me .messageTime{text-align:right}
 
-/* VOICE MESSAGE BUBBLE */
-.voiceBubble{
-display:flex;
-align-items:center;
-gap:10px;
-min-width:165px;
-}
-.voicePlay{
-width:32px;
-height:32px;
-border-radius:50%;
-background:rgba(255,255,255,.18);
-display:flex;
-align-items:center;
-justify-content:center;
-}
+/* VOICE MESSAGE */
+.voiceBubble{display:flex;align-items:center;gap:10px;min-width:165px}
+.voicePlay{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center}
 .voicePlay svg{width:15px;height:15px;fill:currentColor}
-.voiceWave{
-height:25px;
-display:flex;
-align-items:center;
-gap:2px;
-}
-.voiceWave span{
-width:3px;
-border-radius:4px;
-background:currentColor;
-opacity:.85;
-}
+.voiceWave{height:25px;display:flex;align-items:center;gap:2px}
+.voiceWave span{width:3px;border-radius:4px;background:currentColor;opacity:.85}
 .voiceDuration{font-size:11px;opacity:.85}
 
 /* CHAT COMPOSER */
-.chatComposer{
-padding:9px 10px calc(10px + env(safe-area-inset-bottom));
-background:var(--bg);
-border-top:1px solid var(--line);
-display:flex;
-align-items:flex-end;
-gap:7px;
-}
-.composerBtn{
-width:43px;
-height:43px;
-border-radius:50%;
-background:var(--card2);
-display:flex;
-align-items:center;
-justify-content:center;
-flex-shrink:0;
-}
+.chatComposer{padding:9px 10px calc(10px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line);display:flex;align-items:flex-end;gap:7px}
+.composerBtn{width:43px;height:43px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .composerBtn svg{width:21px;height:21px}
-.messageInput{
-flex:1;
-min-height:43px;
-max-height:110px;
-border:1px solid var(--line);
-outline:none;
-border-radius:22px;
-padding:11px 15px;
-background:var(--card);
-color:var(--text);
-font-family:inherit;
-font-size:14px;
-resize:none;
-}
-.sendBtn{
-width:43px;
-height:43px;
-border-radius:50%;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-display:flex;
-align-items:center;
-justify-content:center;
-flex-shrink:0;
-}
+.messageInput{flex:1;min-height:43px;max-height:110px;border:1px solid var(--line);outline:none;border-radius:22px;padding:11px 15px;background:var(--card);color:var(--text);font-family:inherit;font-size:14px;resize:none}
+.sendBtn{width:43px;height:43px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#ec4899);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .sendBtn svg{width:20px;height:20px}
 
 /* STICKERS */
-.stickerPanel{
-display:none;
-padding:12px;
-background:var(--card);
-border-top:1px solid var(--line);
-grid-template-columns:repeat(5,1fr);
-gap:9px;
-max-height:190px;
-overflow-y:auto;
-}
+.stickerPanel{display:none;padding:12px;background:var(--card);border-top:1px solid var(--line);grid-template-columns:repeat(5,1fr);gap:9px;max-height:190px;overflow-y:auto}
 .stickerPanel.show{display:grid}
-.sticker{
-height:48px;
-border-radius:14px;
-background:var(--card2);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:26px;
-cursor:pointer;
-}
+.sticker{height:48px;border-radius:14px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer}
 .sticker:active{transform:scale(.9)}
 
 /* VOICE RECORDING */
-.voiceRecording{
-display:none;
-flex:1;
-height:43px;
-align-items:center;
-gap:10px;
-padding:0 13px;
-background:var(--card);
-border:1px solid #ff3d68;
-border-radius:22px;
-}
+.voiceRecording{display:none;flex:1;height:43px;align-items:center;gap:10px;padding:0 13px;background:var(--card);border:1px solid #ff3d68;border-radius:22px}
 .voiceRecording.show{display:flex}
-.recordPulse{
-width:9px;
-height:9px;
-border-radius:50%;
-background:#ff3d68;
-animation:pulse 1s infinite;
-}
+.recordPulse{width:9px;height:9px;border-radius:50%;background:#ff3d68;animation:pulse 1s infinite}
 @keyframes pulse{50%{opacity:.3;transform:scale(.75)}}
 .recordText{font-size:12px;color:#ff718b;flex:1}
-.cancelRecord{
-width:30px;
-height:30px;
-border-radius:50%;
-background:var(--card2);
-display:flex;
-align-items:center;
-justify-content:center;
-}
+.cancelRecord{width:30px;height:30px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center}
 .cancelRecord svg{width:16px}
 
 /* CALL SCREEN */
-.callScreen{
-display:none;
-position:fixed;
-inset:0;
-z-index:9000;
-background:radial-gradient(circle at 50% 25%,#33205d,#10111a 55%,#08090d);
-align-items:center;
-justify-content:center;
-flex-direction:column;
-}
+.callScreen{display:none;position:fixed;inset:0;z-index:9000;background:radial-gradient(circle at 50% 25%,#33205d,#10111a 55%,#08090d);align-items:center;justify-content:center;flex-direction:column}
 .callScreen.show{display:flex}
-.callAvatar{
-width:105px;
-height:105px;
-border-radius:50%;
-background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:42px;
-font-weight:900;
-box-shadow:0 20px 60px rgba(139,92,246,.35);
-}
+.callAvatar{width:105px;height:105px;border-radius:50%;background:linear-gradient(135deg,#ff4ecd,#8b5cf6,#18c8ff);display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:900;box-shadow:0 20px 60px rgba(139,92,246,.35)}
 .callName{font-size:25px;font-weight:800;margin-top:20px}
 .callStatus{color:#a9adbb;font-size:13px;margin-top:8px}
 .callControls{display:flex;gap:15px;margin-top:55px}
-.callControl{
-width:58px;
-height:58px;
-border-radius:50%;
-background:rgba(255,255,255,.1);
-display:flex;
-align-items:center;
-justify-content:center;
-backdrop-filter:blur(10px);
-}
+.callControl{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px)}
 .callControl svg{width:23px;height:23px}
 .callControl.end{background:#ff3d68}
 .callControl.end svg{transform:rotate(135deg)}
-
-/* =========================================================
-   NEW LIVE ROOM
-========================================================= */
-.liveRoom{
-position:fixed;
-inset:0;
-z-index:8000;
-background:#000;
-display:none;
-overflow:hidden;
-}
-.liveRoom.open{display:block}
-
-#liveVideo{
-position:absolute;
-inset:0;
-width:100%;
-height:100%;
-object-fit:cover;
-background:#090a0f;
-}
-
-.liveShade{
-position:absolute;
-inset:0;
-background:
-linear-gradient(to bottom,rgba(0,0,0,.65),transparent 25%),
-linear-gradient(to top,rgba(0,0,0,.8),transparent 42%);
-pointer-events:none;
-}
-
-.liveTopBar{
-position:absolute;
-top:0;
-left:0;
-right:0;
-height:75px;
-padding:14px;
-padding-top:calc(14px + env(safe-area-inset-top));
-display:flex;
-align-items:center;
-gap:8px;
-z-index:3;
-}
-
-.liveRoomBadge{
-height:32px;
-padding:0 10px;
-border-radius:10px;
-background:#ff304f;
-display:flex;
-align-items:center;
-gap:6px;
-font-size:11px;
-font-weight:900;
-}
-.liveRoomBadge span{
-width:7px;
-height:7px;
-border-radius:50%;
-background:white;
-}
-
-.liveViewerBox{
-height:32px;
-padding:0 10px;
-border-radius:10px;
-background:rgba(0,0,0,.52);
-backdrop-filter:blur(10px);
-display:flex;
-align-items:center;
-gap:6px;
-font-size:11px;
-font-weight:700;
-}
-
-.liveViewerBox svg{
-width:16px;
-height:16px;
-}
-
-.liveRoomTitle{
-flex:1;
-font-size:13px;
-font-weight:800;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-}
-
-.liveCloseBtn{
-width:38px;
-height:38px;
-border-radius:50%;
-background:rgba(0,0,0,.5);
-backdrop-filter:blur(10px);
-display:flex;
-align-items:center;
-justify-content:center;
-}
-.liveCloseBtn svg{width:19px}
-
-.liveProfile{
-position:absolute;
-left:15px;
-bottom:125px;
-z-index:4;
-display:flex;
-align-items:center;
-gap:10px;
-}
-.liveProfileAvatar{
-width:43px;
-height:43px;
-border-radius:50%;
-background:linear-gradient(135deg,#ff4ecd,#8b5cf6);
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:900;
-border:2px solid white;
-}
-.liveProfileName{
-font-size:14px;
-font-weight:800;
-}
-.liveProfileHandle{
-font-size:10px;
-color:#c4c6ce;
-margin-top:3px;
-}
-
-.liveRightControls{
-position:absolute;
-right:13px;
-bottom:125px;
-z-index:4;
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.liveControl{
-width:47px;
-height:47px;
-border-radius:50%;
-background:rgba(0,0,0,.5);
-backdrop-filter:blur(12px);
-display:flex;
-align-items:center;
-justify-content:center;
-}
-.liveControl svg{
-width:21px;
-height:21px;
-}
-.liveControl.active{
-background:rgba(139,92,246,.8);
-}
-.liveControl.off{
-background:#ff304f;
-}
-
-.liveComments{
-position:absolute;
-left:14px;
-right:72px;
-bottom:190px;
-z-index:4;
-max-height:190px;
-overflow-y:auto;
-display:flex;
-flex-direction:column;
-gap:7px;
-mask-image:linear-gradient(to bottom,transparent 0%,black 15%,black 100%);
-}
-.liveComments::-webkit-scrollbar{display:none}
-
-.liveComment{
-align-self:flex-start;
-max-width:100%;
-padding:7px 10px;
-border-radius:13px;
-background:rgba(0,0,0,.42);
-backdrop-filter:blur(9px);
-font-size:12px;
-line-height:1.3;
-}
-.liveCommentName{
-font-weight:800;
-margin-right:5px;
-}
-
-.liveHeartArea{
-position:absolute;
-right:13px;
-bottom:68px;
-z-index:5;
-display:flex;
-flex-direction:column;
-gap:9px;
-}
-.liveHeartBtn{
-width:49px;
-height:49px;
-border-radius:50%;
-background:rgba(0,0,0,.5);
-backdrop-filter:blur(12px);
-display:flex;
-align-items:center;
-justify-content:center;
-}
-.liveHeartBtn svg{
-width:24px;
-height:24px;
-}
-.liveHeartCount{
-font-size:10px;
-text-align:center;
-font-weight:800;
-}
-
-.liveBottom{
-position:absolute;
-left:0;
-right:0;
-bottom:0;
-z-index:5;
-padding:10px 13px calc(13px + env(safe-area-inset-bottom));
-display:flex;
-align-items:center;
-gap:8px;
-background:linear-gradient(to top,rgba(0,0,0,.8),transparent);
-}
-.liveCommentInput{
-flex:1;
-height:45px;
-border:1px solid rgba(255,255,255,.16);
-outline:none;
-border-radius:23px;
-background:rgba(0,0,0,.48);
-backdrop-filter:blur(12px);
-padding:0 15px;
-color:white;
-font-size:13px;
-}
-.liveCommentInput::placeholder{color:#b6b8c0}
-
-.liveSendBtn{
-width:45px;
-height:45px;
-border-radius:50%;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-display:flex;
-align-items:center;
-justify-content:center;
-}
-.liveSendBtn svg{width:19px}
-
-.liveInviteSheet{
-position:fixed;
-left:0;
-right:0;
-bottom:0;
-z-index:8500;
-background:var(--card);
-border-top:1px solid var(--line);
-border-radius:25px 25px 0 0;
-padding:18px 16px calc(18px + env(safe-area-inset-bottom));
-transform:translateY(110%);
-transition:.25s ease;
-}
-.liveInviteSheet.open{
-transform:translateY(0);
-}
-.liveSheetTop{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:15px;
-}
-.liveSheetTitle{
-font-size:18px;
-font-weight:800;
-}
-.liveSheetClose{
-width:34px;
-height:34px;
-border-radius:50%;
-background:var(--card2);
-display:flex;
-align-items:center;
-justify-content:center;
-}
-.liveSheetClose svg{width:17px}
-
-.inviteFriend{
-display:flex;
-align-items:center;
-gap:11px;
-padding:10px 0;
-border-bottom:1px solid var(--line);
-}
-.inviteFriend:last-child{border-bottom:0}
-.inviteAvatar{
-width:43px;
-height:43px;
-border-radius:50%;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:800;
-}
-.inviteInfo{flex:1}
-.inviteName{font-size:14px;font-weight:800}
-.inviteStatus{font-size:10px;color:#2bd66f;margin-top:3px}
-.inviteBtn{
-padding:9px 14px;
-border-radius:11px;
-background:var(--accent);
-font-size:11px;
-font-weight:800;
-}
-.inviteBtn.sent{
-background:#2bd66f;
-color:#07120b;
-}
-
-.liveEnded{
-position:absolute;
-inset:0;
-z-index:20;
-background:rgba(8,9,13,.94);
-display:none;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-text-align:center;
-padding:25px;
-}
-.liveEnded.show{display:flex}
-.liveEndedIcon{
-width:70px;
-height:70px;
-border-radius:50%;
-background:var(--card2);
-display:flex;
-align-items:center;
-justify-content:center;
-margin-bottom:17px;
-}
-.liveEndedIcon svg{width:34px}
-.liveEnded h2{font-size:24px}
-.liveEnded p{color:var(--muted);font-size:13px;margin-top:8px}
-.liveDoneBtn{
-margin-top:22px;
-height:47px;
-padding:0 25px;
-border-radius:14px;
-background:linear-gradient(135deg,#8b5cf6,#ec4899);
-font-weight:800;
-}
 
 /* NAV */
 .bottomNav{position:fixed;bottom:10px;left:10px;right:10px;height:68px;z-index:2000;background:rgba(20,21,29,.94);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:23px;display:flex;align-items:center;justify-content:space-around;box-shadow:0 12px 35px rgba(0,0,0,.4)}
@@ -943,7 +645,13 @@ body.light .inboxHeader{background:rgba(245,246,250,.94)}
 .emptyIcon svg{width:50px;height:50px}
 
 @media(max-width:380px){
-.brandName{font-size:18px}.profileStats{gap:28px}.reel{height:500px}.bottomNav{left:7px;right:7px}.navItem{width:39px}
+.brandName{font-size:18px}
+.profileStats{gap:28px}
+.reel{height:500px}
+.bottomNav{left:7px;right:7px}
+.navItem{width:39px}
+.liveComments{bottom:92px;height:190px}
+.liveControls{right:8px}
 }
 </style>
 </head>
@@ -978,7 +686,10 @@ body.light .inboxHeader{background:rgba(245,246,250,.94)}
 </button>
 
 <button class="iconBtn" onclick="showPage('settings')">
-<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.05.05-1.42 1.42-.05-.05a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-2v-.07a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.05.05-1.42-1.42.05-.05A1.7 1.7 0 0 0 9.4 15a1.7 1.7 0 0 0-1.56-1.03H7v-2h.84A1.7 1.7 0 0 0 9.4 11a1.7 1.7 0 0 0-.34-1.88l-.05-.05 1.42-1.42.05.05a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 13.4 6.5V5h2v1.5a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.05-.05 1.42 1.42-.05.05A1.7 1.7 0 0 0 19.4 11a1.7 1.7 0 0 0 1.56 1.03H21v2h-.04A1.7 1.7 0 0 0 19.4 15z"/></svg>
+<svg viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="3"/>
+<path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.05.05-1.42 1.42-.05-.05a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-2v-.07a1.7 1.7 0 0 0-1.03-1.56 1.7 1.7 0 0 0-1.88.34l-.05.05-1.42-1.42.05-.05A1.7 1.7 0 0 0 9.4 15a1.7 1.7 0 0 0-1.56-1.03H7v-2h.84A1.7 1.7 0 0 0 9.4 11a1.7 1.7 0 0 0-.34-1.88l-.05-.05 1.42-1.42.05.05a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 13.4 6.5V5h2v1.5a1.7 1.7 0 0 0 1.03 1.56 1.7 1.7 0 0 0 1.88-.34l.05-.05 1.42 1.42-.05.05A1.7 1.7 0 0 0 19.4 11a1.7 1.7 0 0 0 1.56 1.03H21v2h-.04A1.7 1.7 0 0 0 19.4 15z"/>
+</svg>
 </button>
 </div>
 </header>
@@ -1111,4 +822,1722 @@ body.light .inboxHeader{background:rgba(245,246,250,.94)}
 </main>
 
 <!-- LIVE -->
-<main class="page" id="
+<main class="page" id="live">
+<div class="sectionTitle">Live</div>
+
+<div class="liveHero">
+<div class="liveLabel"><span></span>LIVE NOW</div>
+<h2>Go Live on MicMedia</h2>
+<p>Share your moment with your followers and connect with people in real time.</p>
+
+<button class="liveButton" onclick="startLive()">
+<svg viewBox="0 0 24 24">
+<rect x="3" y="6" width="18" height="13" rx="3"/>
+<path d="M9 6l1.5-2h3L15 6"/>
+<circle cx="12" cy="12.5" r="3"/>
+</svg>
+Start Live Stream
+</button>
+</div>
+
+<div class="card">
+<div class="postHeader">
+<div class="userInfo">
+<div class="avatar">S<div class="liveDot"></div></div>
+<div>
+<div class="username">Sports & Sport Reels</div>
+<div class="handle">@sportsreels · LIVE</div>
+</div>
+</div>
+<button class="followPlus" onclick="toggleFollow(this)">+</button>
+</div>
+
+<div class="postImage">LIVE</div>
+</div>
+</main>
+
+<!-- REELS -->
+<main class="page" id="reels">
+<div class="sectionTitle">Reels</div>
+
+<div class="reel">
+<div class="reelContent">
+<svg viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5z"/></svg>
+</div>
+
+<button class="reelFollow" onclick="toggleFollow(this)">
+<svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+</button>
+
+<div class="reelSide">
+
+<div class="reelActionGroup">
+<button class="reelAction" onclick="likeReel(this)">
+<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>
+</button>
+<span class="reelCount">0</span>
+</div>
+
+<div class="reelActionGroup">
+<button class="reelAction" onclick="addReelComment(this)">
+<svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/></svg>
+</button>
+<span class="reelCount">0</span>
+</div>
+
+<div class="reelActionGroup">
+<button class="reelAction" onclick="shareReel(this)">
+<svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+</button>
+<span class="reelCount">0</span>
+</div>
+
+<div class="reelActionGroup">
+<button class="reelAction" onclick="saveReel(this)">
+<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>
+</button>
+<span class="reelCount">0</span>
+</div>
+
+</div>
+
+<div class="reelBottom">
+<div class="reelUser">
+<div class="avatar">S</div>
+<div>
+<div class="username">Sports & Sport Reels</div>
+<div class="handle">@sportsreels</div>
+</div>
+</div>
+<div class="postText" style="margin-top:10px">Football moments 🔥⚽</div>
+</div>
+</div>
+</main>
+
+<!-- MESSAGES -->
+<main class="page" id="messages">
+<div class="sectionTitle">Messages</div>
+
+<div class="chatList">
+
+<div class="chatFriend" onclick="openInbox('Awa','A','Online')">
+<div class="chatAvatar">
+A
+<div class="chatOnline"></div>
+</div>
+<div class="chatInfo">
+<div class="chatName">Awa</div>
+<div class="chatStatus">Online</div>
+<div class="chatPreview">Tap to open your conversation</div>
+</div>
+<div class="chatTime">Now</div>
+<div class="chatArrow">
+<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+</div>
+</div>
+
+<div class="chatFriend" onclick="openInbox('Sports & Sport Reels','S','Online')">
+<div class="chatAvatar">
+S
+<div class="chatOnline"></div>
+</div>
+<div class="chatInfo">
+<div class="chatName">Sports & Sport Reels</div>
+<div class="chatStatus">Online</div>
+<div class="chatPreview">Tap to open your conversation</div>
+</div>
+<div class="chatTime">Now</div>
+<div class="chatArrow">
+<svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+</div>
+</div>
+
+</div>
+</main>
+
+<!-- FAVORITES -->
+<main class="page" id="favorites">
+<div class="sectionTitle">Favorites</div>
+<div class="empty">
+<div class="emptyIcon">
+<svg viewBox="0 0 24 24">
+<path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/>
+</svg>
+</div>
+<h3>Your favorites</h3>
+<p style="margin-top:8px">Posts and reels you save will appear here.</p>
+</div>
+</main>
+
+<!-- PROFILE -->
+<main class="page" id="profile">
+<div class="profileTop">
+
+<div class="profileAvatar">
+<div class="profileAvatarInner">M</div>
+</div>
+
+<div class="profileName">Mustapha</div>
+<div class="profileHandle">@mustapha</div>
+
+<div class="profileStats">
+<div class="stat"><strong>0</strong><span>Posts</span></div>
+<div class="stat"><strong id="followers">0</strong><span>Followers</span></div>
+<div class="stat"><strong>0</strong><span>Following</span></div>
+</div>
+
+<div class="profileButtons">
+<button class="profileBtn">Edit Profile</button>
+<button class="profileBtn">Share</button>
+</div>
+
+</div>
+
+<div class="balance">
+<div class="balanceTop">
+<div class="balanceTitle">
+<div class="walletIcon">
+<svg viewBox="0 0 24 24">
+<path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H19a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 16.5z"/>
+<path d="M4 8h14"/>
+<path d="M16 13h4"/>
+<circle cx="16" cy="13" r=".7"/>
+</svg>
+</div>
+<div>
+<div class="balanceLabel">MicMedia Balance</div>
+<small>Available balance</small>
+</div>
+</div>
+</div>
+
+<div class="balanceAmount">$0.00</div>
+<div class="balanceLine"></div>
+
+<div class="balanceActions">
+<button class="balanceAction">
+<svg viewBox="0 0 24 24">
+<path d="M12 16V4"/>
+<path d="M7 9l5-5 5 5"/>
+<path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>
+</svg>
+Add Funds
+</button>
+
+<button class="balanceAction">
+<svg viewBox="0 0 24 24">
+<path d="M12 8v12"/>
+<path d="M17 13l-5 5-5-5"/>
+<path d="M5 4h14"/>
+</svg>
+Withdraw
+</button>
+</div>
+</div>
+
+<div class="recordsCard">
+<div class="recordsHeader">
+<h3>Balance Records</h3>
+<span>Recent activity</span>
+</div>
+
+<div class="record">
+<div class="recordIcon">
+<svg viewBox="0 0 24 24"><path d="M12 4v16"/><path d="M7 9l5-5 5 5"/></svg>
+</div>
+<div class="recordInfo">
+<div class="recordTitle">No deposits yet</div>
+<div class="recordDate">Your balance activity will appear here</div>
+</div>
+<div class="recordAmount neutral">$0.00</div>
+</div>
+
+<div class="record">
+<div class="recordIcon">
+<svg viewBox="0 0 24 24"><path d="M12 20V8"/><path d="M7 15l5 5 5-5"/></svg>
+</div>
+<div class="recordInfo">
+<div class="recordTitle">No withdrawals yet</div>
+<div class="recordDate">Withdrawals will appear here</div>
+</div>
+<div class="recordAmount neutral">$0.00</div>
+</div>
+</div>
+</main>
+
+<!-- SETTINGS -->
+<main class="page" id="settings">
+<div class="sectionTitle">Settings</div>
+
+<div class="settingCard">
+
+<div class="settingRow">
+<div class="settingLeft">
+<div class="settingIcon">
+<svg viewBox="0 0 24 24">
+<path d="M12 3a9 9 0 1 0 9 9"/>
+<path d="M12 3v5"/>
+<path d="M17 7l-3 3"/>
+</svg>
+</div>
+<strong>Dark Mode</strong>
+</div>
+
+<button class="toggle on" id="themeToggle" onclick="toggleTheme()">
+<div class="toggleCircle"></div>
+</button>
+</div>
+
+<div class="settingRow">
+<div class="settingLeft">
+<div class="settingIcon">
+<svg viewBox="0 0 24 24">
+<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
+<path d="M10 21h4"/>
+</svg>
+</div>
+<strong>Notifications</strong>
+</div>
+<div class="toggle on"><div class="toggleCircle"></div></div>
+</div>
+
+<div class="settingRow" onclick="showPage('profile')">
+<div class="settingLeft">
+<div class="settingIcon">
+<svg viewBox="0 0 24 24">
+<circle cx="12" cy="8" r="3"/>
+<path d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"/>
+</svg>
+</div>
+<strong>Account</strong>
+</div>
+<svg viewBox="0 0 24 24" style="width:18px"><path d="M9 5l7 7-7 7"/></svg>
+</div>
+
+<div class="settingRow">
+<div class="settingLeft">
+<div class="settingIcon">
+<svg viewBox="0 0 24 24">
+<rect x="5" y="10" width="14" height="10" rx="2"/>
+<path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+</svg>
+</div>
+<strong>Privacy</strong>
+</div>
+<svg viewBox="0 0 24 24" style="width:18px"><path d="M9 5l7 7-7 7"/></svg>
+</div>
+
+</div>
+</main>
+
+<!-- SEARCH -->
+<main class="page" id="search">
+<div class="sectionTitle">Search</div>
+<div class="card" style="padding:15px">
+<input id="searchInput" type="text" placeholder="Search MicMedia..." style="width:100%;height:50px;border:0;outline:0;border-radius:15px;padding:0 16px;background:var(--card2);color:var(--text);font-size:15px">
+</div>
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottomNav">
+
+<button class="navItem active" onclick="showPage('home')" data-page="home">
+<svg viewBox="0 0 24 24">
+<path d="M3 10.5L12 3l9 7.5"/>
+<path d="M5 9.5V20h14V9.5"/>
+<path d="M9.5 20v-6h5v6"/>
+</svg>
+<small>Home</small>
+</button>
+
+<button class="navItem" onclick="showPage('live')" data-page="live">
+<svg viewBox="0 0 24 24">
+<rect x="4" y="6" width="16" height="12" rx="3"/>
+<path d="M9 6l1.5-2h3L15 6"/>
+<circle cx="12" cy="12" r="3"/>
+</svg>
+<small>Live</small>
+</button>
+
+<button class="navItem plusNav" onclick="createPost()">
+<svg viewBox="0 0 24 24">
+<path d="M12 5v14"/>
+<path d="M5 12h14"/>
+</svg>
+</button>
+
+<button class="navItem" onclick="showPage('reels')" data-page="reels">
+<svg viewBox="0 0 24 24">
+<rect x="3" y="3" width="18" height="18" rx="5"/>
+<path d="M3 9h18"/>
+<path d="M8 3l3 6"/>
+<path d="M14 3l3 6"/>
+<path d="M10 13l5 3-5 3z"/>
+</svg>
+<small>Reels</small>
+</button>
+
+<button class="navItem" onclick="showPage('messages')" data-page="messages">
+<svg viewBox="0 0 24 24">
+<path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 9 9 0 0 1-4-.9L4 20l1.3-3.4A7.2 7.2 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.4 8 7.5z"/>
+</svg>
+<small>Chat</small>
+</button>
+
+<button class="navItem" onclick="showPage('favorites')" data-page="favorites">
+<svg viewBox="0 0 24 24">
+<path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/>
+</svg>
+<small>Saved</small>
+</button>
+
+<button class="navItem" onclick="showPage('profile')" data-page="profile">
+<svg viewBox="0 0 24 24">
+<circle cx="12" cy="8" r="3"/>
+<path d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"/>
+</svg>
+<small>Profile</small>
+</button>
+
+</nav>
+</div>
+
+<!-- ================= CHAT INBOX ================= -->
+<div id="inbox">
+
+<div class="inboxHeader">
+<button class="inboxBack" onclick="closeInbox()">
+<svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+</button>
+
+<div class="inboxUser">
+<div class="inboxAvatar" id="inboxAvatar">
+A
+<div class="inboxOnline"></div>
+</div>
+
+<div>
+<div class="inboxName" id="inboxName">Awa</div>
+<div class="inboxStatus" id="inboxStatus">Online</div>
+</div>
+</div>
+
+<div class="inboxHeaderActions">
+
+<button class="inboxHeaderBtn" onclick="startCall('voice')">
+<svg viewBox="0 0 24 24">
+<path d="M7 4l3 2-2 3c1.2 2.4 2.6 3.8 5 5l3-2 2 3c.6.9.3 2-.5 2.4l-1.6.8C11 19.5 4.5 13 5.3 8l.8-1.6C6.5 5.6 6.1 4.4 7 4z"/>
+</svg>
+</button>
+
+<button class="inboxHeaderBtn" onclick="startCall('video')">
+<svg viewBox="0 0 24 24">
+<rect x="3" y="6" width="13" height="12" rx="3"/>
+<path d="M16 10l5-3v10l-5-3z"/>
+</svg>
+</button>
+
+</div>
+</div>
+
+<div class="messagesArea" id="messagesArea">
+
+<div class="messageRow">
+<div>
+<div class="message friend">Hey 👋 Welcome to MicMedia.</div>
+<div class="messageTime">Now</div>
+</div>
+</div>
+
+<div class="messageRow me">
+<div>
+<div class="message me">Hey Awa! Nice to see you here.</div>
+<div class="messageTime">Now</div>
+</div>
+</div>
+
+</div>
+
+<div class="stickerPanel" id="stickerPanel">
+<button class="sticker" onclick="sendSticker('❤️')">❤️</button>
+<button class="sticker" onclick="sendSticker('😂')">😂</button>
+<button class="sticker" onclick="sendSticker('🔥')">🔥</button>
+<button class="sticker" onclick="sendSticker('😍')">😍</button>
+<button class="sticker" onclick="sendSticker('🥰')">🥰</button>
+<button class="sticker" onclick="sendSticker('👏')">👏</button>
+<button class="sticker" onclick="sendSticker('🎉')">🎉</button>
+<button class="sticker" onclick="sendSticker('💯')">💯</button>
+<button class="sticker" onclick="sendSticker('😎')">😎</button>
+<button class="sticker" onclick="sendSticker('🙌')">🙌</button>
+</div>
+
+<div class="chatComposer" id="chatComposer">
+
+<button class="composerBtn" onclick="toggleStickerPanel()">
+<svg viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="8.5"/>
+<circle cx="9" cy="10" r="1"/>
+<circle cx="15" cy="10" r="1"/>
+<path d="M8.5 14.5c1 1.4 2.2 2 3.5 2s2.5-.6 3.5-2"/>
+</svg>
+</button>
+
+<textarea id="messageInput" class="messageInput" rows="1" placeholder="Message..."></textarea>
+
+<button class="composerBtn" id="voiceButton" onclick="startVoiceRecording()">
+<svg viewBox="0 0 24 24">
+<rect x="8" y="3" width="8" height="13" rx="4"/>
+<path d="M5 11a7 7 0 0 0 14 0"/>
+<path d="M12 18v3"/>
+<path d="M9 21h6"/>
+</svg>
+</button>
+
+<button class="sendBtn" onclick="sendMessage()">
+<svg viewBox="0 0 24 24">
+<path d="M4 5l16 7-16 7 3-7z"/>
+<path d="M7 12h13"/>
+</svg>
+</button>
+
+</div>
+
+<div class="chatComposer" id="recordingComposer" style="display:none">
+
+<div class="voiceRecording show">
+<div class="recordPulse"></div>
+<div class="recordText" id="recordText">Recording voice message...</div>
+
+<button class="cancelRecord" onclick="cancelVoiceRecording()">
+<svg viewBox="0 0 24 24">
+<path d="M7 7l10 10M17 7L7 17"/>
+</svg>
+</button>
+</div>
+
+<button class="sendBtn" onclick="sendVoiceMessage()">
+<svg viewBox="0 0 24 24">
+<path d="M4 5l16 7-16 7 3-7z"/>
+<path d="M7 12h13"/>
+</svg>
+</button>
+
+</div>
+</div>
+
+<!-- CALL SCREEN -->
+<div class="callScreen" id="callScreen">
+
+<div class="callAvatar" id="callAvatar">A</div>
+<div class="callName" id="callName">Awa</div>
+<div class="callStatus" id="callStatus">Calling...</div>
+
+<div class="callControls">
+
+<button class="callControl">
+<svg viewBox="0 0 24 24">
+<path d="M12 3v10"/>
+<path d="M8 7v5a4 4 0 0 0 8 0V7"/>
+<path d="M5 11a7 7 0 0 0 14 0"/>
+<path d="M12 18v3"/>
+</svg>
+</button>
+
+<button class="callControl">
+<svg viewBox="0 0 24 24">
+<path d="M4 5l16 7-16 7 3-7z"/>
+<path d="M7 12h13"/>
+</svg>
+</button>
+
+<button class="callControl end" onclick="endCall()">
+<svg viewBox="0 0 24 24">
+<path d="M7 4l3 2-2 3c1.2 2.4 2.6 3.8 5 5l3-2 2 3c.6.9.3 2-.5 2.4l-1.6.8C11 19.5 4.5 13 5.3 8l.8-1.6C6.5 5.6 6.1 4.4 7 4z"/>
+</svg>
+</button>
+
+</div>
+</div>
+
+<!-- ================= LIVE ROOM ================= -->
+<div class="liveRoom" id="liveRoom">
+
+<video id="liveVideo" autoplay playsinline muted></video>
+
+<div class="liveVideoOff" id="liveVideoOff">
+<div class="liveVideoOffAvatar">M</div>
+</div>
+
+<div class="liveShade"></div>
+
+<div class="liveTop">
+
+<div class="liveBadge">
+<span></span>
+LIVE
+</div>
+
+<div class="liveViewerCount">
+<svg viewBox="0 0 24 24">
+<path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/>
+<circle cx="12" cy="12" r="2.5"/>
+</svg>
+<span id="liveViewerCount">1</span>
+</div>
+
+<button class="liveEndBtn" onclick="endLive()">
+<svg viewBox="0 0 24 24">
+<path d="M6 6l12 12M18 6L6 18"/>
+</svg>
+</button>
+
+</div>
+
+<div class="liveCreator">
+<div class="liveCreatorAvatar">M</div>
+<div class="liveCreatorInfo">
+<strong>Mustapha</strong>
+<span>@mustapha · Live now</span>
+</div>
+</div>
+
+<!-- LIVE CONTROLS -->
+<div class="liveControls">
+
+<button class="liveControl active" id="liveMicBtn" onclick="toggleLiveMic()" title="Microphone">
+<svg id="liveMicIcon" viewBox="0 0 24 24">
+<rect x="8" y="3" width="8" height="13" rx="4"/>
+<path d="M5 11a7 7 0 0 0 14 0"/>
+<path d="M12 18v3"/>
+<path d="M9 21h6"/>
+</svg>
+</button>
+
+<button class="liveControl active" id="liveCameraBtn" onclick="toggleLiveCamera()" title="Camera">
+<svg viewBox="0 0 24 24">
+<rect x="3" y="6" width="13" height="12" rx="3"/>
+<path d="M16 10l5-3v10l-5-3z"/>
+</svg>
+</button>
+
+<button class="liveControl" onclick="switchLiveCamera()" title="Switch camera">
+<svg viewBox="0 0 24 24">
+<path d="M7 7h10"/>
+<path d="M17 7l-3-3"/>
+<path d="M17 7l-3 3"/>
+<path d="M17 17H7"/>
+<path d="M7 17l3-3"/>
+<path d="M7 17l3 3"/>
+</svg>
+</button>
+
+<button class="liveControl" onclick="openLiveInvites()" title="Invite">
+<svg viewBox="0 0 24 24">
+<circle cx="9" cy="8" r="3"/>
+<path d="M3.5 20c.6-3.2 2.4-5 5.5-5s4.9 1.8 5.5 5"/>
+<path d="M17 8v6"/>
+<path d="M14 11h6"/>
+</svg>
+</button>
+
+</div>
+
+<!-- LIVE COMMENTS -->
+<div class="liveComments" id="liveComments"></div>
+
+<!-- LIVE BOTTOM -->
+<div class="liveBottom">
+
+<div class="liveCommentBox">
+<input
+id="liveCommentInput"
+class="liveCommentInput"
+placeholder="Comment..."
+autocomplete="off"
+>
+<button class="liveSend" onclick="sendLiveComment()">
+<svg viewBox="0 0 24 24">
+<path d="M4 5l16 7-16 7 3-7z"/>
+<path d="M7 12h13"/>
+</svg>
+</button>
+</div>
+
+<button class="liveBottomButton liveHeart" onclick="sendLiveHeart()" id="liveHeartBtn">
+<svg viewBox="0 0 24 24" style="fill:currentColor">
+<path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/>
+</svg>
+</button>
+
+<button class="liveBottomButton" onclick="openLiveInvites()">
+<svg viewBox="0 0 24 24">
+<circle cx="9" cy="8" r="3"/>
+<path d="M3.5 20c.6-3.2 2.4-5 5.5-5s4.9 1.8 5.5 5"/>
+<path d="M17 8v6"/>
+<path d="M14 11h6"/>
+</svg>
+</button>
+
+</div>
+</div>
+
+<!-- INVITATIONS -->
+<div class="liveInviteSheet" id="liveInviteSheet">
+
+<div class="liveInviteHeader">
+<h3>Invite to your Live</h3>
+
+<button class="liveInviteClose" onclick="closeLiveInvites()">
+<svg viewBox="0 0 24 24">
+<path d="M7 7l10 10M17 7L7 17"/>
+</svg>
+</button>
+</div>
+
+<div class="liveInviteFriend">
+<div class="liveInviteAvatar">A</div>
+
+<div class="liveInviteInfo">
+<div class="liveInviteName">Awa</div>
+<div class="liveInviteStatus">Online</div>
+</div>
+
+<button class="inviteBtn" onclick="inviteFriend(this,'Awa')">Invite</button>
+</div>
+
+<div class="liveInviteFriend">
+<div class="liveInviteAvatar">K</div>
+
+<div class="liveInviteInfo">
+<div class="liveInviteName">Kebba</div>
+<div class="liveInviteStatus">Online</div>
+</div>
+
+<button class="inviteBtn" onclick="inviteFriend(this,'Kebba')">Invite</button>
+</div>
+
+<div class="liveInviteFriend">
+<div class="liveInviteAvatar">S</div>
+
+<div class="liveInviteInfo">
+<div class="liveInviteName">Sports & Sport Reels</div>
+<div class="liveInviteStatus">Online</div>
+</div>
+
+<button class="inviteBtn" onclick="inviteFriend(this,'Sports & Sport Reels')">Invite</button>
+</div>
+
+</div>
+
+<script>
+
+/* SUPABASE */
+const SUPABASE_URL="PASTE_YOUR_SUPABASE_PROJECT_URL_HERE";
+const SUPABASE_KEY="PASTE_YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY_HERE";
+let supabaseClient=null;
+
+/* ENTER */
+function enterMicMedia(){
+document.getElementById("entrySurface").style.display="none";
+document.getElementById("app").style.display="block";
+document.body.style.overflowX="hidden";
+connectSupabase();
+}
+
+function connectSupabase(){
+try{
+if(SUPABASE_URL.includes("PASTE_")||SUPABASE_KEY.includes("PASTE_"))return;
+if(typeof window.supabase==="undefined")return;
+supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+supabaseClient.auth.getSession().catch(()=>{});
+}catch(e){}
+}
+
+/* NAVIGATION */
+let currentPage="home";
+let pageHistory=[];
+
+function showPage(page){
+if(page===currentPage)return;
+
+pageHistory.push(currentPage);
+currentPage=page;
+
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+
+const target=document.getElementById(page);
+if(target)target.classList.add("active");
+
+updateNavigation(page);
+
+const back=document.getElementById("backButton");
+back.style.display=page==="home"?"none":"flex";
+
+window.scrollTo({top:0,behavior:"instant"});
+}
+
+function goBack(){
+if(pageHistory.length===0){
+showPage("home");
+return;
+}
+
+const previous=pageHistory.pop();
+
+currentPage=previous;
+
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+
+const target=document.getElementById(previous);
+if(target)target.classList.add("active");
+
+updateNavigation(previous);
+
+document.getElementById("backButton").style.display=previous==="home"?"none":"flex";
+}
+
+function updateNavigation(page){
+document.querySelectorAll(".navItem[data-page]").forEach(item=>{
+item.classList.toggle("active",item.dataset.page===page);
+});
+}
+
+/* FOLLOW */
+function toggleFollow(button){
+const following=button.classList.toggle("following");
+
+if(button.classList.contains("reelFollow")){
+button.innerHTML=following?
+`<svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg>`:
+`<svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>`;
+}else{
+button.textContent=following?"✓":"+";
+}
+
+const followers=document.getElementById("followers");
+
+if(followers){
+let n=Number(followers.textContent)||0;
+followers.textContent=following?n+1:Math.max(0,n-1);
+}
+}
+
+/* LIKE POST */
+function likePost(button){
+const box=button.parentElement;
+const count=box.querySelector(".actionCount");
+let n=Number(count.textContent)||0;
+
+const active=button.classList.toggle("active");
+
+if(active){
+n++;
+button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
+}else{
+n=Math.max(0,n-1);
+button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
+}
+
+count.textContent=n;
+}
+
+/* COMMENT */
+function addComment(button){
+const box=button.parentElement;
+const count=box.querySelector(".actionCount");
+let n=Number(count.textContent)||0;
+
+const comment=prompt("Write your comment:");
+
+if(comment&&comment.trim()){
+n++;
+count.textContent=n;
+alert("Comment added!");
+}
+}
+
+/* SHARE */
+function sharePost(button){
+const box=button.parentElement;
+const count=box.querySelector(".actionCount");
+let n=Number(count.textContent)||0;
+
+if(!button.classList.contains("shared")){
+button.classList.add("shared");
+n++;
+count.textContent=n;
+
+if(navigator.share){
+navigator.share({
+title:"MicMedia",
+text:"Check out this post on MicMedia!"
+}).catch(()=>{});
+}else{
+alert("Post shared!");
+}
+}
+}
+
+/* SAVE */
+function savePost(button){
+const box=button.parentElement;
+const count=box.querySelector(".actionCount");
+let n=Number(count.textContent)||0;
+
+const saved=button.classList.toggle("saved");
+
+if(saved){
+n++;
+button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
+}else{
+n=Math.max(0,n-1);
+button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
+}
+
+count.textContent=n;
+}
+
+/* REEL LIKE */
+function likeReel(button){
+const group=button.parentElement;
+const count=group.querySelector(".reelCount");
+let n=Number(count.textContent)||0;
+
+const liked=button.classList.toggle("liked");
+
+if(liked){
+n++;
+button.style.color="#ff3d68";
+button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
+}else{
+n=Math.max(0,n-1);
+button.style.color="";
+button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M20.8 8.9c0 5-8.8 10-8.8 10S3.2 13.9 3.2 8.9A4.7 4.7 0 0 1 12 6.2a4.7 4.7 0 0 1 8.8 2.7z"/></svg>`;
+}
+
+count.textContent=n;
+}
+
+/* REEL COMMENT */
+function addReelComment(button){
+const group=button.parentElement;
+const count=group.querySelector(".reelCount");
+let n=Number(count.textContent)||0;
+
+const comment=prompt("Write your comment:");
+
+if(comment&&comment.trim()){
+n++;
+count.textContent=n;
+alert("Comment added!");
+}
+}
+
+/* REEL SHARE */
+function shareReel(button){
+const group=button.parentElement;
+const count=group.querySelector(".reelCount");
+let n=Number(count.textContent)||0;
+
+if(!button.classList.contains("shared")){
+button.classList.add("shared");
+n++;
+count.textContent=n;
+
+if(navigator.share){
+navigator.share({
+title:"MicMedia Reel",
+text:"Check out this reel on MicMedia!"
+}).catch(()=>{});
+}else{
+alert("Reel shared!");
+}
+}
+}
+
+/* REEL SAVE */
+function saveReel(button){
+const group=button.parentElement;
+const count=group.querySelector(".reelCount");
+let n=Number(count.textContent)||0;
+
+const saved=button.classList.toggle("saved");
+
+if(saved){
+n++;
+button.innerHTML=`<svg viewBox="0 0 24 24" style="fill:currentColor"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
+}else{
+n=Math.max(0,n-1);
+button.innerHTML=`<svg viewBox="0 0 24 24"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V21l-6-3.5L6 21z"/></svg>`;
+}
+
+count.textContent=n;
+}
+
+/* =========================================================
+   LIVE SYSTEM
+========================================================= */
+
+let liveStream=null;
+let liveFacingMode="user";
+let liveMicOn=true;
+let liveCameraOn=true;
+let liveViewerCount=1;
+let liveViewerTimer=null;
+let liveCommentTimer=null;
+
+/* START LIVE */
+async function startLive(){
+
+try{
+
+if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+alert("Your browser does not support camera access.");
+return;
+}
+
+liveStream=await navigator.mediaDevices.getUserMedia({
+video:{
+facingMode:liveFacingMode,
+width:{ideal:1280},
+height:{ideal:720}
+},
+audio:true
+});
+
+const video=document.getElementById("liveVideo");
+
+video.srcObject=liveStream;
+video.muted=true;
+
+document.getElementById("liveRoom").classList.add("open");
+
+document.body.style.overflow="hidden";
+
+liveMicOn=true;
+liveCameraOn=true;
+liveViewerCount=1;
+
+document.getElementById("liveViewerCount").textContent=liveViewerCount;
+
+document.getElementById("liveVideoOff").classList.remove("show");
+
+updateLiveControls();
+
+document.getElementById("liveComments").innerHTML="";
+
+addLiveComment("MicMedia","You are now live.");
+
+startLiveDemoComments();
+startLiveViewerDemo();
+
+}catch(error){
+
+console.log(error);
+
+alert("Please allow camera and microphone access to go live.");
+
+}
+
+}
+
+/* END LIVE */
+function endLive(){
+
+if(liveStream){
+
+liveStream.getTracks().forEach(track=>{
+track.stop();
+});
+
+liveStream=null;
+}
+
+const video=document.getElementById("liveVideo");
+
+if(video){
+video.srcObject=null;
+}
+
+clearInterval(liveViewerTimer);
+clearInterval(liveCommentTimer);
+
+liveViewerTimer=null;
+liveCommentTimer=null;
+
+document.getElementById("liveRoom").classList.remove("open");
+
+document.getElementById("liveInviteSheet").classList.remove("open");
+
+document.body.style.overflowX="hidden";
+document.body.style.overflowY="auto";
+
+liveViewerCount=1;
+
+}
+
+/* MUTE MICROPHONE */
+function toggleLiveMic(){
+
+if(!liveStream)return;
+
+const audioTrack=liveStream.getAudioTracks()[0];
+
+if(!audioTrack)return;
+
+audioTrack.enabled=!audioTrack.enabled;
+
+liveMicOn=audioTrack.enabled;
+
+updateLiveControls();
+
+addLiveComment(
+"MicMedia",
+liveMicOn?"Microphone turned on":"Microphone muted"
+);
+
+}
+
+/* CAMERA ON/OFF */
+function toggleLiveCamera(){
+
+if(!liveStream)return;
+
+const videoTrack=liveStream.getVideoTracks()[0];
+
+if(!videoTrack)return;
+
+videoTrack.enabled=!videoTrack.enabled;
+
+liveCameraOn=videoTrack.enabled;
+
+document.getElementById("liveVideoOff")
+.classList.toggle("show",!liveCameraOn);
+
+updateLiveControls();
+
+addLiveComment(
+"MicMedia",
+liveCameraOn?"Camera turned on":"Camera turned off"
+);
+
+}
+
+/* UPDATE LIVE CONTROLS */
+function updateLiveControls(){
+
+const micBtn=document.getElementById("liveMicBtn");
+const cameraBtn=document.getElementById("liveCameraBtn");
+
+if(micBtn){
+micBtn.classList.toggle("active",liveMicOn);
+
+micBtn.innerHTML=liveMicOn?
+
+`<svg viewBox="0 0 24 24">
+<rect x="8" y="3" width="8" height="13" rx="4"/>
+<path d="M5 11a7 7 0 0 0 14 0"/>
+<path d="M12 18v3"/>
+<path d="M9 21h6"/>
+</svg>`:
+
+`<svg viewBox="0 0 24 24">
+<rect x="8" y="3" width="8" height="13" rx="4"/>
+<path d="M4 4l16 16"/>
+<path d="M5 11a7 7 0 0 0 14 0"/>
+</svg>`;
+}
+
+if(cameraBtn){
+cameraBtn.classList.toggle("active",liveCameraOn);
+
+cameraBtn.innerHTML=liveCameraOn?
+
+`<svg viewBox="0 0 24 24">
+<rect x="3" y="6" width="13" height="12" rx="3"/>
+<path d="M16 10l5-3v10l-5-3z"/>
+</svg>`:
+
+`<svg viewBox="0 0 24 24">
+<rect x="3" y="6" width="13" height="12" rx="3"/>
+<path d="M16 10l5-3v10l-5-3z"/>
+<path d="M4 4l16 16"/>
+</svg>`;
+}
+
+}
+
+/* SWITCH CAMERA */
+async function switchLiveCamera(){
+
+if(!liveStream)return;
+
+const nextFacing=liveFacingMode==="user"?"environment":"user";
+
+try{
+
+const newStream=await navigator.mediaDevices.getUserMedia({
+video:{
+facingMode:nextFacing,
+width:{ideal:1280},
+height:{ideal:720}
+},
+audio:false
+});
+
+const newVideoTrack=newStream.getVideoTracks()[0];
+
+const oldVideoTrack=liveStream.getVideoTracks()[0];
+
+if(oldVideoTrack){
+oldVideoTrack.stop();
+}
+
+const audioTrack=liveStream.getAudioTracks()[0];
+
+liveStream=new MediaStream();
+
+if(audioTrack){
+liveStream.addTrack(audioTrack);
+}
+
+liveStream.addTrack(newVideoTrack);
+
+document.getElementById("liveVideo").srcObject=liveStream;
+
+liveFacingMode=nextFacing;
+
+addLiveComment(
+"MicMedia",
+nextFacing==="user"?"Front camera":"Back camera"
+);
+
+}catch(error){
+
+console.log(error);
+
+}
+
+}
+
+/* LIVE COMMENT */
+function sendLiveComment(){
+
+const input=document.getElementById("liveCommentInput");
+
+const text=input.value.trim();
+
+if(!text)return;
+
+addLiveComment("You",text,true);
+
+input.value="";
+
+}
+
+/* ADD LIVE COMMENT */
+function addLiveComment(name,text,me=false){
+
+const box=document.getElementById("liveComments");
+
+if(!box)return;
+
+const row=document.createElement("div");
+
+row.className="liveComment"+(me?" me":"");
+
+const safeName=document.createTextNode(name);
+
+const safeText=document.createTextNode(text);
+
+const nameSpan=document.createElement("span");
+
+nameSpan.className="liveCommentName";
+
+nameSpan.appendChild(safeName);
+
+row.appendChild(nameSpan);
+row.appendChild(safeText);
+
+box.appendChild(row);
+
+while(box.children.length>40){
+box.removeChild(box.firstChild);
+}
+
+box.scrollTop=box.scrollHeight;
+
+}
+
+/* LIVE HEART */
+function sendLiveHeart(){
+
+const heart=document.getElementById("liveHeartBtn");
+
+heart.classList.remove("pop");
+
+void heart.offsetWidth;
+
+heart.classList.add("pop");
+
+addLiveComment("You","♥");
+
+}
+
+/* LIVE DEMO COMMENTS */
+function startLiveDemoComments(){
+
+const demoComments=[
+["Awa","Nice live 🔥"],
+["Kebba","We are watching!"],
+["Sports & Sport Reels","Welcome to MicMedia Live"],
+["Fatou","This is nice 👏"],
+["Awa","Keep going!"],
+["Kebba","MicMedia 🔥🔥"]
+];
+
+let index=0;
+
+clearInterval(liveCommentTimer);
+
+liveCommentTimer=setInterval(()=>{
+
+if(!document.getElementById("liveRoom").classList.contains("open")){
+clearInterval(liveCommentTimer);
+return;
+}
+
+const comment=demoComments[index%demoComments.length];
+
+addLiveComment(comment[0],comment[1]);
+
+index++;
+
+},4500);
+
+}
+
+/* VIEWER COUNT */
+function startLiveViewerDemo(){
+
+clearInterval(liveViewerTimer);
+
+liveViewerTimer=setInterval(()=>{
+
+if(!document.getElementById("liveRoom").classList.contains("open")){
+clearInterval(liveViewerTimer);
+return;
+}
+
+if(liveViewerCount<100){
+liveViewerCount+=Math.random()>0.5?1:2;
+}
+
+document.getElementById("liveViewerCount").textContent=liveViewerCount;
+
+},6000);
+
+}
+
+/* INVITATIONS */
+function openLiveInvites(){
+
+document.getElementById("liveInviteSheet").classList.add("open");
+
+}
+
+function closeLiveInvites(){
+
+document.getElementById("liveInviteSheet").classList.remove("open");
+
+}
+
+function inviteFriend(button,name){
+
+button.classList.add("sent");
+
+button.textContent="Invited";
+
+addLiveComment("MicMedia","Invitation sent to "+name);
+
+setTimeout(()=>{
+
+button.textContent="Invited";
+
+},1000);
+
+}
+
+/* LIVE COMMENT ENTER */
+document.getElementById("liveCommentInput")?.addEventListener("keydown",function(e){
+
+if(e.key==="Enter"){
+
+e.preventDefault();
+
+sendLiveComment();
+
+}
+
+});
+
+/* CREATE */
+function createPost(){
+alert("Create Post: photo, video, reel and story options will appear here.");
+}
+
+/* THEME */
+function loadTheme(){
+
+const theme=localStorage.getItem("micmedia-theme");
+const toggle=document.getElementById("themeToggle");
+
+if(theme==="light"){
+
+document.body.classList.add("light");
+
+if(toggle)toggle.classList.remove("on");
+
+}else{
+
+document.body.classList.remove("light");
+
+if(toggle)toggle.classList.add("on");
+
+}
+
+}
+
+function toggleTheme(){
+
+const light=document.body.classList.toggle("light");
+
+const toggle=document.getElementById("themeToggle");
+
+if(light){
+
+localStorage.setItem("micmedia-theme","light");
+
+toggle.classList.remove("on");
+
+}else{
+
+localStorage.setItem("micmedia-theme","dark");
+
+toggle.classList.add("on");
+
+}
+
+}
+
+/* ================= CHAT SYSTEM ================= */
+
+let activeChatName="Awa";
+let activeChatInitial="A";
+
+function openInbox(name,initial,status){
+
+activeChatName=name;
+activeChatInitial=initial;
+
+document.getElementById("inboxName").textContent=name;
+document.getElementById("inboxStatus").textContent=status;
+document.getElementById("inboxAvatar").childNodes[0].nodeValue=initial;
+
+document.getElementById("inbox").classList.add("active");
+
+document.body.style.overflow="hidden";
+
+}
+
+function closeInbox(){
+
+document.getElementById("inbox").classList.remove("active");
+
+document.body.style.overflowX="hidden";
+document.body.style.overflowY="auto";
+
+}
+
+/* SEND TEXT */
+function sendMessage(){
+
+const input=document.getElementById("messageInput");
+
+const text=input.value.trim();
+
+if(!text)return;
+
+addMessage(text,"me");
+
+input.value="";
+input.style.height="43px";
+
+}
+
+/* ADD MESSAGE */
+function addMessage(text,type){
+
+const area=document.getElementById("messagesArea");
+
+const row=document.createElement("div");
+
+row.className="messageRow "+(type==="me"?"me":"");
+
+const wrap=document.createElement("div");
+
+const bubble=document.createElement("div");
+
+bubble.className="message "+(type==="me"?"me":"friend");
+
+bubble.textContent=text;
+
+const time=document.createElement("div");
+
+time.className="messageTime";
+time.textContent="Now";
+
+wrap.appendChild(bubble);
+wrap.appendChild(time);
+row.appendChild(wrap);
+area.appendChild(row);
+
+area.scrollTop=area.scrollHeight;
+
+}
+
+/* STICKERS */
+function toggleStickerPanel(){
+
+const panel=document.getElementById("stickerPanel");
+
+panel.classList.toggle("show");
+
+}
+
+function sendSticker(sticker){
+
+addMessage(sticker,"me");
+
+document.getElementById("stickerPanel").classList.remove("show");
+
+}
+
+/* VOICE RECORDING */
+let voiceRecording=false;
+let voiceSeconds=0;
+let voiceTimer=null;
+
+function startVoiceRecording(){
+
+if(voiceRecording)return;
+
+voiceRecording=true;
+
+document.getElementById("chatComposer").style.display="none";
+document.getElementById("recordingComposer").style.display="flex";
+
+voiceSeconds=0;
+
+document.getElementById("recordText").textContent="Recording 0:00";
+
+voiceTimer=setInterval(()=>{
+
+voiceSeconds++;
+
+const mins=Math.floor(voiceSeconds/60);
+const secs=String(voiceSeconds%60).padStart(2,"0");
+
+document.getElementById("recordText").textContent=
+"Recording "+mins+":"+secs;
+
+},1000);
+
+}
+
+function cancelVoiceRecording(){
+
+voiceRecording=false;
+
+clearInterval(voiceTimer);
+
+document.getElementById("recordingComposer").style.display="none";
+document.getElementById("chatComposer").style.display="flex";
+
+}
+
+function sendVoiceMessage(){
+
+if(!voiceRecording)return;
+
+voiceRecording=false;
+
+clearInterval(voiceTimer);
+
+const duration=Math.max(1,voiceSeconds);
+
+const area=document.getElementById("messagesArea");
+
+const row=document.createElement("div");
+
+row.className="messageRow me";
+
+const wrap=document.createElement("div");
+
+const bubble=document.createElement("div");
+
+bubble.className="message me";
+
+const voice=document.createElement("div");
+
+voice.className="voiceBubble";
+
+voice.innerHTML=`
+<div class="voicePlay">
+<svg viewBox="0 0 24 24">
+<path d="M8 5v14l11-7z"/>
+</svg>
+</div>
+
+<div class="voiceWave">
+<span style="height:8px"></span>
+<span style="height:17px"></span>
+<span style="height:12px"></span>
+<span style="height:22px"></span>
+<span style="height:14px"></span>
+<span style="height:20px"></span>
+<span style="height:9px"></span>
+<span style="height:17px"></span>
+<span style="height:11px"></span>
+<span style="height:21px"></span>
+</div>
+
+<div class="voiceDuration">
+0:${String(duration).padStart(2,"0")}
+</div>
+`;
+
+bubble.appendChild(voice);
+
+const time=document.createElement("div");
+
+time.className="messageTime";
+time.textContent="Now";
+
+wrap.appendChild(bubble);
+wrap.appendChild(time);
+
+row.appendChild(wrap);
+
+area.appendChild(row);
+
+area.scrollTop=area.scrollHeight;
+
+document.getElementById("recordingComposer").style.display="none";
+document.getElementById("chatComposer").style.display="flex";
+
+}
+
+/* CALLS */
+function startCall(type){
+
+document.getElementById("callAvatar").textContent=activeChatInitial;
+
+document.getElementById("callName").textContent=activeChatName;
+
+document.getElementById("callStatus").textContent=
+type==="video"?"Starting video call...":"Calling...";
+
+document.getElementById("callScreen").classList.add("show");
+
+setTimeout(()=>{
+
+if(document.getElementById("callScreen").classList.contains("show")){
+
+document.getElementById("callStatus").textContent=
+type==="video"?"Video call":"Connected";
+
+}
+
+},1500);
+
+}
+
+function endCall(){
+
+document.getElementById("callScreen").classList.remove("show");
+
+}
+
+/* SWIPE */
+let touchStartX=0,touchStartY=0;
+
+document.addEventListener("touchstart",e=>{
+
+touchStartX=e.changedTouches[0].screenX;
+touchStartY=e.changedTouches[0].screenY;
+
+},{passive:true});
+
+document.addEventListener("touchend",e=>{
+
+if(document.getElementById("inbox").classList.contains("active"))return;
+
+if(document.getElementById("liveRoom").classList.contains("open"))return;
+
+const endX=e.changedTouches[0].screenX;
+const endY=e.changedTouches[0].screenY;
+
+const dx=endX-touchStartX;
+const dy=endY-touchStartY;
+
+if(Math.abs(dx)<80||Math.abs(dx)<Math.abs(dy))return;
+
+const pages=["home","live","reels","messages","favorites","profile"];
+
+let index=pages.indexOf(currentPage);
+
+if(index===-1)return;
+
+if(dx<0)index=Math.min(pages.length-1,index+1);
+else index=Math.max(0,index-1);
+
+showPage(pages[index]);
+
+},{passive:true});
+
+/* ENTER KEY SEND */
+document.addEventListener("keydown",e=>{
+
+if(e.key==="Enter" &&
+!e.shiftKey &&
+document.activeElement===document.getElementById("messageInput")){
+
+e.preventDefault();
+
+sendMessage();
+
+}
+
+});
+
+/* MESSAGE AUTO HEIGHT */
+document.addEventListener("input",e=>{
+
+if(e.target.id==="messageInput"){
+
+e.target.style.height="43px";
+
+e.target.style.height=
+Math.min(e.target.scrollHeight,110)+"px";
+
+}
+
+});
+
+loadTheme();
+
+</script>
+
+</body>
+</html>
